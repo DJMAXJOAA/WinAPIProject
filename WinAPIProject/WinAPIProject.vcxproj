@@ -138,6 +138,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AI.h" />
+    <ClInclude Include="CDataMgr.h" />
+    <ClInclude Include="GameSave.h" />
+    <ClInclude Include="ItemData.h" />
+    <ClInclude Include="MapData.h" />
+    <ClInclude Include="MonsterData.h" />
+    <ClInclude Include="ShopData.h" />
+    <ClInclude Include="SkillData.h" />
     <ClInclude Include="WinAPIProject.h" />
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CAnimator.h" />
@@ -187,6 +194,7 @@
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CCollisionMgr.cpp" />
+    <ClCompile Include="CDataMgr.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CIdleState.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />
@@ -212,7 +220,13 @@
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="func.cpp" />
+    <ClCompile Include="GameSave.cpp" />
+    <ClCompile Include="ItemData.cpp" />
+    <ClCompile Include="MapData.cpp" />
+    <ClCompile Include="MonsterData.cpp" />
     <ClCompile Include="SelectGDI.cpp" />
+    <ClCompile Include="ShopData.cpp" />
+    <ClCompile Include="SkillData.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="CCore.cpp" />
   </ItemGroup>

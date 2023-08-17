@@ -26,9 +26,6 @@
     <Filter Include="Engine\04. Object\Player">
       <UniqueIdentifier>{4ac38a31-89f0-4b11-ab28-29ffed116a3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\05. Scene\Scene_Start">
-      <UniqueIdentifier>{c924dcf1-afc6-40c6-ab9e-6c5298c7052f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\04. Object\Monster">
       <UniqueIdentifier>{114dca6c-47a3-4619-b1d4-91f63a4bbf11}</UniqueIdentifier>
     </Filter>
@@ -49,9 +46,6 @@
     </Filter>
     <Filter Include="Engine\08. Module">
       <UniqueIdentifier>{79eab0b6-d006-42b0-a0d6-a738620eb52a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Scene\Scene_Tool">
-      <UniqueIdentifier>{ecf01e0a-307f-4199-9f2c-7884e6501e72}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\07. Component\Collider">
       <UniqueIdentifier>{efd16956-4913-49d8-801d-93cdd06a84ec}</UniqueIdentifier>
@@ -131,6 +125,48 @@
     <Filter Include="Engine\09. MonsterFacotry">
       <UniqueIdentifier>{7d00d267-d68a-4343-8080-6a5ea0485346}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\03. Manager\Data">
+      <UniqueIdentifier>{9d557d68-5ac6-4b3b-98ca-f17da4478a97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene\1. Scene_Title">
+      <UniqueIdentifier>{c924dcf1-afc6-40c6-ab9e-6c5298c7052f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene\3. Scene_Battle">
+      <UniqueIdentifier>{6e9c4530-7534-4077-b907-e8ecd8033fd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene\2. Scene_Robby">
+      <UniqueIdentifier>{5e0d0590-2f76-4ead-bdd4-ee19bb94119d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene\0. Scene_Tool">
+      <UniqueIdentifier>{ecf01e0a-307f-4199-9f2c-7884e6501e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene\4. Scene_GameOver">
+      <UniqueIdentifier>{8293e69a-ceb2-4062-8b09-8b8675c6b4f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene\5. Scene_End">
+      <UniqueIdentifier>{6b522151-cc27-4ba0-b20a-5e0f93b4e5b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data">
+      <UniqueIdentifier>{d643f5d4-a5d9-405b-8d4a-b4ab0e013be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data\Item">
+      <UniqueIdentifier>{6c4e7d43-4e4f-45a7-8033-b7bf641f1010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data\Skill">
+      <UniqueIdentifier>{c6408191-7bea-4ea9-a4a5-bd7df74f3dea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data\Map">
+      <UniqueIdentifier>{efb62f09-6bf1-45d7-bf2d-c2ca36032629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data\Shop">
+      <UniqueIdentifier>{9679c937-7317-495d-b733-4eb1a5f52832}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data\Monster">
+      <UniqueIdentifier>{5b013bec-1b20-4c4c-8d9a-50e371c2131c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data\GameSave">
+      <UniqueIdentifier>{9cea79f6-4dcc-4612-8762-edf21c39a695}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -171,7 +207,7 @@
       <Filter>Engine\03. Manager\Scene</Filter>
     </ClInclude>
     <ClInclude Include="CScene_Start.h">
-      <Filter>Engine\05. Scene\Scene_Start</Filter>
+      <Filter>Engine\05. Scene\1. Scene_Title</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
       <Filter>Engine\04. Object\Player</Filter>
@@ -207,7 +243,7 @@
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
     <ClInclude Include="CScene_Tool.h">
-      <Filter>Engine\05. Scene\Scene_Tool</Filter>
+      <Filter>Engine\05. Scene\0. Scene_Tool</Filter>
     </ClInclude>
     <ClInclude Include="CCollider.h">
       <Filter>Engine\07. Component\Collider</Filter>
@@ -254,6 +290,27 @@
     <ClInclude Include="CMonsterFactory.h">
       <Filter>Engine\09. MonsterFacotry</Filter>
     </ClInclude>
+    <ClInclude Include="CDataMgr.h">
+      <Filter>Engine\03. Manager\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSave.h">
+      <Filter>Engine\10. Data\GameSave</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemData.h">
+      <Filter>Engine\10. Data\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="MapData.h">
+      <Filter>Engine\10. Data\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterData.h">
+      <Filter>Engine\10. Data\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopData.h">
+      <Filter>Engine\10. Data\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillData.h">
+      <Filter>Engine\10. Data\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -276,7 +333,7 @@
       <Filter>Engine\03. Manager\Scene</Filter>
     </ClCompile>
     <ClCompile Include="CScene_Start.cpp">
-      <Filter>Engine\05. Scene\Scene_Start</Filter>
+      <Filter>Engine\05. Scene\1. Scene_Title</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">
       <Filter>Engine\04. Object\Player</Filter>
@@ -312,7 +369,7 @@
       <Filter>Engine\01. Header</Filter>
     </ClCompile>
     <ClCompile Include="CScene_Tool.cpp">
-      <Filter>Engine\05. Scene\Scene_Tool</Filter>
+      <Filter>Engine\05. Scene\0. Scene_Tool</Filter>
     </ClCompile>
     <ClCompile Include="CCollider.cpp">
       <Filter>Engine\07. Component\Collider</Filter>
@@ -358,6 +415,27 @@
     </ClCompile>
     <ClCompile Include="CMonsterFactory.cpp">
       <Filter>Engine\09. MonsterFacotry</Filter>
+    </ClCompile>
+    <ClCompile Include="CDataMgr.cpp">
+      <Filter>Engine\03. Manager\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSave.cpp">
+      <Filter>Engine\10. Data\GameSave</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemData.cpp">
+      <Filter>Engine\10. Data\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="MapData.cpp">
+      <Filter>Engine\10. Data\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterData.cpp">
+      <Filter>Engine\10. Data\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopData.cpp">
+      <Filter>Engine\10. Data\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillData.cpp">
+      <Filter>Engine\10. Data\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
