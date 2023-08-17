@@ -1,0 +1,17 @@
+#pragma once
+#include "CScene.h"
+
+class CScene_Start :
+    public CScene
+{
+public:
+    CScene_Start();
+    ~CScene_Start();
+
+public:
+    // virtual을 붙이지 않아도 이미 가상함수지만, 구분을 위해 명시적으로 적어준다
+    virtual void Update();
+    virtual void Enter();
+    virtual void Exit();
+};
+
