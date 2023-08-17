@@ -14,8 +14,6 @@ public:
     ~CScene_Tool();
 
 public:
-    void SetTileIndex();
-    
     void SaveTileData();
     void LoadTileData();
     void SaveTile(const wstring& _strRelativePath);

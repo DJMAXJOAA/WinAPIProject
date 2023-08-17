@@ -25,36 +25,6 @@ CScene_Tool::~CScene_Tool()
 {
 }
 
-void CScene_Tool::SetTileIndex()
-{
-	// 실제 위치를 알아야댐
-
-	if (KEY_TAP(KEY::LBTN))
-	{
-		Vec2 vMousePos = MOUSE_POS;
-		vMousePos = CCamera::GetInstance()->GetRealPos(vMousePos);
-
-		// 벡터의 특정 인덱스에 바로 접근하기 위해, 씬의 private 변수로 타일 갯수를 저장
-		// 그래서 2중 for문으로 찾을 필요 없이, 바로 접근이 가능하게 한다
-		int iTileX = GetTileX();
-		int iTileY = GetTileY();
-
-		int iCol = (int)vMousePos.x / TILE_SIZE;
-		int iRow = (int)vMousePos.y / TILE_SIZE;
-
-		int iIndex = iRow * iTileX + iCol;
-
-		if (vMousePos.x < 0.f || iTileX <= iCol
-			|| vMousePos.y < 0.f || iTileY <= iRow)
-		{
-			return;
-		}
-
-		const vector<CObject*>& vecTile = GetGroupObject(GROUP_TYPE::TILE);
-		((CTile*)vecTile[iIndex])->AddImageIndex();
-	}
-}
-
 void CScene_Tool::SaveTileData()
 {
 	// 저장 경로를 지정하고, savetile을 불러오기
@@ -128,12 +98,6 @@ void CScene_Tool::SaveTile(const wstring& _strRelativePath)
 
 	//데이터저장===========================================================================================
 
-	UINT xCount = GetTileX();
-	UINT yCount = GetTileY();
-
-	fwrite(&xCount, sizeof(UINT), 1, pFile);			// 시작 주소, 사이즈, 요소 갯수(배열이면 1이상도 ㅇ), 저장경로
-	fwrite(&yCount, sizeof(UINT), 1, pFile);
-
 	const vector<CObject*>& vecTile = GetGroupObject(GROUP_TYPE::TILE);
 
 	for (size_t i = 0; i < vecTile.size(); i++)
@@ -168,14 +132,12 @@ void CScene_Tool::Update()
 	{
 		LoadTileData();
 	}
-
-	SetTileIndex();
 }
+
 
 
 void CScene_Tool::Enter()
 {
-	CreateTile(5, 5);
 
 	// UI 추가
 	Vec2 vResolution = CCore::GetInstance()->GetResolution();
@@ -243,7 +205,6 @@ INT_PTR CALLBACK TileCountProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 			assert(pToolScene);
 
 			pToolScene->DeleteGroup(GROUP_TYPE::TILE);
-			pToolScene->CreateTile(iXCount, iYCount);
 
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;

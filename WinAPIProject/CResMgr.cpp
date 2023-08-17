@@ -14,6 +14,17 @@ CResMgr::~CResMgr()
     SafeDeleteMap(m_mapTex);
 }
 
+void CResMgr::PrintTextureList()
+{
+    // 콘솔 디버그용
+    map<wstring, CRes*> m_mapTex;
+    for (auto iter = m_mapTex.begin(); iter != m_mapTex.end(); iter++)
+    {
+        cout << iter->first.c_str() << ",";
+    }
+    cout << endl;
+}
+
 CTexture* CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelativePath)
 {
     // 키값과, 상대경로를 인자로 넣는다

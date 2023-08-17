@@ -58,8 +58,6 @@ void CScene::Render(HDC hdc)
 }
 
 CScene::CScene()
-	: m_iTileX(0)
-	, m_iTileY(0)
 {
 }
 
@@ -91,29 +89,6 @@ void CScene::DeleteAll()
 	}
 }
 
-void CScene::CreateTile(UINT _iXCount, UINT _iYCount)
-{
-	DeleteGroup(GROUP_TYPE::TILE);
-
-	m_iTileX = _iXCount;
-	m_iTileY = _iYCount;
-
-	CTexture* pTileTex = CResMgr::GetInstance()->LoadTexture(L"Tile", L"texture\\TILE.bmp");
-
-	for (UINT i = 0; i < _iYCount; ++i)
-	{
-		for (UINT j = 0; j < _iXCount; ++j)
-		{
-			CTile* pTile = new CTile();
-
-			pTile->SetPos(Vec2((float)(j * TILE_SIZE), (float)(i * TILE_SIZE)));
-			pTile->SetTexture(pTileTex);
-
-			AddObject(pTile, GROUP_TYPE::TILE);
-		}
-	}
-}
-
 void CScene::LoadTile(const wstring& _strRelativePath)
 {
 	wstring strFilePath = CPathMgr::GetInstance()->GetContentPath();
@@ -132,8 +107,6 @@ void CScene::LoadTile(const wstring& _strRelativePath)
 
 	fread(&xCount, sizeof(UINT), 1, pFile);			// 시작 주소, 사이즈, 요소 갯수(배열이면 1이상도 ㅇ), 저장경로
 	fread(&yCount, sizeof(UINT), 1, pFile);
-
-	CreateTile(xCount, yCount);
 
 	const vector<CObject*>& vecTile = GetGroupObject(GROUP_TYPE::TILE);
 
