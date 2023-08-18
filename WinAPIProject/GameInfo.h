@@ -17,13 +17,13 @@ struct Node
 };
 struct PlayerInfo
 {
-	float	fMoney;			// 현재 돈
-	POINT	ptMyLocation;	// 플레이어의 현재 스테이지 좌표 (진행도)
+	float	fMoney;				// 현재 돈
+	POINT	ptMyLocation;		// 플레이어의 현재 스테이지 좌표 (진행도)
 
-	float	fMaxHP;			// 최대체력
-	float	fCurHP;			// 현재체력
+	float	fMaxHP;				// 최대체력
+	float	fCurHP;				// 현재체력
 
-	vector<string>	vecInventory;	// 현재 장착중인 아이템 목록
+	vector<string> vecInventory;	// 현재 장착중인 아이템 목록
 	vector<string> vecSkill;		// 현재 장착중인 스킬 목록
 };
 

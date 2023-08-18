@@ -67,7 +67,7 @@ void GameInfo::CreateRandomMap()
 
     // 시작점 6개 생성 (시작 좌표 중복 가능)
     for (int line = 0; line < 6; line++) {
-        POINT currentPoint;
+        POINT currentPoint{};
         currentPoint.x = 0;
         int iRandom = dist(rng);
         currentPoint.y = iRandom * 2;
