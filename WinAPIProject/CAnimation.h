@@ -28,6 +28,7 @@ public:
 	~CAnimation();
 
 	friend class CAnimator;
+	friend class CResMgr;
 
 public:
 	const wstring& GetName() { return m_strName; }

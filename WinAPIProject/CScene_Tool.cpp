@@ -55,7 +55,6 @@ void CScene_Tool::SaveTileData()
 
 		SaveTile(szName);
 	}
-
 }
 
 void CScene_Tool::LoadTileData()
@@ -138,7 +137,6 @@ void CScene_Tool::Update()
 
 void CScene_Tool::Enter()
 {
-
 	// UI Ãß°¡
 	Vec2 vResolution = CCore::GetInstance()->GetResolution();
 

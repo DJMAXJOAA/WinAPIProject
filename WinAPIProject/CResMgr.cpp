@@ -2,7 +2,9 @@
 #include "CResMgr.h"
 
 #include "CPathMgr.h"
+
 #include "CTexture.h"
+#include "CAnimation.h"
 
 CResMgr::CResMgr()
 {
@@ -12,6 +14,7 @@ CResMgr::~CResMgr()
 {
     // 맵의 모든 텍스쳐 할당을 해제시켜준다
     SafeDeleteMap(m_mapTex);
+    SafeDeleteMap(m_mapAnim);
 }
 
 void CResMgr::PrintTextureList()
@@ -76,4 +79,32 @@ CTexture* CResMgr::FindTexture(const wstring& _strKey)
     }
 
     return (CTexture*)iter->second; // 발견값의 두번째 값, 즉 이미지 정보가 들어있는 cTexture 객체를 반환
+}
+
+CAnimation* CResMgr::CreateAnimation(const wstring& _strName, CTexture* _pTex, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount)
+{
+    CAnimation* pAnim = FindAnimation(_strName);
+    if (pAnim != nullptr)
+    {
+        return pAnim;
+    }
+
+    // 존재 안하면 애니메이션 새로 하나 만듬
+    pAnim = new CAnimation;
+    pAnim->SetName(_strName);
+    pAnim->Create(_pTex, _vLeftTop, _vSliceSize, _vStep, _fDuration, _iFrameCount);
+    m_mapAnim.insert(make_pair(_strName, pAnim));
+
+    return pAnim;
+}
+
+CAnimation* CResMgr::FindAnimation(const wstring& _strName)
+{
+    map<wstring, CAnimation*>::iterator iter = m_mapAnim.find(_strName);
+    if (iter == m_mapAnim.end())
+    {
+        return nullptr;
+    }
+
+    return iter->second;
 }

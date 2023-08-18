@@ -10,6 +10,7 @@
 #include "CCamera.h"
 #include "CUIMgr.h"
 #include "CResMgr.h"
+#include "CDataMgr.h"
 
 #include "CTexture.h"
 #include "CObject.h"

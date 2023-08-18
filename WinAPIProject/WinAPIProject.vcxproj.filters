@@ -149,23 +149,26 @@
     <Filter Include="Engine\10. Data">
       <UniqueIdentifier>{d643f5d4-a5d9-405b-8d4a-b4ab0e013be9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\10. Data\Item">
+    <Filter Include="Engine\04. Object\UI\PanelUI\SpritePreview">
+      <UniqueIdentifier>{ce4cf823-7a05-45e9-9daf-824834c8c269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data\000. GameSave">
+      <UniqueIdentifier>{9cea79f6-4dcc-4612-8762-edf21c39a695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data\100. Animation">
+      <UniqueIdentifier>{086e085c-f137-49cc-9d81-f0a604b3fe1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data\200. Animator">
+      <UniqueIdentifier>{2b4ed7e9-16c3-4339-82c9-5af14066e6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Data\300. Item">
       <UniqueIdentifier>{6c4e7d43-4e4f-45a7-8033-b7bf641f1010}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\10. Data\Skill">
+    <Filter Include="Engine\10. Data\400. Skill">
       <UniqueIdentifier>{c6408191-7bea-4ea9-a4a5-bd7df74f3dea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\10. Data\Map">
-      <UniqueIdentifier>{efb62f09-6bf1-45d7-bf2d-c2ca36032629}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\10. Data\Shop">
-      <UniqueIdentifier>{9679c937-7317-495d-b733-4eb1a5f52832}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\10. Data\Monster">
+    <Filter Include="Engine\10. Data\500. Monster">
       <UniqueIdentifier>{5b013bec-1b20-4c4c-8d9a-50e371c2131c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\10. Data\GameSave">
-      <UniqueIdentifier>{9cea79f6-4dcc-4612-8762-edf21c39a695}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -293,23 +296,29 @@
     <ClInclude Include="CDataMgr.h">
       <Filter>Engine\03. Manager\Data</Filter>
     </ClInclude>
-    <ClInclude Include="GameSave.h">
-      <Filter>Engine\10. Data\GameSave</Filter>
+    <ClInclude Include="GameInfo.h">
+      <Filter>Engine\10. Data\000. GameSave</Filter>
     </ClInclude>
     <ClInclude Include="ItemData.h">
-      <Filter>Engine\10. Data\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="MapData.h">
-      <Filter>Engine\10. Data\Map</Filter>
+      <Filter>Engine\10. Data\300. Item</Filter>
     </ClInclude>
     <ClInclude Include="MonsterData.h">
-      <Filter>Engine\10. Data\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="ShopData.h">
-      <Filter>Engine\10. Data\Shop</Filter>
+      <Filter>Engine\10. Data\500. Monster</Filter>
     </ClInclude>
     <ClInclude Include="SkillData.h">
-      <Filter>Engine\10. Data\Skill</Filter>
+      <Filter>Engine\10. Data\400. Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CPanel_Sprite.h">
+      <Filter>Engine\04. Object\UI\PanelUI\SpritePreview</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationData.h">
+      <Filter>Engine\10. Data\100. Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="CData.h">
+      <Filter>Engine\10. Data</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatorData.h">
+      <Filter>Engine\10. Data\200. Animator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -419,23 +428,29 @@
     <ClCompile Include="CDataMgr.cpp">
       <Filter>Engine\03. Manager\Data</Filter>
     </ClCompile>
-    <ClCompile Include="GameSave.cpp">
-      <Filter>Engine\10. Data\GameSave</Filter>
+    <ClCompile Include="GameInfo.cpp">
+      <Filter>Engine\10. Data\000. GameSave</Filter>
     </ClCompile>
     <ClCompile Include="ItemData.cpp">
-      <Filter>Engine\10. Data\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="MapData.cpp">
-      <Filter>Engine\10. Data\Map</Filter>
+      <Filter>Engine\10. Data\300. Item</Filter>
     </ClCompile>
     <ClCompile Include="MonsterData.cpp">
-      <Filter>Engine\10. Data\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="ShopData.cpp">
-      <Filter>Engine\10. Data\Shop</Filter>
+      <Filter>Engine\10. Data\500. Monster</Filter>
     </ClCompile>
     <ClCompile Include="SkillData.cpp">
-      <Filter>Engine\10. Data\Skill</Filter>
+      <Filter>Engine\10. Data\400. Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="CPanel_Sprite.cpp">
+      <Filter>Engine\04. Object\UI\PanelUI\SpritePreview</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationData.cpp">
+      <Filter>Engine\10. Data\100. Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="CData.cpp">
+      <Filter>Engine\10. Data</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatorData.cpp">
+      <Filter>Engine\10. Data\200. Animator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

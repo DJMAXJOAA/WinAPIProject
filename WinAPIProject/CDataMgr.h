@@ -1,20 +1,21 @@
 #pragma once
+#include <unordered_map>
+using std::unordered_map;
 
-// 1. 캐릭터 데이터 (세이브값)
-// 2. 몬스터 데이터
-// 3. 맵 데이터
-// 4. 스테이지 데이터
+class CData;
 
 class CDataMgr
 {
 	SINGLE(CDataMgr);
-
 private:
-
-public:
+	unordered_map<int, CData*>		m_mapDataList;	// 데이터 검색을 위한 해시맵
 
 private:
 	CDataMgr();
 	~CDataMgr();
+
+public:
+	CData* CreateData(int _key);
+	CData* FindData(int _key);
 };
 

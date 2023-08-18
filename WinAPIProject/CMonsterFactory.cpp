@@ -38,5 +38,5 @@ CMonster* CMonsterFactory::CreateMonster(MON_TYPE _eType, Vec2 _vPos)
 		break;
 	}
 
-	return nullptr;
+	return pMon;
 }

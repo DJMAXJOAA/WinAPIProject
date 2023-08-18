@@ -22,7 +22,9 @@ return &mgr;\
 
 #define PI 3.1415926535f
 
-#define TILE_SIZE 51
+// 지도 크기
+#define WIDTH 15
+#define HEIGHT 7
 
 enum class GROUP_TYPE
 {
