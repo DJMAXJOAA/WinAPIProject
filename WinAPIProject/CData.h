@@ -1,8 +1,11 @@
 #pragma once
 
+#include "json.hpp"
+using namespace nlohmann;
 #include<fstream>
 using std::locale;
 using std::ifstream;
+using std::ofstream;
 #include<ctime>
 #include<random>
 #include<functional>
@@ -18,6 +21,9 @@ public:
 	virtual ~CData();
 
 public:
+	int GetKey() { return m_iID; }
+
+public:
 	virtual CData* FindData() { return this; }
-	virtual void LoadData() = 0;		// 데이터 읽기 및 파싱
+	virtual void LoadData() = 0;	// json을 불러와서 데이터 파싱
 };

@@ -15,11 +15,6 @@ struct Node
 			delete child;
 	}
 };
-struct MapInfo
-{
-	vector<vector<int>>	vecMap;			// 맵정보 2차원 배열
-	vector<Node*>		vecStartPos;	// 시작점으로부터 트리구조의 길찾기
-};
 struct PlayerInfo
 {
 	float	fMoney;			// 현재 돈
@@ -30,15 +25,41 @@ struct PlayerInfo
 
 	vector<wstring>	vecInventory;	// 현재 장착중인 아이템 목록
 	vector<wstring> vecSkill;		// 현재 장착중인 스킬 목록
+
+	json to_json()
+	{
+		json j;
+		j["Money"] = fMoney;
+		j["XPos"] = ptMyLocation.x;
+		j["YPos"] = ptMyLocation.y;
+		j["MaxHP"] = fMaxHP;
+		j["CurrentHP"] = fCurHP;
+		j["Inventory"] = vecInventory;
+		j["Skill"] = vecSkill;
+	}
+	void from_json(const json& j)
+	{
+		fMoney = j["Money"];
+		ptMyLocation.x = j["Xpos"];
+		ptMyLocation.y = j["YPos"];
+		fMaxHP = j["MaxHP"];
+		fCurHP = j["CurrentHP"];
+		vecInventory = j["Inventory"];
+		vecSkill = j["Skill"];
+	}
 };
 
 class GameInfo :
 	public CData
 {
 public:
-	MapInfo		m_MapInfo;		// 맵 정보
-	PlayerInfo	m_PlayerInfo;	// 캐릭터 관련 정보
-	float		m_fPlaytime;	// 현재 플레이타임
+	// 맵 불러온 후에 계산
+	vector<Node*>		m_vecStartPos;		// 시작점으로부터 트리구조의 길찾기
+
+	// json 세이브, 로드
+	vector<vector<int>>	m_vecMap;			// 맵정보 2차원 배열
+	PlayerInfo			m_PlayerInfo;		// 캐릭터 관련 정보
+	float				m_fPlaytime;		// 현재 플레이타임
 
 public:
 	GameInfo(int _key);
@@ -50,17 +71,11 @@ public:
 	virtual void LoadData() override;
 
 public:
-	void SaveInfo(const wstring& _strRelativePath);
-	void LoadInfo(const wstring& _strRelativePath);
+	// 맵 생성 관련
+	void CreateRandomMap();		// 랜덤 맵 생성
+	void CreateStartPos();		// 맵 생성된 정보를 토대로 길찾기 트리구조 생성
 
-public:
-	// 맵 관련
-	void CreateRandomMap();
-	void SaveMapData();
-	void LoadMapData();
-
-	// 맵 생성 관련 (플레이어가 갈 수 있는 루트 정하기)
-	Node* buildTree(const vector<vector<int>>& grid, int x, int y);
+	Node* buildTree(int x, int y);
 
 	int getValueRandomY();
 	int getRandomStageSelect();

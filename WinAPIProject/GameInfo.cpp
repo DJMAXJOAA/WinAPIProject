@@ -1,111 +1,61 @@
 #include "pch.h"
 #include "GameInfo.h"
 
-#include "CCore.h"
-#include "CPathMgr.h"
-
 // 랜덤
 std::mt19937 rng((unsigned int)time(0));
 
 GameInfo::GameInfo(int _key)
 	: CData(_key)
-    , m_MapInfo{}
     , m_PlayerInfo{}
+    , m_vecMap{}
+    , m_vecStartPos{}
     , m_fPlaytime{}
 {
 }
 
 GameInfo::~GameInfo()
 {
+    SafeDeleteVec(m_vecStartPos);
 }
 
 void GameInfo::SaveData()
 {
-    wchar_t szName[256] = {};
+    json j;
+    j["PlayerInfo"] = m_PlayerInfo.to_json();
+    j["MapInfo"] = m_vecMap;
+    j["PlayTime"] = m_fPlaytime;
 
-    OPENFILENAME ofn = {};
-
-    ofn.lStructSize = sizeof(OPENFILENAME);
-    ofn.hwndOwner = CCore::GetInstance()->GetMainhWnd();
-    ofn.lpstrFile = szName;
-    ofn.nMaxFile = sizeof(szName);
-    ofn.lpstrFilter = L"ALL\0*.*\0Save\0*.save\0";			// ALL -> 모든 파일이 다보임, 추가 필터 설정 가능 (파일 형식이 All 도는 tile)
-    ofn.nFilterIndex = 0;
-    ofn.lpstrFileTitle = nullptr;
-    ofn.nMaxFileTitle = 0;
-
-    wstring strTileFolder = CPathMgr::GetInstance()->GetContentPath();
-    strTileFolder += L"save";
-
-    ofn.lpstrInitialDir = strTileFolder.c_str();				// 파일 열때 초기 경로(content 폴더ㅔㅇ 넣는게 좋을듯)
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-    // Modal 방식의 Dialog 창 띄우기 -> 모달 방식의 창은 떠있는 동안 다른 윈도우가 작동을 멈춤
-    if (GetSaveFileName(&ofn))
+    ofstream outFile("save.json");
+    if (!outFile.is_open())
     {
-        // 확인창을 누르면 반환값이 존재해서, 파일 저장된다
-        // szName에 파일경로로 저장 -> 절대경로
-
-        SaveInfo(szName);
+        assert(0);
     }
+    outFile << j.dump(4);
+    outFile.close();
 }
 
 void GameInfo::LoadData()
 {
-    // 저장 경로를 지정하고, savetile을 불러오기
-    wchar_t szName[256] = {};
+    json j;
 
-    OPENFILENAME ofn = {};
-
-    ofn.lStructSize = sizeof(OPENFILENAME);
-    ofn.hwndOwner = CCore::GetInstance()->GetMainhWnd();
-    ofn.lpstrFile = szName;
-    ofn.nMaxFile = sizeof(szName);
-    ofn.lpstrFilter = L"ALL\0*.*\0Save\0*.save\0";			// ALL -> 모든 파일이 다보임, 추가 필터 설정 가능 (파일 형식이 All 도는 tile)
-    ofn.nFilterIndex = 0;
-    ofn.lpstrFileTitle = nullptr;
-    ofn.nMaxFileTitle = 0;
-
-    wstring strTileFolder = CPathMgr::GetInstance()->GetContentPath();
-    strTileFolder += L"save";
-
-    ofn.lpstrInitialDir = strTileFolder.c_str();				// 파일 열때 초기 경로(content 폴더ㅔㅇ 넣는게 좋을듯)
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-    // Modal 방식의 Dialog 창 띄우기 -> 모달 방식의 창은 떠있는 동안 다른 윈도우가 작동을 멈춤
-    if (GetOpenFileName(&ofn))
+    ifstream inFile("save.json");
+    if (!inFile.is_open())
     {
-        wstring strRelativePath = CPathMgr::GetInstance()->GetRelativePath(szName);
-        LoadInfo(strRelativePath);
+        assert(0);
     }
-}
+    inFile >> j;
+    inFile.close();
 
-void GameInfo::SaveInfo(const wstring& _strRelativePath)
-{
-    FILE* pFile = nullptr;
-    _wfopen_s(&pFile, _strRelativePath.c_str(), L"wb");		// 파일 커널 오브젝트, 경로, 쓰기읽기(w -> 쓰기, r -> 읽기, wb, rb -> 바이너리로 쓰기읽기)
-    assert(pFile);
+    m_PlayerInfo.from_json(j["PlayerInfo"]);
+    m_vecMap = j["MapInfo"];
+    m_fPlaytime = j["PlayTime"];
 
-    // 맵 저장
-    std::ofstream outfile("map.txt");
-    for (int i = 0; i < m_MapInfo.vecMap.size(); i++) {
-        for (int j = 0; j < m_MapInfo.vecMap[0].size(); j++) {
-            fwrite(&m_MapInfo.vecMap[i][j], sizeof(int), 1, pFile);
-        }
-        outfile << '\n';
-    }
-    outfile.close();
-
-    fclose(pFile);
-}
-
-void GameInfo::LoadInfo(const wstring& _strRelativePath)
-{
+    CreateStartPos();
 }
 
 void GameInfo::CreateRandomMap()
 {
-    // 세이브 데이터가 없을 때(첫 시작), 맵 랜덤 생성 후 저장
+    // 바로 시작 버튼을 눌러서 시작하면 (세이브 데이터가 없으면), 랜덤맵 생성
 
     srand((unsigned int)time(0));
 
@@ -169,14 +119,9 @@ void GameInfo::CreateRandomMap()
         }
     }
 
-    std::ofstream outfile("map.txt");
-    for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid[0].size(); j++) {
-            outfile << grid[i][j];
-        }
-        outfile << '\n';
-    }
-    outfile.close();
+    m_vecMap = grid;
+
+    CreateStartPos();
 
     /* 확인용 맵 출력 코드 -> 2차원 벡터를 WCHAR형으로 수정하고 확인 */
     //locale::global(locale(".UTF-8"));
@@ -190,49 +135,38 @@ void GameInfo::CreateRandomMap()
     //outfile.close();
 }
 
-void GameInfo::SaveMapData()
+void GameInfo::CreateStartPos()
 {
+    // 첫 시작점 노드을 Node* head로 이어진 길들을 경로 탐색 후 추가
+    for (int y = 0; y < HEIGHT * 2 - 1; y++) {
+        if (m_vecMap[y][0] >= 4) {
+            m_vecStartPos.push_back(buildTree(0, y));
 
-}
-
-void GameInfo::LoadMapData()
-{
-    vector<vector<int>> grid(HEIGHT * 2 - 1, vector<int>(WIDTH * 2 - 1, 0));
-
-    std::ifstream infile("map.txt");
-    if (!infile.is_open()) 
-    {
-        assert(0);
-    }
-
-    int value;
-    for (int i = 0; i < HEIGHT * 2 - 1; i++) {
-        for (int j = 0; j < WIDTH * 2 - 1; j++) {
-            infile >> value;
-            grid[i][j] = value;
+            break;
         }
     }
-    infile.close();
 }
 
-Node* GameInfo::buildTree(const vector<vector<int>>& grid, int x, int y)
+Node* GameInfo::buildTree(int x, int y)
 {
+    // 재귀로 노드 생성
+
     if (x < 0 || x >= WIDTH * 2 - 1 || y < 0 || y >= HEIGHT * 2 - 1) return nullptr;
 
     Node* node = new Node();
     node->x = x;
     node->y = y;
-    node->value = grid[y][x];
+    node->value = m_vecMap[y][x];
 
     if (x + 1 < WIDTH * 2 - 1) {
-        if (y - 1 >= 0 && grid[y - 1][x + 1] == 1) // ↗
-            node->children.push_back(buildTree(grid, x + 2, y - 2));
+        if (y - 1 >= 0 && m_vecMap[y - 1][x + 1] == 1) // ↗
+            node->children.push_back(buildTree(x + 2, y - 2));
 
-        if (grid[y][x + 1] == 2) // →
-            node->children.push_back(buildTree(grid, x + 2, y));
+        if (m_vecMap[y][x + 1] == 2) // →
+            node->children.push_back(buildTree(x + 2, y));
 
-        if (y + 1 < HEIGHT * 2 - 1 && grid[y + 1][x + 1] == 3) // ↘
-            node->children.push_back(buildTree(grid, x + 2, y + 2));
+        if (y + 1 < HEIGHT * 2 - 1 && m_vecMap[y + 1][x + 1] == 3) // ↘
+            node->children.push_back(buildTree(x + 2, y + 2));
     }
 
     return node;
