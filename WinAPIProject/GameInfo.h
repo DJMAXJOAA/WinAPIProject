@@ -23,31 +23,13 @@ struct PlayerInfo
 	float	fMaxHP;			// 최대체력
 	float	fCurHP;			// 현재체력
 
-	vector<wstring>	vecInventory;	// 현재 장착중인 아이템 목록
-	vector<wstring> vecSkill;		// 현재 장착중인 스킬 목록
-
-	json to_json()
-	{
-		json j;
-		j["Money"] = fMoney;
-		j["XPos"] = ptMyLocation.x;
-		j["YPos"] = ptMyLocation.y;
-		j["MaxHP"] = fMaxHP;
-		j["CurrentHP"] = fCurHP;
-		j["Inventory"] = vecInventory;
-		j["Skill"] = vecSkill;
-	}
-	void from_json(const json& j)
-	{
-		fMoney = j["Money"];
-		ptMyLocation.x = j["Xpos"];
-		ptMyLocation.y = j["YPos"];
-		fMaxHP = j["MaxHP"];
-		fCurHP = j["CurrentHP"];
-		vecInventory = j["Inventory"];
-		vecSkill = j["Skill"];
-	}
+	vector<string>	vecInventory;	// 현재 장착중인 아이템 목록
+	vector<string> vecSkill;		// 현재 장착중인 스킬 목록
 };
+
+// json의 직렬화, 역직렬화
+void to_json(json& j, const PlayerInfo& p);
+void from_json(const json& j, PlayerInfo& p);
 
 class GameInfo :
 	public CData

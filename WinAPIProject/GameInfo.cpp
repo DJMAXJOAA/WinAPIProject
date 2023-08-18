@@ -2,26 +2,31 @@
 #include "GameInfo.h"
 
 // 랜덤
-std::mt19937 rng((unsigned int)time(0));
+std::random_device rd;
+std::mt19937 rng(rd());
 
 GameInfo::GameInfo(int _key)
-	: CData(_key)
+    : CData(_key)
     , m_PlayerInfo{}
     , m_vecMap{}
     , m_vecStartPos{}
     , m_fPlaytime{}
 {
+    // test
+    m_PlayerInfo = PlayerInfo{ 1,2,3, 5, 6.5, vector<string>{"sadf"}, vector<string>{"@@"} };
+
+    CreateRandomMap();
+    m_fPlaytime = 1.5;
 }
 
 GameInfo::~GameInfo()
 {
-    SafeDeleteVec(m_vecStartPos);
 }
 
 void GameInfo::SaveData()
 {
     json j;
-    j["PlayerInfo"] = m_PlayerInfo.to_json();
+    j["PlayerInfo"] = m_PlayerInfo;
     j["MapInfo"] = m_vecMap;
     j["PlayTime"] = m_fPlaytime;
 
@@ -46,8 +51,8 @@ void GameInfo::LoadData()
     inFile >> j;
     inFile.close();
 
-    m_PlayerInfo.from_json(j["PlayerInfo"]);
     m_vecMap = j["MapInfo"];
+    m_PlayerInfo = j["PlayerInfo"].get<PlayerInfo>();
     m_fPlaytime = j["PlayTime"];
 
     CreateStartPos();
@@ -56,19 +61,19 @@ void GameInfo::LoadData()
 void GameInfo::CreateRandomMap()
 {
     // 바로 시작 버튼을 눌러서 시작하면 (세이브 데이터가 없으면), 랜덤맵 생성
-
-    srand((unsigned int)time(0));
-
     vector<vector<int>> grid(HEIGHT * 2 - 1, vector<int>(WIDTH * 2 - 1, 0));
+
+    std::uniform_int_distribution<int> dist(0, HEIGHT - 1);
 
     // 시작점 6개 생성 (시작 좌표 중복 가능)
     for (int line = 0; line < 6; line++) {
         POINT currentPoint;
         currentPoint.x = 0;
-        currentPoint.y = (rand() % HEIGHT) * 2;
+        int iRandom = dist(rng);
+        currentPoint.y = iRandom * 2;
 
-        // 4, 5, 6, 7중에 하나가 들어감 (방 랜덤 정하기)
-        grid[currentPoint.y][currentPoint.x] = getRandomStageSelect();
+        // 첫 방은 무조건 일반 방(int 4)
+        grid[currentPoint.y][currentPoint.x] = 4;
 
         while (currentPoint.x < (WIDTH - 1) * 2) {
             int deltaY = getValueRandomY();
@@ -109,13 +114,20 @@ void GameInfo::CreateRandomMap()
                 }
                 currentPoint.y += deltaY * 2;
             }
-            else 
+            else
             {
                 grid[currentPoint.y][currentPoint.x + 1] = 2; // L'→';
             }
 
             currentPoint.x += 2;
-            grid[currentPoint.y][currentPoint.x] = getRandomStageSelect();
+            if (currentPoint.x == WIDTH - 1)    // 중간 지점은 무조건 보물방으로 -> 아이템 또는 스킬 확정
+            {
+                grid[currentPoint.y][currentPoint.x] = 8;
+            }
+            else
+            {
+                grid[currentPoint.y][currentPoint.x] = getRandomStageSelect();
+            }
         }
     }
 
@@ -124,15 +136,14 @@ void GameInfo::CreateRandomMap()
     CreateStartPos();
 
     /* 확인용 맵 출력 코드 -> 2차원 벡터를 WCHAR형으로 수정하고 확인 */
-    //locale::global(locale(".UTF-8"));
-    //std::wofstream outfile("map.txt");
-    //for (int i = 0; i < grid.size(); i++) {
-    //    for (int j = 0; j < grid[0].size(); j++) {
-    //        outfile.put(grid[i][j]);
-    //    }
-    //    outfile.put(L'\n');
-    //}
-    //outfile.close();
+    std::ofstream outfile("map.txt");
+    for (int i = 0; i < grid.size(); i++) {
+        for (int j = 0; j < grid[0].size(); j++) {
+            outfile << grid[i][j];
+        }
+        outfile << '\n';
+    }
+    outfile.close();
 }
 
 void GameInfo::CreateStartPos()
@@ -191,4 +202,29 @@ int GameInfo::getRandomStageSelect()
     if (randomValue < 25) return 6;
     if (randomValue < 40) return 7;
     return 4;
+}
+
+void to_json(json& j, const PlayerInfo& p)
+{
+    j = json
+    {
+    {"Money", p.fMoney},
+    {"XPos", p.ptMyLocation.x},
+    {"YPos", p.ptMyLocation.y},
+    {"MaxHP", p.fMaxHP},
+    {"CurrentHP", p.fCurHP},
+    {"Inventory", p.vecInventory},
+    {"Skill", p.vecSkill}
+    };
+}
+
+void from_json(const json& j, PlayerInfo& p)
+{
+    p.fMoney = j.at("Money").get<float>();
+    p.ptMyLocation.x = j.at("XPos").get<LONG>();
+    p.ptMyLocation.y = j.at("YPos").get<LONG>();
+    p.fMaxHP = j.at("MaxHP").get<float>();
+    p.fCurHP = j.at("CurrentHP").get<float>();
+    p.vecInventory = j.at("Inventory").get<vector<string>>();
+    p.vecSkill = j.at("Skill").get<vector<string>>();
 }
