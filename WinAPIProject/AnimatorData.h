@@ -5,8 +5,8 @@ class AnimatorData
 	: public CData
 {
 private:
-	wstring				m_strAnimatorName;	// 애니메이터 이름
-	vector<wstring>		m_strAnimation;		// 가져올 애니메이션 이름 명단
+	string				m_strAnimatorName;	// 애니메이터 이름
+	vector<string>		m_strAnimation;		// 가져올 애니메이션 이름 명단
 
 public:
 	AnimatorData(int _key);
