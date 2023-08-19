@@ -1,6 +1,7 @@
 #pragma once
 #include "CData.h"
 
+// 커밋용 수정
 struct Node
 {
 	int x;
