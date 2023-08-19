@@ -24,8 +24,8 @@ struct PlayerInfo
 	float	fMaxHP;				// 최대체력
 	float	fCurHP;				// 현재체력
 
-	vector<string> vecInventory;	// 현재 장착중인 아이템 목록
-	vector<string> vecSkill;		// 현재 장착중인 스킬 목록
+	vector<wstring> vecInventory;	// 현재 장착중인 아이템 목록
+	vector<wstring> vecSkill;		// 현재 장착중인 스킬 목록
 };
 
 // json의 직렬화, 역직렬화

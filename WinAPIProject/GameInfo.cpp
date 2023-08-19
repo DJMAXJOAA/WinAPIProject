@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "GameInfo.h"
 
+#include<ctime>
+#include<random>
+#include<functional>
+using std::function;
+
 // ·£´ý
 std::random_device rd;
 std::mt19937 rng(rd());
@@ -13,7 +18,7 @@ GameInfo::GameInfo(int _key)
     , m_fPlaytime{}
 {
     // test
-    m_PlayerInfo = PlayerInfo{ 1,2,3, 5, 6.5, vector<string>{"sadf"}, vector<string>{"@@"} };
+    m_PlayerInfo = PlayerInfo{ 1,2,3, 5, 6.5, vector<wstring>{L"sadf"}, vector<wstring>{L"@@"} };
 
     CreateRandomMap();
     m_fPlaytime = 1.5;
@@ -213,8 +218,8 @@ void to_json(json& j, const PlayerInfo& p)
     {"YPos", p.ptMyLocation.y},
     {"MaxHP", p.fMaxHP},
     {"CurrentHP", p.fCurHP},
-    {"Inventory", p.vecInventory},
-    {"Skill", p.vecSkill}
+    {"Inventory", vector_wstring_to_json(p.vecInventory)},
+    {"Skill", vector_wstring_to_json(p.vecSkill)}
     };
 }
 
@@ -225,6 +230,6 @@ void from_json(const json& j, PlayerInfo& p)
     p.ptMyLocation.y = j.at("YPos").get<LONG>();
     p.fMaxHP = j.at("MaxHP").get<float>();
     p.fCurHP = j.at("CurrentHP").get<float>();
-    p.vecInventory = j.at("Inventory").get<vector<string>>();
-    p.vecSkill = j.at("Skill").get<vector<string>>();
+    p.vecInventory = json_to_vector_wstring(j.at("Inventory").get<vector<string>>());
+    p.vecSkill = json_to_vector_wstring(j.at("Skill").get<vector<string>>());
 }
