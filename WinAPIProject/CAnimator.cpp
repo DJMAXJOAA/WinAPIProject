@@ -84,6 +84,12 @@ void CAnimator::Play(const wstring& _strName, bool _bRepeat)
 	m_bRepeat = _bRepeat;
 }
 
+void CAnimator::Play(int _key, bool _bRepeat)
+{
+	m_pCurAnim = FindAnimation(_key);
+	m_bRepeat = _bRepeat;
+}
+
 void CAnimator::Update()
 {
 	if (m_pCurAnim != nullptr)

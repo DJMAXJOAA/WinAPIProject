@@ -78,6 +78,7 @@ void CPlayer::Render(HDC hdc)
 	//	, bf);
 }
 
+static int test = 100;
 void CPlayer::Update()
 {
 	// 지역변수를 getpos로 복사해와서, 나중에 setpos로 적용 시켜주어야 한다
@@ -98,6 +99,11 @@ void CPlayer::Update()
 	if (KEY_HOLD(KEY::S))
 	{
 		vPos.y += 400.f * fDT;
+	}
+
+	if (KEY_TAP(KEY::Q))
+	{
+		GetAnimator()->Play(test++, true);
 	}
 
 	if (CKeyMgr::GetInstance()->GetKeyState(KEY::SPACE) == KEY_STATE::TAP)
