@@ -51,7 +51,7 @@ public:
 public:
 	// 技捞宏颇老 Save, Load
 	void SaveData();
-	virtual void LoadData() override;
+	virtual void ParseData(const json& item) override;
 
 public:
 	// 甘 积己 包访

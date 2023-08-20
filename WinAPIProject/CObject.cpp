@@ -3,9 +3,14 @@
 
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
+#include "CDataMgr.h"
 
 #include "CCollider.h"
 #include "CAnimator.h"
+#include "CAnimation.h"
+
+#include "AnimationData.h"
+#include "AnimatorData.h"
 
 CObject::CObject()
 	: m_vPos{}
@@ -50,6 +55,23 @@ void CObject::CreateCollider()
 {
 	m_pCollider = new CCollider;
 	m_pCollider->m_pOwner = this;
+}
+
+void CObject::SetAnimator(int _key)
+{
+	AnimatorData* data = (AnimatorData*)CDataMgr::GetInstance()->FindData(_key);
+	CreateAnimator();
+
+	for (auto& animation : data->m_strAnimation)
+	{
+		GetAnimator()->CreateAnimation(animation);
+		CAnimation* pAnim = GetAnimator()->FindAnimation(animation);
+		for (int i = 0; i < pAnim->GetMaxFrame(); i++)
+		{
+			pAnim->GetFrame(i).vOffset = Vec2(-10.f, -20.f);
+		}
+	}
+
 }
 
 void CObject::CreateAnimator()

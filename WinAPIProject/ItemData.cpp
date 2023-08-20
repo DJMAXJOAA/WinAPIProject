@@ -4,13 +4,13 @@
 ItemData::ItemData(int _key)
 	: CData(_key)
 {
+	LoadData(L"data\\300.json");
 }
 
 ItemData::~ItemData()
 {
 }
 
-void ItemData::LoadData()
+void ItemData::ParseData(const json& item)
 {
 }
-

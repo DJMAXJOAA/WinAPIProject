@@ -4,12 +4,13 @@
 SkillData::SkillData(int _key)
 	: CData(_key)
 {
+	LoadData(L"data\\400.json");
 }
 
 SkillData::~SkillData()
 {
 }
 
-void SkillData::LoadData()
+void SkillData::ParseData(const json& item)
 {
 }

@@ -1,0 +1,10 @@
+[
+    {
+        "ID": 200,
+        "Name": "Player",
+        "AnimationList": [
+            100,
+            101
+        ]
+    }
+]

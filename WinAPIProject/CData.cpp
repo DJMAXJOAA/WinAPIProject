@@ -1,16 +1,47 @@
+#include <codecvt>
+#include <locale>
+
 #include "pch.h"
 #include "CData.h"
 
-#include <codecvt>
-#include <locale>
+#include "CPathMgr.h"
+
+
 
 CData::CData(int _iID)
 	: m_iID(_iID)
 {
+
 }
 
 CData::~CData()
 {
+}
+
+void CData::LoadData(const wstring& _filename)
+{
+	json j;
+
+	wstring strFilePath = CPathMgr::GetInstance()->GetContentPath();
+	strFilePath += _filename;
+
+	std::ifstream inFile(strFilePath);
+	if (!inFile.is_open())
+	{
+		assert(0);
+	}
+	inFile >> j;
+	inFile.close();
+
+	int targetID = GetKey();
+	for (auto& item : j)
+	{
+		if (item["ID"].get<int>() == targetID)
+		{
+			ParseData(item);
+			break;
+		}
+	}
 }
 
 string wstring_to_string(const wstring& wstr)

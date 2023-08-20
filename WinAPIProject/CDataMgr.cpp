@@ -15,6 +15,7 @@ CDataMgr::CDataMgr()
 
 CDataMgr::~CDataMgr()
 {
+	SafeDeleteMap(m_mapDataList);
 }
 
 CData* CDataMgr::CreateData(int _key)
@@ -36,7 +37,7 @@ CData* CDataMgr::CreateData(int _key)
 
 CData* CDataMgr::FindData(int _key)
 {
-	unordered_map<int, CData*>::iterator iter = m_mapDataList.find(_key);
+	map<int, CData*>::iterator iter = m_mapDataList.find(_key);
 
 	// 결과값 없으면 새로 생성하고 데이터 반환, 있으면 그대로 반환
 	if (iter == m_mapDataList.end()) return CreateData(_key)->FindData();

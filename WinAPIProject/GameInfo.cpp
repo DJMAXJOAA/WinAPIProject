@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "GameInfo.h"
 
+#include "CPathMgr.h"
+
 #include<ctime>
 #include<random>
 #include<functional>
@@ -17,11 +19,7 @@ GameInfo::GameInfo(int _key)
     , m_vecStartPos{}
     , m_fPlaytime{}
 {
-    // test
-    m_PlayerInfo = PlayerInfo{ 1,2,3, 5, 6.5, vector<wstring>{L"sadf"}, vector<wstring>{L"@@"} };
 
-    CreateRandomMap();
-    m_fPlaytime = 1.5;
 }
 
 GameInfo::~GameInfo()
@@ -30,12 +28,15 @@ GameInfo::~GameInfo()
 
 void GameInfo::SaveData()
 {
+    wstring strFilePath = CPathMgr::GetInstance()->GetContentPath();
+    strFilePath += L"data\\save.json";
+
     json j;
     j["PlayerInfo"] = m_PlayerInfo;
     j["MapInfo"] = m_vecMap;
     j["PlayTime"] = m_fPlaytime;
 
-    ofstream outFile("save.json");
+    ofstream outFile(strFilePath);
     if (!outFile.is_open())
     {
         assert(0);
@@ -44,21 +45,11 @@ void GameInfo::SaveData()
     outFile.close();
 }
 
-void GameInfo::LoadData()
+void GameInfo::ParseData(const json& item)
 {
-    json j;
-
-    ifstream inFile("save.json");
-    if (!inFile.is_open())
-    {
-        assert(0);
-    }
-    inFile >> j;
-    inFile.close();
-
-    m_vecMap = j["MapInfo"];
-    m_PlayerInfo = j["PlayerInfo"].get<PlayerInfo>();
-    m_fPlaytime = j["PlayTime"];
+    m_vecMap = item["MapInfo"];
+    m_PlayerInfo = item["PlayerInfo"].get<PlayerInfo>();
+    m_fPlaytime = item["PlayTime"];
 
     CreateStartPos();
 }

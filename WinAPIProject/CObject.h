@@ -54,6 +54,7 @@ public:
 	virtual void OnCollisionExit(CCollider* _pOther) {};
 
 public:
+	void SetAnimator(int _key);
 	void CreateAnimator();
 
 public:

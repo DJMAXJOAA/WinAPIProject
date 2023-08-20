@@ -19,8 +19,8 @@ class AnimationData
 	: public CData
 {
 public:
-	string				m_strAnimationName;	// 생성된 애니메이션 이름
-	string				m_strTexturePath;	// 가져올 폴더 파일 경로
+	wstring				m_strAnimationName;	// 생성된 애니메이션 이름
+	wstring				m_strTexturePath;	// 가져올 폴더 파일 경로
 
 	AnimationInfo		m_AniInfo;			// 애니메이션 정보
 
@@ -30,6 +30,6 @@ public:
 
 public:
 	void SaveData();
-	virtual void LoadData() override;
+	virtual void ParseData(const json& item) override;
 };
 

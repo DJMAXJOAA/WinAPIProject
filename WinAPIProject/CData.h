@@ -27,6 +27,7 @@ public:
 	int GetKey() { return m_iID; }
 
 public:
+	virtual void LoadData(const wstring& _filename);	// json을 불러와서 데이터 파싱
 	virtual CData* FindData() { return this; }
-	virtual void LoadData() = 0;	// json을 불러와서 데이터 파싱
+	virtual void ParseData(const json& item) = 0;
 };

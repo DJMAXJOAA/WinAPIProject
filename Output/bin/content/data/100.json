@@ -1,0 +1,54 @@
+[
+    {
+        "ID": 100,
+        "Name": "Player_Idle",
+        "Path": "texture\\player_idle.bmp",
+        "Type": "Player",
+        "AnimationInfo": {
+            "Duration": 0.1500000059604645,
+            "Frame": 5,
+            "Offset": [
+                -10.0,
+                -20.0
+            ],
+            "Pos": [
+                0.0,
+                0.0
+            ],
+            "Slice": [
+                170.0,
+                179.0
+            ],
+            "Step": [
+                171.0,
+                0.0
+            ]
+        }
+    },
+    {
+        "ID": 101,
+        "Name": "Player_Move",
+        "Path": "texture\\player_move.bmp",
+        "Type": "Player",
+        "AnimationInfo": {
+            "Duration": 0.15,
+            "Frame": 6,
+            "Offset": [
+                -10.0,
+                -20.0
+            ],
+            "Pos": [
+                0.0,
+                0.0
+            ],
+            "Slice": [
+                112.0,
+                192.0
+            ],
+            "Step": [
+                113.0,
+                0.0
+            ]
+        }
+    }
+]

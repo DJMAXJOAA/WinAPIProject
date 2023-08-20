@@ -13,6 +13,6 @@ public:
 	~ItemData();
 
 public:
-	virtual void LoadData() override;
+	virtual void ParseData(const json& item) override;
 };
 

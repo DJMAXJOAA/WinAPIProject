@@ -1,13 +1,12 @@
 #include "pch.h"
 #include "AnimationData.h"
 
+#include "CPathMgr.h"
+
 AnimationData::AnimationData(int _key)
     : CData(_key)
 {
-    m_strAnimationName = { "asdf" };
-    m_strTexturePath = { "asdfasdf" };
-    m_AniInfo = { {1,2},{2,3} };
-
+    LoadData(L"data\\100.json");
 }
 
 AnimationData::~AnimationData()
@@ -18,8 +17,11 @@ void AnimationData::SaveData()
 {
     json j;
 
+    wstring strFilePath = CPathMgr::GetInstance()->GetContentPath();
+    strFilePath += L"\\100.json";
+
     // 파일 열기
-    ifstream inFile("100.json");
+    ifstream inFile(strFilePath);
     if (!inFile.is_open())
     {
         assert(0);
@@ -37,8 +39,8 @@ void AnimationData::SaveData()
         if (item["ID"].get<int>() == targetID)
         {
             // 원하는 ID 값을 가진 객체의 정보 업데이트
-            item["Name"] = m_strAnimationName;
-            item["Path"] = m_strTexturePath;
+            item["Name"] = wstring_to_string(m_strAnimationName);
+            item["Path"] = wstring_to_string(m_strTexturePath);
             item["AnimationInfo"] = m_AniInfo;  // 해당 클래스에 대한 serialize 함수가 필요합니다.
             updated = true;
             break;  // 일치하는 항목을 찾았으므로 반복문 종료
@@ -48,42 +50,21 @@ void AnimationData::SaveData()
     // JSON 파일에 다시 쓰기
     if (updated)
     {
-        ofstream outFile("100.json");
+        ofstream outFile(strFilePath);
         outFile << j.dump(4);  // JSON 데이터를 보기 좋게 포맷팅하려면 '4'를 인자로 전달합니다.
         outFile.close();
     }
 }
 
-void AnimationData::LoadData()
+void AnimationData::ParseData(const json& item)
 {
-    json j;
-
-    ifstream inFile("100.json");
-    if (!inFile.is_open())
-    {
-        assert(0);
-    }
-    inFile >> j;
-    inFile.close();
-
-    int targetID = GetKey();
-    for (auto& item : j)
-    {
-        if (item["ID"].get<int>() == targetID)
-        {
-            // 원하는 ID 값을 가진 객체에서 정보 가져오기
-            m_strAnimationName = item["Name"].get<std::string>();
-            m_strTexturePath = item["Path"].get<std::string>();
-            m_AniInfo = item["AnimationInfo"].get<AnimationInfo>();
-            break;
-        }
-    }
-
+    m_strAnimationName = string_to_wstring(item["Name"].get<std::string>());
+    m_strTexturePath = string_to_wstring(item["Path"].get<std::string>());
+    m_AniInfo = item["AnimationInfo"].get<AnimationInfo>();
 }
 
 void to_json(json& j, const AnimationInfo& a)
 {
-
     j = json
     {
         {"Pos", vec2_to_json(a.vLeftTop)},

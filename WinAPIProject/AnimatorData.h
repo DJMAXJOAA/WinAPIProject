@@ -4,15 +4,15 @@
 class AnimatorData
 	: public CData
 {
-private:
-	string				m_strAnimatorName;	// 애니메이터 이름
-	vector<string>		m_strAnimation;		// 가져올 애니메이션 이름 명단
+public:
+	wstring			m_strAnimatorName;	// 애니메이터 이름
+	vector<int>		m_strAnimation;		// 가져올 애니메이션 ID 명단
 
 public:
 	AnimatorData(int _key);
 	~AnimatorData();
 
 public:
-	virtual void LoadData() override;
+	virtual void ParseData(const json& item) override;
 };
 
