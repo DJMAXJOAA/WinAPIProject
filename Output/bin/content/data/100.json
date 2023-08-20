@@ -8,8 +8,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -34,8 +34,8 @@
             "Duration": 0.12,
             "Frame": 6,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -60,8 +60,8 @@
             "Duration": 0.1,
             "Frame": 4,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -86,8 +86,8 @@
             "Duration": 0.07,
             "Frame": 3,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -112,8 +112,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -138,8 +138,8 @@
             "Duration": 1.0,
             "Frame": 1,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -164,8 +164,8 @@
             "Duration": 1.0,
             "Frame": 1,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -190,8 +190,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -216,8 +216,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -242,8 +242,8 @@
             "Duration": 0.12,
             "Frame": 6,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -268,8 +268,8 @@
             "Duration": 0.12,
             "Frame": 6,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -294,8 +294,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -317,11 +317,11 @@
         "Path": "texture\\Player\\gun.bmp",
         "Type": "player_front_ranged",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.15,
             "Frame": 6,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -343,11 +343,11 @@
         "Path": "texture\\Player\\bow.bmp",
         "Type": "player_front_ranged",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.15,
             "Frame": 4,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -372,8 +372,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -398,8 +398,8 @@
             "Duration": 0.12,
             "Frame": 6,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -424,8 +424,8 @@
             "Duration": 0.1,
             "Frame": 4,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -450,8 +450,8 @@
             "Duration": 0.07,
             "Frame": 3,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -476,8 +476,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -502,8 +502,8 @@
             "Duration": 1.0,
             "Frame": 1,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -528,8 +528,8 @@
             "Duration": 1.0,
             "Frame": 1,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -554,8 +554,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -580,8 +580,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -606,8 +606,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -632,8 +632,8 @@
             "Duration": 0.12,
             "Frame": 6,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -658,8 +658,8 @@
             "Duration": 0.12,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -681,11 +681,11 @@
         "Path": "texture\\Player\\gun2.bmp",
         "Type": "player_back_ranged",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.15,
             "Frame": 6,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -707,11 +707,11 @@
         "Path": "texture\\Player\\bow2.bmp",
         "Type": "player_back_ranged",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.15,
             "Frame": 5,
             "Offset": [
-                -10.0,
-                -20.0
+                0.0,
+                0.0
             ],
             "Pos": [
                 0.0,

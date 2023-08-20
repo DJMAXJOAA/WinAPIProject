@@ -1,0 +1,66 @@
+[
+    {
+        "ID": 300,
+        "Name": "Lance",
+        "Path": "texture\\Item\\spear1",
+        "Type": "Weapon",
+        "HP": 0.0,
+        "Att": 10.0
+    },
+    {
+        "ID": 301,
+        "Name": "Axe",
+        "Path": "texture\\Item\\axe1",
+        "Type": "Weapon",
+        "HP": 0.0,
+        "Att": 20.0
+    },
+    {
+        "ID": 302,
+        "Name": "Sword",
+        "Path": "texture\\Item\\sword1",
+        "Type": "Weapon",
+        "HP": 0.0,
+        "Att": 30.0
+    },
+    {
+        "ID": 303,
+        "Name": "Bow",
+        "Path": "texture\\Item\\bow1",
+        "Type": "Weapon",
+        "HP": 0.0,
+        "Att": 15.0
+    },
+    {
+        "ID": 304,
+        "Name": "한글테스트",
+        "Path": "texture\\Item\\equipment1",
+        "Type": "Equipment",
+        "HP": 30.0,
+        "Att": 0.0
+    },
+    {
+        "ID": 305,
+        "Name": "Shoes",
+        "Path": "texture\\Item\\equipment2",
+        "Type": "Equipment",
+        "HP": 15.0,
+        "Att": 0.0
+    },
+    {
+        "ID": 306,
+        "Name": "Glove",
+        "Path": "texture\\Item\\equipment3",
+        "Type": "Equipment",
+        "HP": 10.0,
+        "Att": 10.0
+    },
+    {
+        "ID": 307,
+        "Name": "Helmet",
+        "Path": "texture\\Item\\equipment4",
+        "Type": "Equipment",
+        "HP": 20.0,
+        "Att": 0.0
+    }
+]
