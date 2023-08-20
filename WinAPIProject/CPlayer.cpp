@@ -24,17 +24,7 @@ CPlayer::CPlayer()
 
 	// 텍스쳐 로딩 (애니메이션 설정)
 	SetAnimator(200);
-	GetAnimator()->Play(L"Player_Idle", true);
-	/*CTexture* pTex = CResMgr::GetInstance()->LoadTexture(L"PlayerTex", L"texture\\asdf2.bmp");*/
-	//CreateAnimator();
-	//GetAnimator()->CreateAnimation(L"Player", pTex, Vec2(0.f, 0.f), Vec2(170.f, 179.f), Vec2(171.f, 0.f), 0.15f, 5); // 854x179, 170x179 5동작 + 가로1칸간격
-	//GetAnimator()->Play(L"Player", true);
-	//
-	//CAnimation* pAnim = GetAnimator()->FindAnimation(L"Player");
-	//for (int i = 0; i < pAnim->GetMaxFrame(); i++)
-	//{
-	//	pAnim->GetFrame(i).vOffset = Vec2(-10.f, -20.f);
-	//}
+	GetAnimator()->Play(L"PlayerMove", true);
 }
 
 CPlayer::~CPlayer()

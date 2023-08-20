@@ -1,7 +1,7 @@
 [
     {
         "ID": 100,
-        "Name": "Player_Idle",
+        "Name": "PlayerIdle",
         "Path": "texture\\player_idle.bmp",
         "Type": "Player",
         "AnimationInfo": {
@@ -27,7 +27,7 @@
     },
     {
         "ID": 101,
-        "Name": "Player_Move",
+        "Name": "PlayerMove",
         "Path": "texture\\player_move.bmp",
         "Type": "Player",
         "AnimationInfo": {
@@ -42,11 +42,11 @@
                 0.0
             ],
             "Slice": [
-                112.0,
+                120.0,
                 192.0
             ],
             "Step": [
-                113.0,
+                120.0,
                 0.0
             ]
         }
