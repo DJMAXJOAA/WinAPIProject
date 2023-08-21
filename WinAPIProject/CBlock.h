@@ -5,16 +5,17 @@ class CBlock :
     public CObject
 {
 private:
-    TILE_STATE      m_TileState;
+    MAP_TYPE    m_MapType;
+    int         m_BlockState;
 
 public:
-    CBlock();
+    CBlock(MAP_TYPE _type);
     ~CBlock();
 
     CLONE(CBlock);
 
 public:
-    TILE_STATE RandomTile();
+    int RandomBlock();
 
 public:
     virtual void Update();

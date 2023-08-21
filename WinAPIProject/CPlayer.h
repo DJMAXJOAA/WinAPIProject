@@ -16,6 +16,7 @@ public:
     virtual void Render(HDC hdc);
     virtual void Update();
 
+private:
     CLONE(CPlayer);
 
 private:

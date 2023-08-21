@@ -8,9 +8,11 @@
 #include "CPlayer.h"
 #include "CTile.h"
 #include "CBlock.h"
+#include "CMouse.h"
 
 CScene_Battle::CScene_Battle()
-	: m_tileState(9, vector<int>(9,0))
+	: m_vecTileState(9, vector<int>(9,0))
+	, m_mapPoint{}
 {
 }
 
@@ -36,28 +38,37 @@ void CScene_Battle::Enter()
 	int startY = (int)(vResolution.y / 4);
 
 	// Player 추가
+	CPlayer* pObj = new CPlayer;
+	pObj->SetPos(Vec2(startX, startY - (TILE_HEIGHT / 2)));
+	AddObject(pObj, GROUP_TYPE::PLAYER);
 
-	for (int y = 0; y < 1; ++y) {
-		for (int x = 0; x < 1; ++x) {
+	// 마우스 추가
+	CMouse* pMouse = new CMouse;
+	AddObject(pMouse, GROUP_TYPE::MOUSE);
+
+	for (int y = 0; y < 9; ++y) {
+		for (int x = 0; x < 9; ++x) {
 			int drawX = startX + (x - y) * (TILE_WIDTH / 2);
 			int drawY = startY + (x + y) * (TILE_HEIGHT / 2) - (TILE_HEIGHT / 2);
 
-			CPlayer* pObj = new CPlayer;
-			pObj->SetPos(Vec2(drawX, drawY));
-			AddObject(pObj, GROUP_TYPE::PLAYER);
+			// 좌표 저장
+			m_mapPoint.insert(Vec2(x, y), Vec2(drawX, drawY));
 
+			// 타일 생성
 			CTile* pTile = new CTile;
 			pTile->SetPos(Vec2(drawX, drawY));
-
-			m_tileState[y][x] = ((int)pTile->GetTileState());
+			m_vecTileState[y][x] = ((int)pTile->GetTileState());
 			AddObject(pTile, GROUP_TYPE::TILE);
 
-
+			// 타일 맵
 			CBlock* pBlcok = new CBlock;
 			pBlcok->SetPos(Vec2(drawX, drawY));
 			AddObject(pBlcok, GROUP_TYPE::BLOCK);
 		}
 	}
+
+	// 타일과 마우스의 충돌처리
+	CCollisionMgr::GetInstance()->CheckGroup(GROUP_TYPE::MOUSE, GROUP_TYPE::TILE);
 
 	CCamera::GetInstance()->SetLookAt(vResolution / 2.f);
 }

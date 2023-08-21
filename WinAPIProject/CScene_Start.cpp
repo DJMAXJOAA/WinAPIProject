@@ -93,6 +93,7 @@ void CScene_Start::Enter()
 	CCollisionMgr::GetInstance()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);
 	CCollisionMgr::GetInstance()->CheckGroup(GROUP_TYPE::MISSILE_PLAYER, GROUP_TYPE::MONSTER);
 
+
 	// 카메라 시점 지정
 	CCamera::GetInstance()->SetLookAt(vResolution / 2.f);
 

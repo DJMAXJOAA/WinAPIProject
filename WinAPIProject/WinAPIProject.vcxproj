@@ -143,10 +143,10 @@
     <ClInclude Include="CBlock.h" />
     <ClInclude Include="CData.h" />
     <ClInclude Include="CDataMgr.h" />
+    <ClInclude Include="CMouse.h" />
     <ClInclude Include="CScene_Battle.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CToolTest.h" />
-    <ClInclude Include="CUtility.h" />
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="ItemData.h" />
     <ClInclude Include="MonsterData.h" />
@@ -210,6 +210,7 @@
     <ClCompile Include="CMissile.cpp" />
     <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CMonsterFactory.cpp" />
+    <ClCompile Include="CMouse.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CPanelUI.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
@@ -230,7 +231,6 @@
     <ClCompile Include="CTraceState.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIMgr.cpp" />
-    <ClCompile Include="CUtility.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="GameInfo.cpp" />
     <ClCompile Include="ItemData.cpp" />

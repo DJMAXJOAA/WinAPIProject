@@ -50,31 +50,7 @@ void CPlayer::CreateMissile()
 
 void CPlayer::Render(HDC hdc)
 {
-	// 컴포넌트 렌더링 함수
-	// 콜라이더 + 애니메이션
-	
 	ComponetRender(hdc);
-	//CTexture* pTex = CResMgr::GetInstance()->LoadTexture(L"Plane", L"texture\\effect.bmp");
-
-	//Vec2 vPos = GetPos();
-	//vPos = CCamera::GetInstance()->GetRenderPos(vPos);
-
-	//float width = (float)pTex->Width();
-	//float height = (float)pTex->Height();
-
-	//BLENDFUNCTION bf = {};
-	//bf.BlendOp = AC_SRC_OVER;
-	//bf.BlendFlags = 0;
-	//bf.SourceConstantAlpha = 255;
-	//bf.AlphaFormat = AC_SRC_ALPHA;
-
-	//AlphaBlend(hdc
-	//	, (int)(vPos.x - width / 2.f)
-	//	, (int)(vPos.y - height / 2.f)
-	//	, (int)width, (int)height
-	//	, pTex->GetDC()
-	//	, 0, 0, (int)width, (int)height
-	//	, bf);
 }
 
 static int test = 100;

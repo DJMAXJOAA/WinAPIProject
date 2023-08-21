@@ -167,11 +167,11 @@
     <Filter Include="Engine\04. Object\ToolTest">
       <UniqueIdentifier>{b54b96a9-d9d3-46f8-bdda-c885950d4a8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\11. Utility">
-      <UniqueIdentifier>{b07e6357-8ea0-4ce1-a99d-dee56ac064b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\04. Object\Block">
       <UniqueIdentifier>{896daa16-dd39-4182-9a41-3d7e50f72b5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object\MouseCollider">
+      <UniqueIdentifier>{27c6d8b3-68ef-41a6-9a4c-9b1f379e3031}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -326,11 +326,11 @@
     <ClInclude Include="CScene_Battle.h">
       <Filter>Engine\05. Scene\3. Scene_Battle</Filter>
     </ClInclude>
-    <ClInclude Include="CUtility.h">
-      <Filter>Engine\11. Utility</Filter>
-    </ClInclude>
     <ClInclude Include="CBlock.h">
       <Filter>Engine\04. Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="CMouse.h">
+      <Filter>Engine\04. Object\MouseCollider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -467,11 +467,11 @@
     <ClCompile Include="CScene_Battle.cpp">
       <Filter>Engine\05. Scene\3. Scene_Battle</Filter>
     </ClCompile>
-    <ClCompile Include="CUtility.cpp">
-      <Filter>Engine\11. Utility</Filter>
-    </ClCompile>
     <ClCompile Include="CBlock.cpp">
       <Filter>Engine\04. Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="CMouse.cpp">
+      <Filter>Engine\04. Object\MouseCollider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

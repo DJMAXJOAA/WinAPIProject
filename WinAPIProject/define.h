@@ -40,6 +40,7 @@ enum class GROUP_TYPE
 	PLAYER,
 	MISSILE_PLAYER,
 	MISSILE_MONSTER,
+	MOUSE,
 
 	UI = 31,
 	END = 32,
@@ -94,4 +95,13 @@ enum class TILE_STATE
 	GREEN,
 	BLUE,
 	PURPLE,
+};
+
+enum class MAP_TYPE
+{
+	BRICK,
+	DIRT,
+	GRASS,
+	STONE,
+	SNOW,
 };
