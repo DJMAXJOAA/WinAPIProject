@@ -13,6 +13,8 @@ private:
 
 	bool						m_bRepeat;		// 반복재생 여부
 
+	int					m_iID;			// 데이터 아이디
+
 public:
 	CAnimator();
 	~CAnimator();
@@ -20,10 +22,12 @@ public:
 	friend class CObject;
 
 public:
+	int GetID() { return m_iID; }
+	CAnimation* GetAnimation() { return m_pCurAnim; }
 	CObject* GetObj() { return m_pOwner; }
 
 public:
-	void CreateAnimation(const wstring& _strName, CTexture* _pTex, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount);
+	void CreateAnimation(const wstring& _strName, CTexture* _pTex, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount, int _id);
 	void CreateAnimation(int _key);
 	CAnimation* FindAnimation(const wstring& _strName);
 	CAnimation* FindAnimation(int _key);

@@ -5,11 +5,11 @@
         "Path": "texture\\Player\\idle.bmp",
         "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                9.0,
+                69.0
             ],
             "Pos": [
                 0.0,
@@ -31,11 +31,11 @@
         "Path": "texture\\Player\\move.bmp",
         "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 6,
             "Offset": [
-                0.0,
-                0.0
+                6.0,
+                67.0
             ],
             "Pos": [
                 0.0,
@@ -57,11 +57,11 @@
         "Path": "texture\\Player\\damaged.bmp",
         "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.1,
+            "Duration": 0.100000001490116,
             "Frame": 4,
             "Offset": [
-                0.0,
-                0.0
+                -11.0,
+                60.0
             ],
             "Pos": [
                 0.0,
@@ -83,11 +83,11 @@
         "Path": "texture\\Player\\rolling.bmp",
         "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.07,
+            "Duration": 0.0700000002980232,
             "Frame": 3,
             "Offset": [
-                0.0,
-                0.0
+                -3.0,
+                40.0
             ],
             "Pos": [
                 0.0,
@@ -109,11 +109,11 @@
         "Path": "texture\\Player\\landing.bmp",
         "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                -6.0,
+                72.0
             ],
             "Pos": [
                 0.0,
@@ -138,8 +138,8 @@
             "Duration": 1.0,
             "Frame": 1,
             "Offset": [
-                0.0,
-                0.0
+                -9.0,
+                73.0
             ],
             "Pos": [
                 0.0,
@@ -164,8 +164,8 @@
             "Duration": 1.0,
             "Frame": 1,
             "Offset": [
-                0.0,
-                0.0
+                25.0,
+                58.0
             ],
             "Pos": [
                 0.0,
@@ -187,11 +187,11 @@
         "Path": "texture\\Player\\fist.bmp",
         "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                9.0,
+                64.0
             ],
             "Pos": [
                 0.0,
@@ -213,11 +213,11 @@
         "Path": "texture\\Player\\uppercut.bmp",
         "Type": "player_front_melee",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 0.0,
-                0.0
+                67.0
             ],
             "Pos": [
                 0.0,
@@ -239,11 +239,11 @@
         "Path": "texture\\Player\\sword.bmp",
         "Type": "player_front_melee",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 6,
             "Offset": [
-                0.0,
-                0.0
+                5.0,
+                69.0
             ],
             "Pos": [
                 0.0,
@@ -265,11 +265,11 @@
         "Path": "texture\\Player\\lance.bmp",
         "Type": "player_front_melee",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 6,
             "Offset": [
-                0.0,
-                0.0
+                9.0,
+                66.0
             ],
             "Pos": [
                 0.0,
@@ -291,11 +291,11 @@
         "Path": "texture\\Player\\axe.bmp",
         "Type": "player_front_melee",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                -3.0,
+                67.0
             ],
             "Pos": [
                 0.0,
@@ -317,11 +317,11 @@
         "Path": "texture\\Player\\gun.bmp",
         "Type": "player_front_ranged",
         "AnimationInfo": {
-            "Duration": 0.15,
+            "Duration": 0.150000005960465,
             "Frame": 6,
             "Offset": [
-                0.0,
-                0.0
+                -14.0,
+                63.0
             ],
             "Pos": [
                 0.0,
@@ -343,11 +343,11 @@
         "Path": "texture\\Player\\bow.bmp",
         "Type": "player_front_ranged",
         "AnimationInfo": {
-            "Duration": 0.15,
+            "Duration": 0.150000005960465,
             "Frame": 4,
             "Offset": [
-                0.0,
-                0.0
+                -3.0,
+                80.0
             ],
             "Pos": [
                 0.0,
@@ -369,11 +369,11 @@
         "Path": "texture\\Player\\idle2.bmp",
         "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                5.0,
+                65.0
             ],
             "Pos": [
                 0.0,
@@ -395,11 +395,11 @@
         "Path": "texture\\Player\\move2.bmp",
         "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 6,
             "Offset": [
-                0.0,
-                0.0
+                -9.0,
+                69.0
             ],
             "Pos": [
                 0.0,
@@ -421,11 +421,11 @@
         "Path": "texture\\Player\\damaged2.bmp",
         "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.1,
+            "Duration": 0.100000001490116,
             "Frame": 4,
             "Offset": [
-                0.0,
-                0.0
+                3.0,
+                58.0
             ],
             "Pos": [
                 0.0,
@@ -447,11 +447,11 @@
         "Path": "texture\\Player\\rolling2.bmp",
         "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.07,
+            "Duration": 0.0700000002980232,
             "Frame": 3,
             "Offset": [
-                0.0,
-                0.0
+                8.0,
+                50.0
             ],
             "Pos": [
                 0.0,
@@ -473,11 +473,11 @@
         "Path": "texture\\Player\\landing2.bmp",
         "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                -5.0,
+                73.0
             ],
             "Pos": [
                 0.0,
@@ -502,8 +502,8 @@
             "Duration": 1.0,
             "Frame": 1,
             "Offset": [
-                0.0,
-                0.0
+                4.0,
+                77.0
             ],
             "Pos": [
                 0.0,
@@ -528,8 +528,8 @@
             "Duration": 1.0,
             "Frame": 1,
             "Offset": [
-                0.0,
-                0.0
+                -17.0,
+                62.0
             ],
             "Pos": [
                 0.0,
@@ -551,11 +551,11 @@
         "Path": "texture\\Player\\fist2.bmp",
         "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                -15.0,
+                62.0
             ],
             "Pos": [
                 0.0,
@@ -577,11 +577,11 @@
         "Path": "texture\\Player\\uppercut2.bmp",
         "Type": "player_back_melee",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                9.0,
+                69.0
             ],
             "Pos": [
                 0.0,
@@ -603,11 +603,11 @@
         "Path": "texture\\Player\\sword2.bmp",
         "Type": "player_back_melee",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                -5.0,
+                59.0
             ],
             "Pos": [
                 0.0,
@@ -629,11 +629,11 @@
         "Path": "texture\\Player\\lance2.bmp",
         "Type": "player_back_melee",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 6,
             "Offset": [
-                0.0,
-                0.0
+                -13.0,
+                68.0
             ],
             "Pos": [
                 0.0,
@@ -655,11 +655,11 @@
         "Path": "texture\\Player\\axe2.bmp",
         "Type": "player_back_melee",
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                -1.0,
+                62.0
             ],
             "Pos": [
                 0.0,
@@ -681,11 +681,11 @@
         "Path": "texture\\Player\\gun2.bmp",
         "Type": "player_back_ranged",
         "AnimationInfo": {
-            "Duration": 0.15,
+            "Duration": 0.150000005960465,
             "Frame": 6,
             "Offset": [
-                0.0,
-                0.0
+                2.0,
+                63.0
             ],
             "Pos": [
                 0.0,
@@ -707,11 +707,11 @@
         "Path": "texture\\Player\\bow2.bmp",
         "Type": "player_back_ranged",
         "AnimationInfo": {
-            "Duration": 0.15,
+            "Duration": 0.150000005960465,
             "Frame": 5,
             "Offset": [
-                0.0,
-                0.0
+                -1.0,
+                69.0
             ],
             "Pos": [
                 0.0,
@@ -723,6 +723,32 @@
             ],
             "Step": [
                 90.0,
+                0.0
+            ]
+        }
+    },
+    {
+        "ID": 128,
+        "Name": "Tile",
+        "Path": "texture\\Tile\\tile.bmp",
+        "Type": "tilemap",
+        "AnimationInfo": {
+            "Duration": 0.5,
+            "Frame": 5,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "Pos": [
+                0.0,
+                0.0
+            ],
+            "Slice": [
+                128.0,
+                64.0
+            ],
+            "Step": [
+                128.0,
                 0.0
             ]
         }

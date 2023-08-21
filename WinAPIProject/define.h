@@ -25,6 +25,9 @@ return &mgr;\
 // 지도 크기
 #define WIDTH 15
 #define HEIGHT 7
+#define DEBUG1(key) cout<<key<<"\n"
+#define DEBUG2(key1, key2) cout<<key1<<","<<key2<<"\n"
+#define DEBUG3(key1, key2, key3) cout<<key1<<","<<key2<<","<<key3<<"\n"
 
 enum class GROUP_TYPE
 {

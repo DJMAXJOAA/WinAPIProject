@@ -24,7 +24,6 @@ CPlayer::CPlayer()
 
 	// 텍스쳐 로딩 (애니메이션 설정)
 	SetAnimator(200);
-	GetAnimator()->Play(L"PlayerMove", true);
 }
 
 CPlayer::~CPlayer()

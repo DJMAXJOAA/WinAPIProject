@@ -5,24 +5,75 @@
 #include "CCore.h"
 #include "CKeyMgr.h"
 #include "CResMgr.h"
+#include "CDataMgr.h"
 #include "CSceneMgr.h"
 #include "CUIMgr.h"
 #include "CPathMgr.h"
 
 #include "CTile.h"
-#include "CTexture.h"
+#include "CToolTest.h"
 #include "CPanelUI.h"
 #include "CBtnUI.h"
 
+#include "CTexture.h"
+#include "CAnimator.h"
+#include "CAnimation.h"
+
+#include "AnimationData.h"
+
 void ChangeScene(DWORD_PTR, DWORD_PTR);
+Vec2 ToolPanelPos(300, 300);
 
 CScene_Tool::CScene_Tool()
 	: m_pUI(nullptr)
+	, m_pDisplay(nullptr)
 {
 }
 
 CScene_Tool::~CScene_Tool()
 {
+}
+
+void CScene_Tool::SetOffset(Vec2 _value)
+{
+	vector<tAnimFrame>& offset = m_pDisplay->GetAnimator()->GetAnimation()->GetAllFrame();
+	DEBUG2(offset[0].vOffset.x, offset[0].vOffset.y);
+	for (int i = 0; i < (int)offset.size(); i++)
+	{
+		offset[i].vOffset = _value;
+	}
+
+	AnimationData* data = (AnimationData*)CDataMgr::GetInstance()->FindData(m_pDisplay->GetAnimator()->GetAnimation()->GetID());
+	data->m_AniInfo.vOffset = _value;
+}
+
+void CScene_Tool::AddOffset(Vec2 _value)
+{
+	vector<tAnimFrame>& offset = m_pDisplay->GetAnimator()->GetAnimation()->GetAllFrame();
+	DEBUG2(offset[0].vOffset.x, offset[0].vOffset.y);
+	for (int i = 0; i < (int)offset.size(); i++)
+	{
+		offset[i].vOffset += _value;
+	}
+	AnimationData* data = (AnimationData*)CDataMgr::GetInstance()->FindData(m_pDisplay->GetAnimator()->GetAnimation()->GetID());
+	data->m_AniInfo.vOffset += _value;
+}
+
+void CScene_Tool::PrevFrame()
+{
+	m_pDisplay->ChangeAnimation(m_pDisplay->GetAnimator()->GetAnimation()->GetID() - 1);
+}
+
+void CScene_Tool::NextFrame()
+{
+	m_pDisplay->ChangeAnimation(m_pDisplay->GetAnimator()->GetAnimation()->GetID() + 1);
+}
+
+void CScene_Tool::SaveAnimation()
+{
+	AnimationData* data = (AnimationData*)CDataMgr::GetInstance()->FindData(m_pDisplay->GetAnimator()->GetAnimation()->GetID());
+	
+	data->SaveData();
 }
 
 void CScene_Tool::SaveTileData()
@@ -113,23 +164,51 @@ void CScene_Tool::Update()
 {
 	CScene::Update();	// 부모쪽 함수를 이용할 수도 있음, 오버라이딩 한 이유는 +@ 하기 위해서
 
+	// 애니메이션 변수
+	static int animator_count = 0;
+
 	if (KEY_TAP(KEY::ENTER))
 	{
 		ChangeScene(SCENE_TYPE::START);
 	}
-	if (KEY_TAP(KEY::RBTN))
+	if (KEY_TAP(KEY::SPACE))
 	{
-		Vec2 vLookAt = CCamera::GetInstance()->GetRealPos(MOUSE_POS);
-		CCamera::GetInstance()->SetLookAt(vLookAt);
+		SaveAnimation();
 	}
-	if (KEY_TAP(KEY::LSHIFT))
+	//if (KEY_TAP(KEY::RBTN))
+	//{
+	//	Vec2 vLookAt = CCamera::GetInstance()->GetRealPos(MOUSE_POS);
+	//	CCamera::GetInstance()->SetLookAt(vLookAt);
+	//}
+	if (KEY_TAP(KEY::Q))
 	{
-		/*CUIMgr::GetInstance()->SetFocusedUI(m_pUI);*/
-		SaveTileData();
+		PrevFrame();
 	}
-	if (KEY_TAP(KEY::CTRL))
+	if (KEY_TAP(KEY::W))
 	{
-		LoadTileData();
+		NextFrame();
+	}
+
+	if (KEY_TAP(KEY::LBTN))
+	{
+		Vec2 mousePos = MOUSE_POS - ToolPanelPos;
+		SetOffset(mousePos);
+	}
+	if (KEY_TAP(KEY::LEFT))
+	{
+		AddOffset(Vec2(-1.0f, 0.f));
+	}
+	if (KEY_TAP(KEY::RIGHT))
+	{
+		AddOffset(Vec2(1.0f, 0.f));
+	}
+	if (KEY_TAP(KEY::UP))
+	{
+		AddOffset(Vec2(0.f, -1.0f));
+	}
+	if (KEY_TAP(KEY::DOWN))
+	{
+		AddOffset(Vec2(0.f, 1.0f));
 	}
 }
 
@@ -139,6 +218,12 @@ void CScene_Tool::Enter()
 {
 	// UI 추가
 	Vec2 vResolution = CCore::GetInstance()->GetResolution();
+
+	// 피벗 설정 패널
+	CToolTest* toolTest = new CToolTest;
+	toolTest->SetPos(ToolPanelPos);
+	m_pDisplay = toolTest;
+	AddObject(toolTest, GROUP_TYPE::DEFAULT);
 
 	CPanelUI* pPanelUI = new CPanelUI;
 	pPanelUI->SetName(L"ParentUI");
@@ -170,6 +255,7 @@ void CScene_Tool::Enter()
 void CScene_Tool::Exit()
 {
 	DeleteAll();
+
 }
 
 
@@ -179,9 +265,8 @@ void ChangeScene(DWORD_PTR, DWORD_PTR)
 	ChangeScene(SCENE_TYPE::START);
 }
 
-// TILE COUNT WINDOW PROC
-// 메뉴바 자체를 툴 씬에서만 활성화되게 설정해야 한다
-INT_PTR CALLBACK TileCountProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+// 메뉴바에서 애니메이터의 키값을 받아서, 오브젝트에 갱신시키기
+INT_PTR CALLBACK ChangeAnimator(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(lParam);
 	switch (message)
@@ -192,8 +277,7 @@ INT_PTR CALLBACK TileCountProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK)
 		{
-			UINT iXCount = GetDlgItemInt(hDlg, IDC_EDIT1, nullptr, false);
-			UINT iYCount = GetDlgItemInt(hDlg, IDC_EDIT2, nullptr, false);
+			UINT iKey = GetDlgItemInt(hDlg, IDC_EDIT1, nullptr, false);
 
 			// 현재 씬을 가져온다
 			CScene* pCurScene = CSceneMgr::GetInstance()->GetCurScene();
@@ -201,8 +285,10 @@ INT_PTR CALLBACK TileCountProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 			// 다운 캐스팅 -> 실패 시 툴 씬이 아님
 			CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(pCurScene);
 			assert(pToolScene);
-
-			pToolScene->DeleteGroup(GROUP_TYPE::TILE);
+			
+			// 애니메이터 변경
+			CToolTest* temp = (CToolTest*)pToolScene->GetGroupObject(GROUP_TYPE::DEFAULT)[0];
+			temp->ChangeAnimator(iKey);
 
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;

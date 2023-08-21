@@ -98,9 +98,6 @@
     <Filter Include="Engine\03. Manager\Path">
       <UniqueIdentifier>{a8ffc337-22de-47a9-9cb0-082a0985ac39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\04. Object\UI\PanelUI\DebugPanel">
-      <UniqueIdentifier>{db6d22d7-ba99-4365-8fab-e70b84c0b00f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\08. Module\GDI">
       <UniqueIdentifier>{56f89b62-bfb0-44d7-a5de-91c0192fa22d}</UniqueIdentifier>
     </Filter>
@@ -149,9 +146,6 @@
     <Filter Include="Engine\10. Data">
       <UniqueIdentifier>{d643f5d4-a5d9-405b-8d4a-b4ab0e013be9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\04. Object\UI\PanelUI\SpritePreview">
-      <UniqueIdentifier>{ce4cf823-7a05-45e9-9daf-824834c8c269}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\10. Data\000. GameSave">
       <UniqueIdentifier>{9cea79f6-4dcc-4612-8762-edf21c39a695}</UniqueIdentifier>
     </Filter>
@@ -169,6 +163,9 @@
     </Filter>
     <Filter Include="Engine\10. Data\500. Monster">
       <UniqueIdentifier>{5b013bec-1b20-4c4c-8d9a-50e371c2131c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object\ToolTest">
+      <UniqueIdentifier>{b54b96a9-d9d3-46f8-bdda-c885950d4a8c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -308,9 +305,6 @@
     <ClInclude Include="SkillData.h">
       <Filter>Engine\10. Data\400. Skill</Filter>
     </ClInclude>
-    <ClInclude Include="CPanel_Sprite.h">
-      <Filter>Engine\04. Object\UI\PanelUI\SpritePreview</Filter>
-    </ClInclude>
     <ClInclude Include="AnimationData.h">
       <Filter>Engine\10. Data\100. Animation</Filter>
     </ClInclude>
@@ -319,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="AnimatorData.h">
       <Filter>Engine\10. Data\200. Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="CToolTest.h">
+      <Filter>Engine\04. Object\ToolTest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -440,9 +437,6 @@
     <ClCompile Include="SkillData.cpp">
       <Filter>Engine\10. Data\400. Skill</Filter>
     </ClCompile>
-    <ClCompile Include="CPanel_Sprite.cpp">
-      <Filter>Engine\04. Object\UI\PanelUI\SpritePreview</Filter>
-    </ClCompile>
     <ClCompile Include="AnimationData.cpp">
       <Filter>Engine\10. Data\100. Animation</Filter>
     </ClCompile>
@@ -451,6 +445,9 @@
     </ClCompile>
     <ClCompile Include="AnimatorData.cpp">
       <Filter>Engine\10. Data\200. Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="CToolTest.cpp">
+      <Filter>Engine\04. Object\ToolTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,6 +460,9 @@
       <Filter>Default\리소스 파일</Filter>
     </Image>
     <Image Include="WinAPIProject.ico">
+      <Filter>Default\리소스 파일</Filter>
+    </Image>
+    <Image Include="AssortrockWinAPI.ico">
       <Filter>Default\리소스 파일</Filter>
     </Image>
   </ItemGroup>

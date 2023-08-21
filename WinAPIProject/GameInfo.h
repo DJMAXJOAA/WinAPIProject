@@ -50,7 +50,7 @@ public:
 
 public:
 	// 세이브파일 Save, Load
-	void SaveData();
+	virtual void SaveData();
 	virtual void ParseData(const json& item) override;
 
 public:

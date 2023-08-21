@@ -29,7 +29,7 @@ public:
 	~AnimationData();
 
 public:
-	void SaveData();
+	virtual void SaveData();
 	virtual void ParseData(const json& item) override;
 };
 

@@ -14,6 +14,7 @@ CAnimation::CAnimation()
 	, m_iCurFrame(0)
 	, m_fAccTime(0.f)
 	, m_bFinish(false)
+	, m_iID(0)
 {
 }
 

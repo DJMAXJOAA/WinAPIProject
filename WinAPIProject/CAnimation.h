@@ -23,6 +23,8 @@ private:
 
 	bool				m_bFinish;		// 애니메이션 끝났는지 체크
 
+	int					m_iID;			// 데이터 아이디
+
 public:
 	CAnimation();
 	~CAnimation();
@@ -31,9 +33,12 @@ public:
 	friend class CResMgr;
 
 public:
+	int GetID() { return m_iID; }
 	const wstring& GetName() { return m_strName; }
 	tAnimFrame& GetFrame(int _iIndex) { return m_vecFrame[_iIndex]; } // 피벗 수정용, 호출한 쪽에서 수정이 가능하게
+	vector<tAnimFrame>& GetAllFrame() { return m_vecFrame; }
 	int GetMaxFrame() { return (int)m_vecFrame.size(); }
+	CTexture* GetTexture() { return m_pTex; }
 
 	bool isFinish() { return m_bFinish; }
 

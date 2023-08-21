@@ -55,7 +55,7 @@ public:
 
 public:
 	void SetAnimator(int _key);
-	void CreateAnimator();
+	void CreateAnimator(int _key);
 
 public:
 	virtual void Update() = 0; // 순수 가상 함수 -> 오브젝트들의 Update는 모두 기능이 다름 (다형성)

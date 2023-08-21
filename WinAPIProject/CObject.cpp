@@ -4,6 +4,7 @@
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
 #include "CDataMgr.h"
+#include "CResMgr.h"
 
 #include "CCollider.h"
 #include "CAnimator.h"
@@ -60,30 +61,40 @@ void CObject::CreateCollider()
 void CObject::SetAnimator(int _key)
 {
 	AnimatorData* data = (AnimatorData*)CDataMgr::GetInstance()->FindData(_key);
-	CreateAnimator();
+	assert(data);
+
+	if (m_pAnimator != nullptr)
+	{
+		delete m_pAnimator;
+	}
+
+	CreateAnimator(_key);
 
 	for (auto& animation : data->m_strAnimation)
 	{
+		AnimationData* aniData = (AnimationData*)CDataMgr::GetInstance()->FindData(animation);
+
 		GetAnimator()->CreateAnimation(animation);
 		CAnimation* pAnim = GetAnimator()->FindAnimation(animation);
 		for (int i = 0; i < pAnim->GetMaxFrame(); i++)
 		{
-			pAnim->GetFrame(i).vOffset = Vec2(-10.f, -20.f);
+			pAnim->GetFrame(i).vOffset = aniData->m_AniInfo.vOffset;
 		}
 	}
-
+	GetAnimator()->Play(data->m_strAnimation.front(), true);
 }
 
-void CObject::CreateAnimator()
+void CObject::CreateAnimator(int _key)
 {
 	m_pAnimator = new CAnimator;
+	m_pAnimator->m_iID = _key;
 	m_pAnimator->m_pOwner = this;
 }
 
 void CObject::FinalUpdate()
 {
 	if (m_pAnimator != nullptr)
-		m_pCollider->FinalUpdate();
+		m_pAnimator->FinalUpdate();
 
 	if (m_pCollider != nullptr)
 		m_pCollider->FinalUpdate();

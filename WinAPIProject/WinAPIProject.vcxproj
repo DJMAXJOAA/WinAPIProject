@@ -142,7 +142,7 @@
     <ClInclude Include="AnimatorData.h" />
     <ClInclude Include="CData.h" />
     <ClInclude Include="CDataMgr.h" />
-    <ClInclude Include="CPanel_Sprite.h" />
+    <ClInclude Include="CToolTest.h" />
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="ItemData.h" />
     <ClInclude Include="MonsterData.h" />
@@ -208,7 +208,6 @@
     <ClCompile Include="CMonsterFactory.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CPanelUI.cpp" />
-    <ClCompile Include="CPanel_Sprite.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CRes.cpp" />
@@ -222,6 +221,7 @@
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
+    <ClCompile Include="CToolTest.cpp" />
     <ClCompile Include="CTraceState.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIMgr.cpp" />
@@ -238,6 +238,7 @@
     <ResourceCompile Include="WinAPIProject.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="AssortrockWinAPI.ico" />
     <Image Include="WinAPIProject.ico" />
     <Image Include="small.ico" />
   </ItemGroup>

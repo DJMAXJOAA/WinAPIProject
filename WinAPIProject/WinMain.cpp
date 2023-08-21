@@ -77,7 +77,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			CCore::GetInstance()->Progress(); // 2. 코어 객체의 실행 부분
 		}
 	}
-
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	return (int)msg.wParam;
 }
 
@@ -136,7 +136,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	return TRUE;
 }
 
-INT_PTR CALLBACK TileCountProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK ChangeAnimator(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 //
 //  함수: WndProc(HWND, UINT, WPARAM, LPARAM)
@@ -162,7 +162,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
 		case ID_MENU_TILE:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_TILECOUNT), hWnd, TileCountProc);
+			DialogBox(hInst, MAKEINTRESOURCE(IDD_TILECOUNT), hWnd, ChangeAnimator);
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);

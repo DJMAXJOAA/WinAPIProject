@@ -18,7 +18,7 @@ void AnimationData::SaveData()
     json j;
 
     wstring strFilePath = CPathMgr::GetInstance()->GetContentPath();
-    strFilePath += L"\\100.json";
+    strFilePath += L"data\\100.json";
 
     // 파일 열기
     ifstream inFile(strFilePath);
@@ -54,6 +54,8 @@ void AnimationData::SaveData()
         outFile << j.dump(4);  // JSON 데이터를 보기 좋게 포맷팅하려면 '4'를 인자로 전달합니다.
         outFile.close();
     }
+
+    DEBUG1(targetID);
 }
 
 void AnimationData::ParseData(const json& item)
