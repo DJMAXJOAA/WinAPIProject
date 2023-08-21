@@ -10,7 +10,9 @@
 #include "CUIMgr.h"
 #include "CPathMgr.h"
 
+#include "CPlayer.h"
 #include "CTile.h"
+#include "CBlock.h"
 #include "CToolTest.h"
 #include "CPanelUI.h"
 #include "CBtnUI.h"
@@ -37,26 +39,29 @@ CScene_Tool::~CScene_Tool()
 void CScene_Tool::SetOffset(Vec2 _value)
 {
 	vector<tAnimFrame>& offset = m_pDisplay->GetAnimator()->GetAnimation()->GetAllFrame();
-	DEBUG2(offset[0].vOffset.x, offset[0].vOffset.y);
 	for (int i = 0; i < (int)offset.size(); i++)
 	{
 		offset[i].vOffset = _value;
 	}
 
 	AnimationData* data = (AnimationData*)CDataMgr::GetInstance()->FindData(m_pDisplay->GetAnimator()->GetAnimation()->GetID());
-	data->m_AniInfo.vOffset = _value;
+	data->m_AniInfo.vOffset.x = _value.x * -1.0;
+	data->m_AniInfo.vOffset.y = _value.y * -1.0;
+	DEBUG2(data->m_AniInfo.vOffset.x, data->m_AniInfo.vOffset.y);
 }
 
 void CScene_Tool::AddOffset(Vec2 _value)
 {
 	vector<tAnimFrame>& offset = m_pDisplay->GetAnimator()->GetAnimation()->GetAllFrame();
-	DEBUG2(offset[0].vOffset.x, offset[0].vOffset.y);
 	for (int i = 0; i < (int)offset.size(); i++)
 	{
 		offset[i].vOffset += _value;
 	}
 	AnimationData* data = (AnimationData*)CDataMgr::GetInstance()->FindData(m_pDisplay->GetAnimator()->GetAnimation()->GetID());
-	data->m_AniInfo.vOffset += _value;
+	data->m_AniInfo.vOffset.x += _value.x * -1.0;
+	data->m_AniInfo.vOffset.y += _value.y * -1.0;
+	DEBUG2(data->m_AniInfo.vOffset.x, data->m_AniInfo.vOffset.y);
+
 }
 
 void CScene_Tool::PrevFrame()
@@ -76,100 +81,13 @@ void CScene_Tool::SaveAnimation()
 	data->SaveData();
 }
 
-void CScene_Tool::SaveTileData()
-{
-	// 저장 경로를 지정하고, savetile을 불러오기
-	wchar_t szName[256] = {};
-
-	OPENFILENAME ofn = {};
-
-	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.hwndOwner = CCore::GetInstance()->GetMainhWnd();
-	ofn.lpstrFile = szName;
-	ofn.nMaxFile = sizeof(szName);
-	ofn.lpstrFilter = L"ALL\0*.*\0Tile\0*.tile\0";			// ALL -> 모든 파일이 다보임, 추가 필터 설정 가능 (파일 형식이 All 도는 tile)
-	ofn.nFilterIndex = 0;
-	ofn.lpstrFileTitle = nullptr;
-	ofn.nMaxFileTitle = 0;
-
-	wstring strTileFolder = CPathMgr::GetInstance()->GetContentPath();
-	strTileFolder += L"tile";
-
-	ofn.lpstrInitialDir = strTileFolder.c_str();				// 파일 열때 초기 경로(content 폴더ㅔㅇ 넣는게 좋을듯)
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-	// Modal 방식의 Dialog 창 띄우기 -> 모달 방식의 창은 떠있는 동안 다른 윈도우가 작동을 멈춤
-	if (GetSaveFileName(&ofn))
-	{
-		// 확인창을 누르면 반환값이 존재해서, 파일 저장된다
-		// szName에 파일경로로 저장 -> 절대경로
-
-		SaveTile(szName);
-	}
-}
-
-void CScene_Tool::LoadTileData()
-{
-	// 저장 경로를 지정하고, savetile을 불러오기
-	wchar_t szName[256] = {};
-
-	OPENFILENAME ofn = {};
-
-	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.hwndOwner = CCore::GetInstance()->GetMainhWnd();
-	ofn.lpstrFile = szName;
-	ofn.nMaxFile = sizeof(szName);
-	ofn.lpstrFilter = L"ALL\0*.*\0Tile\0*.tile\0";			// ALL -> 모든 파일이 다보임, 추가 필터 설정 가능 (파일 형식이 All 도는 tile)
-	ofn.nFilterIndex = 0;
-	ofn.lpstrFileTitle = nullptr;
-	ofn.nMaxFileTitle = 0;
-
-	wstring strTileFolder = CPathMgr::GetInstance()->GetContentPath();
-	strTileFolder += L"tile";
-
-	ofn.lpstrInitialDir = strTileFolder.c_str();				// 파일 열때 초기 경로(content 폴더ㅔㅇ 넣는게 좋을듯)
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-	// Modal 방식의 Dialog 창 띄우기 -> 모달 방식의 창은 떠있는 동안 다른 윈도우가 작동을 멈춤
-	if (GetOpenFileName(&ofn))
-	{
-		wstring strRelativePath = CPathMgr::GetInstance()->GetRelativePath(szName);
-		LoadTile(strRelativePath);
-	}
-}
-
-void CScene_Tool::SaveTile(const wstring& _strRelativePath)
-{
-	// 커널 오브젝트 -> 직접 닫아주지 않고, 파일 포인터들을 닫아주는거
-	// 파일 스트림이 각각의 파일 포인터들
-	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, _strRelativePath.c_str(), L"wb");		// 파일 커널 오브젝트, 경로, 쓰기읽기(w -> 쓰기, r -> 읽기, wb, rb -> 바이너리로 쓰기읽기)
-	assert(pFile);
-
-	//데이터저장===========================================================================================
-
-	const vector<CObject*>& vecTile = GetGroupObject(GROUP_TYPE::TILE);
-
-	for (size_t i = 0; i < vecTile.size(); i++)
-	{
-		((CTile*)vecTile[i])->Save(pFile);
-	}
-
-	//데이터저장===========================================================================================
-
-	fclose(pFile);
-}
-
 void CScene_Tool::Update()
 {
 	CScene::Update();	// 부모쪽 함수를 이용할 수도 있음, 오버라이딩 한 이유는 +@ 하기 위해서
 
-	// 애니메이션 변수
-	static int animator_count = 0;
-
 	if (KEY_TAP(KEY::ENTER))
 	{
-		ChangeScene(SCENE_TYPE::START);
+		ChangeScene(SCENE_TYPE::BATTLE);
 	}
 	if (KEY_TAP(KEY::SPACE))
 	{
@@ -180,11 +98,11 @@ void CScene_Tool::Update()
 	//	Vec2 vLookAt = CCamera::GetInstance()->GetRealPos(MOUSE_POS);
 	//	CCamera::GetInstance()->SetLookAt(vLookAt);
 	//}
-	if (KEY_TAP(KEY::Q))
+	if (KEY_TAP(KEY::Z))
 	{
 		PrevFrame();
 	}
-	if (KEY_TAP(KEY::W))
+	if (KEY_TAP(KEY::X))
 	{
 		NextFrame();
 	}
@@ -235,7 +153,7 @@ void CScene_Tool::Enter()
 	pBtnUI->SetScale(Vec2(100.f, 30.f));
 	pBtnUI->SetPos(Vec2(0.f, 0.f));
 	/*((CBtnUI*)pBtnUI)->SetClickedCallBack(ChangeScene, 0, 0);*/
-	((CBtnUI*)pBtnUI)->SetClickedCallBack(this, (SCENE_MEMFUNC)&CScene_Tool::SaveTileData);
+	/*((CBtnUI*)pBtnUI)->SetClickedCallBack(this, (SCENE_MEMFUNC)&CScene_Tool::SaveTileData);*/
 	pPanelUI->AddChild(pBtnUI);
 
 	// UI는 메인 UI하나만 들어감 -> 대신 ChildUI도 함께 들어감
@@ -248,6 +166,31 @@ void CScene_Tool::Enter()
 	//AddObject(pClonePanel, GROUP_TYPE::UI);
 
 	//m_pUI = pClonePanel;
+
+	int startX = (int)(vResolution.x / 2);
+	int startY = (int)(vResolution.y / 4);
+
+	// Player 추가
+
+	for (int y = 0; y < 1; ++y) {
+		for (int x = 0; x < 1; ++x) {
+			int drawX = startX + (x - y) * (TILE_WIDTH / 2);
+			int drawY = startY + (x + y) * (TILE_HEIGHT / 2) - (TILE_HEIGHT / 2);
+
+			CPlayer* pObj = new CPlayer;
+			pObj->SetPos(Vec2(drawX, drawY));
+			AddObject(pObj, GROUP_TYPE::PLAYER);
+
+			CTile* pTile = new CTile;
+			pTile->SetPos(Vec2(drawX, drawY));
+			AddObject(pTile, GROUP_TYPE::TILE);
+
+			CBlock* pBlcok = new CBlock;
+			pBlcok->SetPos(Vec2(drawX, drawY));
+			AddObject(pBlcok, GROUP_TYPE::BLOCK);
+		}
+	}
+
 
 	CCamera::GetInstance()->SetLookAt(vResolution / 2.f);
 }

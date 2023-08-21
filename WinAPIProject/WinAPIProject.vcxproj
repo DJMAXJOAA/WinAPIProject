@@ -140,9 +140,13 @@
     <ClInclude Include="AI.h" />
     <ClInclude Include="AnimationData.h" />
     <ClInclude Include="AnimatorData.h" />
+    <ClInclude Include="CBlock.h" />
     <ClInclude Include="CData.h" />
     <ClInclude Include="CDataMgr.h" />
+    <ClInclude Include="CScene_Battle.h" />
+    <ClInclude Include="CTile.h" />
     <ClInclude Include="CToolTest.h" />
+    <ClInclude Include="CUtility.h" />
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="ItemData.h" />
     <ClInclude Include="MonsterData.h" />
@@ -174,7 +178,6 @@
     <ClInclude Include="CSound.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CTexture.h" />
-    <ClInclude Include="CTile.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="CTraceState.h" />
     <ClInclude Include="CUI.h" />
@@ -194,6 +197,7 @@
     <ClCompile Include="AnimatorData.cpp" />
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CAnimator.cpp" />
+    <ClCompile Include="CBlock.cpp" />
     <ClCompile Include="CBtnUI.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider.cpp" />
@@ -214,6 +218,7 @@
     <ClCompile Include="CResMgr.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneMgr.cpp" />
+    <ClCompile Include="CScene_Battle.cpp" />
     <ClCompile Include="CScene_Start.cpp" />
     <ClCompile Include="CScene_Tool.cpp" />
     <ClCompile Include="CSound.cpp" />
@@ -225,6 +230,7 @@
     <ClCompile Include="CTraceState.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIMgr.cpp" />
+    <ClCompile Include="CUtility.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="GameInfo.cpp" />
     <ClCompile Include="ItemData.cpp" />

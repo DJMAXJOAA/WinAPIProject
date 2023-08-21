@@ -19,8 +19,6 @@ public:
 	void DeleteGroup(GROUP_TYPE _eTarget);
 	void DeleteAll();
 
-	void LoadTile(const wstring& _strRelativePath);
-
 	vector<CObject*>& GetUIGroup() { return m_arrObj[(UINT)GROUP_TYPE::UI]; }
 
 public:

@@ -8,9 +8,8 @@
 #include<functional>
 using std::function;
 
-// ·£´ý
-std::random_device rd;
-std::mt19937 rng(rd());
+static std::random_device rd;
+static std::mt19937 rng(rd());
 
 GameInfo::GameInfo(int _key)
     : CData(_key)

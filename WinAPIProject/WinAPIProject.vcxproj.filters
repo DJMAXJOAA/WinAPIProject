@@ -167,6 +167,12 @@
     <Filter Include="Engine\04. Object\ToolTest">
       <UniqueIdentifier>{b54b96a9-d9d3-46f8-bdda-c885950d4a8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\11. Utility">
+      <UniqueIdentifier>{b07e6357-8ea0-4ce1-a99d-dee56ac064b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object\Block">
+      <UniqueIdentifier>{896daa16-dd39-4182-9a41-3d7e50f72b5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -260,9 +266,6 @@
     <ClInclude Include="CUI.h">
       <Filter>Engine\04. Object\UI</Filter>
     </ClInclude>
-    <ClInclude Include="CTile.h">
-      <Filter>Engine\04. Object\Tile</Filter>
-    </ClInclude>
     <ClInclude Include="CUIMgr.h">
       <Filter>Engine\03. Manager\UI</Filter>
     </ClInclude>
@@ -316,6 +319,18 @@
     </ClInclude>
     <ClInclude Include="CToolTest.h">
       <Filter>Engine\04. Object\ToolTest</Filter>
+    </ClInclude>
+    <ClInclude Include="CTile.h">
+      <Filter>Engine\04. Object\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene_Battle.h">
+      <Filter>Engine\05. Scene\3. Scene_Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="CUtility.h">
+      <Filter>Engine\11. Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="CBlock.h">
+      <Filter>Engine\04. Object\Block</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -392,9 +407,6 @@
     <ClCompile Include="CUI.cpp">
       <Filter>Engine\04. Object\UI</Filter>
     </ClCompile>
-    <ClCompile Include="CTile.cpp">
-      <Filter>Engine\04. Object\Tile</Filter>
-    </ClCompile>
     <ClCompile Include="CUIMgr.cpp">
       <Filter>Engine\03. Manager\UI</Filter>
     </ClCompile>
@@ -448,6 +460,18 @@
     </ClCompile>
     <ClCompile Include="CToolTest.cpp">
       <Filter>Engine\04. Object\ToolTest</Filter>
+    </ClCompile>
+    <ClCompile Include="CTile.cpp">
+      <Filter>Engine\04. Object\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_Battle.cpp">
+      <Filter>Engine\05. Scene\3. Scene_Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="CUtility.cpp">
+      <Filter>Engine\11. Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="CBlock.cpp">
+      <Filter>Engine\04. Object\Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,8 @@
 
 #include "CPathMgr.h"
 
-
+static std::random_device rd;
+static std::mt19937 rng(rd());
 
 CData::CData(int _iID)
 	: m_iID(_iID)

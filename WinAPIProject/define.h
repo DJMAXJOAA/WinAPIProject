@@ -25,6 +25,8 @@ return &mgr;\
 // 지도 크기
 #define WIDTH 15
 #define HEIGHT 7
+#define TILE_WIDTH 140
+#define TILE_HEIGHT 70
 #define DEBUG1(key) cout<<key<<"\n"
 #define DEBUG2(key1, key2) cout<<key1<<","<<key2<<"\n"
 #define DEBUG3(key1, key2, key3) cout<<key1<<","<<key2<<","<<key3<<"\n"
@@ -32,11 +34,12 @@ return &mgr;\
 enum class GROUP_TYPE
 {
 	DEFAULT,
+	BLOCK,
+	TILE,
 	MONSTER,
 	PLAYER,
 	MISSILE_PLAYER,
 	MISSILE_MONSTER,
-	TILE,
 
 	UI = 31,
 	END = 32,
@@ -46,8 +49,7 @@ enum class SCENE_TYPE
 {
 	TOOL,
 	START,
-	STAGE_01,
-	STAGE_02,
+	BATTLE,
 
 	END,
 };
@@ -83,4 +85,13 @@ enum class MON_STATE
 	ATT,
 	RUN,
 	DEAD,
+};
+
+enum class TILE_STATE
+{
+	BLACK,
+	RED,
+	GREEN,
+	BLUE,
+	PURPLE,
 };

@@ -1,20 +1,17 @@
 #pragma once
 #include "CObject.h"
 
-class CTile :
+class CBlock :
     public CObject
 {
 private:
     TILE_STATE      m_TileState;
 
 public:
-    CTile();
-    ~CTile();
-   
-    CLONE(CTile);
+    CBlock();
+    ~CBlock();
 
-public:
-    TILE_STATE GetTileState() { return m_TileState; }
+    CLONE(CBlock);
 
 public:
     TILE_STATE RandomTile();

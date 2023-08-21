@@ -16,7 +16,7 @@ CToolTest::CToolTest()
 	: m_iID(200)
 {
 	SetAnimator(m_iID);
-	GetAnimator()->Play(103, true);
+	GetAnimator()->Play(113, true);
 
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vec2(0.f, 0.f));

@@ -17,13 +17,13 @@
 
 CPlayer::CPlayer()
 {
-	// 콜라이더 얻기 + 콜라이더 설정
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vec2(0.f, 0.f));
-	GetCollider()->SetScale(Vec2(40.f, 100.f));
+	GetCollider()->SetScale(Vec2(10.f, 10.f));
 
 	// 텍스쳐 로딩 (애니메이션 설정)
 	SetAnimator(200);
+	GetAnimator()->Play(113, true);
 }
 
 CPlayer::~CPlayer()
@@ -100,7 +100,11 @@ void CPlayer::Update()
 		vPos.y += 400.f * fDT;
 	}
 
-	if (KEY_TAP(KEY::Q))
+	if (KEY_TAP(KEY::C))
+	{
+		GetAnimator()->Play(test--, true);
+	}
+	if (KEY_TAP(KEY::V))
 	{
 		GetAnimator()->Play(test++, true);
 	}

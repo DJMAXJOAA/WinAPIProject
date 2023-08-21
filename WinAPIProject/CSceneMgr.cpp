@@ -3,6 +3,7 @@
 
 #include "CScene_Start.h"
 #include "CScene_Tool.h"
+#include "CScene_Battle.h"
 
 CSceneMgr::CSceneMgr()
 	: m_arrScene{}
@@ -29,8 +30,11 @@ void CSceneMgr::Init()
 	m_arrScene[(UINT)SCENE_TYPE::TOOL] = new CScene_Tool;
 	m_arrScene[(UINT)SCENE_TYPE::TOOL]->SetName(L"Tool Scene");
 
+	m_arrScene[(UINT)SCENE_TYPE::BATTLE] = new CScene_Battle;
+	m_arrScene[(UINT)SCENE_TYPE::BATTLE]->SetName(L"Battle Scene");
+
 	// 현재 씬 저장
-	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::TOOL];
+	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::BATTLE];
 	m_pCurScene->Enter(); // 씬 진입
 }
 

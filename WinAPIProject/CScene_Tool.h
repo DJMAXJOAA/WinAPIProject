@@ -23,11 +23,6 @@ public:
     void SaveAnimation();
 
 public:
-    void SaveTileData();
-    void LoadTileData();
-    void SaveTile(const wstring& _strRelativePath);
-
-public:
     virtual void Update();
     virtual void Enter();
     virtual void Exit();

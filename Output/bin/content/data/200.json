@@ -39,5 +39,16 @@
         "AnimationList": [
             128
         ]
+    },
+    {
+        "ID": 202,
+        "Name": "Block",
+        "AnimationList": [
+            129,
+            130,
+            131,
+            132,
+            133
+        ]
     }
 ]
