@@ -4,11 +4,17 @@
 #include "CTimeMgr.h"
 #include "CCamera.h"
 
-#include "CAnimator.h"
+#include "CAnimatorGdiPlus.h"
 #include "CGdiPlus.h"
 #include "CObject.h"
 
 CAnimationGdiPlus::CAnimationGdiPlus()
+    : m_pAnimator(nullptr)
+    , m_pBitmap(nullptr)
+    , m_iCurFrame(0)
+    , m_fAccTime(0.f)
+    , m_bFinish(false)
+    , m_iID(0)
 {
 }
 

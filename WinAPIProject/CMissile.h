@@ -12,7 +12,7 @@ private:
 
 public:
     CMissile();
-    ~CMissile();
+    virtual ~CMissile();
 
 public:
     void SetDir(float _fTheta) { m_fTheta = _fTheta; }

@@ -9,6 +9,8 @@
 #include "CCollider.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
+#include "CAnimatorGdiPlus.h"
+#include "CAnimationGdiPlus.h"
 
 #include "AnimationData.h"
 #include "AnimatorData.h"
@@ -18,6 +20,7 @@ CObject::CObject()
 	, m_vScale{}
 	, m_pCollider(nullptr)
 	, m_pAnimator(nullptr)
+	, m_pAnimatorGdiPlus(nullptr)
 	, m_bAlive(true)
 {
 }
@@ -28,6 +31,7 @@ CObject::CObject(const CObject& _origin)
 	, m_vScale(_origin.m_vScale)
 	, m_pCollider(nullptr) // 새로 콜라이더 생성
 	, m_pAnimator(nullptr)
+	, m_pAnimatorGdiPlus(nullptr)
 	, m_bAlive(true)
 {
 	if(_origin.m_pCollider)
@@ -40,6 +44,11 @@ CObject::CObject(const CObject& _origin)
 		m_pAnimator = new CAnimator(*_origin.m_pAnimator); // 콜라이더 복사 생성
 		m_pAnimator->m_pOwner = this;
 	}
+	if (_origin.m_pAnimatorGdiPlus)
+	{
+		m_pAnimatorGdiPlus = new CAnimatorGdiPlus(*_origin.m_pAnimatorGdiPlus); // 콜라이더 복사 생성
+		m_pAnimatorGdiPlus->m_pOwner = this;
+	}
 }
 
 CObject::~CObject()
@@ -49,6 +58,9 @@ CObject::~CObject()
 		delete m_pCollider;
 
 	if (m_pAnimator != nullptr)
+		delete m_pAnimator;
+
+	if (m_pAnimatorGdiPlus != nullptr)
 		delete m_pAnimator;
 }
 
@@ -91,10 +103,46 @@ void CObject::CreateAnimator(int _key)
 	m_pAnimator->m_pOwner = this;
 }
 
+void CObject::SetAnimatorGdiPlus(int _key)
+{
+	AnimatorData* data = (AnimatorData*)CDataMgr::GetInstance()->FindData(_key);
+	assert(data);
+
+	if (m_pAnimatorGdiPlus != nullptr)
+	{
+		delete m_pAnimatorGdiPlus;
+	}
+
+	CreateAnimatorGdiPlus(_key);
+
+	for (auto& animation : data->m_strAnimation)
+	{
+		AnimationData* aniData = (AnimationData*)CDataMgr::GetInstance()->FindData(animation);
+
+		GetAnimatorGdiPlus()->CreateAnimation(animation);
+		CAnimationGdiPlus* pAnim = GetAnimatorGdiPlus()->FindAnimation(animation);
+		for (int i = 0; i < pAnim->GetMaxFrame(); i++)
+		{
+			pAnim->GetFrame(i).vOffset = aniData->m_AniInfo.vOffset;
+		}
+	}
+	GetAnimatorGdiPlus()->Play(data->m_strAnimation.front(), true);
+}
+
+void CObject::CreateAnimatorGdiPlus(int _key)
+{
+	m_pAnimatorGdiPlus = new CAnimatorGdiPlus;
+	m_pAnimatorGdiPlus->m_iID = _key;
+	m_pAnimatorGdiPlus->m_pOwner = this;
+}
+
 void CObject::FinalUpdate()
 {
 	if (m_pAnimator != nullptr)
 		m_pAnimator->FinalUpdate();
+
+	if (m_pAnimatorGdiPlus != nullptr)
+		m_pAnimatorGdiPlus->FinalUpdate();
 
 	if (m_pCollider != nullptr)
 		m_pCollider->FinalUpdate();
@@ -117,6 +165,10 @@ void CObject::ComponetRender(HDC hdc)
 	if (m_pAnimator != nullptr)
 	{
 		m_pAnimator->Render(hdc);
+	}
+	if (m_pAnimatorGdiPlus != nullptr)
+	{
+		m_pAnimatorGdiPlus->Render(hdc);
 	}
 	if (m_pCollider != nullptr)
 	{

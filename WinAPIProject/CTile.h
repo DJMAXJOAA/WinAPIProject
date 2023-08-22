@@ -10,11 +10,9 @@ private:
     TILE_STATE      m_TileState;
     CAnimation*     m_TileTexture;
 
-    
-
 public:
     CTile();
-    ~CTile();
+    virtual ~CTile();
    
     CLONE(CTile);
 

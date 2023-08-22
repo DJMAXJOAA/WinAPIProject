@@ -1,22 +1,15 @@
 #pragma once
+#include "tAnimFrame.h"
 
-class CAnimator;
+class CAnimatorGdiPlus;
 class CGdiPlus;
-
-struct tAnimFrame
-{
-	Vec2	vLeftTop;	// 좌상단 좌표 정보
-	Vec2	vSlice;		// vLeftTop 기준으로 얼마큼 크기만큼 자를건지?
-	Vec2	vOffset;	// 피벗 위치 (실제 좌표)
-	float	fDuration;	// 프레임 지속시간
-};
 
 class CAnimationGdiPlus
 {
 private:
 	wstring				m_strName;
-	CAnimator*			m_pAnimator;
-	CGdiPlus*			m_pBitmap;			// 애니메이션이 참조하는 GDI+
+	CAnimatorGdiPlus*	m_pAnimator;
+	CGdiPlus*			m_pBitmap;		// 애니메이션이 참조하는 GDI+
 	vector<tAnimFrame>	m_vecFrame;		// 모든 프레임 정보가 담긴 배열
 	int					m_iCurFrame;	// 현재 어떤 프레임?
 	float				m_fAccTime;		// 시간 누적
@@ -29,7 +22,7 @@ public:
 	CAnimationGdiPlus();
 	~CAnimationGdiPlus();
 
-	friend class CAnimator;
+	friend class CAnimatorGdiPlus;
 	friend class CResMgr;
 
 public:

@@ -9,7 +9,7 @@ private:
 
 public:
 	CToolTest();
-	~CToolTest();
+	virtual ~CToolTest();
 
 public:
 	void ChangeAnimation(int _key);

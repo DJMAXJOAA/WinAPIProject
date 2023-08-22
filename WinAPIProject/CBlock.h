@@ -10,7 +10,7 @@ private:
 
 public:
     CBlock(MAP_TYPE _type);
-    ~CBlock();
+    virtual ~CBlock();
 
     CLONE(CBlock);
 

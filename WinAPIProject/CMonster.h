@@ -14,7 +14,7 @@ private:
 
 public:
     CMonster();
-    ~CMonster();
+    virtual ~CMonster();
 
 public:
     float GetSpeed() { return m_fSpeed; }

@@ -5,7 +5,7 @@ class CMouse :
 {
 public:
     CMouse();
-    ~CMouse();
+    virtual ~CMouse();
 
 public:
     virtual void Render(HDC hdc);

@@ -141,6 +141,7 @@
     <ClInclude Include="AnimationData.h" />
     <ClInclude Include="AnimatorData.h" />
     <ClInclude Include="CAnimationGDIplus.h" />
+    <ClInclude Include="CAnimatorGdiPlus.h" />
     <ClInclude Include="CBlock.h" />
     <ClInclude Include="CData.h" />
     <ClInclude Include="CDataMgr.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="ItemData.h" />
     <ClInclude Include="MonsterData.h" />
     <ClInclude Include="SkillData.h" />
+    <ClInclude Include="tAnimFrame.h" />
     <ClInclude Include="WinAPIProject.h" />
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CAnimator.h" />
@@ -201,6 +203,7 @@
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CAnimationGDIplus.cpp" />
     <ClCompile Include="CAnimator.cpp" />
+    <ClCompile Include="CAnimatorGdiPlus.cpp" />
     <ClCompile Include="CBlock.cpp" />
     <ClCompile Include="CBtnUI.cpp" />
     <ClCompile Include="CCamera.cpp" />

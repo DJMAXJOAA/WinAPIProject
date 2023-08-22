@@ -6,7 +6,7 @@ class CPlayer :
 {
 public:
     CPlayer();
-    ~CPlayer();
+    virtual ~CPlayer();
 
 public:
     virtual void Render(HDC hdc);

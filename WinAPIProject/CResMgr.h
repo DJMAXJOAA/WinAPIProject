@@ -10,14 +10,11 @@ class CResMgr
 
 private:
 	map<wstring, CRes*>			m_mapTex;
-	map<wstring, CRes*>			m_mapGDIplus;
+	map<wstring, CRes*>			m_mapGdiPlus;
 
 private:
 	CResMgr();
 	~CResMgr();
-
-public:
-	void PrintTextureList();
 
 public:
 	CTexture* LoadTexture(const wstring& _strKey, const wstring& _strRelativePath);
@@ -25,7 +22,7 @@ public:
 	CTexture* FindTexture(const wstring& _strKey);
 
 public:
-	CGdiPlus* LoadGDIplus(const wstring& _strKey, const wstring& _strRelativePath);
-	CGdiPlus* FindGDIplus(const wstring& _strKey);
+	CGdiPlus* LoadGdiPlus(const wstring& _strKey, const wstring& _strRelativePath);
+	CGdiPlus* FindGdiPlus(const wstring& _strKey);
 };
 

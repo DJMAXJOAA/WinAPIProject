@@ -15,6 +15,8 @@
 #include "CTexture.h"
 #include "CObject.h"
 
+ULONG_PTR g_gdiplusToken;
+
 CCore::CCore()
 	: m_hWnd(0)
 	, m_ptResolution{}
@@ -34,6 +36,8 @@ CCore::~CCore()
 	{
 		DeleteObject(m_arrPen[i]);
 	}
+
+	GdiplusShutdown(g_gdiplusToken);
 }
 
 void CCore::CreateBrushPen()
@@ -50,6 +54,9 @@ void CCore::CreateBrushPen()
 
 int CCore::Init(HWND hWnd, POINT ptResolution)
 {
+	GdiplusStartupInput gdiplusStartupInput;
+	GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
+
 	m_hWnd = hWnd;
 	m_ptResolution = ptResolution;
 

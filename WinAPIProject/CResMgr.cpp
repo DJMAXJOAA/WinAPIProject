@@ -14,18 +14,7 @@ CResMgr::~CResMgr()
 {
     // 맵의 모든 텍스쳐 할당을 해제시켜준다
     SafeDeleteMap(m_mapTex);
-    SafeDeleteMap(m_mapGDIplus);
-}
-
-void CResMgr::PrintTextureList()
-{
-    // 콘솔 디버그용
-    map<wstring, CRes*> m_mapTex;
-    for (auto iter = m_mapTex.begin(); iter != m_mapTex.end(); iter++)
-    {
-        cout << iter->first.c_str() << ",";
-    }
-    cout << endl;
+    SafeDeleteMap(m_mapGdiPlus);
 }
 
 CTexture* CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelativePath)
@@ -82,9 +71,9 @@ CTexture* CResMgr::FindTexture(const wstring& _strKey)
     return (CTexture*)iter->second; // 발견값의 두번째 값, 즉 이미지 정보가 들어있는 cTexture 객체를 반환
 }
 
-CGdiPlus* CResMgr::LoadGDIplus(const wstring& _strKey, const wstring& _strRelativePath)
+CGdiPlus* CResMgr::LoadGdiPlus(const wstring& _strKey, const wstring& _strRelativePath)
 {
-    CGdiPlus* pTex = FindGDIplus(_strKey);
+    CGdiPlus* pTex = FindGdiPlus(_strKey);
     if (pTex != nullptr)
     {
         return pTex;
@@ -97,15 +86,15 @@ CGdiPlus* CResMgr::LoadGDIplus(const wstring& _strKey, const wstring& _strRelati
     pTex->Load(strFilePath);
     pTex->SetRelativePath(_strRelativePath);
 
-    m_mapGDIplus.insert(make_pair(_strKey, pTex));
+    m_mapGdiPlus.insert(make_pair(_strKey, pTex));
 
     return pTex;
 }
 
-CGdiPlus* CResMgr::FindGDIplus(const wstring& _strKey)
+CGdiPlus* CResMgr::FindGdiPlus(const wstring& _strKey)
 {
-    map<wstring, CRes*>::iterator iter = m_mapGDIplus.find(_strKey);
-    if (iter == m_mapGDIplus.end())
+    map<wstring, CRes*>::iterator iter = m_mapGdiPlus.find(_strKey);
+    if (iter == m_mapGdiPlus.end())
     {
         return nullptr;
     }

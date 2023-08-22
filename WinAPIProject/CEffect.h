@@ -6,7 +6,7 @@ class CEffect :
 {
 public:
     CEffect();
-    ~CEffect();
+    virtual ~CEffect();
 
 public:
     virtual void Render(HDC hdc);

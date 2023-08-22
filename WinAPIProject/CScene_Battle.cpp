@@ -9,6 +9,7 @@
 #include "CTile.h"
 #include "CBlock.h"
 #include "CMouse.h"
+#include "CEffect.h"
 
 CScene_Battle::CScene_Battle()
 	: m_vecTileState(9, vector<int>(9,0))
@@ -105,9 +106,15 @@ void CScene_Battle::Enter()
 	m_vPlayerPos = PlayerStartPos;
 	AddObject(pObj, GROUP_TYPE::PLAYER);
 
+	// Test
+	CEffect* pEffect = new CEffect;
+	pEffect->SetPos(Vec2(300, 300));
+	AddObject(pEffect, GROUP_TYPE::MONSTER);
+
 	// 타일과 마우스의 충돌처리
 	CCollisionMgr::GetInstance()->CheckGroup(GROUP_TYPE::MOUSE, GROUP_TYPE::TILE);
-
+	
+	// 카메라 설정
 	CCamera::GetInstance()->SetLookAt(vResolution / 2.f);
 }
 

@@ -50,5 +50,12 @@
             132,
             133
         ]
+    },
+    {
+        "ID": 203,
+        "Name": "effect",
+        "AnimationList": [
+            134
+        ]
     }
 ]

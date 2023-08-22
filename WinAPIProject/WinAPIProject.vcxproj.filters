@@ -137,9 +137,6 @@
     <Filter Include="Engine\05. Scene\0. Scene_Tool">
       <UniqueIdentifier>{ecf01e0a-307f-4199-9f2c-7884e6501e72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\05. Scene\4. Scene_GameOver">
-      <UniqueIdentifier>{8293e69a-ceb2-4062-8b09-8b8675c6b4f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\05. Scene\5. Scene_End">
       <UniqueIdentifier>{6b522151-cc27-4ba0-b20a-5e0f93b4e5b9}</UniqueIdentifier>
     </Filter>
@@ -179,8 +176,14 @@
     <Filter Include="Engine\04. Object\Effect">
       <UniqueIdentifier>{f9c409a7-9ce2-493b-a7b4-730a353a96f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\07. Component\Animator\AnimationGDI+">
+    <Filter Include="Engine\07. Component\AnimatorGDI+">
+      <UniqueIdentifier>{33bdc7e6-fb1e-4510-ad0e-3fc4f79a841c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\AnimatorGDI+\AnimationGDI+">
       <UniqueIdentifier>{3dcf84f9-15ab-47d2-981d-2c65aaf9903c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene\4. Scene_GameOver">
+      <UniqueIdentifier>{8293e69a-ceb2-4062-8b09-8b8675c6b4f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -345,10 +348,16 @@
       <Filter>Engine\06. Resource\TextureGDI+</Filter>
     </ClInclude>
     <ClInclude Include="CAnimationGDIplus.h">
-      <Filter>Engine\07. Component\Animator\AnimationGDI+</Filter>
+      <Filter>Engine\07. Component\AnimatorGDI+\AnimationGDI+</Filter>
     </ClInclude>
     <ClInclude Include="CEffect.h">
       <Filter>Engine\04. Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="tAnimFrame.h">
+      <Filter>Engine\07. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimatorGdiPlus.h">
+      <Filter>Engine\07. Component\AnimatorGDI+</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -495,10 +504,13 @@
       <Filter>Engine\06. Resource\TextureGDI+</Filter>
     </ClCompile>
     <ClCompile Include="CAnimationGDIplus.cpp">
-      <Filter>Engine\07. Component\Animator\AnimationGDI+</Filter>
+      <Filter>Engine\07. Component\AnimatorGDI+\AnimationGDI+</Filter>
     </ClCompile>
     <ClCompile Include="CEffect.cpp">
       <Filter>Engine\04. Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimatorGdiPlus.cpp">
+      <Filter>Engine\07. Component\AnimatorGDI+</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

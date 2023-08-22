@@ -882,5 +882,31 @@
                 0.0
             ]
         }
+    },
+    {
+        "ID": 134,
+        "Name": "test",
+        "Path": "texture\\test.png",
+        "Type": "effect",
+        "AnimationInfo": {
+            "Duration": 5.0,
+            "Frame": 1,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "Pos": [
+                0.0,
+                0.0
+            ],
+            "Slice": [
+                236.0,
+                133.0
+            ],
+            "Step": [
+                236.0,
+                0.0
+            ]
+        }
     }
 ]
