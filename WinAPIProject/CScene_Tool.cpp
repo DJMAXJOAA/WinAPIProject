@@ -185,7 +185,7 @@ void CScene_Tool::Enter()
 			pTile->SetPos(Vec2(drawX, drawY));
 			AddObject(pTile, GROUP_TYPE::TILE);
 
-			CBlock* pBlcok = new CBlock;
+			CBlock* pBlcok = new CBlock(MAP_TYPE::SNOW);
 			pBlcok->SetPos(Vec2(drawX, drawY));
 			AddObject(pBlcok, GROUP_TYPE::BLOCK);
 		}

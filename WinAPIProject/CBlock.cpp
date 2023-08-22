@@ -13,7 +13,6 @@ static std::mt19937 rng(rd());
 CBlock::CBlock(MAP_TYPE _type)
 	: m_BlockState(0)
 {
-	
 	SetAnimator(202);
 	
 }
@@ -24,7 +23,7 @@ CBlock::~CBlock()
 
 int CBlock::RandomBlock()
 {
-	GetAnimator()->GetAnimation()
+	GetAnimator()->GetAnimation();
 	std::uniform_int_distribution<int> dist(0, 2);
 	return dist(rng);
 }

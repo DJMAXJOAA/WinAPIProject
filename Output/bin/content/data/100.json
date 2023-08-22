@@ -1,7 +1,11 @@
 [
     {
+        "ID": 100,
+        "Name": "PlayerIdle",
+        "Path": "texture\\Player\\idle.bmp",
+        "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 0.0,
@@ -19,15 +23,15 @@
                 171.0,
                 0.0
             ]
-        },
-        "ID": 100,
-        "Name": "PlayerIdle",
-        "Path": "texture\\Player\\idle.bmp",
-        "Type": "player_front_noncombat"
+        }
     },
     {
+        "ID": 101,
+        "Name": "PlayerMove",
+        "Path": "texture\\Player\\move.bmp",
+        "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 6,
             "Offset": [
                 3.0,
@@ -45,15 +49,15 @@
                 120.0,
                 0.0
             ]
-        },
-        "ID": 101,
-        "Name": "PlayerMove",
-        "Path": "texture\\Player\\move.bmp",
-        "Type": "player_front_noncombat"
+        }
     },
     {
+        "ID": 102,
+        "Name": "PlayerDamaged",
+        "Path": "texture\\Player\\damaged.bmp",
+        "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.10000000149011612,
+            "Duration": 0.100000001490116,
             "Frame": 4,
             "Offset": [
                 3.0,
@@ -71,15 +75,15 @@
                 84.0,
                 0.0
             ]
-        },
-        "ID": 102,
-        "Name": "PlayerDamaged",
-        "Path": "texture\\Player\\damaged.bmp",
-        "Type": "player_front_noncombat"
+        }
     },
     {
+        "ID": 103,
+        "Name": "PlayerRolling",
+        "Path": "texture\\Player\\rolling.bmp",
+        "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.07000000029802322,
+            "Duration": 0.0700000002980232,
             "Frame": 3,
             "Offset": [
                 -6.0,
@@ -97,15 +101,15 @@
                 99.0,
                 0.0
             ]
-        },
-        "ID": 103,
-        "Name": "PlayerRolling",
-        "Path": "texture\\Player\\rolling.bmp",
-        "Type": "player_front_noncombat"
+        }
     },
     {
+        "ID": 104,
+        "Name": "PlayerLanding",
+        "Path": "texture\\Player\\landing.bmp",
+        "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 4.0,
@@ -123,13 +127,13 @@
                 73.0,
                 0.0
             ]
-        },
-        "ID": 104,
-        "Name": "PlayerLanding",
-        "Path": "texture\\Player\\landing.bmp",
-        "Type": "player_front_noncombat"
+        }
     },
     {
+        "ID": 105,
+        "Name": "PlayerWin",
+        "Path": "texture\\Player\\win.bmp",
+        "Type": "player_front_noncombat",
         "AnimationInfo": {
             "Duration": 1.0,
             "Frame": 1,
@@ -149,13 +153,13 @@
                 112.0,
                 0.0
             ]
-        },
-        "ID": 105,
-        "Name": "PlayerWin",
-        "Path": "texture\\Player\\win.bmp",
-        "Type": "player_front_noncombat"
+        }
     },
     {
+        "ID": 106,
+        "Name": "PlayerDash",
+        "Path": "texture\\Player\\dash.bmp",
+        "Type": "player_front_noncombat",
         "AnimationInfo": {
             "Duration": 1.0,
             "Frame": 1,
@@ -175,15 +179,15 @@
                 144.0,
                 0.0
             ]
-        },
-        "ID": 106,
-        "Name": "PlayerDash",
-        "Path": "texture\\Player\\dash.bmp",
-        "Type": "player_front_noncombat"
+        }
     },
     {
+        "ID": 107,
+        "Name": "PlayerFist",
+        "Path": "texture\\Player\\fist.bmp",
+        "Type": "player_front_noncombat",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 2.0,
@@ -201,15 +205,15 @@
                 123.0,
                 0.0
             ]
-        },
-        "ID": 107,
-        "Name": "PlayerFist",
-        "Path": "texture\\Player\\fist.bmp",
-        "Type": "player_front_noncombat"
+        }
     },
     {
+        "ID": 108,
+        "Name": "PlayerUppercut",
+        "Path": "texture\\Player\\uppercut.bmp",
+        "Type": "player_front_melee",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 0.0,
@@ -227,15 +231,15 @@
                 98.0,
                 0.0
             ]
-        },
-        "ID": 108,
-        "Name": "PlayerUppercut",
-        "Path": "texture\\Player\\uppercut.bmp",
-        "Type": "player_front_melee"
+        }
     },
     {
+        "ID": 109,
+        "Name": "PlayerSword",
+        "Path": "texture\\Player\\sword.bmp",
+        "Type": "player_front_melee",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 6,
             "Offset": [
                 3.0,
@@ -253,15 +257,15 @@
                 104.0,
                 0.0
             ]
-        },
-        "ID": 109,
-        "Name": "PlayerSword",
-        "Path": "texture\\Player\\sword.bmp",
-        "Type": "player_front_melee"
+        }
     },
     {
+        "ID": 110,
+        "Name": "PlayerLance",
+        "Path": "texture\\Player\\lance.bmp",
+        "Type": "player_front_melee",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 6,
             "Offset": [
                 16.0,
@@ -279,15 +283,15 @@
                 122.0,
                 0.0
             ]
-        },
-        "ID": 110,
-        "Name": "PlayerLance",
-        "Path": "texture\\Player\\lance.bmp",
-        "Type": "player_front_melee"
+        }
     },
     {
+        "ID": 111,
+        "Name": "PlayerAxe",
+        "Path": "texture\\Player\\axe.bmp",
+        "Type": "player_front_melee",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 6.0,
@@ -305,15 +309,15 @@
                 112.0,
                 0.0
             ]
-        },
-        "ID": 111,
-        "Name": "PlayerAxe",
-        "Path": "texture\\Player\\axe.bmp",
-        "Type": "player_front_melee"
+        }
     },
     {
+        "ID": 112,
+        "Name": "PlayerGun",
+        "Path": "texture\\Player\\gun.bmp",
+        "Type": "player_front_ranged",
         "AnimationInfo": {
-            "Duration": 0.15000000596046448,
+            "Duration": 0.150000005960465,
             "Frame": 6,
             "Offset": [
                 15.0,
@@ -331,15 +335,15 @@
                 94.0,
                 0.0
             ]
-        },
-        "ID": 112,
-        "Name": "PlayerGun",
-        "Path": "texture\\Player\\gun.bmp",
-        "Type": "player_front_ranged"
+        }
     },
     {
+        "ID": 113,
+        "Name": "PlayerBow",
+        "Path": "texture\\Player\\bow.bmp",
+        "Type": "player_front_ranged",
         "AnimationInfo": {
-            "Duration": 0.15000000596046448,
+            "Duration": 0.150000005960465,
             "Frame": 4,
             "Offset": [
                 -3.0,
@@ -357,15 +361,15 @@
                 104.0,
                 0.0
             ]
-        },
-        "ID": 113,
-        "Name": "PlayerBow",
-        "Path": "texture\\Player\\bow.bmp",
-        "Type": "player_front_ranged"
+        }
     },
     {
+        "ID": 114,
+        "Name": "PlayerIdle2",
+        "Path": "texture\\Player\\idle2.bmp",
+        "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 5.0,
@@ -383,15 +387,15 @@
                 85.0,
                 0.0
             ]
-        },
-        "ID": 114,
-        "Name": "PlayerIdle2",
-        "Path": "texture\\Player\\idle2.bmp",
-        "Type": "player_back_noncombat"
+        }
     },
     {
+        "ID": 115,
+        "Name": "PlayerMove2",
+        "Path": "texture\\Player\\move2.bmp",
+        "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 6,
             "Offset": [
                 6.0,
@@ -409,15 +413,15 @@
                 93.0,
                 0.0
             ]
-        },
-        "ID": 115,
-        "Name": "PlayerMove2",
-        "Path": "texture\\Player\\move2.bmp",
-        "Type": "player_back_noncombat"
+        }
     },
     {
+        "ID": 116,
+        "Name": "PlayerDamaged2",
+        "Path": "texture\\Player\\damaged2.bmp",
+        "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.10000000149011612,
+            "Duration": 0.100000001490116,
             "Frame": 4,
             "Offset": [
                 3.0,
@@ -435,15 +439,15 @@
                 104.0,
                 0.0
             ]
-        },
-        "ID": 116,
-        "Name": "PlayerDamaged2",
-        "Path": "texture\\Player\\damaged2.bmp",
-        "Type": "player_back_noncombat"
+        }
     },
     {
+        "ID": 117,
+        "Name": "PlayerRolling2",
+        "Path": "texture\\Player\\rolling2.bmp",
+        "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.07000000029802322,
+            "Duration": 0.0700000002980232,
             "Frame": 3,
             "Offset": [
                 0.0,
@@ -461,15 +465,15 @@
                 107.0,
                 0.0
             ]
-        },
-        "ID": 117,
-        "Name": "PlayerRolling2",
-        "Path": "texture\\Player\\rolling2.bmp",
-        "Type": "player_back_noncombat"
+        }
     },
     {
+        "ID": 118,
+        "Name": "PlayerLanding2",
+        "Path": "texture\\Player\\landing2.bmp",
+        "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 11.0,
@@ -487,13 +491,13 @@
                 84.0,
                 0.0
             ]
-        },
-        "ID": 118,
-        "Name": "PlayerLanding2",
-        "Path": "texture\\Player\\landing2.bmp",
-        "Type": "player_back_noncombat"
+        }
     },
     {
+        "ID": 119,
+        "Name": "PlayerWin2",
+        "Path": "texture\\Player\\win2.bmp",
+        "Type": "player_back_noncombat",
         "AnimationInfo": {
             "Duration": 1.0,
             "Frame": 1,
@@ -513,13 +517,13 @@
                 76.0,
                 0.0
             ]
-        },
-        "ID": 119,
-        "Name": "PlayerWin2",
-        "Path": "texture\\Player\\win2.bmp",
-        "Type": "player_back_noncombat"
+        }
     },
     {
+        "ID": 120,
+        "Name": "PlayerDash2",
+        "Path": "texture\\Player\\dash2.bmp",
+        "Type": "player_back_noncombat",
         "AnimationInfo": {
             "Duration": 1.0,
             "Frame": 1,
@@ -539,15 +543,15 @@
                 144.0,
                 0.0
             ]
-        },
-        "ID": 120,
-        "Name": "PlayerDash2",
-        "Path": "texture\\Player\\dash2.bmp",
-        "Type": "player_back_noncombat"
+        }
     },
     {
+        "ID": 121,
+        "Name": "PlayerFist2",
+        "Path": "texture\\Player\\fist2.bmp",
+        "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 18.0,
@@ -565,15 +569,15 @@
                 115.0,
                 0.0
             ]
-        },
-        "ID": 121,
-        "Name": "PlayerFist2",
-        "Path": "texture\\Player\\fist2.bmp",
-        "Type": "player_back_noncombat"
+        }
     },
     {
+        "ID": 122,
+        "Name": "PlayerUppercut2",
+        "Path": "texture\\Player\\uppercut2.bmp",
+        "Type": "player_back_melee",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 -7.0,
@@ -591,15 +595,15 @@
                 93.0,
                 0.0
             ]
-        },
-        "ID": 122,
-        "Name": "PlayerUppercut2",
-        "Path": "texture\\Player\\uppercut2.bmp",
-        "Type": "player_back_melee"
+        }
     },
     {
+        "ID": 123,
+        "Name": "PlayerSword2",
+        "Path": "texture\\Player\\sword2.bmp",
+        "Type": "player_back_melee",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 9.0,
@@ -617,15 +621,15 @@
                 103.0,
                 0.0
             ]
-        },
-        "ID": 123,
-        "Name": "PlayerSword2",
-        "Path": "texture\\Player\\sword2.bmp",
-        "Type": "player_back_melee"
+        }
     },
     {
+        "ID": 124,
+        "Name": "PlayerLance2",
+        "Path": "texture\\Player\\lance2.bmp",
+        "Type": "player_back_melee",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 6,
             "Offset": [
                 2.0,
@@ -643,15 +647,15 @@
                 117.0,
                 0.0
             ]
-        },
-        "ID": 124,
-        "Name": "PlayerLance2",
-        "Path": "texture\\Player\\lance2.bmp",
-        "Type": "player_back_melee"
+        }
     },
     {
+        "ID": 125,
+        "Name": "PlayerAxe2",
+        "Path": "texture\\Player\\axe2.bmp",
+        "Type": "player_back_melee",
         "AnimationInfo": {
-            "Duration": 0.11999999731779099,
+            "Duration": 0.119999997317791,
             "Frame": 5,
             "Offset": [
                 0.0,
@@ -669,15 +673,15 @@
                 122.0,
                 0.0
             ]
-        },
-        "ID": 125,
-        "Name": "PlayerAxe2",
-        "Path": "texture\\Player\\axe2.bmp",
-        "Type": "player_back_melee"
+        }
     },
     {
+        "ID": 126,
+        "Name": "PlayerGun2",
+        "Path": "texture\\Player\\gun2.bmp",
+        "Type": "player_back_ranged",
         "AnimationInfo": {
-            "Duration": 0.15000000596046448,
+            "Duration": 0.150000005960465,
             "Frame": 6,
             "Offset": [
                 0.0,
@@ -695,15 +699,15 @@
                 99.0,
                 0.0
             ]
-        },
-        "ID": 126,
-        "Name": "PlayerGun2",
-        "Path": "texture\\Player\\gun2.bmp",
-        "Type": "player_back_ranged"
+        }
     },
     {
+        "ID": 127,
+        "Name": "PlayerBow2",
+        "Path": "texture\\Player\\bow2.bmp",
+        "Type": "player_back_ranged",
         "AnimationInfo": {
-            "Duration": 0.15000000596046448,
+            "Duration": 0.150000005960465,
             "Frame": 5,
             "Offset": [
                 4.0,
@@ -721,19 +725,19 @@
                 90.0,
                 0.0
             ]
-        },
-        "ID": 127,
-        "Name": "PlayerBow2",
-        "Path": "texture\\Player\\bow2.bmp",
-        "Type": "player_back_ranged"
+        }
     },
     {
+        "ID": 128,
+        "Name": "Tile",
+        "Path": "texture\\Tile\\tile.bmp",
+        "Type": "tilemap",
         "AnimationInfo": {
             "Duration": 1.0,
-            "Frame": 5,
+            "Frame": 9,
             "Offset": [
                 0.0,
-                -1.0
+                0.0
             ],
             "Pos": [
                 0.0,
@@ -747,13 +751,13 @@
                 128.0,
                 0.0
             ]
-        },
-        "ID": 128,
-        "Name": "Tile",
-        "Path": "texture\\Tile\\tile.bmp",
-        "Type": "tilemap"
+        }
     },
     {
+        "ID": 129,
+        "Name": "BlockBrick",
+        "Path": "texture\\Block\\block0.bmp",
+        "Type": "block",
         "AnimationInfo": {
             "Duration": 1.0,
             "Frame": 3,
@@ -773,39 +777,13 @@
                 148.0,
                 0.0
             ]
-        },
-        "ID": 129,
-        "Name": "BlockBrick",
-        "Path": "texture\\Block\\block0.bmp",
-        "Type": "block"
+        }
     },
     {
-        "AnimationInfo": {
-            "Duration": 1.0,
-            "Frame": 4,
-            "Offset": [
-                0.0,
-                50.0
-            ],
-            "Pos": [
-                0.0,
-                0.0
-            ],
-            "Slice": [
-                148.0,
-                164.0
-            ],
-            "Step": [
-                148.0,
-                0.0
-            ]
-        },
         "ID": 130,
         "Name": "BlockDirt",
         "Path": "texture\\Block\\block1.bmp",
-        "Type": "block"
-    },
-    {
+        "Type": "block",
         "AnimationInfo": {
             "Duration": 1.0,
             "Frame": 4,
@@ -825,13 +803,13 @@
                 148.0,
                 0.0
             ]
-        },
+        }
+    },
+    {
         "ID": 131,
         "Name": "BlockGrass",
         "Path": "texture\\Block\\block2.bmp",
-        "Type": "block"
-    },
-    {
+        "Type": "block",
         "AnimationInfo": {
             "Duration": 1.0,
             "Frame": 4,
@@ -851,13 +829,39 @@
                 148.0,
                 0.0
             ]
-        },
+        }
+    },
+    {
         "ID": 132,
         "Name": "BlockStone",
         "Path": "texture\\Block\\block3.bmp",
-        "Type": "block"
+        "Type": "block",
+        "AnimationInfo": {
+            "Duration": 1.0,
+            "Frame": 4,
+            "Offset": [
+                0.0,
+                50.0
+            ],
+            "Pos": [
+                0.0,
+                0.0
+            ],
+            "Slice": [
+                148.0,
+                164.0
+            ],
+            "Step": [
+                148.0,
+                0.0
+            ]
+        }
     },
     {
+        "ID": 133,
+        "Name": "BlockSnow",
+        "Path": "texture\\Block\\block4.bmp",
+        "Type": "block",
         "AnimationInfo": {
             "Duration": 1.0,
             "Frame": 3,
@@ -877,10 +881,6 @@
                 148.0,
                 0.0
             ]
-        },
-        "ID": 133,
-        "Name": "BlockSnow",
-        "Path": "texture\\Block\\block4.bmp",
-        "Type": "block"
+        }
     }
 ]
