@@ -22,7 +22,7 @@ CTile::~CTile()
 
 TILE_STATE CTile::RandomTile()
 {
-	std::uniform_int_distribution<int> dist(1, 4);
+	std::uniform_int_distribution<int> dist(5, 9);
 	return (TILE_STATE)dist(rng);
 }
 

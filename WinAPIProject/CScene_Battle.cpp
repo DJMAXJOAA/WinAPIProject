@@ -52,7 +52,9 @@ void CScene_Battle::Enter()
 			int drawY = startY + (x + y) * (TILE_HEIGHT / 2) - (TILE_HEIGHT / 2);
 
 			// 좌표 저장
-			m_mapPoint.insert(Vec2(x, y), Vec2(drawX, drawY));
+			Vec2 Coordinate = Vec2(x, y);
+			Vec2 actualCoord = Vec2(drawX, drawY);
+			m_mapPoint.insert(make_pair(Coordinate, actualCoord));
 
 			// 타일 생성
 			CTile* pTile = new CTile;
@@ -60,8 +62,8 @@ void CScene_Battle::Enter()
 			m_vecTileState[y][x] = ((int)pTile->GetTileState());
 			AddObject(pTile, GROUP_TYPE::TILE);
 
-			// 타일 맵
-			CBlock* pBlcok = new CBlock;
+			// 타일 블럭 생성
+			CBlock* pBlcok = new CBlock(MAP_TYPE::SNOW);
 			pBlcok->SetPos(Vec2(drawX, drawY));
 			AddObject(pBlcok, GROUP_TYPE::BLOCK);
 		}

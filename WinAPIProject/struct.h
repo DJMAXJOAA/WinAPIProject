@@ -31,6 +31,12 @@ public:
 		y = (float)_pt.y;
 	}
 
+	bool operator < (const Vec2& other) const {
+		if (x < other.x) return true;
+		if (x == other.x && y < other.y) return true;
+		return false;
+	}
+
 	Vec2 operator + (Vec2 _vOther) { return Vec2(x + _vOther.x, y + _vOther.y); }
 	void operator += (Vec2 _vOther) { x += _vOther.x; y += _vOther.y; }
 	Vec2 operator - (Vec2 _vOther) { return Vec2(x - _vOther.x, y - _vOther.y); }
@@ -39,6 +45,8 @@ public:
 	Vec2 operator * (float _f) { return Vec2(x * _f, y * _f); }
 	Vec2 operator / (Vec2 _vOther) { assert(!(0.f == _vOther.x || 0.f == _vOther.y)); return Vec2(x / _vOther.x, y / _vOther.y); } // 0이 아니여야댐
 	Vec2 operator / (float _f) { assert(!(0.f == _f)); return Vec2(x / _f, y / _f); }
+
+
 
 public:
 	Vec2() : x(0.f), y(0.f) {}

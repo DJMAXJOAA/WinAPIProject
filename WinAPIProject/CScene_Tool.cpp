@@ -45,8 +45,8 @@ void CScene_Tool::SetOffset(Vec2 _value)
 	}
 
 	AnimationData* data = (AnimationData*)CDataMgr::GetInstance()->FindData(m_pDisplay->GetAnimator()->GetAnimation()->GetID());
-	data->m_AniInfo.vOffset.x = _value.x * -1.0;
-	data->m_AniInfo.vOffset.y = _value.y * -1.0;
+	data->m_AniInfo.vOffset.x = float(_value.x * -1.0);
+	data->m_AniInfo.vOffset.y = float(_value.y * -1.0);
 	DEBUG2(data->m_AniInfo.vOffset.x, data->m_AniInfo.vOffset.y);
 }
 
@@ -58,8 +58,8 @@ void CScene_Tool::AddOffset(Vec2 _value)
 		offset[i].vOffset += _value;
 	}
 	AnimationData* data = (AnimationData*)CDataMgr::GetInstance()->FindData(m_pDisplay->GetAnimator()->GetAnimation()->GetID());
-	data->m_AniInfo.vOffset.x += _value.x * -1.0;
-	data->m_AniInfo.vOffset.y += _value.y * -1.0;
+	data->m_AniInfo.vOffset.x += float(_value.x * -1.0);
+	data->m_AniInfo.vOffset.y += float(_value.y * -1.0);
 	DEBUG2(data->m_AniInfo.vOffset.x, data->m_AniInfo.vOffset.y);
 
 }

@@ -68,7 +68,7 @@ CAnimation* CAnimator::FindAnimation(const wstring& _strName)
 		return nullptr;
 	
 	return iter->second;
-}d
+}
 
 CAnimation* CAnimator::FindAnimation(int _key)
 {
