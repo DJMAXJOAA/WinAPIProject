@@ -140,6 +140,7 @@
     <ClInclude Include="AI.h" />
     <ClInclude Include="AnimationData.h" />
     <ClInclude Include="AnimatorData.h" />
+    <ClInclude Include="CAnimationGDIplus.h" />
     <ClInclude Include="CBlock.h" />
     <ClInclude Include="CData.h" />
     <ClInclude Include="CDataMgr.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="AnimationData.cpp" />
     <ClCompile Include="AnimatorData.cpp" />
     <ClCompile Include="CAnimation.cpp" />
+    <ClCompile Include="CAnimationGDIplus.cpp" />
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CBlock.cpp" />
     <ClCompile Include="CBtnUI.cpp" />

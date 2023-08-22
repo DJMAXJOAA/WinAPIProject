@@ -3,17 +3,21 @@
 class CObject;
 class CTexture;
 class CAnimation;
+class CAnimationGdiPlus;
 
 class CAnimator
 {
 private:
-	map<wstring, CAnimation*>	m_mapAnim;		// 모든 애니메이션 목록
-	CAnimation*					m_pCurAnim;		// 현재 재생중인 애니메이션
 	CObject*					m_pOwner;		// 애니메이션 소유 오브젝트
-
 	bool						m_bRepeat;		// 반복재생 여부
+	int							m_iID;			// 데이터 아이디
 
-	int					m_iID;			// 데이터 아이디
+	// 생성될 때 둘중 하나만 사용
+	map<wstring, CAnimation*>	m_mapAnim;				// 모든 애니메이션 목록
+	CAnimation*					m_pCurAnim;				// 현재 재생중인 애니메이션
+
+	map<wstring, CAnimationGdiPlus*>	m_mapAnimGdiPlus;
+	CAnimationGdiPlus*					m_pCurAnimGdiPlus;
 
 public:
 	CAnimator();

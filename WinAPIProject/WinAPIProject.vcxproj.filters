@@ -179,6 +179,9 @@
     <Filter Include="Engine\04. Object\Effect">
       <UniqueIdentifier>{f9c409a7-9ce2-493b-a7b4-730a353a96f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07. Component\Animator\AnimationGDI+">
+      <UniqueIdentifier>{3dcf84f9-15ab-47d2-981d-2c65aaf9903c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -341,7 +344,12 @@
     <ClInclude Include="CGdiPlus.h">
       <Filter>Engine\06. Resource\TextureGDI+</Filter>
     </ClInclude>
-    <ClInclude Include="CEffect.h" />
+    <ClInclude Include="CAnimationGDIplus.h">
+      <Filter>Engine\07. Component\Animator\AnimationGDI+</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h">
+      <Filter>Engine\04. Object\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -486,7 +494,12 @@
     <ClCompile Include="CGdiPlus.cpp">
       <Filter>Engine\06. Resource\TextureGDI+</Filter>
     </ClCompile>
-    <ClCompile Include="CEffect.cpp" />
+    <ClCompile Include="CAnimationGDIplus.cpp">
+      <Filter>Engine\07. Component\Animator\AnimationGDI+</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>Engine\04. Object\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIProject.rc">
