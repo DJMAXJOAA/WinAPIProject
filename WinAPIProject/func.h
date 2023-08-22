@@ -6,6 +6,8 @@ void CreateObj(CObject* _pObj, GROUP_TYPE _eGroup);
 void DeleteObj(CObject* _pObj);
 void ChangeScene(SCENE_TYPE _eNext);
 
+void PlayerTileSelect(CObject* _pObj);
+
 // Clear Vector Container
 template<typename T>
 void SafeDeleteVec(vector<T>& _vec)

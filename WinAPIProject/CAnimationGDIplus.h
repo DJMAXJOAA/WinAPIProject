@@ -9,6 +9,7 @@ class CAnimationGdiPlus
 private:
 	wstring				m_strName;
 	CAnimatorGdiPlus*	m_pAnimator;
+	Graphics*			m_pGraphics;
 	CGdiPlus*			m_pBitmap;		// 애니메이션이 참조하는 GDI+
 	vector<tAnimFrame>	m_vecFrame;		// 모든 프레임 정보가 담긴 배열
 	int					m_iCurFrame;	// 현재 어떤 프레임?

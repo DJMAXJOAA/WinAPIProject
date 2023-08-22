@@ -13,10 +13,18 @@ enum class TURN_TYPE
     EXIT,                   // 전투 종료
 };
 
-struct Node
+enum DIRECTION
 {
-    Vec2            vPos;           // 실제 좌표
-    vector<Node*>   vecNeighbor;    // 해당 노드의 이웃
+    FOUR_WAY,       // 상하좌우 방향
+    DIAGONAL,       // 대각선 방향
+    EIGHT_WAY,      // 8방향 전부
+};
+
+struct TileInfo
+{
+    TILE_STATE      iState;         // 현재 타일의 정보(타일의 색깔, 활성-비활성)
+    bool            bVisited;    // bfs 방문 여부
+    TileInfo(int x) : bVisited(false) {};
 };
 
 class CScene_Battle :
@@ -25,12 +33,15 @@ class CScene_Battle :
 private:
     TURN_TYPE               m_CurrentTurn;      // 현재 턴 상황
 
-    vector<vector<int>>     m_vecTileState;     // 타일의 정보들
-    map<Vec2, Vec2>         m_mapPoint;         // 좌표 몇몇의 실제 좌표는? (이동시 필요)
+    vector<vector<TileInfo>>    m_vecTileInfo;     // 타일의 정보들
+    map<Vec2, Vec2>             m_mapRealPoint;    // 좌표계 좌표 -> 실제 좌표 (이중맵)
+    map<Vec2, Vec2>             m_mapGridPoint;    // 실제 좌표 -> 좌표계 좌표 (이중맵)
 
     Vec2                    m_vPlayerPos;       // 플레이어의 현재 위치
     Vec2                    m_vSelectTile;      // 현재 플레이어가 선택중인 타일
     TILE_STATE              m_TileColor;        // 첫번째 선택으로 어떤 색깔 선택?
+
+    list<Vec2>              m_lstTile;          // 플레이어가 선택한 타일 리스트(이동 순서)
 
 public:
     CScene_Battle();
@@ -39,12 +50,19 @@ public:
 public:
     void PlayerStart();
 
+    void TileSelectTrigger(CObject* _pObj);
+
 public:
     void EnemyStart();
+
+public:
+    bool isValid(Vec2 _vPos);
+    void BFS(Vec2 _startPos, DIRECTION _dir, int _depth);
 
 public:
     virtual void Update();
     virtual void Enter();
     virtual void Exit();
+    void Init();
 };
 

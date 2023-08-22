@@ -30,3 +30,13 @@ void ChangeScene(SCENE_TYPE _eNext)
 
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
+
+void PlayerTileSelect(CObject* _pObj)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::TILESELECT_TRIGGER;
+	evn.lParam = (DWORD_PTR)_pObj;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
+}
+

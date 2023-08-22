@@ -31,10 +31,32 @@ public:
 		y = (float)_pt.y;
 	}
 
+	bool operator == (const Vec2& other) const {
+		return (x == other.x) && (y == other.y);
+	}
+
+	bool operator != (const Vec2& other) const {
+		return !(*this == other);
+	}
+
 	bool operator < (const Vec2& other) const {
 		if (x < other.x) return true;
 		if (x == other.x && y < other.y) return true;
 		return false;
+	}
+
+	bool operator > (const Vec2& other) const {
+		if (x > other.x) return true;
+		if (x == other.x && y > other.y) return true;
+		return false;
+	}
+
+	bool operator <= (const Vec2& other) const {
+		return !(*this > other);
+	}
+
+	bool operator >= (const Vec2& other) const {
+		return (*this > other) || (*this == other);
 	}
 
 	Vec2 operator + (Vec2 _vOther) { return Vec2(x + _vOther.x, y + _vOther.y); }

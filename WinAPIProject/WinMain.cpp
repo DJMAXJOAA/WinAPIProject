@@ -30,8 +30,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
-
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	/*_CrtSetBreakAlloc(92614);*/
 
 	UNREFERENCED_PARAMETER(hPrevInstance);
@@ -78,7 +76,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			CCore::GetInstance()->Progress(); // 2. 코어 객체의 실행 부분
 		}
 	}
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	/*_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);*/
 	return (int)msg.wParam;
 }
 

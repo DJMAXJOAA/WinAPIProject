@@ -885,12 +885,12 @@
     },
     {
         "ID": 134,
-        "Name": "test",
-        "Path": "texture\\test.png",
-        "Type": "effect",
+        "Name": "EffectLight",
+        "Path": "texture\\Effect\\effect0.png",
+        "Type": "effect_light",
         "AnimationInfo": {
-            "Duration": 5.0,
-            "Frame": 1,
+            "Duration": 0.1,
+            "Frame": 15,
             "Offset": [
                 0.0,
                 0.0
@@ -900,11 +900,11 @@
                 0.0
             ],
             "Slice": [
-                236.0,
-                133.0
+                153.0,
+                163.0
             ],
             "Step": [
-                236.0,
+                153.0,
                 0.0
             ]
         }

@@ -27,6 +27,8 @@ return &mgr;\
 #define HEIGHT 7
 #define TILE_WIDTH 140
 #define TILE_HEIGHT 70
+#define GRID_X 9
+#define GRID_Y 9
 #define DEBUG1(key) cout<<key<<"\n"
 #define DEBUG2(key1, key2) cout<<key1<<","<<key2<<"\n"
 #define DEBUG3(key1, key2, key3) cout<<key1<<","<<key2<<","<<key3<<"\n"
@@ -74,6 +76,8 @@ enum class EVENT_TYPE
 	CREATE_OBJECT,
 	DELETE_OBJECT,
 	SCENE_CHANGE,
+
+	TILESELECT_TRIGGER,
 
 	END,
 };

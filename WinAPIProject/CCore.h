@@ -30,6 +30,7 @@ public:
 	POINT GetResolution() { return m_ptResolution; }
 	HBRUSH GetBrush(BRUSH_TYPE _eType) { return m_arrBrush[(UINT)_eType]; }
 	HPEN GetPen(PEN_TYPE _eType) { return m_arrPen[(UINT)_eType]; }
+	CTexture* GetMemTex() { return m_pMemTex; }
 
 private:
 	void CreateBrushPen();
