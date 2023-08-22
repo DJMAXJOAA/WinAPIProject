@@ -14,6 +14,9 @@ CTile::CTile()
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(20, 20));
 	SetAnimator(201);
+
+	m_TileTexture = GetAnimator()->GetAnimation();
+	m_TileTexture->SetFrame((int)m_TileState);
 }
 
 CTile::~CTile()
@@ -22,32 +25,13 @@ CTile::~CTile()
 
 TILE_STATE CTile::RandomTile()
 {
-	std::uniform_int_distribution<int> dist(5, 9);
+	std::uniform_int_distribution<int> dist(1, 4);
 	return (TILE_STATE)dist(rng);
 }
 
 void CTile::Update()
 {
-	CAnimation* animation = GetAnimator()->GetAnimation();
-
-	switch (m_TileState)
-	{
-	case TILE_STATE::BLACK:
-		animation->SetFrame(0);
-		break;
-	case TILE_STATE::RED:
-		animation->SetFrame(1);
-		break;
-	case TILE_STATE::GREEN:
-		animation->SetFrame(2);
-		break;
-	case TILE_STATE::BLUE:
-		animation->SetFrame(3);
-		break;
-	case TILE_STATE::PURPLE:
-		animation->SetFrame(4);
-		break;
-	}
+	m_TileTexture->SetFrame((int)m_TileState);
 
 	GetAnimator()->Update();
 }

@@ -13,11 +13,21 @@
 CScene_Battle::CScene_Battle()
 	: m_vecTileState(9, vector<int>(9,0))
 	, m_mapPoint{}
+	, m_CurrentTurn(TURN_TYPE::PLAYER_START)
 {
 }
 
 CScene_Battle::~CScene_Battle()
 {
+}
+
+void CScene_Battle::PlayerStart()
+{
+}
+
+void CScene_Battle::EnemyStart()
+{
+
 }
 
 void CScene_Battle::Update()
@@ -28,19 +38,39 @@ void CScene_Battle::Update()
 	{
 		ChangeScene(SCENE_TYPE::TOOL);
 	}
+
+	switch (m_CurrentTurn)
+	{
+	case TURN_TYPE::ENTER:
+		break;
+	case TURN_TYPE::PLAYER_START:
+		PlayerStart();
+		break;
+	case TURN_TYPE::PLAYER_BLOCKSELECT:
+		break;
+	case TURN_TYPE::PLAYER_MOVE:
+		break;
+	case TURN_TYPE::PLAYER_SKILL:
+		break;
+	case TURN_TYPE::ENEMY_MOVE:
+		break;
+	case TURN_TYPE::ENEMY_ATTACK:
+		break;
+	case TURN_TYPE::EXIT:
+		break;
+	default:
+		break;
+	}
 }
 
 void CScene_Battle::Enter()
 {
+	Vec2 PlayerStartPos(4, 2);
+
 	Vec2 vResolution = CCore::GetInstance()->GetResolution();
 
 	int startX = (int)(vResolution.x / 2);
 	int startY = (int)(vResolution.y / 4);
-
-	// Player 추가
-	CPlayer* pObj = new CPlayer;
-	pObj->SetPos(Vec2(startX, startY - (TILE_HEIGHT / 2)));
-	AddObject(pObj, GROUP_TYPE::PLAYER);
 
 	// 마우스 추가
 	CMouse* pMouse = new CMouse;
@@ -68,6 +98,12 @@ void CScene_Battle::Enter()
 			AddObject(pBlcok, GROUP_TYPE::BLOCK);
 		}
 	}
+
+	// Player 추가
+	CPlayer* pObj = new CPlayer;
+	pObj->SetPos(m_mapPoint[PlayerStartPos]);
+	m_vPlayerPos = PlayerStartPos;
+	AddObject(pObj, GROUP_TYPE::PLAYER);
 
 	// 타일과 마우스의 충돌처리
 	CCollisionMgr::GetInstance()->CheckGroup(GROUP_TYPE::MOUSE, GROUP_TYPE::TILE);

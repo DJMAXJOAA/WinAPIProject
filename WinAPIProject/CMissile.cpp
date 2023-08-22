@@ -3,6 +3,8 @@
 
 #include "CTimeMgr.h"
 
+#include "CGdiPlus.h"
+
 #include "CCollider.h"
 
 CMissile::CMissile()
@@ -32,6 +34,7 @@ void CMissile::Update()
 
 void CMissile::Render(HDC hdc)
 {
+
 	Vec2 vPos = CCamera::GetInstance()->GetRenderPos(GetPos());
 	Vec2 vScale = GetScale();
 

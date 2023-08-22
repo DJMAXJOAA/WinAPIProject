@@ -173,6 +173,12 @@
     <Filter Include="Engine\04. Object\MouseCollider">
       <UniqueIdentifier>{27c6d8b3-68ef-41a6-9a4c-9b1f379e3031}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\06. Resource\TextureGDI+">
+      <UniqueIdentifier>{aecf7fb6-9bc6-491c-a7da-fa47c88f4bd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object\Effect">
+      <UniqueIdentifier>{f9c409a7-9ce2-493b-a7b4-730a353a96f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -332,6 +338,10 @@
     <ClInclude Include="CMouse.h">
       <Filter>Engine\04. Object\MouseCollider</Filter>
     </ClInclude>
+    <ClInclude Include="CGdiPlus.h">
+      <Filter>Engine\06. Resource\TextureGDI+</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -473,6 +483,10 @@
     <ClCompile Include="CMouse.cpp">
       <Filter>Engine\04. Object\MouseCollider</Filter>
     </ClCompile>
+    <ClCompile Include="CGdiPlus.cpp">
+      <Filter>Engine\06. Resource\TextureGDI+</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIProject.rc">

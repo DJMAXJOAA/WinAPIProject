@@ -19,9 +19,9 @@ using std::make_pair;
 using std::list;
 #include <random>
 
-//#include <gdiplus.h>
-//using namespace Gdiplus;
-//#pragma comment(lib, "Gdiplus.lib")
+#include <gdiplus.h>
+using namespace Gdiplus;
+#pragma comment(lib, "Gdiplus.lib")
 
 #include <math.h>
 #include <assert.h> // 오류 검출

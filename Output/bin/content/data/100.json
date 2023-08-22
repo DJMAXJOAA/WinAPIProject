@@ -499,7 +499,7 @@
         "Path": "texture\\Player\\win2.bmp",
         "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 1.0,
+            "Duration": 9999999.0,
             "Frame": 1,
             "Offset": [
                 -7.0,
@@ -525,7 +525,7 @@
         "Path": "texture\\Player\\dash2.bmp",
         "Type": "player_back_noncombat",
         "AnimationInfo": {
-            "Duration": 1.0,
+            "Duration": 9999999.0,
             "Frame": 1,
             "Offset": [
                 23.0,
@@ -733,7 +733,7 @@
         "Path": "texture\\Tile\\tile.bmp",
         "Type": "tilemap",
         "AnimationInfo": {
-            "Duration": 1.0,
+            "Duration": 9999999.0,
             "Frame": 9,
             "Offset": [
                 0.0,
@@ -759,7 +759,7 @@
         "Path": "texture\\Block\\block0.bmp",
         "Type": "block",
         "AnimationInfo": {
-            "Duration": 1.0,
+            "Duration": 9999999.0,
             "Frame": 3,
             "Offset": [
                 2.0,
@@ -785,7 +785,7 @@
         "Path": "texture\\Block\\block1.bmp",
         "Type": "block",
         "AnimationInfo": {
-            "Duration": 1.0,
+            "Duration": 9999999.0,
             "Frame": 4,
             "Offset": [
                 0.0,
@@ -811,7 +811,7 @@
         "Path": "texture\\Block\\block2.bmp",
         "Type": "block",
         "AnimationInfo": {
-            "Duration": 1.0,
+            "Duration": 9999999.0,
             "Frame": 4,
             "Offset": [
                 0.0,
@@ -837,7 +837,7 @@
         "Path": "texture\\Block\\block3.bmp",
         "Type": "block",
         "AnimationInfo": {
-            "Duration": 1.0,
+            "Duration": 9999999.0,
             "Frame": 4,
             "Offset": [
                 0.0,
@@ -863,7 +863,7 @@
         "Path": "texture\\Block\\block4.bmp",
         "Type": "block",
         "AnimationInfo": {
-            "Duration": 1.0,
+            "Duration": 9999999.0,
             "Frame": 3,
             "Offset": [
                 0.0,

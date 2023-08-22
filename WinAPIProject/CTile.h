@@ -1,11 +1,16 @@
 #pragma once
 #include "CObject.h"
 
+class CAnimation;
+
 class CTile :
     public CObject
 {
 private:
     TILE_STATE      m_TileState;
+    CAnimation*     m_TileTexture;
+
+    
 
 public:
     CTile();

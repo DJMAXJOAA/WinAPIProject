@@ -29,12 +29,15 @@ CBlock::CBlock(MAP_TYPE _type)
 		GetAnimator()->Play(132, true);
 		break;
 	case MAP_TYPE::SNOW:
-		GetAnimator()->Play(133, true);map ¼³Á¤
+		GetAnimator()->Play(133, true);
 		break;
 	default:
 		break;
 	}
 	m_BlockState = RandomBlock();
+
+	CAnimation* animation = GetAnimator()->GetAnimation();
+	animation->SetFrame(m_BlockState);
 }
 
 CBlock::~CBlock()
@@ -43,14 +46,14 @@ CBlock::~CBlock()
 
 int CBlock::RandomBlock()
 {
-	int range = GetAnimator()->GetAnimation()->GetMaxFrame();
+	int range = GetAnimator()->GetAnimation()->GetMaxFrame() - 1;
 	std::uniform_int_distribution<int> dist(0, range);
 	return dist(rng);
 }
 
 void CBlock::Update()
 {
-	GetAnimator()->Update();
+	/*GetAnimator()->Update();*/
 }
 
 void CBlock::Render(HDC hdc)
