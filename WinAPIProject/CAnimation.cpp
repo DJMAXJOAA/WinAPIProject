@@ -87,7 +87,7 @@ void CAnimation::Render(HDC hdc)
 
 	if (m_bFlip)
 	{
-		iRenderStartX += iRenderWidth;
+		iRenderStartX += iRenderWidth - 1;
 		iRenderWidth = -iRenderWidth;
 		StretchBlt(hdcTemp, 0, 0, abs(iRenderWidth), iRenderHeight, m_pTex->GetDC(), iRenderStartX, (int)m_vecFrame[m_iCurFrame].vLeftTop.y, iRenderWidth, iRenderHeight, SRCCOPY);
 	}

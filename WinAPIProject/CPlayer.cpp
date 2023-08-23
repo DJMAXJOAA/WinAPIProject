@@ -72,6 +72,6 @@ static int test = 100;
 void CPlayer::Update()
 {
 	GetAnimator()->Play((int)m_playerState, true);
-	GetAnimator()->GetAnimation()->SetFlip(false);
+	GetAnimator()->GetAnimation()->SetFlip(true);
 	GetAnimator()->Update();
 }
