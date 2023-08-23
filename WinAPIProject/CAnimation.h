@@ -15,6 +15,7 @@ private:
 	float				m_fAccTime;		// 시간 누적
 
 	bool				m_bFinish;		// 애니메이션 끝났는지 체크
+	bool				m_bFlip;		// 애니메이션 좌우 반전
 
 	int					m_iID;			// 데이터 아이디
 
@@ -34,9 +35,11 @@ public:
 	CTexture* GetTexture() { return m_pTex; }
 
 	bool isFinish() { return m_bFinish; }
+	bool isFliped() const { return m_bFlip; }
 
 public:
 	void SetFrame(int _iFrameIndex) { m_iCurFrame = _iFrameIndex; m_bFinish = false; m_fAccTime = 0.f; }
+	void SetFlip(bool _bFlip) { m_bFlip = _bFlip; }
 
 private:
 	void SetName(const wstring& _strName) { m_strName = _strName; }

@@ -15,6 +15,7 @@ CAnimation::CAnimation()
 	, m_fAccTime(0.f)
 	, m_bFinish(false)
 	, m_iID(0)
+	, m_bFlip(false)
 {
 }
 
@@ -62,18 +63,43 @@ void CAnimation::Render(HDC hdc)
 
 	// 목적지DC, 렌더링시작좌표, 렌더링표시 너비-높이, 텍스쳐dc, 
 	// 원본텍스쳐에서 시작지점좌표, 원본텍스쳐 너비-높이, 컬러키)
-	TransparentBlt(hdc
-		, (int)(vPos.x - m_vecFrame[m_iCurFrame].vSlice.x / 2.f)
-		, (int)(vPos.y - m_vecFrame[m_iCurFrame].vSlice.y / 2.f)
-		, (int)m_vecFrame[m_iCurFrame].vSlice.x
-		, (int)m_vecFrame[m_iCurFrame].vSlice.y
-		, m_pTex->GetDC()
-		, (int)m_vecFrame[m_iCurFrame].vLeftTop.x
-		, (int)m_vecFrame[m_iCurFrame].vLeftTop.y
-		, (int)m_vecFrame[m_iCurFrame].vSlice.x
-		, (int)m_vecFrame[m_iCurFrame].vSlice.y
-		, RGB(255, 0, 255)
-	);
+	//TransparentBlt(hdc
+	//	, (int)(vPos.x - m_vecFrame[m_iCurFrame].vSlice.x / 2.f)
+	//	, (int)(vPos.y - m_vecFrame[m_iCurFrame].vSlice.y / 2.f)
+	//	, (int)m_vecFrame[m_iCurFrame].vSlice.x
+	//	, (int)m_vecFrame[m_iCurFrame].vSlice.y
+	//	, m_pTex->GetDC()
+	//	, (int)m_vecFrame[m_iCurFrame].vLeftTop.x
+	//	, (int)m_vecFrame[m_iCurFrame].vLeftTop.y
+	//	, (int)m_vecFrame[m_iCurFrame].vSlice.x
+	//	, (int)m_vecFrame[m_iCurFrame].vSlice.y
+	//	, RGB(255, 0, 255)
+	//);
+
+	int iRenderStartX = (int)m_vecFrame[m_iCurFrame].vLeftTop.x;
+	int iRenderWidth = (int)m_vecFrame[m_iCurFrame].vSlice.x;
+	int iRenderHeight = (int)m_vecFrame[m_iCurFrame].vSlice.y;
+
+	HBITMAP hBitmap;
+	HDC hdcTemp = CreateCompatibleDC(hdc);
+	hBitmap = CreateCompatibleBitmap(hdc, iRenderWidth, iRenderHeight);
+	SelectObject(hdcTemp, hBitmap);
+
+	if (m_bFlip)
+	{
+		iRenderStartX += iRenderWidth;
+		iRenderWidth = -iRenderWidth;
+		StretchBlt(hdcTemp, 0, 0, abs(iRenderWidth), iRenderHeight, m_pTex->GetDC(), iRenderStartX, (int)m_vecFrame[m_iCurFrame].vLeftTop.y, iRenderWidth, iRenderHeight, SRCCOPY);
+	}
+	else
+	{
+		BitBlt(hdcTemp, 0, 0, iRenderWidth, iRenderHeight, m_pTex->GetDC(), iRenderStartX, (int)m_vecFrame[m_iCurFrame].vLeftTop.y, SRCCOPY);
+	}
+
+	TransparentBlt(hdc, (int)(vPos.x - abs(iRenderWidth) / 2.f), (int)(vPos.y - iRenderHeight / 2.f), abs(iRenderWidth), iRenderHeight, hdcTemp, 0, 0, abs(iRenderWidth), iRenderHeight, RGB(255, 0, 255));
+
+	DeleteObject(hBitmap);
+	DeleteDC(hdcTemp);
 }
 
 void CAnimation::Create(CTexture* _pTex, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount)

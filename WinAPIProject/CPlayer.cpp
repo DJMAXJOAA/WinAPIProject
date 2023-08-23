@@ -16,7 +16,7 @@
 #include "CAnimation.h"
 
 CPlayer::CPlayer()
-	: m_fSpeed(100.f)
+	: m_fSpeed(200.f)
 	, m_playerState(PLAYER_STATE::IDEL)
 {
 	CreateCollider();
@@ -35,7 +35,7 @@ CPlayer::~CPlayer()
 void CPlayer::Move(Vec2 _vDestination)
 {
 	Vec2 vPos = GetPos();
-	if(vPos.DistanceTo(_vDestination) <= 1.f)
+	if(vPos.DistanceTo(_vDestination) <= m_fSpeed * fDT)
 		return SetPos(_vDestination);
 
 	Vec2 vDirection = (vPos - _vDestination).Normalize() * -1;
@@ -72,5 +72,6 @@ static int test = 100;
 void CPlayer::Update()
 {
 	GetAnimator()->Play((int)m_playerState, true);
+	GetAnimator()->GetAnimation()->SetFlip(false);
 	GetAnimator()->Update();
 }

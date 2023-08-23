@@ -35,6 +35,7 @@ void CScene_Battle::PlayerMove()
 {
 	CPlayer* pPlayer = (CPlayer*)GetGroupObject(GROUP_TYPE::PLAYER).front();
 	assert(pPlayer);
+	CCamera::GetInstance()->SetTarget(pPlayer);
 
 	if (m_lstTile.empty())
 	{
