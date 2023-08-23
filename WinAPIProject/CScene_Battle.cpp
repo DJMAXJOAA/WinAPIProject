@@ -48,37 +48,57 @@ void CScene_Battle::PlayerMove()
 	// 도착했음(위치가 일치) -> 주변 적군 체크
 	if (vCurrentPos == vDestination)
 	{
-		// 1. 적군 탐색 후, 있으면 공격
-		//BFS(m_mapGridPoint[vDestination], DIRECTION::FOUR_WAY, 1);
-		//for (auto& pMonster : m_lstTargetEnemy)
-		//{
-		//	// 공격 한번에 처리
-		//	PlayerAttack(pPlayer, pMonster);
-		//}
-		//m_lstTargetEnemy.clear();
+		// 1. 적군 탐색 후, 적군이 있으면 함수 리턴 후 공격상태 들어감(lstTargetEnemy 배열에 적들 정보 들어감)
+		// Update에서 적 리스트 빈거 체크하고, 안비었으면 빌때까지 공격상태 돌입
+		/*BFS(m_mapGridPoint[vDestination], DIRECTION::FOUR_WAY, 1);*/
 
-		// 2. 현재 내위치 갱신 + 이동 리스트를 삭제처리 + 타일 갱신
+		// 2. 타일 상태 갱신 -> 이동한 발판은 검은색 처리
 		Vec2 gridDestination = m_lstTile.front();
 		int tile_number = int(gridDestination.x + gridDestination.y * GRID_Y);
 		vector<CObject*> groupTile = GetGroupObject(GROUP_TYPE::TILE);
 		((CTile*)groupTile[tile_number])->SetTileState(TILE_STATE::BLACK);
 
+		// 3. 타일 상태 갱신(목적지, 현재위치 갱신), 타일 리스트 한칸 삭제
 		m_vPlayerPos = m_lstTile.front();
 		m_lstTile.pop_front();
-		if (m_lstTile.empty()) return;
+		if (m_lstTile.empty()) return;		// 목적지 타일 도착하면, 함수 탈출
 
 		vDestination = m_mapRealPoint[m_lstTile.front()];
 	}
 	pPlayer->Move(vDestination);
 }
 
-void CScene_Battle::PlayerAttack(CObject* _pPlayer, CObject* _pEnmey)
+void CScene_Battle::PlayerAttack()
 {
+	if (m_lstTargetEnemy.empty())
+	{
+		return;
+	}
+
+	// 타격 판정이 들어가면 (플레이어의 공격 애니메이션 종료) -> 그때 적군 타격 + 리스트 삭제하게 하기
+	CPlayer* pPlayer = (CPlayer*)GetGroupObject(GROUP_TYPE::PLAYER).front();
+	CMonster* pMonster = m_lstTargetEnemy.front();
+
+
 }
 
-bool CScene_Battle::IsListTileEmpty()
+void CScene_Battle::PlayerSkillInit()
 {
-	return m_lstTile.empty();
+	// 검은 타일들(밟고 지나왔던 타일들) 랜덤 타일들로 리셋시키기
+	vector<CObject*> groupTiles = GetGroupObject(GROUP_TYPE::TILE);
+	
+	for (auto& tile : groupTiles)
+	{
+		CTile* pTile = (CTile*)tile;
+		if (pTile->GetTileState() == TILE_STATE::BLACK)
+		{
+			pTile->SetTileState(pTile->RandomTile());
+		}
+	}
+
+	// 플레이어 애니메이션 설정
+	CPlayer* pPlayer = (CPlayer*)GetGroupObject(GROUP_TYPE::PLAYER).front();
+	pPlayer->SetState(PLAYER_STATE::ROLLING);
 }
 
 void CScene_Battle::TileSelectTrigger(CObject* _pObj)
@@ -162,6 +182,7 @@ void CScene_Battle::TileSelectInit()
 	}
 
 	// 카메라 캐릭터로 초기화
+	CCamera::GetInstance()->SetTarget(nullptr);
 	CCamera::GetInstance()->SetLookAt(m_mapRealPoint[m_vPlayerPos]);
 
 	// 리스트 초기화
@@ -327,26 +348,52 @@ void CScene_Battle::Update()
 		{
 			PlayerMoveInit();
 			m_CurrentTurn = TURN_TYPE::PLAYER_MOVE;
+			break;
 		}
 		// 선택 취소
 		if (KEY_TAP(KEY::ESC))
 		{
 			TileSelectInit();
 			m_CurrentTurn = TURN_TYPE::PLAYER_START;
+			break;
 		}
 	}
 		break;
 	case TURN_TYPE::PLAYER_MOVE:
 	{
-		if (IsListTileEmpty())
+		// BFS 탐색 결과로 적이 존재하게 되면, 잠깐 공격 상태에 돌입 후 다시 이동상태 돌입
+		if (!m_lstTargetEnemy.empty())
 		{
+			m_CurrentTurn = TURN_TYPE::PLAYER_ATTACK;
+			break;
+		}
+
+		// 이동할 타일이 사라지면, 스킬 단계로 넘어가게됨
+		if(m_lstTile.empty())
+		{
+			PlayerSkillInit();
 			m_CurrentTurn = TURN_TYPE::PLAYER_SKILL;
 			break;
 		}
 		PlayerMove();
 	}
 		break;
+	case TURN_TYPE::PLAYER_ATTACK:
+	{
+		// 공격 처리를 전부 처리하면, 다시 움직이는 상태로 전환시키기
+		if (m_lstTargetEnemy.empty())
+		{
+			m_CurrentTurn = TURN_TYPE::PLAYER_MOVE;
+			break;
+		}
+		PlayerAttack();
+	}
+	break;
 	case TURN_TYPE::PLAYER_SKILL:
+	{
+		TileSelectInit();
+		m_CurrentTurn = TURN_TYPE::PLAYER_START;
+	}
 		break;
 	case TURN_TYPE::ENEMY_MOVE:
 		break;

@@ -2,6 +2,7 @@
     {
         "ID": 200,
         "Name": "Player",
+        "Type": "player",
         "AnimationList": [
             100,
             101,
@@ -36,6 +37,7 @@
     {
         "ID": 201,
         "Name": "Tile",
+        "Type": "tile",
         "AnimationList": [
             128
         ]
@@ -43,6 +45,7 @@
     {
         "ID": 202,
         "Name": "Block",
+        "Type": "block",
         "AnimationList": [
             129,
             130,
@@ -53,9 +56,59 @@
     },
     {
         "ID": 203,
-        "Name": "effect",
+        "Name": "EffectTest",
+        "Type": "effect",
         "AnimationList": [
             134
+        ]
+    },
+    {
+        "ID": 204,
+        "Name": "Rabbit",
+        "Type": "monster",
+        "AnimationList": [
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144
+        ]
+    },
+    {
+        "ID": 205,
+        "Name": "Mushroom",
+        "Type": "monster",
+        "AnimationList": [
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154
+        ]
+    },
+    {
+        "ID": 206,
+        "Name": "Spirit",
+        "Type": "monster",
+        "AnimationList": [
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162
         ]
     }
 ]

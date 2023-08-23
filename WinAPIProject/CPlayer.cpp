@@ -35,6 +35,12 @@ CPlayer::~CPlayer()
 void CPlayer::Move(Vec2 _vDestination)
 {
 	Vec2 vPos = GetPos();
+
+	// 이미지 좌우 반전
+	if(vPos.x < _vDestination.x) GetAnimator()->GetAnimation()->SetFlip(true);
+	else GetAnimator()->GetAnimation()->SetFlip(false);
+
+	// 소수점 버리고 반환되게
 	if(vPos.DistanceTo(_vDestination) <= m_fSpeed * fDT)
 		return SetPos(_vDestination);
 
@@ -68,10 +74,8 @@ void CPlayer::Render(HDC hdc)
 	ComponetRender(hdc);
 }
 
-static int test = 100;
 void CPlayer::Update()
 {
 	GetAnimator()->Play((int)m_playerState, true);
-	GetAnimator()->GetAnimation()->SetFlip(true);
 	GetAnimator()->Update();
 }

@@ -8,9 +8,7 @@
 #include "AI.h"
 
 CMonster::CMonster()
-	: m_fSpeed(100.f)
-	, m_iHP(5)
-	, m_pAI(nullptr)
+	: m_iHP(5)
 {
 	// 콜라이더 얻기 + 콜라이더 설정
 	CreateCollider();
@@ -19,8 +17,6 @@ CMonster::CMonster()
 
 CMonster::~CMonster()
 {
-	if (m_pAI != nullptr)
-		delete m_pAI;
 }
 
 void CMonster::OnCollisionEnter(CCollider* _pOther)
@@ -38,6 +34,8 @@ void CMonster::OnCollisionEnter(CCollider* _pOther)
 
 void CMonster::Update()
 {
-	return;
-	m_pAI->Update();
+}
+
+void CMonster::Render(HDC hdc)
+{
 }

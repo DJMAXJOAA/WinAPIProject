@@ -1,66 +1,482 @@
 [
     {
         "ID": 300,
-        "Name": "Lance",
-        "Path": "texture\\Item\\spear1",
-        "Type": "Weapon",
-        "HP": 0.0,
-        "Att": 10.0
+        "Name": "CommonArmor",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\common0.bmp",
+        "ItemInfo": {
+            "HP": 20.0,
+            "Att": 10.0,
+            "Grade": 0,
+            "ItemType": "Armor"
+        }
     },
     {
         "ID": 301,
-        "Name": "Axe",
-        "Path": "texture\\Item\\axe1",
-        "Type": "Weapon",
-        "HP": 0.0,
-        "Att": 20.0
+        "Name": "CommonBoots",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\common1.bmp",
+        "ItemInfo": {
+            "HP": 20.0,
+            "Att": 10.0,
+            "Grade": 0,
+            "ItemType": "Boots"
+        }
     },
     {
         "ID": 302,
-        "Name": "Sword",
-        "Path": "texture\\Item\\sword1",
-        "Type": "Weapon",
-        "HP": 0.0,
-        "Att": 30.0
+        "Name": "CommonBottom",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\common2.bmp",
+        "ItemInfo": {
+            "HP": 20.0,
+            "Att": 10.0,
+            "Grade": 0,
+            "ItemType": "Bottom"
+        }
     },
     {
         "ID": 303,
-        "Name": "Bow",
-        "Path": "texture\\Item\\bow1",
-        "Type": "Weapon",
-        "HP": 0.0,
-        "Att": 15.0
+        "Name": "CommonGloves",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\common3.bmp",
+        "ItemInfo": {
+            "HP": 20.0,
+            "Att": 10.0,
+            "Grade": 0,
+            "ItemType": "Gloves"
+        }
     },
     {
         "ID": 304,
-        "Name": "한글테스트",
-        "Path": "texture\\Item\\equipment1",
+        "Name": "CommonHelmet",
         "Type": "Equipment",
-        "HP": 30.0,
-        "Att": 0.0
+        "Path": "texture\\Item\\Equipment\\common4.bmp",
+        "ItemInfo": {
+            "HP": 20.0,
+            "Att": 10.0,
+            "Grade": 0,
+            "ItemType": "Helmet"
+        }
     },
     {
         "ID": 305,
-        "Name": "Shoes",
-        "Path": "texture\\Item\\equipment2",
+        "Name": "RareArmor",
         "Type": "Equipment",
-        "HP": 15.0,
-        "Att": 0.0
+        "Path": "texture\\Item\\Equipment\\rare0.bmp",
+        "ItemInfo": {
+            "HP": 40.0,
+            "Att": 20.0,
+            "Grade": 1,
+            "ItemType": "Armor"
+        }
     },
     {
         "ID": 306,
-        "Name": "Glove",
-        "Path": "texture\\Item\\equipment3",
+        "Name": "RareBoots",
         "Type": "Equipment",
-        "HP": 10.0,
-        "Att": 10.0
+        "Path": "texture\\Item\\Equipment\\rare1.bmp",
+        "ItemInfo": {
+            "HP": 40.0,
+            "Att": 20.0,
+            "Grade": 1,
+            "ItemType": "Boots"
+        }
     },
     {
         "ID": 307,
-        "Name": "Helmet",
-        "Path": "texture\\Item\\equipment4",
+        "Name": "RareBottom",
         "Type": "Equipment",
-        "HP": 20.0,
-        "Att": 0.0
+        "Path": "texture\\Item\\Equipment\\rare2.bmp",
+        "ItemInfo": {
+            "HP": 40.0,
+            "Att": 20.0,
+            "Grade": 1,
+            "ItemType": "Bottom"
+        }
+    },
+    {
+        "ID": 308,
+        "Name": "RareGloves",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\rare3.bmp",
+        "ItemInfo": {
+            "HP": 40.0,
+            "Att": 20.0,
+            "Grade": 1,
+            "ItemType": "Gloves"
+        }
+    },
+    {
+        "ID": 309,
+        "Name": "RareHelmet",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\rare4.bmp",
+        "ItemInfo": {
+            "HP": 40.0,
+            "Att": 20.0,
+            "Grade": 1,
+            "ItemType": "Helmet"
+        }
+    },
+    {
+        "ID": 310,
+        "Name": "EpicArmor",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\epic0.bmp",
+        "ItemInfo": {
+            "HP": 70.0,
+            "Att": 30.0,
+            "Grade": 2,
+            "ItemType": "Armor"
+        }
+    },
+    {
+        "ID": 311,
+        "Name": "EpicBoots",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\epic1.bmp",
+        "ItemInfo": {
+            "HP": 70.0,
+            "Att": 30.0,
+            "Grade": 2,
+            "ItemType": "Boots"
+        }
+    },
+    {
+        "ID": 312,
+        "Name": "EpicBottom",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\epic2.bmp",
+        "ItemInfo": {
+            "HP": 70.0,
+            "Att": 30.0,
+            "Grade": 2,
+            "ItemType": "Bottom"
+        }
+    },
+    {
+        "ID": 313,
+        "Name": "EpicGloves",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\epic3.bmp",
+        "ItemInfo": {
+            "HP": 70.0,
+            "Att": 30.0,
+            "Grade": 2,
+            "ItemType": "Gloves"
+        }
+    },
+    {
+        "ID": 314,
+        "Name": "EpicHelmet",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\epic4.bmp",
+        "ItemInfo": {
+            "HP": 70.0,
+            "Att": 30.0,
+            "Grade": 2,
+            "ItemType": "Helmet"
+        }
+    },
+    {
+        "ID": 315,
+        "Name": "UniqueArmor",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\unique0.bmp",
+        "ItemInfo": {
+            "HP": 100.0,
+            "Att": 40.0,
+            "Grade": 3,
+            "ItemType": "Armor"
+        }
+    },
+    {
+        "ID": 316,
+        "Name": "UniqueBoots",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\unique1.bmp",
+        "ItemInfo": {
+            "HP": 100.0,
+            "Att": 40.0,
+            "Grade": 3,
+            "ItemType": "Boots"
+        }
+    },
+    {
+        "ID": 317,
+        "Name": "UniqueBottom",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\unique2.bmp",
+        "ItemInfo": {
+            "HP": 100.0,
+            "Att": 40.0,
+            "Grade": 3,
+            "ItemType": "Bottom"
+        }
+    },
+    {
+        "ID": 318,
+        "Name": "UniqueGloves",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\unique3.bmp",
+        "ItemInfo": {
+            "HP": 100.0,
+            "Att": 40.0,
+            "Grade": 3,
+            "ItemType": "Gloves"
+        }
+    },
+    {
+        "ID": 319,
+        "Name": "UniqueHelmet",
+        "Type": "Equipment",
+        "Path": "texture\\Item\\Equipment\\unique4.bmp",
+        "ItemInfo": {
+            "HP": 100.0,
+            "Att": 40.0,
+            "Grade": 3,
+            "ItemType": "Helmet"
+        }
+    },
+    {
+        "ID": 320,
+        "Name": "CommonAxe",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\axe0.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 20.0,
+            "Grade": 0,
+            "ItemType": "Axe"
+        }
+    },
+    {
+        "ID": 321,
+        "Name": "RareAxe",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\axe1.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 45.0,
+            "Grade": 1,
+            "ItemType": "Axe"
+        }
+    },
+    {
+        "ID": 322,
+        "Name": "EpicAxe",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\axe2.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 70.0,
+            "Grade": 2,
+            "ItemType": "Axe"
+        }
+    },
+    {
+        "ID": 323,
+        "Name": "UniqueAxe",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\axe3.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 100.0,
+            "Grade": 3,
+            "ItemType": "Axe"
+        }
+    },
+    {
+        "ID": 324,
+        "Name": "CommonBow",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\bow0.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 20.0,
+            "Grade": 0,
+            "ItemType": "Bow"
+        }
+    },
+    {
+        "ID": 325,
+        "Name": "RareBow",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\bow1.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 45.0,
+            "Grade": 1,
+            "ItemType": "Bow"
+        }
+    },
+    {
+        "ID": 326,
+        "Name": "EpicBow",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\bow2.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 70.0,
+            "Grade": 2,
+            "ItemType": "Bow"
+        }
+    },
+    {
+        "ID": 327,
+        "Name": "UniqueBow",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\bow3.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 100.0,
+            "Grade": 3,
+            "ItemType": "Bow"
+        }
+    },
+    {
+        "ID": 328,
+        "Name": "CommonSpear",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\spear0.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 20.0,
+            "Grade": 0,
+            "ItemType": "Spear"
+        }
+    },
+    {
+        "ID": 329,
+        "Name": "RareSpear",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\spear1.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 45.0,
+            "Grade": 1,
+            "ItemType": "Spear"
+        }
+    },
+    {
+        "ID": 330,
+        "Name": "EpicSpear",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\spear2.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 70.0,
+            "Grade": 2,
+            "ItemType": "Spear"
+        }
+    },
+    {
+        "ID": 331,
+        "Name": "UniqueSpear",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\spear3.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 100.0,
+            "Grade": 3,
+            "ItemType": "Spear"
+        }
+    },
+    {
+        "ID": 332,
+        "Name": "CommonStaff",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\staff0.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 20.0,
+            "Grade": 0,
+            "ItemType": "Staff"
+        }
+    },
+    {
+        "ID": 333,
+        "Name": "RareStaff",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\staff1.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 45.0,
+            "Grade": 1,
+            "ItemType": "Staff"
+        }
+    },
+    {
+        "ID": 334,
+        "Name": "EpicStaff",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\staff2.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 70.0,
+            "Grade": 2,
+            "ItemType": "Staff"
+        }
+    },
+    {
+        "ID": 335,
+        "Name": "UniqueStaff",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\staff3.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 100.0,
+            "Grade": 3,
+            "ItemType": "Staff"
+        }
+    },
+    {
+        "ID": 336,
+        "Name": "CommonSword",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\sword0.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 20.0,
+            "Grade": 0,
+            "ItemType": "Sword"
+        }
+    },
+    {
+        "ID": 337,
+        "Name": "RareSword",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\sword1.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 45.0,
+            "Grade": 1,
+            "ItemType": "Sword"
+        }
+    },
+    {
+        "ID": 338,
+        "Name": "EpicSword",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\sword2.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 70.0,
+            "Grade": 2,
+            "ItemType": "Sword"
+        }
+    },
+    {
+        "ID": 339,
+        "Name": "UniqueSword",
+        "Type": "Weapon",
+        "Path": "texture\\Item\\Weapon\\sword3.bmp",
+        "ItemInfo": {
+            "HP": 0.0,
+            "Att": 100.0,
+            "Grade": 3,
+            "ItemType": "Sword"
+        }
     }
 ]

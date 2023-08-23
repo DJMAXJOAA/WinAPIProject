@@ -7,6 +7,7 @@ enum class TURN_TYPE
     PLAYER_START,           // 플레이어 :: 첫 블럭 선택 전
     PLAYER_BLOCKSELECT,     // 플레이어 :: 블럭 선택중
     PLAYER_MOVE,            // 플레이어 :: 선택 확정하고, 움직이는중
+    PLAYER_ATTACK,          // 플레이어 :: 이동중에 공격 상태 들어감(잠깐)
     PLAYER_SKILL,           // 플레이어 :: 움직임이 끝나고, 스킬 시전중
     ENEMY_MOVE,             // 적 :: 움직임 계산 + 움직임
     ENEMY_ATTACK,           // 적 :: 움직임이 끝나고, 플레이어 공격 혹은 스킬
@@ -15,6 +16,7 @@ enum class TURN_TYPE
 
 enum class DIRECTION
 {
+    // BFS에서 사용
     FOUR_WAY,       // 상하좌우 방향
     DIAGONAL,       // 대각선 방향
     EIGHT_WAY,      // 8방향 전부
@@ -58,8 +60,9 @@ public:
     void PlayerMoveInit();
 
     void PlayerMove();
-    void PlayerAttack(CObject* _pPlayer, CObject* _pEnmey);
-    bool IsListTileEmpty();
+    void PlayerAttack();
+
+    void PlayerSkillInit();
 
 public:
     void EnemyStart();

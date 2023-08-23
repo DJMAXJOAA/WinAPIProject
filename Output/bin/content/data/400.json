@@ -1,0 +1,16 @@
+[
+    {
+        "ID": 400,
+        "Name": "test",
+        "Path": "texture\\Skill\\green0",
+        "SkillInfo": {
+            "TileColor": 2,
+            "Ratio": 1.5,
+            "Grade": 3,
+            "SkillType": 1,
+            "Range": 3,
+            "Cooldown": 2,
+            "Explanation": "테스트용"
+        }
+    }
+]
