@@ -16,18 +16,34 @@
 #include "CAnimation.h"
 
 CPlayer::CPlayer()
+	: m_fSpeed(100.f)
+	, m_playerState(PLAYER_STATE::IDEL)
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(15.f, 15.f));
 
 	// 텍스쳐 로딩 (애니메이션 설정)
 	SetAnimator(200);
-	GetAnimator()->Play(113, true);
+	GetAnimator()->Play((int)PLAYER_STATE::IDEL, true);
 }
 
 CPlayer::~CPlayer()
 {
 
+}
+
+void CPlayer::Move(Vec2 _vDestination)
+{
+	Vec2 vPos = GetPos();
+	if(vPos.DistanceTo(_vDestination) <= 1.f)
+		return SetPos(_vDestination);
+
+	Vec2 vDirection = (vPos - _vDestination).Normalize() * -1;
+
+	vPos.x += m_fSpeed * vDirection.x * fDT;
+	vPos.y += m_fSpeed * vDirection.y * fDT;
+
+	SetPos(vPos);
 }
 
 void CPlayer::CreateMissile()
@@ -55,41 +71,6 @@ void CPlayer::Render(HDC hdc)
 static int test = 100;
 void CPlayer::Update()
 {
-	// 지역변수를 getpos로 복사해와서, 나중에 setpos로 적용 시켜주어야 한다
-	Vec2 vPos = GetPos();
-
-	if (KEY_HOLD(KEY::A))
-	{
-		vPos.x -= 400.f * fDT;
-	}
-	if (KEY_HOLD(KEY::W))
-	{
-		vPos.y -= 400.f * fDT;
-	}
-	if (KEY_HOLD(KEY::D))
-	{
-		vPos.x += 400.f * fDT;
-	}
-	if (KEY_HOLD(KEY::S))
-	{
-		vPos.y += 400.f * fDT;
-	}
-
-	if (KEY_TAP(KEY::C))
-	{
-		GetAnimator()->Play(test--, true);
-	}
-	if (KEY_TAP(KEY::V))
-	{
-		GetAnimator()->Play(test++, true);
-	}
-
-	if (CKeyMgr::GetInstance()->GetKeyState(KEY::SPACE) == KEY_STATE::TAP)
-	{
-		CreateMissile();
-	}
-
-	SetPos(vPos);
-
+	GetAnimator()->Play((int)m_playerState, true);
 	GetAnimator()->Update();
 }

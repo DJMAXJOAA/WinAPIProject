@@ -37,7 +37,11 @@ public:
 	void SetScale(Vec2 vScale) { m_vScale = vScale; }
 
 private:
-	void SetDead() { m_bAlive = false; }	// 이벤트 매니저만 접근, 자식도 접근 불가
+	// 이벤트 매니저만 접근
+	void SetDead() { m_bAlive = false; }
+
+public:
+	virtual void AnimationFinishEvent() = 0;		// 애니메이션 false 설정시, 종료되면 뭐할지 함수 설정
 
 public:
 	wstring GetName() { return m_strName; }
@@ -57,11 +61,11 @@ public:
 	virtual void OnCollisionExit(CCollider* _pOther) {};
 
 public:
-	void SetAnimator(int _key);
+	void SetAnimator(int _key, bool _repeat = true);
 	void CreateAnimator(int _key);
 
 public:
-	void SetAnimatorGdiPlus(int _key);
+	void SetAnimatorGdiPlus(int _key, bool _repeat = true);
 	void CreateAnimatorGdiPlus(int _key);
 
 public:

@@ -40,3 +40,12 @@ void PlayerTileSelect(CObject* _pObj)
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
+void AnimationFinish(CObject* _pObj)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::ANIMATION_FINISH;
+	evn.lParam = (DWORD_PTR)_pObj;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
+}
+

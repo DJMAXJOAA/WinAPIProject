@@ -14,6 +14,9 @@ public:
     CLONE(CPanelUI);    
 
 public:
+    virtual void AnimationFinishEvent() override {}
+
+public:
     virtual void Update();
     virtual void Render(HDC hdc);
 

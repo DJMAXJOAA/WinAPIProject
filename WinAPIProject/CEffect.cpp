@@ -5,7 +5,7 @@
 
 CEffect::CEffect()
 {
-	SetAnimatorGdiPlus(203);
+	SetAnimatorGdiPlus(203, false);
 }
 
 CEffect::~CEffect()
@@ -21,4 +21,3 @@ void CEffect::Update()
 {
 	GetAnimatorGdiPlus()->Update();
 }
-

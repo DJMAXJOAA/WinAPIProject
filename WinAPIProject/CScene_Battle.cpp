@@ -48,25 +48,27 @@ void CScene_Battle::PlayerMove()
 	if (vCurrentPos == vDestination)
 	{
 		// 1. 적군 탐색 후, 있으면 공격
-		BFS(m_mapGridPoint[vDestination], DIRECTION::FOUR_WAY, 1);
-		for (auto& pMonster : m_lstTargetEnemy)
-		{
-			// 공격 한번에 처리
-			PlayerAttack(pPlayer, pMonster);
-		}
-		m_lstTargetEnemy.clear();
+		//BFS(m_mapGridPoint[vDestination], DIRECTION::FOUR_WAY, 1);
+		//for (auto& pMonster : m_lstTargetEnemy)
+		//{
+		//	// 공격 한번에 처리
+		//	PlayerAttack(pPlayer, pMonster);
+		//}
+		//m_lstTargetEnemy.clear();
 
 		// 2. 현재 내위치 갱신 + 이동 리스트를 삭제처리 + 타일 갱신
-		int tile_number = int(vDestination.x + vDestination.y * GRID_Y);
+		Vec2 gridDestination = m_lstTile.front();
+		int tile_number = int(gridDestination.x + gridDestination.y * GRID_Y);
 		vector<CObject*> groupTile = GetGroupObject(GROUP_TYPE::TILE);
+		((CTile*)groupTile[tile_number])->SetTileState(TILE_STATE::BLACK);
 
 		m_vPlayerPos = m_lstTile.front();
 		m_lstTile.pop_front();
-		((CTile*)groupTile[tile_number])->SetTileState(TILE_STATE::BLACK);
-	}
+		if (m_lstTile.empty()) return;
 
-	// 다음 타일로 이동 중
-	
+		vDestination = m_mapRealPoint[m_lstTile.front()];
+	}
+	pPlayer->Move(vDestination);
 }
 
 void CScene_Battle::PlayerAttack(CObject* _pPlayer, CObject* _pEnmey)
@@ -167,6 +169,8 @@ void CScene_Battle::TileSelectInit()
 
 void CScene_Battle::PlayerMoveInit()
 {
+	CPlayer* pPlayer = (CPlayer*)GetGroupObject(GROUP_TYPE::PLAYER).front();
+	pPlayer->SetState(PLAYER_STATE::MOVE);
 }
 
 void CScene_Battle::EnemyStart()
@@ -336,6 +340,7 @@ void CScene_Battle::Update()
 		if (IsListTileEmpty())
 		{
 			m_CurrentTurn = TURN_TYPE::PLAYER_SKILL;
+			break;
 		}
 		PlayerMove();
 	}

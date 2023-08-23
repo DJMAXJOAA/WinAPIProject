@@ -79,6 +79,8 @@ enum class EVENT_TYPE
 
 	TILESELECT_TRIGGER,
 
+	ANIMATION_FINISH,
+
 	END,
 };
 

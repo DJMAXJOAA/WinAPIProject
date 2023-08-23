@@ -11,11 +11,15 @@ public:
 	CToolTest();
 	virtual ~CToolTest();
 
+	CLONE(CToolTest);
+
+public:
+	virtual void AnimationFinishEvent() override {}
+
 public:
 	void ChangeAnimation(int _key);
 	void ChangeAnimator(int _key);
 
-	CLONE(CToolTest);
 public:
 	virtual void Render(HDC hdc);
 	virtual void Update();

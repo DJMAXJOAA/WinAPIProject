@@ -13,5 +13,8 @@ public:
     virtual void Update();
 
     CLONE(CEffect);
+
+public:
+    virtual void AnimationFinishEvent() override { DeleteObj(this); }
 };
 

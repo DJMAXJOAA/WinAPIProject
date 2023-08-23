@@ -70,7 +70,7 @@ void CObject::CreateCollider()
 	m_pCollider->m_pOwner = this;
 }
 
-void CObject::SetAnimator(int _key)
+void CObject::SetAnimator(int _key, bool _repeat)
 {
 	AnimatorData* data = (AnimatorData*)CDataMgr::GetInstance()->FindData(_key);
 	assert(data);
@@ -93,7 +93,7 @@ void CObject::SetAnimator(int _key)
 			pAnim->GetFrame(i).vOffset = aniData->m_AniInfo.vOffset;
 		}
 	}
-	GetAnimator()->Play(data->m_strAnimation.front(), true);
+	GetAnimator()->Play(data->m_strAnimation.front(), _repeat);
 }
 
 void CObject::CreateAnimator(int _key)
@@ -103,7 +103,7 @@ void CObject::CreateAnimator(int _key)
 	m_pAnimator->m_pOwner = this;
 }
 
-void CObject::SetAnimatorGdiPlus(int _key)
+void CObject::SetAnimatorGdiPlus(int _key, bool _repeat)
 {
 	AnimatorData* data = (AnimatorData*)CDataMgr::GetInstance()->FindData(_key);
 	assert(data);
@@ -126,7 +126,7 @@ void CObject::SetAnimatorGdiPlus(int _key)
 			pAnim->GetFrame(i).vOffset = aniData->m_AniInfo.vOffset;
 		}
 	}
-	GetAnimatorGdiPlus()->Play(data->m_strAnimation.front(), true);
+	GetAnimatorGdiPlus()->Play(data->m_strAnimation.front(), _repeat);
 }
 
 void CObject::CreateAnimatorGdiPlus(int _key)

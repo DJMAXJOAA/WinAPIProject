@@ -29,6 +29,5 @@ public:
 
 private:
 	void Excute(const tEvent& _eve);		// 쌓인 이벤트 처리 함수
-
 };
 

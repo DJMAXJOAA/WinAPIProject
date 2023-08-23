@@ -12,6 +12,13 @@ public:
 		return false;
 	}
 
+	float DistanceTo(const Vec2& other) const
+	{
+		float dx = x - other.x;
+		float dy = y - other.y;
+		return std::sqrt(dx * dx + dy * dy);
+	}
+
 	float Length() { return (float)sqrt(pow(x, 2) + pow(y, 2)); }
 
 	Vec2& Normalize()

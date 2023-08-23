@@ -15,6 +15,9 @@ public:
     CLONE(CBlock);
 
 public:
+    virtual void AnimationFinishEvent() override {}
+
+public:
     int RandomBlock();
 
 public:

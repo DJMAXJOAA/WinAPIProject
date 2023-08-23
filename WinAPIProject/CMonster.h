@@ -16,6 +16,11 @@ public:
     CMonster();
     virtual ~CMonster();
 
+    CLONE(CMonster);
+
+public:
+    virtual void AnimationFinishEvent() override {}
+
 public:
     float GetSpeed() { return m_fSpeed; }
 
@@ -28,7 +33,5 @@ public:
 
 public:
     virtual void Update();
-
-    CLONE(CMonster);
 };
 

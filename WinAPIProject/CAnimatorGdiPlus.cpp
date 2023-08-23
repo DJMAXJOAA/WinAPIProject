@@ -96,7 +96,8 @@ void CAnimatorGdiPlus::Update()
 
         if (m_bRepeat && m_pCurAnim->isFinish())
         {
-            m_pCurAnim->SetFrame(0);
+            if (m_bRepeat) m_pCurAnim->SetFrame(0);
+            else AnimationFinish(m_pOwner);
         }
     }
 }
