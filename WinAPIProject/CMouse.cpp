@@ -8,7 +8,8 @@
 CMouse::CMouse()
 {
 	CreateCollider();
-	GetCollider()->SetScale(Vec2(15.f, 15.f));
+	GetCollider()->SetScale(Vec2(10.f, 10.f));
+	GetCollider()->SetFinalPos(GetPos());
 }
 
 CMouse::~CMouse()
@@ -31,9 +32,6 @@ void CMouse::Render(HDC hdc)
 
 void CMouse::Update()
 {
-	Vec2 vPos = GetPos();
-
-	vPos = MOUSE_POS;
-
+	Vec2 vPos = CCamera::GetInstance()->GetRealPos(MOUSE_POS);
 	SetPos(vPos);
 }

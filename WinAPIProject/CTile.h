@@ -20,6 +20,9 @@ public:
     TILE_STATE GetTileState() { return m_TileState; }
 
 public:
+    void SetTileState(TILE_STATE _tileState) { m_TileState = _tileState; }
+
+public:
     TILE_STATE RandomTile();
 
 public:

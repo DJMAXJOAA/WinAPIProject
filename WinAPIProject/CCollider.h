@@ -28,6 +28,7 @@ public:
 public:
 	void SetOffsetPos(Vec2 _vPos) { m_vOffsetPos = _vPos; }
 	void SetScale(Vec2 _vScale) { m_vScale = _vScale; }
+	void SetFinalPos(Vec2 _vPos) { m_vFinalPos = _vPos; }
 	
 public:
 	Vec2 GetOffsetPos() { return m_vOffsetPos; }

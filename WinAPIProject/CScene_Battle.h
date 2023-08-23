@@ -49,8 +49,11 @@ public:
 
 public:
     void PlayerStart();
+    void PlayerMove();
 
     void TileSelectTrigger(CObject* _pObj);
+    void TileSelectInit();
+    void PlayerMoveInit();
 
 public:
     void EnemyStart();
@@ -58,11 +61,11 @@ public:
 public:
     bool isValid(Vec2 _vPos);
     void BFS(Vec2 _startPos, DIRECTION _dir, int _depth);
+    void BFSInit();
 
 public:
     virtual void Update();
     virtual void Enter();
     virtual void Exit();
-    void Init();
 };
 

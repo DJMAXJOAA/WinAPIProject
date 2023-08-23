@@ -89,7 +89,7 @@ void CScene_Tool::Update()
 	{
 		ChangeScene(SCENE_TYPE::BATTLE);
 	}
-	if (KEY_TAP(KEY::SPACE))
+	if (KEY_TAP(KEY::ESC))
 	{
 		SaveAnimation();
 	}

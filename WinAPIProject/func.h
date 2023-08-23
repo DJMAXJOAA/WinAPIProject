@@ -36,3 +36,20 @@ void SafeDeleteMap(map<T1, T2>& _map)
 	}
 	_map.clear();
 }
+
+// Clear List Container
+template<typename T>
+void SafeDeleteList(list<T>& _lst)
+{
+	// 템플릿 안에서 클래스 사용하려면, 클래스 앞에 typename 붙여줘야 한다
+	typename list<T>::iterator iter = _lst.begin();
+
+	for (; iter != _lst.end(); ++iter)
+	{
+		if (iter != nullptr)
+		{
+			delete iter;
+		}
+	}
+	_lst.clear();
+}

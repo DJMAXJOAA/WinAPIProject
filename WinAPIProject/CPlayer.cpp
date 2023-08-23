@@ -18,8 +18,7 @@
 CPlayer::CPlayer()
 {
 	CreateCollider();
-	GetCollider()->SetOffsetPos(Vec2(0.f, 0.f));
-	GetCollider()->SetScale(Vec2(10.f, 10.f));
+	GetCollider()->SetScale(Vec2(15.f, 15.f));
 
 	// 텍스쳐 로딩 (애니메이션 설정)
 	SetAnimator(200);
