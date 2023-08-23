@@ -76,6 +76,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			CCore::GetInstance()->Progress(); // 2. 코어 객체의 실행 부분
 		}
 	}
+	// 메모리 릭 체크
 	/*_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);*/
 	return (int)msg.wParam;
 }

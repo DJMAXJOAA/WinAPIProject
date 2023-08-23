@@ -113,3 +113,8 @@ enum class MAP_TYPE
 	STONE,
 	SNOW,
 };
+
+enum class ATTACK_TYPE
+{
+	NORMAL_ATTACK,
+};

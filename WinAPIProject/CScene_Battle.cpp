@@ -11,6 +11,7 @@
 #include "CBlock.h"
 #include "CMouse.h"
 #include "CEffect.h"
+#include "CMonster.h"
 
 CScene_Battle::CScene_Battle()
 	: m_vecTileInfo(GRID_X, vector<TileInfo>(GRID_Y,0))
@@ -32,6 +33,49 @@ void CScene_Battle::PlayerStart()
 
 void CScene_Battle::PlayerMove()
 {
+	CPlayer* pPlayer = (CPlayer*)GetGroupObject(GROUP_TYPE::PLAYER).front();
+	assert(pPlayer);
+
+	if (m_lstTile.empty())
+	{
+		return;
+	}
+
+	Vec2 vDestination = m_mapRealPoint[m_lstTile.front()];
+	Vec2 vCurrentPos = pPlayer->GetPos();
+
+	// 도착했음(위치가 일치) -> 주변 적군 체크
+	if (vCurrentPos == vDestination)
+	{
+		// 1. 적군 탐색 후, 있으면 공격
+		BFS(m_mapGridPoint[vDestination], DIRECTION::FOUR_WAY, 1);
+		for (auto& pMonster : m_lstTargetEnemy)
+		{
+			// 공격 한번에 처리
+			PlayerAttack(pPlayer, pMonster);
+		}
+		m_lstTargetEnemy.clear();
+
+		// 2. 현재 내위치 갱신 + 이동 리스트를 삭제처리 + 타일 갱신
+		int tile_number = int(vDestination.x + vDestination.y * GRID_Y);
+		vector<CObject*> groupTile = GetGroupObject(GROUP_TYPE::TILE);
+
+		m_vPlayerPos = m_lstTile.front();
+		m_lstTile.pop_front();
+		((CTile*)groupTile[tile_number])->SetTileState(TILE_STATE::BLACK);
+	}
+
+	// 다음 타일로 이동 중
+	
+}
+
+void CScene_Battle::PlayerAttack(CObject* _pPlayer, CObject* _pEnmey)
+{
+}
+
+bool CScene_Battle::IsListTileEmpty()
+{
+	return m_lstTile.empty();
 }
 
 void CScene_Battle::TileSelectTrigger(CObject* _pObj)
@@ -132,7 +176,8 @@ void CScene_Battle::EnemyStart()
 
 bool CScene_Battle::isValid(Vec2 _vPos)
 {
-	return (_vPos.x >= 0 && _vPos.x < GRID_X&&
+
+	return (_vPos.x >= 0 && _vPos.x < GRID_X &&
 			_vPos.y >= 0 && _vPos.y < GRID_Y &&
 			!m_vecTileInfo[(int)_vPos.y][(int)_vPos.x].bVisited);
 }
@@ -145,19 +190,19 @@ void CScene_Battle::BFS(Vec2 _startPos, DIRECTION _dir, int _depth)
 	// 방향 선택
 	switch (_dir)
 	{
-	case FOUR_WAY:
+	case DIRECTION::FOUR_WAY:
 		direction.push_back(Vec2(-1, 0));
 		direction.push_back(Vec2(1, 0));
 		direction.push_back(Vec2(0, -1));
 		direction.push_back(Vec2(0, 1));
 		break;
-	case DIAGONAL:
+	case DIRECTION::DIAGONAL:
 		direction.push_back(Vec2(-1, -1));
 		direction.push_back(Vec2(1, -1));
 		direction.push_back(Vec2(-1, 1));
 		direction.push_back(Vec2(1, 1));
 		break;
-	case EIGHT_WAY:
+	case DIRECTION::EIGHT_WAY:
 		direction.push_back(Vec2(-1, 0));
 		direction.push_back(Vec2(1, 0));
 		direction.push_back(Vec2(0, -1));
@@ -202,6 +247,7 @@ void CScene_Battle::BFS(Vec2 _startPos, DIRECTION _dir, int _depth)
 				{
 					// 블럭 첫선택일때는 그냥 넣음
 					int tile_number = int(searchPos.x + searchPos.y * GRID_Y);
+
 					if (((CTile*)groupTile[tile_number])->GetTileState() == m_TileColor)
 					{
 						m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].bVisited = true;
@@ -210,6 +256,22 @@ void CScene_Battle::BFS(Vec2 _startPos, DIRECTION _dir, int _depth)
 					}
 				}
 					break;
+				case TURN_TYPE::PLAYER_MOVE:
+				{
+					// 타일 위에 적군이 있는지 체크
+					int tile_number = int(searchPos.x + searchPos.y * GRID_Y);
+					CMonster* pEnemy = (CMonster*)m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].ObjOnTile;
+
+					if (pEnemy)
+					{
+						// 리스트에 적군들을 넣고, BFS가 끝나면 한번에 처리(리스트 순서대로)
+						m_lstTargetEnemy.push_back(pEnemy);
+
+						m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].bVisited = true;
+						q.push(searchPos);
+						moveCount.push(count + 1);
+					}
+				}
 				default:
 					assert(0);	// 잘못 선택됨
 					break;
@@ -218,6 +280,19 @@ void CScene_Battle::BFS(Vec2 _startPos, DIRECTION _dir, int _depth)
 		}
 	}
 }
+
+void CScene_Battle::BFSInit()
+{
+	// BFS 방문 초기화
+	for (size_t i = 0; i < m_vecTileInfo.size(); i++)
+	{
+		for (size_t j = 0; j < m_vecTileInfo[i].size(); j++)
+		{
+			m_vecTileInfo[j][i].bVisited = false;
+		}
+	}
+}
+
 
 void CScene_Battle::Update()
 {
@@ -257,7 +332,13 @@ void CScene_Battle::Update()
 	}
 		break;
 	case TURN_TYPE::PLAYER_MOVE:
+	{
+		if (IsListTileEmpty())
+		{
+			m_CurrentTurn = TURN_TYPE::PLAYER_SKILL;
+		}
 		PlayerMove();
+	}
 		break;
 	case TURN_TYPE::PLAYER_SKILL:
 		break;
@@ -342,14 +423,3 @@ void CScene_Battle::Exit()
 	CCollisionMgr::GetInstance()->Reset();
 }
 
-void CScene_Battle::BFSInit()
-{
-	// BFS 방문 초기화
-	for (size_t i = 0; i < m_vecTileInfo.size(); i++)
-	{
-		for (size_t j = 0; j < m_vecTileInfo[i].size(); j++)
-		{
-			m_vecTileInfo[j][i].bVisited = false;
-		}
-	}
-}

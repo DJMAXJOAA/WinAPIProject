@@ -16,6 +16,8 @@ private:
 	HBRUSH	m_arrBrush[(UINT)BRUSH_TYPE::END];
 	HPEN	m_arrPen[(UINT)PEN_TYPE::END];
 
+	Graphics*	m_graphics;		// GDI+
+
 private:
 	CCore();
 	~CCore();
@@ -31,6 +33,7 @@ public:
 	HBRUSH GetBrush(BRUSH_TYPE _eType) { return m_arrBrush[(UINT)_eType]; }
 	HPEN GetPen(PEN_TYPE _eType) { return m_arrPen[(UINT)_eType]; }
 	CTexture* GetMemTex() { return m_pMemTex; }
+	Graphics* GetGraphics() { return m_graphics; }
 
 private:
 	void CreateBrushPen();

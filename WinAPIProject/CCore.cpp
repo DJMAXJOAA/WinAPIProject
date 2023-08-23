@@ -24,12 +24,14 @@ CCore::CCore()
 	, m_arrBrush{}
 	, m_arrPen{}
 	, m_pMemTex(nullptr)
+	, m_graphics(nullptr)
 {
 }
 
 CCore::~CCore()
 {
 	ReleaseDC(m_hWnd, m_hDC);
+	delete m_graphics;
 
 	// 자주사용하는 펜 등록했던거 지워주기
 	for (int i = 0; i < (UINT)PEN_TYPE::END; i++)
@@ -72,6 +74,8 @@ int CCore::Init(HWND hWnd, POINT ptResolution)
 
 	// 자주 사용되는 브러시와 펜 배열을 생성
 	CreateBrushPen();
+
+	m_graphics = new Graphics(m_pMemTex->GetDC());
 
 	// Manager 초기화
 	CPathMgr::GetInstance()->Init();

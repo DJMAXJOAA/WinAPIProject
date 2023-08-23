@@ -13,7 +13,7 @@ enum class TURN_TYPE
     EXIT,                   // 전투 종료
 };
 
-enum DIRECTION
+enum class DIRECTION
 {
     FOUR_WAY,       // 상하좌우 방향
     DIAGONAL,       // 대각선 방향
@@ -22,10 +22,12 @@ enum DIRECTION
 
 struct TileInfo
 {
-    TILE_STATE      iState;         // 현재 타일의 정보(타일의 색깔, 활성-비활성)
-    bool            bVisited;    // bfs 방문 여부
-    TileInfo(int x) : bVisited(false) {};
+    bool            bVisited;       // bfs 방문 여부
+    CObject*        ObjOnTile;      // 타일 위에 있는 오브젝트 (캐릭터는 제외)
+    TileInfo(int x) : bVisited(false), ObjOnTile(nullptr) {};
 };
+
+class CMonster;
 
 class CScene_Battle :
     public CScene
@@ -42,6 +44,7 @@ private:
     TILE_STATE              m_TileColor;        // 첫번째 선택으로 어떤 색깔 선택?
 
     list<Vec2>              m_lstTile;          // 플레이어가 선택한 타일 리스트(이동 순서)
+    list<CMonster*>         m_lstTargetEnemy;   // BFS로 탐색한 공격 타겟들 리스트
 
 public:
     CScene_Battle();
@@ -49,11 +52,14 @@ public:
 
 public:
     void PlayerStart();
-    void PlayerMove();
 
     void TileSelectTrigger(CObject* _pObj);
     void TileSelectInit();
     void PlayerMoveInit();
+
+    void PlayerMove();
+    void PlayerAttack(CObject* _pPlayer, CObject* _pEnmey);
+    bool IsListTileEmpty();
 
 public:
     void EnemyStart();

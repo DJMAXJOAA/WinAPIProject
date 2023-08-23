@@ -67,6 +67,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 		CObject* pObj = (CObject*)_eve.lParam;
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TileSelectTrigger(pObj);
 	}
+		break;	
 	case EVENT_TYPE::END:
 		break;
 	default:

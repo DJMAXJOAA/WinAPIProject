@@ -20,16 +20,17 @@ CAnimationGdiPlus::CAnimationGdiPlus()
     , m_bFinish(false)
     , m_iID(0)
 {
-    m_pGraphics = new Graphics(CCore::GetInstance()->GetMemTex()->GetDC());
+    /*m_pGraphics = new Graphics(CCore::GetInstance()->GetMemTex()->GetDC());*/
+    m_pGraphics = CCore::GetInstance()->GetGraphics();
 }
 
 CAnimationGdiPlus::~CAnimationGdiPlus()
 {
-    if (m_pGraphics)
-    {
-        delete m_pGraphics;
-        m_pGraphics = nullptr;
-    }
+    //if (m_pGraphics)
+    //{
+    //    delete m_pGraphics;
+    //    m_pGraphics = nullptr;
+    //}
 }
 
 void CAnimationGdiPlus::Update()
