@@ -2,14 +2,6 @@
 #include "tile.h"
 
 class CScene_Battle;
-using namespace battle;
-
-struct TileState
-{
-	bool            bVisited;	// BFS πÊπÆ ø©∫Œ
-	CTile*			pTile;		// ≈∏¿œ ∞¥√º
-	TileState(Vec2 vPos) : bVisited(false), pTile(nullptr) {};
-};
 
 class CTileManager
 {
@@ -19,15 +11,16 @@ private:
 	map<Vec2, Vec2>			  m_mapGridPoint;    // Ω«¡¶ ¡¬«• -> ¡¬«•∞Ë ¡¬«• (¿Ã¡ﬂ∏ )
 
 public:
-	CTileManager(CScene_Battle* _pScene);
+	CTileManager();
 	~CTileManager();
 
 public:
-	void TileSelectInit();
+	void TileInit();
+	void TileRandomInit();
 
 public:
-	Vec2 GridToReal(Vec2 vPos) { return m_mapRealPoint[vPos]; }
-	Vec2 RealToGrid(Vec2 vPos) { return m_mapGridPoint[vPos]; }
+	Vec2 GridToReal(Vec2 vPos) { return m_mapRealPoint[Vec2((int)vPos.x, (int)vPos.y)]; }
+	Vec2 RealToGrid(Vec2 vPos) { return m_mapGridPoint[Vec2((int)vPos.x, (int)vPos.y)]; }
 
 public:
 	vector<vector<TileState>>& GetTileState() { return m_vecTileState; }

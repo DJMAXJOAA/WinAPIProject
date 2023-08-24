@@ -26,6 +26,22 @@ return &mgr;\
 #define DEBUG2(key1, key2) cout<<key1<<","<<key2<<"\n"
 #define DEBUG3(key1, key2, key3) cout<<key1<<","<<key2<<","<<key3<<"\n"
 
+namespace battle
+{
+// 지도 크기
+#define WIDTH 15
+#define HEIGHT 7
+#define TILE_WIDTH 140
+#define TILE_HEIGHT 70
+#define GRID_X 9
+#define GRID_Y 9
+
+// 매크로 (좌표 변경)
+#define REAL(key) m_TileManager->GridToReal(key)
+#define GRID(key) m_TileManager->RealToGrid(key) 
+}
+
+
 enum class GROUP_TYPE
 {
 	DEFAULT,
@@ -72,25 +88,12 @@ enum class EVENT_TYPE
 
 	TILESELECT_TRIGGER,
 	TURN_CHANGE,
+	RUN_TURN_LOGIC,
 
 	ANIMATION_FINISH,
 
 	END,
 };
-
-namespace battle
-{
-	// 지도 크기
-	#define WIDTH 15
-	#define HEIGHT 7
-	#define TILE_WIDTH 140
-	#define TILE_HEIGHT 70
-	#define GRID_X 9
-	#define GRID_Y 9
-
-	// 매크로 (좌표 변경)
-	#define REAL(key) m_TileManager->GridToReal(key)
-	#define GRID(key) m_TileManager->RealToGrid(key)
 
 	enum class TILE_STATE
 	{
@@ -139,4 +142,3 @@ namespace battle
 		DIAGONAL,       // 대각선 방향
 		EIGHT_WAY,      // 8방향 전부
 	};
-}

@@ -2,9 +2,8 @@
 #include "BFSSearch.h"
 #include <queue>
 
-BFSSearch::BFSSearch(CScene_Battle* _pScene)
-	: m_pScene(_pScene)
-	, m_vecTarget{}
+BFSSearch::BFSSearch()
+	: m_vecTarget{}
 {
 }
 
@@ -91,3 +90,42 @@ void BFSSearch::BFS(Vec2 _startPos, vector<vector<TileState>>& _vecTiles, DIRECT
 	}
 }
 
+//switch (m_CurrentTurn)
+//{
+//case TURN_TYPE::PLAYER_START:
+//{
+//	// 블럭 선택중일때는, 첫 선택한 블럭의 색깔과 일치해야함
+//	m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].bVisited = true;
+//	q.push(searchPos);
+//	moveCount.push(count + 1);
+//}
+//break;
+//case TURN_TYPE::PLAYER_TILESELECT:
+//{
+//	// 블럭 첫선택일때는 그냥 넣음
+//	int tile_number = int(searchPos.x + searchPos.y * GRID_Y);
+//
+//	if (((CTile*)groupTile[tile_number])->GetTileState() == m_TileColor)
+//	{
+//		m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].bVisited = true;
+//		q.push(searchPos);
+//		moveCount.push(count + 1);
+//	}
+//}
+//break;
+//case TURN_TYPE::PLAYER_MOVE:
+//{
+//	// 타일 위에 적군이 있는지 체크
+//	int tile_number = int(searchPos.x + searchPos.y * GRID_Y);
+//	CMonster* pEnemy = (CMonster*)m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].ObjOnTile;
+//
+//	if (pEnemy)
+//	{
+//		// 리스트에 적군들을 넣고, BFS가 끝나면 한번에 처리(리스트 순서대로)
+//		m_lstTargetEnemy.push_back(pEnemy);
+//
+//		m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].bVisited = true;
+//		q.push(searchPos);
+//		moveCount.push(count + 1);
+//	}
+//}

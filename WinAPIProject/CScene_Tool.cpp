@@ -152,7 +152,7 @@ void CScene_Tool::Enter()
 	pBtnUI->SetName(L"ChildUI");
 	pBtnUI->SetScale(Vec2(100.f, 30.f));
 	pBtnUI->SetPos(Vec2(0.f, 0.f));
-	/*((CBtnUI*)pBtnUI)->SetClickedCallBack(ChangeScene, 0, 0);*/
+	((CBtnUI*)pBtnUI)->SetClickedCallBack(ChangeScene, 0, 0);
 	/*((CBtnUI*)pBtnUI)->SetClickedCallBack(this, (SCENE_MEMFUNC)&CScene_Tool::SaveTileData);*/
 	pPanelUI->AddChild(pBtnUI);
 

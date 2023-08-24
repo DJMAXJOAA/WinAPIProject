@@ -9,6 +9,7 @@ void ChangeScene(SCENE_TYPE _eNext);
 
 void PlayerTileSelect(CObject* _pObj);
 void ChangedTurn(TURN_TYPE _type);
+void RunTurnLogic(TURN_TYPE _type);
 
 void AnimationFinish(CObject* _pObj);
 

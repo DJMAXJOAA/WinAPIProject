@@ -41,8 +41,8 @@ void CEventMgr::Excute(const tEvent& _eve)
 		GROUP_TYPE eType = (GROUP_TYPE)_eve.wParam;
 
 		CSceneMgr::GetInstance()->GetCurScene()->AddObject(pNewObj, eType);
-	}
 		break;
+	}
 	case EVENT_TYPE::DELETE_OBJECT:
 	{
 		// lParam :: Object Adress
@@ -51,39 +51,47 @@ void CEventMgr::Excute(const tEvent& _eve)
 		CObject* pDeadObj = (CObject*)_eve.lParam;
 		pDeadObj->SetDead();			// 다음 프레임때 dead 상태(비활성화)
 		m_vecDead.push_back(pDeadObj);	// 다다음 프레임때 삭제
-	}
 		break;
+	}
 	case EVENT_TYPE::SCENE_CHANGE:
 	{
 		// lParam :: Next Scene Type
 		CSceneMgr::GetInstance()->ChangeScene((SCENE_TYPE)_eve.lParam);
 		CUIMgr::GetInstance()->SetFocusedUI(nullptr);
-	}
 		break;
+	}
 	case EVENT_TYPE::TILESELECT_TRIGGER:
 	{
 		// lParam :: Player Tile Select Trigger
 		// 마우스 오브젝트가 불렀을텐데, 그게 불렸다는건 애초에 전투 씬에서 불림
 		CObject* pObj = (CObject*)_eve.lParam;
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TileSelectTrigger(pObj);
-	}
 		break;	
+	}
 	case EVENT_TYPE::TURN_CHANGE:
 	{
-		// lParam :: Player Tile Select Trigger
-		// 마우스 오브젝트가 불렀을텐데, 그게 불렸다는건 애초에 전투 씬에서 불림
+		// lParam :: Turn Type
+		// 턴 종료되었을 때, 씬 배틀에서 알게 하기 위해 함수 호출(타입에 맞는 초기화 함수 호출)
 		TURN_TYPE turnType = (TURN_TYPE)_eve.lParam;
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TurnInit(turnType);
-	}
 		break;
+	}
+	case EVENT_TYPE::RUN_TURN_LOGIC:
+	{
+		// lParam :: Turn Type
+		// 턴 매니저의 업데이트 문에서 배틀 씬에서 처리할 이벤트면 이벤트 날려줌
+		TURN_TYPE turnType = (TURN_TYPE)_eve.lParam;
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TurnLogic(turnType);
+		break;
+	}
 	case EVENT_TYPE::ANIMATION_FINISH:
 	{
 		// lParam :: Animation Finish Trigger
 		// Animation Repeat가 false인 상황에서, 애니메이션이 종료되면 주인 오브젝트에 이벤트 발생시킴
 		CObject* pObj = (CObject*)_eve.lParam;
 		pObj->AnimationFinishEvent();
-	}
 		break;
+	}
 	case EVENT_TYPE::END:
 		break;
 	default:

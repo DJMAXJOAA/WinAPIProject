@@ -2,7 +2,6 @@
 
 class CScene_Battle;
 class CMonster;
-using namespace battle;
 
 class CMonsterFactory
 {
@@ -11,7 +10,7 @@ private:
 	vector<CMonster*>	m_vecMonsterList;
 
 public:
-	CMonsterFactory(CScene_Battle* _pScene);
+	CMonsterFactory();
 	~CMonsterFactory();
 
 public:

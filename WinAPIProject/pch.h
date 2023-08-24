@@ -18,6 +18,8 @@ using std::make_pair;
 #include <list>
 using std::list;
 #include <random>
+#include <functional>
+using std::function;
 
 #include <gdiplus.h>
 using namespace Gdiplus;

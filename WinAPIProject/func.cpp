@@ -49,6 +49,15 @@ void ChangedTurn(TURN_TYPE _type)
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
+void RunTurnLogic(TURN_TYPE _type)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::RUN_TURN_LOGIC;
+	evn.lParam = (DWORD_PTR)_type;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
+}
+
 void AnimationFinish(CObject* _pObj)
 {
 	tEvent evn = {  };

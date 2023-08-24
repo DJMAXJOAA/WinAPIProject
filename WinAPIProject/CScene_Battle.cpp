@@ -1,5 +1,4 @@
 #include "pch.h"
-#include <queue>
 #include "CScene_Battle.h"
 
 #include "CCore.h"
@@ -18,8 +17,10 @@
 #include "CTileManager.h"
 #include "CMonsterFactory.h"
 
+using namespace battle;
+
 CScene_Battle::CScene_Battle()
-	: m_Player{}
+	: m_pPlayer(nullptr)
 	, m_BFS(nullptr)
 	, m_MonsterFactory(nullptr)
 	, m_TurnManager(nullptr)
@@ -27,10 +28,10 @@ CScene_Battle::CScene_Battle()
 {
 	// 매니저를 등록 -> 오브젝트로 등록하는게 아니라서 직접 해제 시켜주어야 한다. Enter, Exit 함수와 관련없음
 	// 메인 씬에 있는 그룹 오브젝트들을 참조해서 관리하는 형식이라, 임의로 값들을 해제시키지 않게 주의해야 한다
-	m_TurnManager = new CTurnManager(this);
-	m_BFS = new BFSSearch(this);
-	m_MonsterFactory = new CMonsterFactory(this);
-	m_TileManager = new CTileManager(this);
+	m_TurnManager = new CTurnManager;
+	m_BFS = new BFSSearch;
+	m_MonsterFactory = new CMonsterFactory;
+	m_TileManager = new CTileManager;
 }
 
 CScene_Battle::~CScene_Battle()
@@ -45,49 +46,82 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 {
 	switch (_type)
 	{
-	case battle::TURN_TYPE::ENTER:
+	case TURN_TYPE::ENTER: break;
+	case TURN_TYPE::PLAYER_START:
+	{
+		// 리스트 내에 있는 모든 타일들의 색깔을 원래 색상으로 돌리기
+		m_TileManager->TileInit();
+
+		// 카메라 캐릭터로 초기화
+		CCamera::GetInstance()->SetTarget(nullptr);
+		CCamera::GetInstance()->SetLookAt(m_pPlayer->GetPos());
+
+		// 리스트 초기화
+		m_TurnManager->RouteInit();
 		break;
-	case battle::TURN_TYPE::PLAYER_START:
+	}
+	case TURN_TYPE::PLAYER_TILESELECT: break;
+	case TURN_TYPE::PLAYER_MOVE:
+	{
+		// 플레이어 애니메이션 설정
+		m_pPlayer->SetState(PLAYER_STATE::MOVE);
 		break;
-	case battle::TURN_TYPE::PLAYER_TILESELECT:
+	}
+	case TURN_TYPE::PLAYER_ATTACK:
+	{
+		m_pPlayer->SetState(PLAYER_STATE::SWORD);
 		break;
-	case battle::TURN_TYPE::PLAYER_MOVE:
+	}
+	case TURN_TYPE::PLAYER_SKILL:
+	{
+		// 검은 타일들(밟고 지나왔던 타일들) 랜덤 타일들로 리셋시키기
+		m_TileManager->TileRandomInit();
+
+		// 플레이어 애니메이션 설정
+		m_pPlayer->SetState(PLAYER_STATE::ROLLING);
 		break;
-	case battle::TURN_TYPE::PLAYER_ATTACK:
-		break;
-	case battle::TURN_TYPE::PLAYER_SKILL:
-		break;
-	case battle::TURN_TYPE::ENEMY_MOVE:
-		break;
-	case battle::TURN_TYPE::ENEMY_ATTACK:
-		break;
-	case battle::TURN_TYPE::EXIT:
-		break;
-	default:
-		break;
+	}
+	case TURN_TYPE::ENEMY_MOVE: break;
+	case TURN_TYPE::ENEMY_ATTACK: break;
+	case TURN_TYPE::EXIT: break;
 	}
 }
 
-void CScene_Battle::PlayerStart()
+void CScene_Battle::TurnLogic(TURN_TYPE _type)
 {
-
+	switch (_type)
+	{
+	case TURN_TYPE::ENTER: break;
+	case TURN_TYPE::PLAYER_START: break;
+	case TURN_TYPE::PLAYER_TILESELECT: break;
+	case TURN_TYPE::PLAYER_MOVE: 
+	{
+		PlayerMove();
+		break;
+	}
+	case TURN_TYPE::PLAYER_ATTACK: break;
+	case TURN_TYPE::PLAYER_SKILL: break;
+	case TURN_TYPE::ENEMY_MOVE: break;
+	case TURN_TYPE::ENEMY_ATTACK: break;
+	case TURN_TYPE::EXIT: break;
+	}
 }
 
 void CScene_Battle::PlayerMove()
 {
-	CPlayer* pPlayer = (CPlayer*)GetGroupObject(GROUP_TYPE::PLAYER).front();
-	assert(pPlayer);
-	CCamera::GetInstance()->SetTarget(pPlayer);
+	CCamera::GetInstance()->SetTarget(m_pPlayer);
 
-	if (m_lstTile.empty())
+	list<Vec2> moveRoute = m_TurnManager->GetMoveRoute();
+	if (moveRoute.empty())
 	{
+		// 턴 매니저에서 조건 체크 해서, 상태 변경됨
 		return;
 	}
 
-	Vec2 vDestination = m_mapRealPoint[m_lstTile.front()];
-	Vec2 vCurrentPos = pPlayer->GetPos();
+	Vec2 vDestination = REAL(moveRoute.front());
+	Vec2 vCurrentPos = m_pPlayer->GetPos();
 
-	// 도착했음(위치가 일치) -> 주변 적군 체크
+	// 도착했음(위치가 일치) = 주변 적군 체크 -> 갱신
 	if (vCurrentPos == vDestination)
 	{
 		// 1. 적군 탐색 후, 적군이 있으면 함수 리턴 후 공격상태 들어감(lstTargetEnemy 배열에 적들 정보 들어감)
@@ -95,66 +129,38 @@ void CScene_Battle::PlayerMove()
 		/*BFS(m_mapGridPoint[vDestination], DIRECTION::FOUR_WAY, 1);*/
 
 		// 2. 타일 상태 갱신 -> 이동한 발판은 검은색 처리
-		Vec2 gridDestination = m_lstTile.front();
+		Vec2 gridDestination = moveRoute.front();
 		int tile_number = int(gridDestination.x + gridDestination.y * GRID_Y);
 		vector<CObject*> groupTile = GetGroupObject(GROUP_TYPE::TILE);
 		((CTile*)groupTile[tile_number])->SetTileState(TILE_STATE::BLACK);
 
 		// 3. 타일 상태 갱신(목적지, 현재위치 갱신), 타일 리스트 한칸 삭제
-		m_vPlayerPos = m_lstTile.front();
-		m_lstTile.pop_front();
-		if (m_lstTile.empty()) return;		// 목적지 타일 도착하면, 함수 탈출
+		m_TurnManager->SetPlayerPos(moveRoute.front());
+		moveRoute.pop_front();
+		if (moveRoute.empty()) return;		// 목적지 타일 도착하면, 함수 탈출
 
-		vDestination = m_mapRealPoint[m_lstTile.front()];
-	}
-	pPlayer->Move(vDestination);
-}
-
-void CScene_Battle::PlayerAttack()
-{
-	if (m_lstTargetEnemy.empty())
-	{
-		return;
+		vDestination = REAL(moveRoute.front());
 	}
 
-	// 타격 판정이 들어가면 (플레이어의 공격 애니메이션 종료) -> 그때 적군 타격 + 리스트 삭제하게 하기
-	CPlayer* pPlayer = (CPlayer*)GetGroupObject(GROUP_TYPE::PLAYER).front();
-	CMonster* pMonster = m_lstTargetEnemy.front();
-}
-
-void CScene_Battle::PlayerSkillInit()
-{
-	// 검은 타일들(밟고 지나왔던 타일들) 랜덤 타일들로 리셋시키기
-	vector<CObject*> groupTiles = GetGroupObject(GROUP_TYPE::TILE);
-	
-	for (auto& tile : groupTiles)
-	{
-		CTile* pTile = (CTile*)tile;
-		if (pTile->GetTileState() == TILE_STATE::BLACK)
-		{
-			pTile->SetTileState(pTile->RandomTile());
-		}
-	}
-
-	// 플레이어 애니메이션 설정
-	CPlayer* pPlayer = (CPlayer*)GetGroupObject(GROUP_TYPE::PLAYER).front();
-	pPlayer->SetState(PLAYER_STATE::ROLLING);
+	// 캐릭터에게 도착지쪽으로 움직이게 명령
+	m_pPlayer->Move(vDestination);
 }
 
 void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 {
-	
 	// 조건 :: 마우스를 꾹 누른 상태에서 타일의 콜라이더와 닿은 상태
 	// 마우스 꾹 눌린 상태에서, 콜라이더가 닿으면 -> 이벤트 매니저에서 이 함수를 호출시킴
-	switch (m_CurrentTurn)
+	TURN_TYPE CurrnetTurn = m_TurnManager->GetTurnState();
+	vector<vector<TileState>> vecTiles = m_TileManager->GetTileState();
+
+	switch (CurrnetTurn)
 	{
 	case TURN_TYPE::PLAYER_START:
 	{
-		Vec2 vPlayerPos = GRID(m_Player.pPlayer->GetPos());
+		Vec2 vPlayerPos = GRID(m_pPlayer->GetPos());
 		Vec2 selectPos = GRID(_pObj->GetPos());
 
 		// BFS로 8방향 탐색 (주변 1칸)
-		vector<vector<TileState>> vecTiles = m_TileManager->GetTileState();
 		m_BFS->BFS(vPlayerPos, vecTiles, DIRECTION::EIGHT_WAY, 1);
 
 		// BFS 탐색결과, 방문 했었으면(result 배열에 있으면, 찾은것)
@@ -164,48 +170,46 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 			CTile* tile = (CTile*)_pObj;
 
 			// 타일 색깔 지정, 현재 위치 갱신, 리스트 추가, 타일 선택됐다고 함수 날려주기, 턴 전환
-			m_TileColor = tile->GetTileState();
-			m_vSelectTile = selectPos;
-			m_lstTile.push_back(selectPos);
+			m_TurnManager->SetTileColor(tile->GetTileState());
+			m_TurnManager->SetSelectTile(selectPos);
+			m_TurnManager->GetMoveRoute().push_back(selectPos);
 			tile->SetTileState((TILE_STATE)((int)tile->GetTileState() + 4));
 
 			// 디버깅
 			DEBUG2(selectPos.x, selectPos.y);
-			DEBUG1((int)m_TileColor);
 			printf("타일 시작\n");
 
 			// 카메라 타일로 지정
 			CCamera::GetInstance()->SetLookAt(REAL(selectPos));
 
 			// 턴 변경
-			m_CurrentTurn = TURN_TYPE::PLAYER_TILESELECT;
-			
+			m_TurnManager->SetTurnState(TURN_TYPE::PLAYER_TILESELECT);
 		}
-
-
 	}
 		break;
 	case TURN_TYPE::PLAYER_TILESELECT:
 	{
-		BFS(m_vSelectTile, DIRECTION::EIGHT_WAY, 1);
-		Vec2 selectPos = m_mapGridPoint[_pObj->GetPos()];
+		Vec2 selectPos = GRID(_pObj->GetPos());
+		Vec2 currentPos = m_TurnManager->GetSelectTile();
+		m_BFS->BFS(currentPos, vecTiles, DIRECTION::EIGHT_WAY, 1);
 
 		// 중복된 위치는 리스트에 들어가지 못하게 설정
-		auto iter = std::find(m_lstTile.begin(), m_lstTile.end(), selectPos);
-		if (m_vecTileInfo[(int)selectPos.y][(int)selectPos.x].bVisited && iter == m_lstTile.end())
+		list<Vec2> moveRoute = m_TurnManager->GetMoveRoute();
+		auto iter = std::find(moveRoute.begin(), moveRoute.end(), selectPos);
+		if (vecTiles[(int)selectPos.y][(int)selectPos.x].bVisited && iter == moveRoute.end())
 		{
 			CTile* tile = (CTile*)_pObj;
-
+			
 			// 카메라 타일로 지정
-			CCamera::GetInstance()->SetLookAt(m_mapRealPoint[selectPos]);
+			CCamera::GetInstance()->SetLookAt(REAL(selectPos));
 
 			// 현재 위치 갱신, 리스트 추가, 타일 선택됐다고 함수 날려주기
-			m_vSelectTile = selectPos;
-			m_lstTile.push_back(selectPos);
+			m_TurnManager->SetSelectTile(selectPos);
+			moveRoute.push_back(selectPos);
 			tile->SetTileState((TILE_STATE)((int)tile->GetTileState() + 4));
 
 			// 디버깅
-			for (auto& lstPos : m_lstTile) printf("%1.f, %1.f -> ", lstPos.x, lstPos.y);
+			for (auto& lstPos : moveRoute) printf("%1.f, %1.f -> ", lstPos.x, lstPos.y);
 			printf("\n");
 		}
 	}
@@ -215,160 +219,7 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 	}
 
 	// BFS 방문 초기화
-	BFSInit();
-}
-
-void CScene_Battle::PlayerStartInit()
-{
-	vector<CObject*> groupTile = GetGroupObject(GROUP_TYPE::TILE);
-
-	// 리스트 내에 있는 모든 타일들의 색깔을 원래 색상으로 돌리기
-	int tile_number;
-	for (auto& tilePos : m_lstTile)
-	{
-		tile_number = int(tilePos.x + tilePos.y * GRID_Y);
-		CTile* tile = (CTile*)groupTile[tile_number];
-		tile->SetTileState((TILE_STATE)((int)tile->GetTileState() - 4));
-	}
-
-	// 카메라 캐릭터로 초기화
-	CCamera::GetInstance()->SetTarget(nullptr);
-	CCamera::GetInstance()->SetLookAt([m_vPlayerPos]);
-
-	// 리스트 초기화
-	m_Player.lstMoveRoute.clear();
-}
-
-void CScene_Battle::PlayerTileSelectInit(CObject* _pObj)
-{
-}
-
-void CScene_Battle::PlayerMoveInit()
-{
-	m_Player.pPlayer->SetState(PLAYER_STATE::MOVE);
-}
-
-void CScene_Battle::EnemyStart()
-{
-
-}
-
-bool CScene_Battle::isValid(Vec2 _vPos)
-{
-	return (_vPos.x >= 0 && _vPos.x < GRID_X &&
-			_vPos.y >= 0 && _vPos.y < GRID_Y &&
-			!m_vecTileInfo[(int)_vPos.y][(int)_vPos.x].bVisited);
-}
-
-void CScene_Battle::BFS(Vec2 _startPos, DIRECTION _dir, int _depth)
-{
-	vector<Vec2> direction;
-	vector<CObject*> groupTile = GetGroupObject(GROUP_TYPE::TILE);
-
-	// 방향 선택
-	switch (_dir)
-	{
-	case DIRECTION::FOUR_WAY:
-		direction.push_back(Vec2(-1, 0));
-		direction.push_back(Vec2(1, 0));
-		direction.push_back(Vec2(0, -1));
-		direction.push_back(Vec2(0, 1));
-		break;
-	case DIRECTION::DIAGONAL:
-		direction.push_back(Vec2(-1, -1));
-		direction.push_back(Vec2(1, -1));
-		direction.push_back(Vec2(-1, 1));
-		direction.push_back(Vec2(1, 1));
-		break;
-	case DIRECTION::EIGHT_WAY:
-		direction.push_back(Vec2(-1, 0));
-		direction.push_back(Vec2(1, 0));
-		direction.push_back(Vec2(0, -1));
-		direction.push_back(Vec2(0, 1));
-		direction.push_back(Vec2(-1, -1));
-		direction.push_back(Vec2(1, -1));
-		direction.push_back(Vec2(-1, 1));
-		direction.push_back(Vec2(1, 1));
-		break;
-	}
-
-	std::queue<Vec2> q;
-	std::queue<int> moveCount;	// 각각의 타일마다 탐색 횟수 (깊이 설정)
-	q.push(_startPos);
-	moveCount.push(0);
-
-	while (!q.empty())
-	{
-		Vec2 currentPos = q.front();
-		int count = moveCount.front();
-		q.pop();
-		moveCount.pop();
-
-		if (count >= _depth) continue;	// 깊이가 최대깊이 도달하면 스킵
-
-		for (int i = 0; i < direction.size(); i++)
-		{
-			Vec2 searchPos(currentPos.x + direction[i].x, currentPos.y + direction[i].y);
-			if (isValid(searchPos))
-			{
-				switch (m_CurrentTurn)
-				{
-				case TURN_TYPE::PLAYER_START:
-				{
-					// 블럭 선택중일때는, 첫 선택한 블럭의 색깔과 일치해야함
-					m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].bVisited = true;
-					q.push(searchPos);
-					moveCount.push(count + 1);
-				}
-					break;
-				case TURN_TYPE::PLAYER_TILESELECT:
-				{
-					// 블럭 첫선택일때는 그냥 넣음
-					int tile_number = int(searchPos.x + searchPos.y * GRID_Y);
-
-					if (((CTile*)groupTile[tile_number])->GetTileState() == m_TileColor)
-					{
-						m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].bVisited = true;
-						q.push(searchPos);
-						moveCount.push(count + 1);
-					}
-				}
-					break;
-				case TURN_TYPE::PLAYER_MOVE:
-				{
-					// 타일 위에 적군이 있는지 체크
-					int tile_number = int(searchPos.x + searchPos.y * GRID_Y);
-					CMonster* pEnemy = (CMonster*)m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].ObjOnTile;
-
-					if (pEnemy)
-					{
-						// 리스트에 적군들을 넣고, BFS가 끝나면 한번에 처리(리스트 순서대로)
-						m_lstTargetEnemy.push_back(pEnemy);
-
-						m_vecTileInfo[(int)searchPos.y][(int)searchPos.x].bVisited = true;
-						q.push(searchPos);
-						moveCount.push(count + 1);
-					}
-				}
-				default:
-					assert(0);	// 잘못 선택됨
-					break;
-				}
-			}
-		}
-	}
-}
-
-void CScene_Battle::BFSInit()
-{
-	// BFS 방문 초기화
-	for (size_t i = 0; i < m_vecTileInfo.size(); i++)
-	{
-		for (size_t j = 0; j < m_vecTileInfo[i].size(); j++)
-		{
-			m_vecTileInfo[j][i].bVisited = false;
-		}
-	}
+	m_BFS->BFS_Init(vecTiles);
 }
 
 void CScene_Battle::Update()
@@ -401,12 +252,9 @@ void CScene_Battle::Enter()
 	// 타일 + 블럭 추가
 	int startX = (int)(vResolution.x / 2);
 	int startY = (int)(vResolution.y / 4);
-	map<Vec2, Vec2> mapRealPoint = m_TileManager->GetMapRealPoint();
-	map<Vec2, Vec2> mapGridPoint = m_TileManager->GetMapGridPoint();
+	map<Vec2, Vec2>& mapRealPoint = m_TileManager->GetMapRealPoint();
+	map<Vec2, Vec2>& mapGridPoint = m_TileManager->GetMapGridPoint();
 	vector<vector<TileState>> vecTileState = m_TileManager->GetTileState();
-
-	// 타일 블럭 생성
-	CBlock* pBlcok = new CBlock(MAP_TYPE::SNOW);
 
 	for (int y = 0; y < 9; ++y) {
 		for (int x = 0; x < 9; ++x) {
@@ -428,9 +276,9 @@ void CScene_Battle::Enter()
 			AddObject(pTile, GROUP_TYPE::TILE);
 
 			// 블럭 복사생성
-			CBlock* pCloneBlock = pBlcok->Clone();
-			pCloneBlock->SetPos(Vec2(drawX, drawY));
-			AddObject(pCloneBlock, GROUP_TYPE::BLOCK);
+			CBlock* cBlcok = new CBlock(MAP_TYPE::SNOW);
+			cBlcok->SetPos(Vec2(drawX, drawY));
+			AddObject(cBlcok, GROUP_TYPE::BLOCK);
 		}
 	}
 
@@ -438,7 +286,7 @@ void CScene_Battle::Enter()
 	CPlayer* pPlayer = new CPlayer;
 	Vec2 PlayerStartPos(4, 2);
 	pPlayer->SetPos(REAL(PlayerStartPos));
-	m_Player.pPlayer = pPlayer;
+	m_pPlayer = pPlayer;
 	AddObject(pPlayer, GROUP_TYPE::PLAYER);
 
 	 // GDI+ Test (Effect)

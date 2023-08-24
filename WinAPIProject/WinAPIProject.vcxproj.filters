@@ -393,7 +393,7 @@
       <Filter>Engine\10. BattleCenter\TurnManager</Filter>
     </ClInclude>
     <ClInclude Include="tile.h">
-      <Filter>Engine\10. BattleCenter</Filter>
+      <Filter>Engine\01. Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

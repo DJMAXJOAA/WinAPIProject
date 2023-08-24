@@ -2,7 +2,6 @@
 #include "tile.h"
 
 class CScene_Battle;
-using namespace battle;
 
 class BFSSearch
 {
@@ -10,7 +9,7 @@ private:
 	vector<CObject*>	m_vecTarget;	// BFS 탐색 결과를 저장
 
 public:
-	BFSSearch(CScene_Battle* _pScene);
+	BFSSearch();
 	~BFSSearch();
 
 public:
