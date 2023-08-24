@@ -157,9 +157,9 @@
     <ClInclude Include="EnterBattle.h" />
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="Heal.h" />
+    <ClInclude Include="IStategyTurn.h" />
     <ClInclude Include="IStrategy.h" />
     <ClInclude Include="ItemData.h" />
-    <ClInclude Include="ITurnStrategy.h" />
     <ClInclude Include="MonsterData.h" />
     <ClInclude Include="PlayerTurnAttack.h" />
     <ClInclude Include="PlayerTurnBlockSelect.h" />
@@ -254,9 +254,9 @@
     <ClCompile Include="func.cpp" />
     <ClCompile Include="GameInfo.cpp" />
     <ClCompile Include="Heal.cpp" />
+    <ClCompile Include="IStategyTurn.cpp" />
     <ClCompile Include="IStrategy.cpp" />
     <ClCompile Include="ItemData.cpp" />
-    <ClCompile Include="ITurnStrategy.cpp" />
     <ClCompile Include="MonsterData.cpp" />
     <ClCompile Include="PlayerTurnAttack.cpp" />
     <ClCompile Include="PlayerTurnBlockSelect.cpp" />

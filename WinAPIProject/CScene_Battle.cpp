@@ -13,6 +13,8 @@
 #include "CEffect.h"
 #include "CMonster.h"
 
+
+
 CScene_Battle::CScene_Battle()
 	: m_vecTileInfo(GRID_X, vector<TileInfo>(GRID_Y,0))
 	, m_mapRealPoint{}
@@ -316,7 +318,6 @@ void CScene_Battle::BFSInit()
 		}
 	}
 }
-
 
 void CScene_Battle::Update()
 {

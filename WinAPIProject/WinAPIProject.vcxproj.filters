@@ -380,9 +380,6 @@
     <ClInclude Include="IStrategy.h">
       <Filter>Engine\08. Module\Strategy\MonsterMoveStrategy</Filter>
     </ClInclude>
-    <ClInclude Include="ITurnStrategy.h">
-      <Filter>Engine\08. Module\Strategy\TurnStrategy</Filter>
-    </ClInclude>
     <ClInclude Include="Heal.h">
       <Filter>Engine\08. Module\Strategy\MonsterMoveStrategy\MoveStrategy\Heal</Filter>
     </ClInclude>
@@ -424,6 +421,9 @@
     </ClInclude>
     <ClInclude Include="PlayerTurnAttack.h">
       <Filter>Engine\08. Module\Strategy\TurnStrategy\Player_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="IStategyTurn.h">
+      <Filter>Engine\08. Module\Strategy\TurnStrategy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -566,9 +566,6 @@
     <ClCompile Include="IStrategy.cpp">
       <Filter>Engine\08. Module\Strategy\MonsterMoveStrategy</Filter>
     </ClCompile>
-    <ClCompile Include="ITurnStrategy.cpp">
-      <Filter>Engine\08. Module\Strategy\TurnStrategy</Filter>
-    </ClCompile>
     <ClCompile Include="Heal.cpp">
       <Filter>Engine\08. Module\Strategy\MonsterMoveStrategy\MoveStrategy\Heal</Filter>
     </ClCompile>
@@ -610,6 +607,9 @@
     </ClCompile>
     <ClCompile Include="PlayerTurnAttack.cpp">
       <Filter>Engine\08. Module\Strategy\TurnStrategy\Player_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="IStategyTurn.cpp">
+      <Filter>Engine\08. Module\Strategy\TurnStrategy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

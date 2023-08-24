@@ -1,5 +1,8 @@
 #pragma once
 #include "CScene.h"
+#include "IStategyTurn.h"
+
+class CMonster;
 
 enum class TURN_TYPE
 {
@@ -29,8 +32,6 @@ struct TileInfo
     TileInfo(int x) : bVisited(false), ObjOnTile(nullptr) {};
 };
 
-class CMonster;
-
 class CScene_Battle :
     public CScene
 {
@@ -52,6 +53,8 @@ public:
     CScene_Battle();
     ~CScene_Battle();
 
+    friend class IStategyTurn;
+
 public:
     void PlayerStart();
 
@@ -71,6 +74,9 @@ public:
     bool isValid(Vec2 _vPos);
     void BFS(Vec2 _startPos, DIRECTION _dir, int _depth);
     void BFSInit();
+
+public:
+    void TurnPatt(IStategyTurn* _strategy) { _strategy->TurnUpdate(this); }
 
 public:
     virtual void Update();

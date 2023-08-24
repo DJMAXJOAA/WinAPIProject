@@ -1,7 +1,10 @@
 #pragma once
-#include "ITurnStrategy.h"
+#include "IStategyTurn.h"
+
 class PlayerTurnBlockSelect :
-    public ITurnStrategy
+    public IStategyTurn
 {
+public:
+    virtual void TurnUpdate(CScene_Battle* _scene);
 };
 
