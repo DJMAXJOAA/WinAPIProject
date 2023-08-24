@@ -21,6 +21,7 @@ public:
 
 public:
     TURN_TYPE GetTurnState() { return m_CurrentTurn; }
+    TILE_STATE GetTileColor() { return m_TileColor; }
     list<Vec2>& GetMoveRoute() { return m_lstMoveRoute; }
     Vec2 GetPlayerPos() { return m_vPlayerPos; }
     Vec2 GetSelectTile() { return m_vSelectTile; }

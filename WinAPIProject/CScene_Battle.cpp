@@ -63,6 +63,8 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	case TURN_TYPE::PLAYER_TILESELECT: break;
 	case TURN_TYPE::PLAYER_MOVE:
 	{
+		CCamera::GetInstance()->SetTarget(m_pPlayer);
+
 		// 플레이어 애니메이션 설정
 		m_pPlayer->SetState(PLAYER_STATE::MOVE);
 		break;
@@ -75,6 +77,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	case TURN_TYPE::PLAYER_SKILL:
 	{
 		// 검은 타일들(밟고 지나왔던 타일들) 랜덤 타일들로 리셋시키기
+		CCamera::GetInstance()->SetTarget(nullptr);
 		m_TileManager->TileRandomInit();
 
 		// 플레이어 애니메이션 설정
@@ -109,9 +112,7 @@ void CScene_Battle::TurnLogic(TURN_TYPE _type)
 
 void CScene_Battle::PlayerMove()
 {
-	CCamera::GetInstance()->SetTarget(m_pPlayer);
-
-	list<Vec2> moveRoute = m_TurnManager->GetMoveRoute();
+	list<Vec2>& moveRoute = m_TurnManager->GetMoveRoute();
 	if (moveRoute.empty())
 	{
 		// 턴 매니저에서 조건 체크 해서, 상태 변경됨
@@ -130,9 +131,8 @@ void CScene_Battle::PlayerMove()
 
 		// 2. 타일 상태 갱신 -> 이동한 발판은 검은색 처리
 		Vec2 gridDestination = moveRoute.front();
-		int tile_number = int(gridDestination.x + gridDestination.y * GRID_Y);
-		vector<CObject*> groupTile = GetGroupObject(GROUP_TYPE::TILE);
-		((CTile*)groupTile[tile_number])->SetTileState(TILE_STATE::BLACK);
+		vector<vector<TileState>>& tiles = m_TileManager->GetTileState();
+		tiles[(int)gridDestination.y][(int)gridDestination.x].pTile->SetTileState(TILE_STATE::BLACK);
 
 		// 3. 타일 상태 갱신(목적지, 현재위치 갱신), 타일 리스트 한칸 삭제
 		m_TurnManager->SetPlayerPos(moveRoute.front());
@@ -151,7 +151,7 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 	// 조건 :: 마우스를 꾹 누른 상태에서 타일의 콜라이더와 닿은 상태
 	// 마우스 꾹 눌린 상태에서, 콜라이더가 닿으면 -> 이벤트 매니저에서 이 함수를 호출시킴
 	TURN_TYPE CurrnetTurn = m_TurnManager->GetTurnState();
-	vector<vector<TileState>> vecTiles = m_TileManager->GetTileState();
+	vector<vector<TileState>>& vecTiles = m_TileManager->GetTileState();
 
 	switch (CurrnetTurn)
 	{
@@ -194,9 +194,11 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 		m_BFS->BFS(currentPos, vecTiles, DIRECTION::EIGHT_WAY, 1);
 
 		// 중복된 위치는 리스트에 들어가지 못하게 설정
-		list<Vec2> moveRoute = m_TurnManager->GetMoveRoute();
+		list<Vec2>& moveRoute = m_TurnManager->GetMoveRoute();
 		auto iter = std::find(moveRoute.begin(), moveRoute.end(), selectPos);
-		if (vecTiles[(int)selectPos.y][(int)selectPos.x].bVisited && iter == moveRoute.end())
+		if (vecTiles[(int)selectPos.y][(int)selectPos.x].bVisited && 
+			vecTiles[(int)selectPos.y][(int)selectPos.x].pTile->GetTileState() == m_TurnManager->GetTileColor() &&
+			iter == moveRoute.end())
 		{
 			CTile* tile = (CTile*)_pObj;
 			
@@ -254,7 +256,7 @@ void CScene_Battle::Enter()
 	int startY = (int)(vResolution.y / 4);
 	map<Vec2, Vec2>& mapRealPoint = m_TileManager->GetMapRealPoint();
 	map<Vec2, Vec2>& mapGridPoint = m_TileManager->GetMapGridPoint();
-	vector<vector<TileState>> vecTileState = m_TileManager->GetTileState();
+	vector<vector<TileState>>& vecTileState = m_TileManager->GetTileState();
 
 	for (int y = 0; y < 9; ++y) {
 		for (int x = 0; x < 9; ++x) {

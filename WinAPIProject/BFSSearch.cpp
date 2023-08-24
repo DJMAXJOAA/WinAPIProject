@@ -84,7 +84,6 @@ void BFSSearch::BFS(Vec2 _startPos, vector<vector<TileState>>& _vecTiles, DIRECT
 				_vecTiles[(int)searchPos.y][(int)searchPos.x].bVisited = true;
 				q.push(searchPos);
 				moveCount.push(count + 1);
-				break;
 			}
 		}
 	}
