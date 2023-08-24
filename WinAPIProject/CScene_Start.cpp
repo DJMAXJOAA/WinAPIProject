@@ -13,7 +13,6 @@
 #include "CMonster.h"
 #include "CTexture.h"
 
-#include "AI.h"
 #include "CIdleState.h"
 #include "CTraceState.h"
 
@@ -66,28 +65,12 @@ void CScene_Start::Enter()
 	// Monster 추가
 	Vec2 vResolution = CCore::GetInstance()->GetResolution();
 	CMonster* pMonsterObj = nullptr;
-	
-	AI* pAI = new AI;
-	pAI->AddState(new CIdleState);
-	pAI->AddState(new CTraceState);
 
 	pMonsterObj = new CMonster;
 	pMonsterObj->SetName(L"Monster");
 	pMonsterObj->SetPos(Vec2(500.f, 100.f));
 	pMonsterObj->SetScale(Vec2(50.f, 50.f));
 	AddObject(pMonsterObj, GROUP_TYPE::MONSTER);
-
-	/*int iMonCount = 1;*/
-	//float fTerm = (vResolution.x - (75.f * 2)) / (float)(iMonCount-1); // 몬스터 사이의 간격
-	//for (int i = 0; i < iMonCount; i++)
-	//{
-	//	pMonsterObj = new CMonster;
-	//	pMonsterObj->SetName(L"Monster");
-	//	pMonsterObj->SetPos(Vec2(75.f + (float)i * fTerm, 50.f));
-	//	pMonsterObj->SetCenterPos(pMonsterObj->GetPos());
-	//	pMonsterObj->SetScale(Vec2(50.f, 50.f));
-	//	AddObject(pMonsterObj, GROUP_TYPE::MONSTER);
-	//}
 
 	// 충돌 처리 -> player 그룹과 monster 그룹 간의 충돌 체크
 	CCollisionMgr::GetInstance()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);

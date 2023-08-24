@@ -5,7 +5,7 @@
 
 #include "CCollider.h"
 
-#include "AI.h"
+#include "IStrategy.h"
 
 CMonster::CMonster()
 	: m_iHP(5)
@@ -17,6 +17,11 @@ CMonster::CMonster()
 
 CMonster::~CMonster()
 {
+}
+
+void CMonster::MovePattern(IStrategy* _stratey)
+{
+	_stratey->MoveStrategy(this);
 }
 
 void CMonster::OnCollisionEnter(CCollider* _pOther)

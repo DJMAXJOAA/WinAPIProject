@@ -15,7 +15,7 @@ std::uniform_real_distribution<float> distribution(-1.0, 1.0);
 
 CCamera::CCamera()
 	: m_pTargetObj(nullptr)
-	, m_fTime(0.5f)
+	, m_fTime(1.0f)
 
 	, m_fVTime(0)
 	, m_fSpeed(0)

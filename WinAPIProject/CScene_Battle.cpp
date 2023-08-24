@@ -78,8 +78,6 @@ void CScene_Battle::PlayerAttack()
 	// 타격 판정이 들어가면 (플레이어의 공격 애니메이션 종료) -> 그때 적군 타격 + 리스트 삭제하게 하기
 	CPlayer* pPlayer = (CPlayer*)GetGroupObject(GROUP_TYPE::PLAYER).front();
 	CMonster* pMonster = m_lstTargetEnemy.front();
-
-
 }
 
 void CScene_Battle::PlayerSkillInit()
