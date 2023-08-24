@@ -22,13 +22,6 @@ return &mgr;\
 
 #define PI 3.1415926535f
 
-// 지도 크기
-#define WIDTH 15
-#define HEIGHT 7
-#define TILE_WIDTH 140
-#define TILE_HEIGHT 70
-#define GRID_X 9
-#define GRID_Y 9
 #define DEBUG1(key) cout<<key<<"\n"
 #define DEBUG2(key1, key2) cout<<key1<<","<<key2<<"\n"
 #define DEBUG3(key1, key2, key3) cout<<key1<<","<<key2<<","<<key3<<"\n"
@@ -78,45 +71,72 @@ enum class EVENT_TYPE
 	SCENE_CHANGE,
 
 	TILESELECT_TRIGGER,
+	TURN_CHANGE,
 
 	ANIMATION_FINISH,
 
 	END,
 };
 
-enum class MON_STATE
+namespace battle
 {
-	IDLE,
-	PATROL,
-	TRACE,
-	ATT,
-	RUN,
-	DEAD,
-};
+	// 지도 크기
+	#define WIDTH 15
+	#define HEIGHT 7
+	#define TILE_WIDTH 140
+	#define TILE_HEIGHT 70
+	#define GRID_X 9
+	#define GRID_Y 9
 
-enum class TILE_STATE
-{
-	BLACK,
-	RED,
-	GREEN,
-	BLUE,
-	PURPLE,
-	RED_SELECTED,
-	GREEN_SELECTED,
-	BLUE_SELECTED,
-	PURPLE_SELECTED,
-};
+	// 매크로 (좌표 변경)
+	#define REAL(key) m_TileManager->GridToReal(key)
+	#define GRID(key) m_TileManager->RealToGrid(key)
 
-enum class MAP_TYPE
-{
-	BRICK,
-	DIRT,
-	GRASS,
-	STONE,
-	SNOW,
-};
+	enum class TILE_STATE
+	{
+		BLACK,
+		RED,
+		GREEN,
+		BLUE,
+		PURPLE,
+		RED_SELECTED,
+		GREEN_SELECTED,
+		BLUE_SELECTED,
+		PURPLE_SELECTED,
+	};
 
-enum class ATTACK_TYPE
-{
-	NORMAL_ATTACK,
-};
+	enum class ATTACK_TYPE
+	{
+		NORMAL_ATTACK,
+	};
+
+	enum class MAP_TYPE
+	{
+		BRICK,
+		DIRT,
+		GRASS,
+		STONE,
+		SNOW,
+	};
+
+	enum class TURN_TYPE
+	{
+		ENTER,                  // 전투 입장
+		PLAYER_START,           // 플레이어 :: 첫 블럭 선택 전
+		PLAYER_TILESELECT,     // 플레이어 :: 블럭 선택중
+		PLAYER_MOVE,            // 플레이어 :: 선택 확정하고, 움직이는중
+		PLAYER_ATTACK,          // 플레이어 :: 이동중에 공격 상태 들어감(잠깐)
+		PLAYER_SKILL,           // 플레이어 :: 움직임이 끝나고, 스킬 시전중
+		ENEMY_MOVE,             // 적 :: 움직임 계산 + 움직임
+		ENEMY_ATTACK,           // 적 :: 움직임이 끝나고, 플레이어 공격 혹은 스킬
+		EXIT,                   // 전투 종료
+	};
+
+	enum class DIRECTION
+	{
+		// BFS에서 사용
+		FOUR_WAY,       // 상하좌우 방향
+		DIAGONAL,       // 대각선 방향
+		EIGHT_WAY,      // 8방향 전부
+	};
+}

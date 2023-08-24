@@ -1,6 +1,8 @@
 #pragma once
 #include "CObject.h"
 
+using namespace battle;
+
 class CBlock :
     public CObject
 {

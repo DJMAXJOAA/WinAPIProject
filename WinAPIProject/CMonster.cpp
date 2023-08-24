@@ -19,7 +19,7 @@ CMonster::~CMonster()
 {
 }
 
-void CMonster::MovePattern(IStrategy* _stratey)
+void CMonster::MovePattern(IMonsterStrategy* _stratey)
 {
 	_stratey->MoveStrategy(this);
 }

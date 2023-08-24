@@ -68,6 +68,14 @@ void CEventMgr::Excute(const tEvent& _eve)
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TileSelectTrigger(pObj);
 	}
 		break;	
+	case EVENT_TYPE::TURN_CHANGE:
+	{
+		// lParam :: Player Tile Select Trigger
+		// 마우스 오브젝트가 불렀을텐데, 그게 불렸다는건 애초에 전투 씬에서 불림
+		TURN_TYPE turnType = (TURN_TYPE)_eve.lParam;
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TurnInit(turnType);
+	}
+		break;
 	case EVENT_TYPE::ANIMATION_FINISH:
 	{
 		// lParam :: Animation Finish Trigger

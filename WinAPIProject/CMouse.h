@@ -1,8 +1,13 @@
 #pragma once
+class CCollider;
+
 #include "CObject.h"
 class CMouse :
     public CObject
 {
+private:
+    CCollider*    m_pOtherCollider;      // 가장 최근에 충돌한 오브젝트의 콜라이더
+
 public:
     CMouse();
     virtual ~CMouse();

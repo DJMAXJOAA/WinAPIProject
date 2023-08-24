@@ -2,10 +2,10 @@
 
 class CMonster;
 
-class IStrategy
+class IMonsterStrategy
 {
 public:
-	virtual ~IStrategy() {}
+	virtual ~IMonsterStrategy() {}
 
 public:
 	virtual void MoveStrategy(CMonster* _pMon) = 0;

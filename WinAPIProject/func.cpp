@@ -40,6 +40,15 @@ void PlayerTileSelect(CObject* _pObj)
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
+void ChangedTurn(TURN_TYPE _type)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::TURN_CHANGE;
+	evn.lParam = (DWORD_PTR)_type;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
+}
+
 void AnimationFinish(CObject* _pObj)
 {
 	tEvent evn = {  };
@@ -48,4 +57,5 @@ void AnimationFinish(CObject* _pObj)
 
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
+
 

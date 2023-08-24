@@ -1,7 +1,7 @@
 #pragma once
 #include "CObject.h"
 
-class IStrategy;
+class IMonsterStrategy;
 
 class CMonster :
     public CObject
@@ -16,7 +16,7 @@ public:
     CLONE(CMonster);
 
 public:
-    void MovePattern(IStrategy* _stratey);
+    void MovePattern(IMonsterStrategy* _stratey);
 
 public:
     virtual void AnimationFinishEvent() override {}

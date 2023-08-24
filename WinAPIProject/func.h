@@ -1,4 +1,5 @@
 #pragma once
+using namespace battle;
 class CObject;
 
 // Event
@@ -7,6 +8,7 @@ void DeleteObj(CObject* _pObj);
 void ChangeScene(SCENE_TYPE _eNext);
 
 void PlayerTileSelect(CObject* _pObj);
+void ChangedTurn(TURN_TYPE _type);
 
 void AnimationFinish(CObject* _pObj);
 
@@ -54,4 +56,13 @@ void SafeDeleteList(list<T>& _lst)
 		}
 	}
 	_lst.clear();
+}
+
+// 디버깅용 컨테이너 모든 값 출력
+template <typename Container>
+void PrintAll(const Container& c) {
+	for (auto it = c.begin(); it != c.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	printf("\n");
 }

@@ -6,6 +6,7 @@
 #include "CCollider.h"
 
 CMouse::CMouse()
+	: m_pOtherCollider(nullptr)
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(10.f, 10.f));
@@ -19,10 +20,12 @@ CMouse::~CMouse()
 void CMouse::OnCollisionEnter(CCollider* _pOther)
 {
 	// 플레이어 근처에 있었던 블럭인지 아닌지 체크하기
-	if (KEY_HOLD(KEY::LBTN))
+	// 바로 전에 체크한 적 있으면, 이벤트 다시 보내지 않음
+	if (KEY_HOLD(KEY::LBTN) && (m_pOtherCollider != _pOther))
 	{
 		PlayerTileSelect(_pOther->GetObj());
 	}
+	m_pOtherCollider = _pOther;
 }
 
 void CMouse::Render(HDC hdc)
