@@ -215,6 +215,9 @@
     <Filter Include="Engine\09. Data\600. Field">
       <UniqueIdentifier>{9215465f-4b75-489a-90bc-e1b8e28a3c48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\08. Module\MapGenerator">
+      <UniqueIdentifier>{29ebefb3-a7d2-437f-a7bf-d1d14abc2b72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -323,9 +326,6 @@
     <ClInclude Include="CDataMgr.h">
       <Filter>Engine\03. Manager\Data</Filter>
     </ClInclude>
-    <ClInclude Include="GameInfo.h">
-      <Filter>Engine\09. Data\000. GameSave</Filter>
-    </ClInclude>
     <ClInclude Include="ItemData.h">
       <Filter>Engine\09. Data\300. Item</Filter>
     </ClInclude>
@@ -422,6 +422,12 @@
     <ClInclude Include="FieldData.h">
       <Filter>Engine\09. Data\600. Field</Filter>
     </ClInclude>
+    <ClInclude Include="CMapGenerator.h">
+      <Filter>Engine\08. Module\MapGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>Engine\09. Data\000. GameSave</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -512,9 +518,6 @@
     <ClCompile Include="CDataMgr.cpp">
       <Filter>Engine\03. Manager\Data</Filter>
     </ClCompile>
-    <ClCompile Include="GameInfo.cpp">
-      <Filter>Engine\09. Data\000. GameSave</Filter>
-    </ClCompile>
     <ClCompile Include="ItemData.cpp">
       <Filter>Engine\09. Data\300. Item</Filter>
     </ClCompile>
@@ -604,6 +607,12 @@
     </ClCompile>
     <ClCompile Include="FieldData.cpp">
       <Filter>Engine\09. Data\600. Field</Filter>
+    </ClCompile>
+    <ClCompile Include="CMapGenerator.cpp">
+      <Filter>Engine\08. Module\MapGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="GameData.cpp">
+      <Filter>Engine\09. Data\000. GameSave</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

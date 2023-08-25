@@ -147,6 +147,7 @@
     <ClInclude Include="CData.h" />
     <ClInclude Include="CDataMgr.h" />
     <ClInclude Include="CEffect.h" />
+    <ClInclude Include="CMapGenerator.h" />
     <ClInclude Include="CMonsterFactory.h" />
     <ClInclude Include="CMonsterFactory_Stage1.h" />
     <ClInclude Include="CMonsterFactory_Stage2.h" />
@@ -158,7 +159,7 @@
     <ClInclude Include="CToolTest.h" />
     <ClInclude Include="CToolTest2.h" />
     <ClInclude Include="FieldData.h" />
-    <ClInclude Include="GameInfo.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="Heal.h" />
     <ClInclude Include="IStrategy.h" />
     <ClInclude Include="ItemData.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="CEffect.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />
+    <ClCompile Include="CMapGenerator.cpp" />
     <ClCompile Include="CMissile.cpp" />
     <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CMonsterFactory.cpp" />
@@ -255,7 +257,7 @@
     <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="FieldData.cpp" />
     <ClCompile Include="func.cpp" />
-    <ClCompile Include="GameInfo.cpp" />
+    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="Heal.cpp" />
     <ClCompile Include="IStrategy.cpp" />
     <ClCompile Include="ItemData.cpp" />

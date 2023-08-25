@@ -1,59 +1,38 @@
 #include "pch.h"
-#include "GameInfo.h"
-
-#include "CPathMgr.h"
+#include "CMapGenerator.h"
 
 #include<ctime>
-#include<random>
-#include<functional>
-using std::function;
-
 static std::random_device rd;
 static std::mt19937 rng(rd());
+#include<fstream>
+using std::locale;
+using std::ifstream;
+using std::ofstream;
 
-GameInfo::GameInfo(int _key)
-    : CData(_key)
-    , m_PlayerInfo{}
-    , m_vecMap{}
-    , m_vecStartPos{}
-    , m_fPlaytime{}
+CMapGenerator::CMapGenerator()
 {
 }
 
-GameInfo::~GameInfo()
+CMapGenerator::~CMapGenerator()
 {
 }
 
-void GameInfo::SaveData()
+vector<Node*> CMapGenerator::CreateStartPos(const vector<vector<int>>& _vecMap)
 {
-    // 세이브 데이터는 하나기때문에 따로 검색과정이 필요없음
-    wstring strFilePath = CPathMgr::GetInstance()->GetContentPath();
-    strFilePath += L"data\\save.json";
+    vector<Node*> result{};
+    // 첫 시작점 노드을 Node* head로 이어진 길들을 경로 탐색 후 추가
+    for (int y = 0; y < HEIGHT * 2 - 1; y++) {
+        if (_vecMap[y][0] >= 4) {
+            result.push_back(CreatePath(0, y, _vecMap));
 
-    json j;
-    j["PlayerInfo"] = m_PlayerInfo;
-    j["MapInfo"] = m_vecMap;
-    j["PlayTime"] = m_fPlaytime;
-
-    ofstream outFile(strFilePath);
-    if (!outFile.is_open())
-    {
-        assert(0);
+            break;
+        }
     }
-    outFile << j.dump(4);
-    outFile.close();
+
+    return result;
 }
 
-void GameInfo::ParseData(const json& item)
-{
-    m_vecMap = item["MapInfo"];
-    m_PlayerInfo = item["PlayerInfo"].get<PlayerInfo>();
-    m_fPlaytime = item["PlayTime"];
-
-    CreateStartPos();
-}
-
-void GameInfo::CreateRandomMap()
+vector<vector<int>> CMapGenerator::CreateRandomMap()
 {
     // 바로 시작 버튼을 눌러서 시작하면 (세이브 데이터가 없으면), 랜덤맵 생성
     vector<vector<int>> grid(HEIGHT * 2 - 1, vector<int>(WIDTH * 2 - 1, 0));
@@ -71,7 +50,7 @@ void GameInfo::CreateRandomMap()
         grid[currentPoint.y][currentPoint.x] = 4;
 
         while (currentPoint.x < (WIDTH - 1) * 2) {
-            int deltaY = getValueRandomY();
+            int deltaY = GetValueRandomY();
 
             if (currentPoint.y + (deltaY * 2) >= 0 && currentPoint.y + (deltaY * 2) < HEIGHT * 2) {
                 switch (deltaY) {
@@ -118,12 +97,8 @@ void GameInfo::CreateRandomMap()
         }
     }
 
-    m_vecMap = grid;
-
-    CreateStartPos();
-
     /* 확인용 맵 출력 코드 -> 2차원 벡터를 WCHAR형으로 수정하고 확인 */
-    std::ofstream outfile("map.txt");
+    ofstream outfile("map.txt");
     for (int i = 0; i < grid.size(); i++) {
         for (int j = 0; j < grid[0].size(); j++) {
             outfile << grid[i][j];
@@ -131,21 +106,11 @@ void GameInfo::CreateRandomMap()
         outfile << '\n';
     }
     outfile.close();
+
+    return grid;
 }
 
-void GameInfo::CreateStartPos()
-{
-    // 첫 시작점 노드을 Node* head로 이어진 길들을 경로 탐색 후 추가
-    for (int y = 0; y < HEIGHT * 2 - 1; y++) {
-        if (m_vecMap[y][0] >= 4) {
-            m_vecStartPos.push_back(buildTree(0, y));
-
-            break;
-        }
-    }
-}
-
-Node* GameInfo::buildTree(int x, int y)
+Node* CMapGenerator::CreatePath(int x, int y, const vector<vector<int>>& _vecMap)
 {
     // 재귀로 노드 생성
 
@@ -154,34 +119,34 @@ Node* GameInfo::buildTree(int x, int y)
     Node* node = new Node();
     node->x = x;
     node->y = y;
-    node->value = m_vecMap[y][x];
+    node->value = _vecMap[y][x];
 
     if (x + 1 < WIDTH * 2 - 1) {
-        if (y - 1 >= 0 && m_vecMap[y - 1][x + 1] == 1) // ↗
-            node->children.push_back(buildTree(x + 2, y - 2));
+        if (y - 1 >= 0 && _vecMap[y - 1][x + 1] == 1) // ↗
+            node->children.push_back(CreatePath(x + 2, y - 2, _vecMap));
 
-        if (m_vecMap[y][x + 1] == 2) // →
-            node->children.push_back(buildTree(x + 2, y));
+        if (_vecMap[y][x + 1] == 2) // →
+            node->children.push_back(CreatePath(x + 2, y, _vecMap));
 
-        if (y + 1 < HEIGHT * 2 - 1 && m_vecMap[y + 1][x + 1] == 3) // ↘
-            node->children.push_back(buildTree(x + 2, y + 2));
+        if (y + 1 < HEIGHT * 2 - 1 && _vecMap[y + 1][x + 1] == 3) // ↘
+            node->children.push_back(CreatePath(x + 2, y + 2, _vecMap));
     }
 
     return node;
 }
 
-int GameInfo::getValueRandomY()
+int CMapGenerator::GetValueRandomY()
 {
-    // 1, 0, -1
+    // 1, 0, -1 중에 랜덤으로 하나 반환
     // 맵이 x 갈때마다 엣지가 위로갈지 중간으로갈지 아래로갈지 정하기
     std::uniform_int_distribution<int> dist(-1, 1);
     return dist(rng);
 }
 
-int GameInfo::getRandomStageSelect()
+int CMapGenerator::GetRandomStageSelect()
 {
     // 방 종류 정하기
-    // 15% 엘리트방, 10% 상점, 15% 쉼터, 60% 일반방
+    // 15% 엘리트방, 10% 상점, 15% 쉼터, 60% 일반방, 나머지 일반방
     std::uniform_int_distribution<int> dist(0, 99);
     int randomValue = dist(rng);
 
@@ -189,29 +154,4 @@ int GameInfo::getRandomStageSelect()
     if (randomValue < 25) return 6;
     if (randomValue < 40) return 7;
     return 4;
-}
-
-void to_json(json& j, const PlayerInfo& p)
-{
-    j = json
-    {
-    {"Money", p.fMoney},
-    {"XPos", p.ptMyLocation.x},
-    {"YPos", p.ptMyLocation.y},
-    {"MaxHP", p.fMaxHP},
-    {"CurrentHP", p.fCurHP},
-    {"Inventory", vector_wstring_to_json(p.vecInventory)},
-    {"Skill", vector_wstring_to_json(p.vecSkill)}
-    };
-}
-
-void from_json(const json& j, PlayerInfo& p)
-{
-    p.fMoney = j["Money"].get<float>();
-    p.ptMyLocation.x = j["XPos"].get<LONG>();
-    p.ptMyLocation.y = j["YPos"].get<LONG>();
-    p.fMaxHP = j["MaxHP"].get<float>();
-    p.fCurHP = j["CurrentHP"].get<float>();
-    p.vecInventory = json_to_vector_wstring(j["Inventory"].get<vector<string>>());
-    p.vecSkill = json_to_vector_wstring(j["Skill"].get<vector<string>>());
 }
