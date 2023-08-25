@@ -17,9 +17,6 @@ public:
     CLONE(CMissile);
 
 public:
-    virtual void AnimationFinishEvent() override {}
-
-public:
     void SetDir(float _fTheta) { m_fTheta = _fTheta; }
     void SetDir(Vec2 _vDir) { m_vDir = _vDir; m_vDir.Normalize(); }
 

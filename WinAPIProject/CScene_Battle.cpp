@@ -15,14 +15,14 @@
 #include "BFSSearch.h"
 #include "CTurnManager.h"
 #include "CTileManager.h"
-#include "CMonsterFactory.h"
+#include "CMonsterSpawner.h"
 
 using namespace battle;
 
 CScene_Battle::CScene_Battle()
 	: m_pPlayer(nullptr)
 	, m_BFS(nullptr)
-	, m_MonsterFactory(nullptr)
+	, m_MonsterSpawner(nullptr)
 	, m_TurnManager(nullptr)
 	, m_TileManager(nullptr)
 {
@@ -30,14 +30,14 @@ CScene_Battle::CScene_Battle()
 	// 메인 씬에 있는 그룹 오브젝트들을 참조해서 관리하는 형식이라, 임의로 값들을 해제시키지 않게 주의해야 한다
 	m_TurnManager = new CTurnManager;
 	m_BFS = new BFSSearch;
-	m_MonsterFactory = new CMonsterFactory;
+	m_MonsterSpawner = new CMonsterSpawner;
 	m_TileManager = new CTileManager;
 }
 
 CScene_Battle::~CScene_Battle()
 {
 	delete m_BFS;
-	delete m_MonsterFactory;
+	delete m_MonsterSpawner;
 	delete m_TurnManager;
 	delete m_TileManager;
 }
@@ -49,12 +49,13 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	case TURN_TYPE::ENTER: break;
 	case TURN_TYPE::PLAYER_START:
 	{
-		// 리스트 내에 있는 모든 타일들의 색깔을 원래 색상으로 돌리기
-		m_TileManager->TileInit();
-
 		// 카메라 캐릭터로 초기화
 		CCamera::GetInstance()->SetTarget(nullptr);
 		CCamera::GetInstance()->SetLookAt(m_pPlayer->GetPos());
+
+		// 리스트 내에 있는 모든 타일들의 색깔을 원래 색상으로 돌리기
+		list<Vec2>& moveRoute = m_TurnManager->GetMoveRoute();
+		m_TileManager->TileInit(moveRoute);
 
 		// 리스트 초기화
 		m_TurnManager->RouteInit();
@@ -90,14 +91,15 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	}
 }
 
-void CScene_Battle::TurnLogic(TURN_TYPE _type)
+void CScene_Battle::TurnLogic()
 {
-	switch (_type)
+	TURN_TYPE currentTurn = m_TurnManager->GetTurnState();
+	switch (currentTurn)
 	{
 	case TURN_TYPE::ENTER: break;
 	case TURN_TYPE::PLAYER_START: break;
 	case TURN_TYPE::PLAYER_TILESELECT: break;
-	case TURN_TYPE::PLAYER_MOVE: 
+	case TURN_TYPE::PLAYER_MOVE:
 	{
 		PlayerMove();
 		break;
@@ -238,7 +240,13 @@ void CScene_Battle::Update()
 		CCamera::GetInstance()->SetLookAt(vLookAt);
 	}
 
+	// 메인 씬 업데이트 (각자 오브젝트들의 업데이트)
 	CScene::Update();
+
+	// 전투 로직 처리
+	TurnLogic();
+
+	// 이벤트 처리해주는거 보냄
 	m_TurnManager->Update();
 
 }
@@ -296,6 +304,12 @@ void CScene_Battle::Enter()
 	pEffect->SetPos(REAL(PlayerStartPos));
 	AddObject(pEffect, GROUP_TYPE::MISSILE_PLAYER);
 
+	// Monster 추가
+	CMonster* pMonster = new CMonster;
+	Vec2 MonsterStartPos(6, 3);
+	pMonster->SetPos(REAL(MonsterStartPos));
+	AddObject(pMonster, GROUP_TYPE::MONSTER);
+
 	// 타일과 마우스의 충돌처리
 	CCollisionMgr::GetInstance()->CheckGroup(GROUP_TYPE::MOUSE, GROUP_TYPE::TILE);
 	
@@ -306,6 +320,8 @@ void CScene_Battle::Enter()
 void CScene_Battle::Exit()
 {
 	DeleteAll();
+	m_BFS->BFS_Init(m_TileManager->GetTileState());
+	m_TurnManager->Init();
 	CCollisionMgr::GetInstance()->Reset();
 }
 

@@ -1,8 +1,6 @@
 #pragma once
 #include "tile.h"
 
-class CScene_Battle;
-
 class BFSSearch
 {
 private:

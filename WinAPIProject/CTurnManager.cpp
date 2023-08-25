@@ -2,6 +2,7 @@
 #include "CTurnManager.h"
 
 #include "CKeyMgr.h"
+#include "CEventMgr.h"
 
 #include "CTile.h"
 
@@ -14,6 +15,19 @@ CTurnManager::CTurnManager()
 
 CTurnManager::~CTurnManager()
 {
+}
+
+void CTurnManager::ChangeTurn(TURN_TYPE _type)
+{
+	// 현재 타입 설정
+	m_CurrentTurn = _type;
+
+	// 씬에게 이벤트 보냄(턴 끝났따고 -> Init실행)
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::TURN_CHANGE;
+	evn.lParam = (DWORD_PTR)_type;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
 void CTurnManager::Update()
@@ -53,7 +67,6 @@ void CTurnManager::Update()
 			ChangeTurn(TURN_TYPE::PLAYER_SKILL);
 			break;
 		}
-		RunTurnLogic(TURN_TYPE::PLAYER_MOVE);
 	}
 	break;
 	case TURN_TYPE::PLAYER_ATTACK:
@@ -64,7 +77,6 @@ void CTurnManager::Update()
 			m_CurrentTurn = TURN_TYPE::PLAYER_MOVE;
 			break;
 		}
-		RunTurnLogic(TURN_TYPE::PLAYER_ATTACK);
 	}
 	break;
 	case TURN_TYPE::PLAYER_SKILL:
@@ -81,4 +93,11 @@ void CTurnManager::Update()
 	default:
 		break;
 	}
+}
+
+void CTurnManager::Init()
+{
+	m_CurrentTurn = TURN_TYPE::PLAYER_START;
+	m_lstMoveRoute.clear();
+	m_lstTargetEnemy.clear();
 }

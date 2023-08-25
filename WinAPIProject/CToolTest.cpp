@@ -12,7 +12,7 @@
 
 #include "AnimationData.h"
 
-CToolTest::CToolTest()
+CToolTest1::CToolTest1()
 	: m_iID(200)
 {
 	SetAnimator(m_iID);
@@ -23,12 +23,25 @@ CToolTest::CToolTest()
 	GetCollider()->SetScale(GetAnimator()->GetAnimation()->GetFrame(0).vSlice);
 }
 
-CToolTest::~CToolTest()
+CToolTest1::CToolTest1(int iAnimator, int iAnimation)
+	: m_iID(iAnimator)
+{
+	SetAnimator(iAnimator);
+
+	SetAnimator(m_iID);
+	GetAnimator()->Play(iAnimation, true);
+
+	CreateCollider();
+	GetCollider()->SetOffsetPos(Vec2(0.f, 0.f));
+	GetCollider()->SetScale(GetAnimator()->GetAnimation()->GetFrame(0).vSlice);
+}
+
+CToolTest1::~CToolTest1()
 {
 
 }
 
-void CToolTest::ChangeAnimation(int _key)
+void CToolTest1::ChangeAnimation(int _key)
 {
 	DEBUG1(_key);
 
@@ -37,14 +50,14 @@ void CToolTest::ChangeAnimation(int _key)
 	GetCollider()->SetScale(GetAnimator()->GetAnimation()->GetFrame(0).vSlice);
 }
 
-void CToolTest::ChangeAnimator(int _key)
+void CToolTest1::ChangeAnimator(int _key)
 {
 	DEBUG1(_key);
 	SetAnimator(_key);
 	GetCollider()->SetScale(GetAnimator()->GetAnimation()->GetFrame(0).vSlice);
 }
 
-void CToolTest::Render(HDC hdc)
+void CToolTest1::Render(HDC hdc)
 {
 	CTexture* pTex = GetAnimator()->GetAnimation()->GetTexture();
 	tAnimFrame frame = GetAnimator()->GetAnimation()->GetFrame(0);
@@ -84,7 +97,7 @@ void CToolTest::Render(HDC hdc)
 					,(int)(vPos.y + vScale.y / 2.f));
 }
 
-void CToolTest::Update()
+void CToolTest1::Update()
 {
 	GetAnimator()->Update();
 }

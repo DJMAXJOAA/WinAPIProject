@@ -15,6 +15,8 @@ using std::wstring;
 #include <map>
 using std::map;
 using std::make_pair;
+#include <set>
+using std::set;
 #include <list>
 using std::list;
 #include <random>

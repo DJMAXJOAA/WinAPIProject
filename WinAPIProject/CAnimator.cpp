@@ -4,6 +4,7 @@
 #include "CDataMgr.h"
 #include "CResMgr.h"
 #include "CPathMgr.h"
+#include "CEventMgr.h"
 
 #include "CObject.h"
 #include "CTexture.h"
@@ -23,6 +24,15 @@ CAnimator::CAnimator()
 CAnimator::~CAnimator()
 {
 	SafeDeleteMap(m_mapAnim);
+}
+
+void CAnimator::AnimationFinish(CObject* _pObj)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::ANIMATION_FINISH;
+	evn.lParam = (DWORD_PTR)_pObj;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
 void CAnimator::CreateAnimation(const wstring& _strName, CTexture* _pTex, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount, int _id)
@@ -100,6 +110,7 @@ void CAnimator::Update()
 
 		if (m_bRepeat && m_pCurAnim->isFinish())
 		{
+			AnimationFinish(m_pOwner);
 			m_pCurAnim->SetFrame(0);
 		}
 	}

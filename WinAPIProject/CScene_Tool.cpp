@@ -14,6 +14,7 @@
 #include "CTile.h"
 #include "CBlock.h"
 #include "CToolTest.h"
+#include "CToolTest2.h"
 #include "CPanelUI.h"
 #include "CBtnUI.h"
 
@@ -29,6 +30,9 @@ Vec2 ToolPanelPos(300, 300);
 CScene_Tool::CScene_Tool()
 	: m_pUI(nullptr)
 	, m_pDisplay(nullptr)
+	, m_pObj(nullptr)
+	, m_iCurrentAnimator(200)
+	, m_iCurrentAnimation(113)
 {
 }
 
@@ -66,12 +70,18 @@ void CScene_Tool::AddOffset(Vec2 _value)
 
 void CScene_Tool::PrevFrame()
 {
+	m_iCurrentAnimation--;
 	m_pDisplay->ChangeAnimation(m_pDisplay->GetAnimator()->GetAnimation()->GetID() - 1);
+	m_pObj->ChangeAnimation(m_pObj->GetAnimator()->GetAnimation()->GetID() - 1);
+	DEBUG1(m_iCurrentAnimation);
 }
 
 void CScene_Tool::NextFrame()
 {
+	m_iCurrentAnimation++;
 	m_pDisplay->ChangeAnimation(m_pDisplay->GetAnimator()->GetAnimation()->GetID() + 1);
+	m_pObj->ChangeAnimation(m_pObj->GetAnimator()->GetAnimation()->GetID() + 1);
+	DEBUG1(m_iCurrentAnimation);
 }
 
 void CScene_Tool::SaveAnimation()
@@ -89,7 +99,7 @@ void CScene_Tool::Update()
 	{
 		ChangeScene(SCENE_TYPE::BATTLE);
 	}
-	if (KEY_TAP(KEY::ESC))
+	if (KEY_TAP(KEY::SPACE))
 	{
 		SaveAnimation();
 	}
@@ -138,7 +148,7 @@ void CScene_Tool::Enter()
 	Vec2 vResolution = CCore::GetInstance()->GetResolution();
 
 	// 피벗 설정 패널
-	CToolTest* toolTest = new CToolTest;
+	CToolTest1* toolTest = new CToolTest1(m_iCurrentAnimator, m_iCurrentAnimation);
 	toolTest->SetPos(ToolPanelPos);
 	m_pDisplay = toolTest;
 	AddObject(toolTest, GROUP_TYPE::DEFAULT);
@@ -171,15 +181,15 @@ void CScene_Tool::Enter()
 	int startY = (int)(vResolution.y / 4);
 
 	// Player 추가
-
 	for (int y = 0; y < 1; ++y) {
 		for (int x = 0; x < 1; ++x) {
 			int drawX = startX + (x - y) * (TILE_WIDTH / 2);
 			int drawY = startY + (x + y) * (TILE_HEIGHT / 2) - (TILE_HEIGHT / 2);
 
-			CPlayer* pObj = new CPlayer;
+			CToolTest2* pObj = new CToolTest2(m_iCurrentAnimator, m_iCurrentAnimation);
 			pObj->SetPos(Vec2(drawX, drawY));
 			AddObject(pObj, GROUP_TYPE::PLAYER);
+			m_pObj = pObj;
 
 			CTile* pTile = new CTile;
 			pTile->SetPos(Vec2(drawX, drawY));
@@ -198,7 +208,6 @@ void CScene_Tool::Enter()
 void CScene_Tool::Exit()
 {
 	DeleteAll();
-
 }
 
 
@@ -230,8 +239,12 @@ INT_PTR CALLBACK ChangeAnimator(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			assert(pToolScene);
 			
 			// 애니메이터 변경
-			CToolTest* temp = (CToolTest*)pToolScene->GetGroupObject(GROUP_TYPE::DEFAULT)[0];
-			temp->ChangeAnimator(iKey);
+			CToolTest1* temp1 = (CToolTest1*)pToolScene->GetGroupObject(GROUP_TYPE::DEFAULT)[0];
+			CToolTest2* temp2 = (CToolTest2*)pToolScene->GetGroupObject(GROUP_TYPE::PLAYER)[0];
+			temp1->ChangeAnimator(iKey);
+			temp2->ChangeAnimator(iKey);
+			((CScene_Tool*)CSceneMgr::GetInstance()->GetCurScene())->SetCurrentAnimator(iKey);
+			((CScene_Tool*)CSceneMgr::GetInstance()->GetCurScene())->SetCurrentAnimation(temp1->GetAnimator()->GetAnimation()->GetID());
 
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;

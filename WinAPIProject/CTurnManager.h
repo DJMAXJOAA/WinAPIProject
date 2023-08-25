@@ -1,7 +1,6 @@
 #pragma once
 #include "tile.h"
 
-class CScene_Battle;
 class CMonster;
 
 class CTurnManager
@@ -33,12 +32,13 @@ public:
     void SetSelectTile(Vec2 _vPos) { m_vSelectTile = _vPos; }
 
 public:
-    void ChangeTurn(TURN_TYPE _type) { m_CurrentTurn = _type; ChangedTurn(_type); }
+    void ChangeTurn(TURN_TYPE _type);
 
 public:
     void RouteInit() { m_lstMoveRoute.clear(); }
 
 public:
     void Update();
+    void Init();
 };
 

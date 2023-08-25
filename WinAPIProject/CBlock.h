@@ -1,8 +1,6 @@
 #pragma once
 #include "CObject.h"
 
-using namespace battle;
-
 class CBlock :
     public CObject
 {
@@ -17,13 +15,11 @@ public:
     CLONE(CBlock);
 
 public:
-    virtual void AnimationFinishEvent() override {}
-
-public:
     int RandomBlock();
 
 public:
     virtual void Update();
     virtual void Render(HDC hdc);
 };
+
 

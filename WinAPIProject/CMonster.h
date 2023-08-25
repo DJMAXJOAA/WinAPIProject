@@ -7,7 +7,10 @@ class CMonster :
     public CObject
 {
 private:
-    int     m_iHP;
+    float   m_fHP;
+    float   m_fAtt;
+    int     m_iMove;
+    int     m_iRange;
 
 public:
     CMonster();
@@ -17,12 +20,6 @@ public:
 
 public:
     void MovePattern(IMonsterStrategy* _stratey);
-
-public:
-    virtual void AnimationFinishEvent() override {}
-
-public:
-    virtual void OnCollisionEnter(CCollider* _pOther);
 
 public:
     virtual void Update();

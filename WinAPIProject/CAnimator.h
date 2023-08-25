@@ -21,6 +21,9 @@ public:
 	friend class CObject;
 
 public:
+	void AnimationFinish(CObject* _pObj);
+
+public:
 	int GetID() { return m_iID; }
 	CAnimation* GetAnimation() { return m_pCurAnim; }
 	CObject* GetObj() { return m_pOwner; }

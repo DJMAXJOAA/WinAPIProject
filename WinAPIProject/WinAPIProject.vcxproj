@@ -148,16 +148,21 @@
     <ClInclude Include="CDataMgr.h" />
     <ClInclude Include="CEffect.h" />
     <ClInclude Include="CMonsterFactory.h" />
+    <ClInclude Include="CMonsterFactory_Stage1.h" />
+    <ClInclude Include="CMonsterFactory_Stage2.h" />
+    <ClInclude Include="CMonsterSpawner.h" />
     <ClInclude Include="CMouse.h" />
     <ClInclude Include="CScene_Battle.h" />
     <ClInclude Include="CGdiPlus.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CToolTest.h" />
+    <ClInclude Include="CToolTest2.h" />
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="Heal.h" />
     <ClInclude Include="IStrategy.h" />
     <ClInclude Include="ItemData.h" />
     <ClInclude Include="MonsterData.h" />
+    <ClInclude Include="MonsterSpawnData.h" />
     <ClInclude Include="RandomMove.h" />
     <ClInclude Include="SkillData.h" />
     <ClInclude Include="tAnimFrame.h" />
@@ -224,6 +229,9 @@
     <ClCompile Include="CMissile.cpp" />
     <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CMonsterFactory.cpp" />
+    <ClCompile Include="CMonsterFactory_Stage1.cpp" />
+    <ClCompile Include="CMonsterFactory_Stage2.cpp" />
+    <ClCompile Include="CMonsterSpawner.cpp" />
     <ClCompile Include="CMouse.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CPanelUI.cpp" />
@@ -242,6 +250,7 @@
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="CToolTest.cpp" />
+    <ClCompile Include="CToolTest2.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="func.cpp" />
@@ -250,6 +259,7 @@
     <ClCompile Include="IStrategy.cpp" />
     <ClCompile Include="ItemData.cpp" />
     <ClCompile Include="MonsterData.cpp" />
+    <ClCompile Include="MonsterSpawnData.cpp" />
     <ClCompile Include="RandomMove.cpp" />
     <ClCompile Include="SelectGDI.cpp" />
     <ClCompile Include="SkillData.cpp" />

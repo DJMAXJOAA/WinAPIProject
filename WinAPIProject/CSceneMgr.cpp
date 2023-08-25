@@ -34,7 +34,7 @@ void CSceneMgr::Init()
 	m_arrScene[(UINT)SCENE_TYPE::BATTLE]->SetName(L"Battle Scene");
 
 	// 현재 씬 저장
-	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::BATTLE];
+	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::TOOL];
 	m_pCurScene->Enter(); // 씬 진입
 }
 

@@ -16,10 +16,8 @@ private:
     CLONE(CMouse);
 
 public:
-    virtual void AnimationFinishEvent() override {}
-
-public:
     virtual void OnCollisionEnter(CCollider* _pOther);
+    void PlayerTileSelectTrigger(CObject* _pObj);
 
 public:
     virtual void Render(HDC hdc);

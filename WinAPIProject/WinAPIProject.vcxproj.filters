@@ -119,9 +119,6 @@
     <Filter Include="Engine\05. Scene\5. Scene_End">
       <UniqueIdentifier>{6b522151-cc27-4ba0-b20a-5e0f93b4e5b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\04. Object\ToolTest">
-      <UniqueIdentifier>{b54b96a9-d9d3-46f8-bdda-c885950d4a8c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\04. Object\Block">
       <UniqueIdentifier>{896daa16-dd39-4182-9a41-3d7e50f72b5e}</UniqueIdentifier>
     </Filter>
@@ -143,32 +140,8 @@
     <Filter Include="Engine\04. Object\Mouse">
       <UniqueIdentifier>{27c6d8b3-68ef-41a6-9a4c-9b1f379e3031}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\9. Data">
-      <UniqueIdentifier>{d643f5d4-a5d9-405b-8d4a-b4ab0e013be9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\9. Data\000. GameSave">
-      <UniqueIdentifier>{9cea79f6-4dcc-4612-8762-edf21c39a695}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\9. Data\100. Animation">
-      <UniqueIdentifier>{086e085c-f137-49cc-9d81-f0a604b3fe1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\9. Data\200. Animator">
-      <UniqueIdentifier>{2b4ed7e9-16c3-4339-82c9-5af14066e6ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\9. Data\300. Item">
-      <UniqueIdentifier>{6c4e7d43-4e4f-45a7-8033-b7bf641f1010}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\9. Data\400. Skill">
-      <UniqueIdentifier>{c6408191-7bea-4ea9-a4a5-bd7df74f3dea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\9. Data\500. Monster">
-      <UniqueIdentifier>{5b013bec-1b20-4c4c-8d9a-50e371c2131c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\10. BattleCenter">
       <UniqueIdentifier>{0fe27184-e16a-4fee-a6ff-be334eb2ef40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\10. BattleCenter\MonsterFacotry">
-      <UniqueIdentifier>{7d00d267-d68a-4343-8080-6a5ea0485346}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\10. BattleCenter\TurnManager">
       <UniqueIdentifier>{82cffa74-44c6-489d-b9e2-5d7587eb8c71}</UniqueIdentifier>
@@ -202,6 +175,45 @@
     </Filter>
     <Filter Include="Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Trace">
       <UniqueIdentifier>{dbac847a-85a7-4474-8d1e-b52f55c5411f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Data">
+      <UniqueIdentifier>{d643f5d4-a5d9-405b-8d4a-b4ab0e013be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Data\000. GameSave">
+      <UniqueIdentifier>{9cea79f6-4dcc-4612-8762-edf21c39a695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Data\100. Animation">
+      <UniqueIdentifier>{086e085c-f137-49cc-9d81-f0a604b3fe1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Data\200. Animator">
+      <UniqueIdentifier>{2b4ed7e9-16c3-4339-82c9-5af14066e6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Data\300. Item">
+      <UniqueIdentifier>{6c4e7d43-4e4f-45a7-8033-b7bf641f1010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Data\400. Skill">
+      <UniqueIdentifier>{c6408191-7bea-4ea9-a4a5-bd7df74f3dea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Data\500. Monster">
+      <UniqueIdentifier>{5b013bec-1b20-4c4c-8d9a-50e371c2131c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object\ToolTest">
+      <UniqueIdentifier>{b54b96a9-d9d3-46f8-bdda-c885950d4a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\MonsterSpawner">
+      <UniqueIdentifier>{3a1c6fc7-b100-4a6b-a067-09b63e50dc1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Module\MonsterFacotry">
+      <UniqueIdentifier>{7d00d267-d68a-4343-8080-6a5ea0485346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Module\MonsterFacotry\Stage1">
+      <UniqueIdentifier>{32068ef8-e63d-47a3-8ee1-fa0043ecfd11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Module\MonsterFacotry\Stage2">
+      <UniqueIdentifier>{800e8a7f-0fbf-49cb-b6c7-f0a83493a257}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Data\600. MonsterSpawn">
+      <UniqueIdentifier>{5e99b12a-8385-4e66-a5ed-ce9dd13792cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -312,25 +324,25 @@
       <Filter>Engine\03. Manager\Data</Filter>
     </ClInclude>
     <ClInclude Include="GameInfo.h">
-      <Filter>Engine\9. Data\000. GameSave</Filter>
+      <Filter>Engine\09. Data\000. GameSave</Filter>
     </ClInclude>
     <ClInclude Include="ItemData.h">
-      <Filter>Engine\9. Data\300. Item</Filter>
+      <Filter>Engine\09. Data\300. Item</Filter>
     </ClInclude>
     <ClInclude Include="MonsterData.h">
-      <Filter>Engine\9. Data\500. Monster</Filter>
+      <Filter>Engine\09. Data\500. Monster</Filter>
     </ClInclude>
     <ClInclude Include="SkillData.h">
-      <Filter>Engine\9. Data\400. Skill</Filter>
+      <Filter>Engine\09. Data\400. Skill</Filter>
     </ClInclude>
     <ClInclude Include="AnimationData.h">
-      <Filter>Engine\9. Data\100. Animation</Filter>
+      <Filter>Engine\09. Data\100. Animation</Filter>
     </ClInclude>
     <ClInclude Include="CData.h">
-      <Filter>Engine\9. Data</Filter>
+      <Filter>Engine\09. Data</Filter>
     </ClInclude>
     <ClInclude Include="AnimatorData.h">
-      <Filter>Engine\9. Data\200. Animator</Filter>
+      <Filter>Engine\09. Data\200. Animator</Filter>
     </ClInclude>
     <ClInclude Include="CToolTest.h">
       <Filter>Engine\04. Object\ToolTest</Filter>
@@ -381,7 +393,7 @@
       <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Barrier</Filter>
     </ClInclude>
     <ClInclude Include="CMonsterFactory.h">
-      <Filter>Engine\10. BattleCenter\MonsterFacotry</Filter>
+      <Filter>Engine\08. Module\MonsterFacotry</Filter>
     </ClInclude>
     <ClInclude Include="BFSSearch.h">
       <Filter>Engine\10. BattleCenter\BFS</Filter>
@@ -394,6 +406,21 @@
     </ClInclude>
     <ClInclude Include="tile.h">
       <Filter>Engine\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CToolTest2.h">
+      <Filter>Engine\04. Object\ToolTest</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterSpawner.h">
+      <Filter>Engine\10. BattleCenter\MonsterSpawner</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterFactory_Stage1.h">
+      <Filter>Engine\08. Module\MonsterFacotry\Stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterFactory_Stage2.h">
+      <Filter>Engine\08. Module\MonsterFacotry\Stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterSpawnData.h">
+      <Filter>Engine\09. Data\600. MonsterSpawn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -486,25 +513,25 @@
       <Filter>Engine\03. Manager\Data</Filter>
     </ClCompile>
     <ClCompile Include="GameInfo.cpp">
-      <Filter>Engine\9. Data\000. GameSave</Filter>
+      <Filter>Engine\09. Data\000. GameSave</Filter>
     </ClCompile>
     <ClCompile Include="ItemData.cpp">
-      <Filter>Engine\9. Data\300. Item</Filter>
+      <Filter>Engine\09. Data\300. Item</Filter>
     </ClCompile>
     <ClCompile Include="MonsterData.cpp">
-      <Filter>Engine\9. Data\500. Monster</Filter>
+      <Filter>Engine\09. Data\500. Monster</Filter>
     </ClCompile>
     <ClCompile Include="SkillData.cpp">
-      <Filter>Engine\9. Data\400. Skill</Filter>
+      <Filter>Engine\09. Data\400. Skill</Filter>
     </ClCompile>
     <ClCompile Include="AnimationData.cpp">
-      <Filter>Engine\9. Data\100. Animation</Filter>
+      <Filter>Engine\09. Data\100. Animation</Filter>
     </ClCompile>
     <ClCompile Include="CData.cpp">
-      <Filter>Engine\9. Data</Filter>
+      <Filter>Engine\09. Data</Filter>
     </ClCompile>
     <ClCompile Include="AnimatorData.cpp">
-      <Filter>Engine\9. Data\200. Animator</Filter>
+      <Filter>Engine\09. Data\200. Animator</Filter>
     </ClCompile>
     <ClCompile Include="CToolTest.cpp">
       <Filter>Engine\04. Object\ToolTest</Filter>
@@ -552,7 +579,7 @@
       <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Barrier</Filter>
     </ClCompile>
     <ClCompile Include="CMonsterFactory.cpp">
-      <Filter>Engine\10. BattleCenter\MonsterFacotry</Filter>
+      <Filter>Engine\08. Module\MonsterFacotry</Filter>
     </ClCompile>
     <ClCompile Include="BFSSearch.cpp">
       <Filter>Engine\10. BattleCenter\BFS</Filter>
@@ -562,6 +589,21 @@
     </ClCompile>
     <ClCompile Include="CTurnManager.cpp">
       <Filter>Engine\10. BattleCenter\TurnManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CToolTest2.cpp">
+      <Filter>Engine\04. Object\ToolTest</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterSpawner.cpp">
+      <Filter>Engine\10. BattleCenter\MonsterSpawner</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterFactory_Stage1.cpp">
+      <Filter>Engine\08. Module\MonsterFacotry\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterFactory_Stage2.cpp">
+      <Filter>Engine\08. Module\MonsterFacotry\Stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterSpawnData.cpp">
+      <Filter>Engine\09. Data\600. MonsterSpawn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

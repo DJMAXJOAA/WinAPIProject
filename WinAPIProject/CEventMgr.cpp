@@ -76,20 +76,12 @@ void CEventMgr::Excute(const tEvent& _eve)
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TurnInit(turnType);
 		break;
 	}
-	case EVENT_TYPE::RUN_TURN_LOGIC:
-	{
-		// lParam :: Turn Type
-		// 턴 매니저의 업데이트 문에서 배틀 씬에서 처리할 이벤트면 이벤트 날려줌
-		TURN_TYPE turnType = (TURN_TYPE)_eve.lParam;
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TurnLogic(turnType);
-		break;
-	}
 	case EVENT_TYPE::ANIMATION_FINISH:
 	{
 		// lParam :: Animation Finish Trigger
 		// Animation Repeat가 false인 상황에서, 애니메이션이 종료되면 주인 오브젝트에 이벤트 발생시킴
 		CObject* pObj = (CObject*)_eve.lParam;
-		pObj->AnimationFinishEvent();
+		pObj->AnimationEvent();
 		break;
 	}
 	case EVENT_TYPE::END:

@@ -28,9 +28,6 @@ public:
     CLONE(CBtnUI);
 
 public:
-    virtual void AnimationFinishEvent() override {}
-
-public:
     virtual void MouseOn();
     virtual void MouseLbtnDown();
     virtual void MouseLbtnUp();

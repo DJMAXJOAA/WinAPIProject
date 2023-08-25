@@ -23,9 +23,6 @@ public:
     virtual CUI* Clone() = 0;
 
 public:
-    virtual void AnimationFinishEvent() override {}
-
-public:
     CUI* GetParent() { return m_pParentUI; }
     const vector<CUI*>& GetChildUI() { return m_vecChildUI; }
     Vec2 GetFinalPos() { return m_vFinalPos; }

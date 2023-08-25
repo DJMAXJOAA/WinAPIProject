@@ -1,8 +1,6 @@
 #pragma once
 #include "tile.h"
 
-class CScene_Battle;
-
 class CTileManager
 {
 private:
@@ -15,7 +13,7 @@ public:
 	~CTileManager();
 
 public:
-	void TileInit();
+	void TileInit(list<Vec2>& _tileList);
 	void TileRandomInit();
 
 public:

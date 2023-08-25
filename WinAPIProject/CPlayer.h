@@ -50,9 +50,6 @@ private:
     CLONE(CPlayer);
 
 public:
-    virtual void AnimationFinishEvent() override {}
-
-public:
     PLAYER_STATE GetState() { return m_playerState; }
 
 public:

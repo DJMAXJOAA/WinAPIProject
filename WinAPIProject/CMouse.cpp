@@ -2,6 +2,7 @@
 #include "CMouse.h"
 
 #include "CKeyMgr.h"
+#include "CEventMgr.h"
 
 #include "CCollider.h"
 
@@ -23,9 +24,18 @@ void CMouse::OnCollisionEnter(CCollider* _pOther)
 	// 바로 전에 체크한 적 있으면, 이벤트 다시 보내지 않음
 	if (KEY_HOLD(KEY::LBTN) && (m_pOtherCollider != _pOther))
 	{
-		PlayerTileSelect(_pOther->GetObj());
+		PlayerTileSelectTrigger(_pOther->GetObj());
 	}
 	m_pOtherCollider = _pOther;
+}
+
+void CMouse::PlayerTileSelectTrigger(CObject* _pObj)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::TILESELECT_TRIGGER;
+	evn.lParam = (DWORD_PTR)_pObj;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
 void CMouse::Render(HDC hdc)

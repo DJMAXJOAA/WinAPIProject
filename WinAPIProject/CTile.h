@@ -17,9 +17,6 @@ public:
     CLONE(CTile);
 
 public:
-    virtual void AnimationFinishEvent() override {}
-
-public:
     TILE_STATE GetTileState() { return m_TileState; }
 
 public:

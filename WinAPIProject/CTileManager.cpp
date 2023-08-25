@@ -14,15 +14,12 @@ CTileManager::~CTileManager()
 {
 }
 
-void CTileManager::TileInit()
+void CTileManager::TileInit(list<Vec2>& _tileList)
 {
-	for (int y = 0; y < m_vecTileState.size(); y++)
+	for (auto& tile : _tileList)
 	{
-		for (int x = 0; x < m_vecTileState[y].size(); x++)
-		{
-			CTile* pTile = m_vecTileState[y][x].pTile;
-			pTile->SetTileState((TILE_STATE)((int)pTile->GetTileState() - 4));
-		}
+		CTile* pTile = m_vecTileState[(int)tile.y][(int)tile.x].pTile;
+		pTile->SetTileState((TILE_STATE)((int)pTile->GetTileState() - 4));
 	}
 }
 

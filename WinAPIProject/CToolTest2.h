@@ -1,18 +1,17 @@
 #pragma once
 #include "CObject.h"
-
-class CToolTest1 :
-	public CObject
+class CToolTest2 :
+    public CObject
 {
 private:
 	int		m_iID;
 
 public:
-	CToolTest1();
-	CToolTest1(int iAnimator, int iAnimation);
-	virtual ~CToolTest1();
+	CToolTest2();
+	CToolTest2(int iAnimator, int iAnimation);
+	virtual ~CToolTest2();
 
-	CLONE(CToolTest1);
+	CLONE(CToolTest2);
 
 public:
 	void ChangeAnimation(int _key);

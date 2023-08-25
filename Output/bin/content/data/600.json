@@ -1,0 +1,67 @@
+[
+    {
+        "ID": 600,
+        "Type": "common",
+        "MonsterID": [
+            500,
+            501
+        ],
+        "NumberOfMonster": [
+            3,
+            1
+        ],
+        "MapType": "BRICK"
+    },
+    {
+        "ID": 601,
+        "Type": "common",
+        "MonsterID": [
+            500,
+            501
+        ],
+        "NumberOfMonster": [
+            2,
+            2
+        ],
+        "MapType": "DIRT"
+    },
+    {
+        "ID": 602,
+        "Type": "common",
+        "MonsterID": [
+            501,
+            502
+        ],
+        "NumberOfMonster": [
+            2,
+            2
+        ],
+        "MapType": "GRASS"
+    },
+    {
+        "ID": 603,
+        "Type": "common",
+        "MonsterID": [
+            501,
+            502,
+            503
+        ],
+        "NumberOfMonster": [
+            2,
+            1,
+            1
+        ],
+        "MapType": "STONE"
+    },
+    {
+        "ID": 604,
+        "Type": "common",
+        "MonsterID": [
+            502
+        ],
+        "NumberOfMonster": [
+            3
+        ],
+        "MapType": "SNOW"
+    }
+]
