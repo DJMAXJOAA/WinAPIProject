@@ -45,3 +45,18 @@ CData* CDataMgr::FindData(int _key)
 	if (iter == m_mapDataList.end()) return CreateData(_key)->FindData();
 	else return iter->second->FindData();
 }
+
+vector<CData*> CDataMgr::LoadDataRange(int _start, int _end)
+{
+	// 특정 id에서 특정 id까지의 데이터들을 담아서 벡터로 반환
+	vector<CData*> dataList;
+
+	for (int i = _start; i <= _end; ++i) {
+		CData* data = FindData(i);
+		if (data != nullptr) {
+			dataList.push_back(data);
+		}
+	}
+
+	return dataList;
+}

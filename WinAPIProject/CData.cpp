@@ -26,7 +26,7 @@ void CData::LoadData(const wstring& _filename)
 	wstring strFilePath = CPathMgr::GetInstance()->GetContentPath();
 	strFilePath += _filename;
 
-	std::ifstream inFile(strFilePath);
+	ifstream inFile(strFilePath);
 	if (!inFile.is_open())
 	{
 		assert(0);
@@ -70,7 +70,7 @@ vector<wstring> json_to_vector_wstring(const json& j)
 {
 	std::vector<std::wstring> vec;
 	for (const auto& str : j) {
-		vec.push_back(string_to_wstring(str.get<std::string>()));
+		vec.push_back(string_to_wstring(str.get<string>()));
 	}
 	return vec;
 }

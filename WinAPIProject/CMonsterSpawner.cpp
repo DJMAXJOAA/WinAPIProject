@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "CMonsterSpawner.h"
 
-#include "CEventMgr.h"
+#include "CDataMgr.h"
 
 #include "CMonster.h"
 
 #include "MonsterData.h"
+#include "FieldData.h"
 
 #include "CMonsterFactory.h"
 #include "CMonsterFactory_Stage1.h"
@@ -34,11 +35,20 @@ void CMonsterSpawner::Init()
 	m_vecSpawnPattern.push_back(Stage2);
 }
 
-void CMonsterSpawner::Stage1()
+void CMonsterSpawner::SpawnMonster(int _level, FIELD_TYPE _type)
 {
-	m_vecSpawnPattern[0]->SpawnMonster(m_mapMonsterData);
 }
 
-void CMonsterSpawner::Stage2()
+void CMonsterSpawner::SpawnMonsterPattern(int _level, FIELD_TYPE _type)
 {
+}
+
+void CMonsterSpawner::SpawnMonster()
+{
+	FieldData* fieldData = CDataMgr::GetInstance()->FindData();
+}
+
+void CMonsterSpawner::SpawnMonster(map<wstring, CMonster*>& enemyDatas)
+{
+
 }

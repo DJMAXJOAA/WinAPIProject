@@ -10,7 +10,8 @@
             3,
             1
         ],
-        "BlockType": "brick"
+        "BlockType": "brick",
+        "DifficultyLevel": 1
     },
     {
         "ID": 601,
@@ -23,11 +24,12 @@
             2,
             2
         ],
-        "BlockType": "dirt"
+        "BlockType": "dirt",
+        "DifficultyLevel": 1
     },
     {
         "ID": 602,
-        "MapType": "common",
+        "MapType": "elite",
         "MonsterID": [
             501,
             502
@@ -36,7 +38,8 @@
             2,
             2
         ],
-        "BlockType": "grass"
+        "BlockType": "grass",
+        "DifficultyLevel": 1
     },
     {
         "ID": 603,
@@ -47,21 +50,25 @@
             503
         ],
         "NumberOfMonster": [
-            2,
             1,
+            3,
             1
         ],
-        "BlockType": "stone"
+        "BlockType": "stone",
+        "DifficultyLevel": 2
     },
     {
         "ID": 604,
         "MapType": "elite",
         "MonsterID": [
-            502
+            502,
+            503
         ],
         "NumberOfMonster": [
+            2,
             3
         ],
-        "BlockType": "snow"
+        "BlockType": "snow",
+        "DifficultyLevel": 2
     }
 ]
