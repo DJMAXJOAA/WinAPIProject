@@ -286,7 +286,7 @@ void CScene_Battle::Enter()
 			AddObject(pTile, GROUP_TYPE::TILE);
 
 			// 블럭 복사생성
-			CBlock* cBlcok = new CBlock(MAP_TYPE::SNOW);
+			CBlock* cBlcok = new CBlock(BLOCK_TYPE::SNOW);
 			cBlcok->SetPos(Vec2(drawX, drawY));
 			AddObject(cBlcok, GROUP_TYPE::BLOCK);
 		}

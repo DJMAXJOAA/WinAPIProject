@@ -3,14 +3,13 @@
         "ID": 400,
         "Name": "test",
         "Path": "texture\\Skill\\green0",
+        "Explanation": "테스트용",
+        "Grade": "common",
         "SkillInfo": {
-            "TileColor": 2,
+            "TileColor": "red",
             "Ratio": 1.5,
-            "Grade": 3,
-            "SkillType": 1,
             "Range": 3,
-            "Cooldown": 2,
-            "Explanation": "테스트용"
+            "Cooldown": 2
         }
     }
 ]

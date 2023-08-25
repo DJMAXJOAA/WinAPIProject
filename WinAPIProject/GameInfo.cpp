@@ -18,7 +18,6 @@ GameInfo::GameInfo(int _key)
     , m_vecStartPos{}
     , m_fPlaytime{}
 {
-
 }
 
 GameInfo::~GameInfo()
@@ -27,6 +26,7 @@ GameInfo::~GameInfo()
 
 void GameInfo::SaveData()
 {
+    // 세이브 데이터는 하나기때문에 따로 검색과정이 필요없음
     wstring strFilePath = CPathMgr::GetInstance()->GetContentPath();
     strFilePath += L"data\\save.json";
 
@@ -115,14 +115,6 @@ void GameInfo::CreateRandomMap()
             }
 
             currentPoint.x += 2;
-            if (currentPoint.x == WIDTH - 1)    // 중간 지점은 무조건 보물방으로 -> 아이템 또는 스킬 확정
-            {
-                grid[currentPoint.y][currentPoint.x] = 8;
-            }
-            else
-            {
-                grid[currentPoint.y][currentPoint.x] = getRandomStageSelect();
-            }
         }
     }
 
@@ -215,11 +207,11 @@ void to_json(json& j, const PlayerInfo& p)
 
 void from_json(const json& j, PlayerInfo& p)
 {
-    p.fMoney = j.at("Money").get<float>();
-    p.ptMyLocation.x = j.at("XPos").get<LONG>();
-    p.ptMyLocation.y = j.at("YPos").get<LONG>();
-    p.fMaxHP = j.at("MaxHP").get<float>();
-    p.fCurHP = j.at("CurrentHP").get<float>();
-    p.vecInventory = json_to_vector_wstring(j.at("Inventory").get<vector<string>>());
-    p.vecSkill = json_to_vector_wstring(j.at("Skill").get<vector<string>>());
+    p.fMoney = j["Money"].get<float>();
+    p.ptMyLocation.x = j["XPos"].get<LONG>();
+    p.ptMyLocation.y = j["YPos"].get<LONG>();
+    p.fMaxHP = j["MaxHP"].get<float>();
+    p.fCurHP = j["CurrentHP"].get<float>();
+    p.vecInventory = json_to_vector_wstring(j["Inventory"].get<vector<string>>());
+    p.vecSkill = json_to_vector_wstring(j["Skill"].get<vector<string>>());
 }

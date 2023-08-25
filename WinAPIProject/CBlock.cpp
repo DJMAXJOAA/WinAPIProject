@@ -10,25 +10,25 @@
 static std::random_device rd;
 static std::mt19937 rng(rd());
 
-CBlock::CBlock(MAP_TYPE _type)
+CBlock::CBlock(BLOCK_TYPE _type)
 	: m_BlockState(0)
 {
 	SetAnimator(202);
 	switch (_type)
 	{
-	case MAP_TYPE::BRICK:
+	case BLOCK_TYPE::BRICK:
 		GetAnimator()->Play(129, true);
 		break;
-	case MAP_TYPE::DIRT:
+	case BLOCK_TYPE::DIRT:
 		GetAnimator()->Play(130, true);
 		break;
-	case MAP_TYPE::GRASS:
+	case BLOCK_TYPE::GRASS:
 		GetAnimator()->Play(131, true);
 		break;
-	case MAP_TYPE::STONE:
+	case BLOCK_TYPE::STONE:
 		GetAnimator()->Play(132, true);
 		break;
-	case MAP_TYPE::SNOW:
+	case BLOCK_TYPE::SNOW:
 		GetAnimator()->Play(133, true);
 		break;
 	default:

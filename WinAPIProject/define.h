@@ -94,6 +94,29 @@ enum class EVENT_TYPE
 	END,
 };
 
+enum class GRADE
+{
+	COMMON,
+	RARE,
+	EPIC,
+	UNIQUE,
+};
+
+enum class ITEM_TYPE
+{
+	ARMOR,
+	BOOTS,
+	BOTTOM,
+	GLOVES,
+	HELMET,
+
+	AXE = 10,
+	BOW,
+	SPEAR,
+	STAFF,
+	SWORD,
+};
+
 enum class TILE_STATE
 {
 	BLACK,
@@ -112,7 +135,17 @@ enum class ATTACK_TYPE
 	NORMAL_ATTACK,
 };
 
-enum class MAP_TYPE
+enum class FIELD_TYPE
+{
+	NONE,
+	COMMON = 4,
+	ELITE,
+	SHOP,
+	SHELTER,
+	BOSS,
+};
+
+enum class BLOCK_TYPE
 {
 	BRICK,
 	DIRT,
@@ -140,4 +173,14 @@ enum class DIRECTION
 	FOUR_WAY,       // 상하좌우 방향
 	DIAGONAL,       // 대각선 방향
 	EIGHT_WAY,      // 8방향 전부
+};
+
+enum class MONSTER_STRATEGY
+{
+	TRACE,
+	RANDOM_MOVE,
+	SELF_HEAL,
+	RANDOM_TELEPORT,
+	SELF_BARRIER,
+	FRIENDLY_HEAL,
 };

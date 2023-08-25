@@ -1,7 +1,7 @@
 [
     {
         "ID": 600,
-        "Type": "common",
+        "MapType": "common",
         "MonsterID": [
             500,
             501
@@ -10,11 +10,11 @@
             3,
             1
         ],
-        "MapType": "BRICK"
+        "BlockType": "brick"
     },
     {
         "ID": 601,
-        "Type": "common",
+        "MapType": "common",
         "MonsterID": [
             500,
             501
@@ -23,11 +23,11 @@
             2,
             2
         ],
-        "MapType": "DIRT"
+        "BlockType": "dirt"
     },
     {
         "ID": 602,
-        "Type": "common",
+        "MapType": "common",
         "MonsterID": [
             501,
             502
@@ -36,11 +36,11 @@
             2,
             2
         ],
-        "MapType": "GRASS"
+        "BlockType": "grass"
     },
     {
         "ID": 603,
-        "Type": "common",
+        "MapType": "common",
         "MonsterID": [
             501,
             502,
@@ -51,17 +51,17 @@
             1,
             1
         ],
-        "MapType": "STONE"
+        "BlockType": "stone"
     },
     {
         "ID": 604,
-        "Type": "common",
+        "MapType": "elite",
         "MonsterID": [
             502
         ],
         "NumberOfMonster": [
             3
         ],
-        "MapType": "SNOW"
+        "BlockType": "snow"
     }
 ]

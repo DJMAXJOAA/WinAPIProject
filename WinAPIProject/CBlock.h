@@ -5,11 +5,11 @@ class CBlock :
     public CObject
 {
 private:
-    MAP_TYPE    m_MapType;
+    BLOCK_TYPE    m_MapType;
     int         m_BlockState;
 
 public:
-    CBlock(MAP_TYPE _type);
+    CBlock(BLOCK_TYPE _type);
     virtual ~CBlock();
 
     CLONE(CBlock);
