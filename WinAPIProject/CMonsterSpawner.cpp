@@ -37,18 +37,9 @@ void CMonsterSpawner::Init()
 
 void CMonsterSpawner::SpawnMonster(int _level, FIELD_TYPE _type)
 {
+	
 }
 
 void CMonsterSpawner::SpawnMonsterPattern(int _level, FIELD_TYPE _type)
 {
-}
-
-void CMonsterSpawner::SpawnMonster()
-{
-	FieldData* fieldData = CDataMgr::GetInstance()->FindData();
-}
-
-void CMonsterSpawner::SpawnMonster(map<wstring, CMonster*>& enemyDatas)
-{
-
 }

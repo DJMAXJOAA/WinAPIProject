@@ -33,7 +33,9 @@ void FieldData::ParseData(const json& item)
 	else if (blockType == "snow")
 		m_BlockType = BLOCK_TYPE::SNOW;
 
-	int monsterID = item["MonsterID"].get<int>();
-	int numOfMonster = item["NumberOfMonster"].get<int>();
-	m_vecMonsters.push_back(make_pair(monsterID, numOfMonster));
+	vector<int> monsterID = item["MonsterID"].get<vector<int>>();
+	vector<int> numOfMonster = item["NumberOfMonster"].get<vector<int>>();
+	for (int i = 0; i < monsterID.size(); i++)
+		m_vecMonsters.push_back(make_pair(monsterID[i], numOfMonster[i]));
+	m_iDifficulty = item["DifficultyLevel"].get<int>();
 }

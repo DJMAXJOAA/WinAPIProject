@@ -60,3 +60,28 @@ vector<CData*> CDataMgr::LoadDataRange(int _start, int _end)
 
 	return dataList;
 }
+
+vector<CData*> CDataMgr::LoadAllData(int _number)
+{
+	if (_number % 100 != 0)
+	{
+		// 오류 검출 코드, 100의 배수로 입력받아야 함
+		assert(0);
+	}
+	
+	vector<CData*> dataList;
+	
+	int start = _number;
+	int end = _number + 99;
+
+	for (int i = start; i <= end; ++i) {
+		CData* data = FindData(i);
+		if (data == nullptr) {
+			break;
+		}
+		dataList.push_back(data);
+	}
+
+	return dataList;
+}
+

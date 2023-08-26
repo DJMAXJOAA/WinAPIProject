@@ -6,23 +6,23 @@
 
 #include "CTile.h"
 
-CTurnManager::CTurnManager()
+CTurnCenter::CTurnCenter()
 	: m_CurrentTurn(TURN_TYPE::PLAYER_START)
 	, m_lstMoveRoute{}
 	, m_lstTargetEnemy{}
 {
 }
 
-CTurnManager::~CTurnManager()
+CTurnCenter::~CTurnCenter()
 {
 }
 
-void CTurnManager::ChangeTurn(TURN_TYPE _type)
+void CTurnCenter::ChangeTurn(TURN_TYPE _type)
 {
 	// 현재 타입 설정
 	m_CurrentTurn = _type;
 
-	// 씬에게 이벤트 보냄(턴 끝났따고 -> Init실행)
+	// 씬에게 이벤트 보냄(턴 끝났따고 -> 씬에서 Init실행)
 	tEvent evn = {  };
 	evn.eEvent = EVENT_TYPE::TURN_CHANGE;
 	evn.lParam = (DWORD_PTR)_type;
@@ -30,7 +30,7 @@ void CTurnManager::ChangeTurn(TURN_TYPE _type)
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
-void CTurnManager::Update()
+void CTurnCenter::Update()
 {
 	switch (m_CurrentTurn)
 	{
@@ -95,7 +95,7 @@ void CTurnManager::Update()
 	}
 }
 
-void CTurnManager::Init()
+void CTurnCenter::Init()
 {
 	m_CurrentTurn = TURN_TYPE::PLAYER_START;
 	m_lstMoveRoute.clear();

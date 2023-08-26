@@ -3,7 +3,7 @@
 
 class CMonster;
 
-class CTurnManager
+class CTurnCenter
 {
 private:
     TURN_TYPE               m_CurrentTurn;      // 현재 턴
@@ -15,8 +15,8 @@ private:
     list<CMonster*>         m_lstTargetEnemy; // 적군 존재 여부
 
 public:
-    CTurnManager();
-    ~CTurnManager();
+    CTurnCenter();
+    ~CTurnCenter();
 
 public:
     TURN_TYPE GetTurnState() { return m_CurrentTurn; }

@@ -143,12 +143,6 @@
     <Filter Include="Engine\10. BattleCenter">
       <UniqueIdentifier>{0fe27184-e16a-4fee-a6ff-be334eb2ef40}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\10. BattleCenter\TurnManager">
-      <UniqueIdentifier>{82cffa74-44c6-489d-b9e2-5d7587eb8c71}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\10. BattleCenter\TileManaer">
-      <UniqueIdentifier>{bb05a0e0-fcf2-448e-a7cc-22c5ccb269f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\10. BattleCenter\BFS">
       <UniqueIdentifier>{cfb9ef22-914b-479c-be9e-ff766f22293c}</UniqueIdentifier>
     </Filter>
@@ -217,6 +211,12 @@
     </Filter>
     <Filter Include="Engine\08. Module\MapGenerator">
       <UniqueIdentifier>{29ebefb3-a7d2-437f-a7bf-d1d14abc2b72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\TileCenter">
+      <UniqueIdentifier>{bb05a0e0-fcf2-448e-a7cc-22c5ccb269f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\TurnCenter">
+      <UniqueIdentifier>{82cffa74-44c6-489d-b9e2-5d7587eb8c71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -398,11 +398,8 @@
     <ClInclude Include="BFSSearch.h">
       <Filter>Engine\10. BattleCenter\BFS</Filter>
     </ClInclude>
-    <ClInclude Include="CTileManager.h">
-      <Filter>Engine\10. BattleCenter\TileManaer</Filter>
-    </ClInclude>
     <ClInclude Include="CTurnManager.h">
-      <Filter>Engine\10. BattleCenter\TurnManager</Filter>
+      <Filter>Engine\10. BattleCenter\TurnCenter</Filter>
     </ClInclude>
     <ClInclude Include="tile.h">
       <Filter>Engine\01. Header</Filter>
@@ -427,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="GameData.h">
       <Filter>Engine\09. Data\000. GameSave</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileManager.h">
+      <Filter>Engine\10. BattleCenter\TileCenter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -588,10 +588,10 @@
       <Filter>Engine\10. BattleCenter\BFS</Filter>
     </ClCompile>
     <ClCompile Include="CTileManager.cpp">
-      <Filter>Engine\10. BattleCenter\TileManaer</Filter>
+      <Filter>Engine\10. BattleCenter\TileCenter</Filter>
     </ClCompile>
     <ClCompile Include="CTurnManager.cpp">
-      <Filter>Engine\10. BattleCenter\TurnManager</Filter>
+      <Filter>Engine\10. BattleCenter\TurnCenter</Filter>
     </ClCompile>
     <ClCompile Include="CToolTest2.cpp">
       <Filter>Engine\04. Object\ToolTest</Filter>

@@ -37,8 +37,8 @@ namespace battle
 #define GRID_Y 9
 
 // 매크로 (좌표 변경)
-#define REAL(key) m_TileManager->GridToReal(key)
-#define GRID(key) m_TileManager->RealToGrid(key) 
+#define REAL(key) m_TileCenter->GridToReal(key)
+#define GRID(key) m_TileCenter->RealToGrid(key) 
 }
 
 

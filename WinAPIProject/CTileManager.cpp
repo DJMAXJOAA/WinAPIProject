@@ -3,18 +3,18 @@
 
 #include "CTile.h"
 
-CTileManager::CTileManager()
+CTileCenter::CTileCenter()
 	: m_vecTileState(GRID_X, vector<TileState>(GRID_Y))
 	, m_mapRealPoint{}
 	, m_mapGridPoint{}
 {
 }
 
-CTileManager::~CTileManager()
+CTileCenter::~CTileCenter()
 {
 }
 
-void CTileManager::TileInit(list<Vec2>& _tileList)
+void CTileCenter::TileInit(list<Vec2>& _tileList)
 {
 	for (auto& tile : _tileList)
 	{
@@ -23,7 +23,7 @@ void CTileManager::TileInit(list<Vec2>& _tileList)
 	}
 }
 
-void CTileManager::TileRandomInit()
+void CTileCenter::TileRandomInit()
 {
 	for (int y = 0; y < m_vecTileState.size(); y++)
 	{

@@ -1,7 +1,7 @@
 #pragma once
 #include "tile.h"
 
-class CTileManager
+class CTileCenter
 {
 private:
 	vector<vector<TileState>> m_vecTileState;	 // Å¸ÀÏÀÇ Á¤º¸
@@ -9,8 +9,8 @@ private:
 	map<Vec2, Vec2>			  m_mapGridPoint;    // ½ÇÁ¦ ÁÂÇ¥ -> ÁÂÇ¥°è ÁÂÇ¥ (ÀÌÁß¸Ê)
 
 public:
-	CTileManager();
-	~CTileManager();
+	CTileCenter();
+	~CTileCenter();
 
 public:
 	void TileInit(list<Vec2>& _tileList);

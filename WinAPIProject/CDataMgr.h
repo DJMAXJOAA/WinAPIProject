@@ -16,5 +16,6 @@ public:
 	CData* CreateData(int _key);
 	CData* FindData(int _key);
 	vector<CData*> LoadDataRange(int _start, int _end);
+	vector<CData*> LoadAllData(int _number);
 };
 
