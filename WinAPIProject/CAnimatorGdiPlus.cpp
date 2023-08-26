@@ -16,6 +16,7 @@ CAnimatorGdiPlus::CAnimatorGdiPlus()
 	: m_pOwner(nullptr)
 	, m_pCurAnim(nullptr)
 	, m_bRepeat(false)
+    , m_eventTrigger(false)
 {
 }
 
@@ -127,14 +128,21 @@ void CAnimatorGdiPlus::Update()
     {
         m_pCurAnim->Update();
 
+        if (m_pCurAnim->GetEventFrame() != m_pCurAnim->GetCurrentFrame())
+        {
+            m_eventTrigger = false;
+        }
+
         if (m_bRepeat && m_pCurAnim->isFinish())
         {
             m_pCurAnim->SetFrame(0);
         }
-        else if (m_pCurAnim->GetEventFrame() != 0
+        else if (m_eventTrigger == false
+            && m_pCurAnim->GetEventFrame() != 0
             && m_pCurAnim->GetEventFrame() == m_pCurAnim->GetCurrentFrame())
         {
             AnimationEvent(m_pOwner);
+            m_eventTrigger = true;
         }
     }
 }

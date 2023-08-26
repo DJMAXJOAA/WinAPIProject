@@ -32,13 +32,11 @@ CPlayer::~CPlayer()
 
 }
 
-void CPlayer::Move(Vec2 _vDestination)
+void CPlayer::Move(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination)
 {
 	Vec2 vPos = GetPos();
 
-	// 이미지 좌우 반전
-	if(vPos.x < _vDestination.x) GetAnimator()->GetAnimation()->SetFlip(true);
-	else GetAnimator()->GetAnimation()->SetFlip(false);
+	AnimationFrontBack(PLAYER_STATE::MOVE, _vGridFront, _vGridRear, _vDestination);
 
 	// 소수점 버리고 반환되게
 	if(vPos.DistanceTo(_vDestination) <= m_fSpeed * fDT)
@@ -52,21 +50,9 @@ void CPlayer::Move(Vec2 _vDestination)
 	SetPos(vPos);
 }
 
-void CPlayer::CreateMissile()
+void CPlayer::Attack(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination)
 {
-	Vec2 vMissilePos = GetPos();
-	vMissilePos.y -= GetScale().y / 2.f;
-
-	// Missile Object
-	CMissile* pMissile = new CMissile;
-	pMissile->SetName(L"Missile_Player");
-	pMissile->SetPos(vMissilePos);
-	pMissile->SetScale(Vec2(25.f, 25.f));
-	pMissile->SetDir(Vec2(-0.f, -1.f)); // 공격 방향
-
-	// 바로 만들어지지 않고, 이벤트 매니저에게 이벤트를 추가시킴
-	// 다음 프레임에 만들어질거임
-	CreateObj(pMissile, GROUP_TYPE::MISSILE_PLAYER);
+	AnimationFrontBack(PLAYER_STATE::UPPERCUT, _vGridFront, _vGridRear, _vDestination);
 }
 
 void CPlayer::Render(HDC hdc)
@@ -76,6 +62,35 @@ void CPlayer::Render(HDC hdc)
 
 void CPlayer::Update()
 {
-	GetAnimator()->Play((int)m_playerState, true);
 	GetAnimator()->Update();
+}
+
+void CPlayer::AnimationEvent()
+{
+	printf("애니메이션 이벤트 호출\n");
+}
+
+void CPlayer::AnimationFrontBack(PLAYER_STATE _anim, Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination)
+{
+	Vec2 vPos = GetPos();
+	const int animationInterval = 14;	// 앞에보는 모션과 뒤에보는 모션의 값 차이가 14
+
+	// 뒤도는 모션 설정
+	if (_vGridFront.x >= _vGridRear.x && _vGridFront.y >= _vGridRear.y)
+	{
+		GetAnimator()->Play((int)_anim + animationInterval, true);
+
+		// 이미지 좌우 반전
+		if (vPos.x < _vDestination.x) GetAnimator()->GetAnimation()->SetFlip(false);
+		else GetAnimator()->GetAnimation()->SetFlip(true);
+	}
+	// 뒤 안돔
+	else 
+	{
+		GetAnimator()->Play((int)_anim, true);
+
+		// 이미지 좌우 반전
+		if (vPos.x < _vDestination.x) GetAnimator()->GetAnimation()->SetFlip(true);
+		else GetAnimator()->GetAnimation()->SetFlip(false);
+	}
 }

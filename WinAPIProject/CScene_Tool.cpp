@@ -188,7 +188,7 @@ void CScene_Tool::Enter()
 
 			CToolTest2* pObj = new CToolTest2(m_iCurrentAnimator, m_iCurrentAnimation);
 			pObj->SetPos(Vec2(drawX, drawY));
-			AddObject(pObj, GROUP_TYPE::PLAYER);
+			AddObject(pObj, GROUP_TYPE::UNIT);
 			m_pObj = pObj;
 
 			CTile* pTile = new CTile;
@@ -240,7 +240,7 @@ INT_PTR CALLBACK ChangeAnimator(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			
 			// 애니메이터 변경
 			CToolTest1* temp1 = (CToolTest1*)pToolScene->GetGroupObject(GROUP_TYPE::DEFAULT)[0];
-			CToolTest2* temp2 = (CToolTest2*)pToolScene->GetGroupObject(GROUP_TYPE::PLAYER)[0];
+			CToolTest2* temp2 = (CToolTest2*)pToolScene->GetGroupObject(GROUP_TYPE::UNIT)[0];
 			temp1->ChangeAnimator(iKey);
 			temp2->ChangeAnimator(iKey);
 			((CScene_Tool*)CSceneMgr::GetInstance()->GetCurScene())->SetCurrentAnimator(iKey);

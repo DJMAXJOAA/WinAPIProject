@@ -154,13 +154,15 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 
 			// 타일 생성
 			CTile* pTile = new CTile;
-			pTile->SetPos(Vec2(drawX, drawY));
+			pTile->SetPos(realPos);
+			pTile->SetGridPos(gridPos);
 			vecTileState[y][x].pTile = pTile;
 			AddObject(pTile, GROUP_TYPE::TILE);
 
 			// 블럭 복사생성 -> 필드에 맞게
 			CBlock* cBlcok = new CBlock(randomFieldData->m_BlockType);
-			cBlcok->SetPos(Vec2(drawX, drawY));
+			cBlcok->SetPos(realPos);
+			cBlcok->SetGridPos(gridPos);
 			AddObject(cBlcok, GROUP_TYPE::BLOCK);
 		}
 	}
@@ -169,8 +171,9 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 	CPlayer* pPlayer = new CPlayer;
 	Vec2 PlayerStartPos(4, 2);
 	pPlayer->SetPos(REAL(PlayerStartPos));
+	pPlayer->SetGridPos(PlayerStartPos);
 	m_pPlayer = pPlayer;
-	AddObject(pPlayer, GROUP_TYPE::PLAYER);
+	AddObject(pPlayer, GROUP_TYPE::UNIT);
 
 	// 몬스터 생성
 	m_MonsterSpawner->SpawnMonster(randomFieldData);
@@ -183,6 +186,7 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 		{
 			// 타일 위의 오브젝트가 nullptr이면, 오브젝트 좌표 설정
 			monsterList[i]->SetPos(REAL(randomPos));
+			monsterList[i]->SetGridPos(randomPos);
 			m_TileCenter->SetTileObject(randomPos, monsterList[i]);
 			// 디버깅
 			if (m_TileCenter->GetObj(randomPos) != nullptr)
@@ -266,7 +270,7 @@ void CScene_Battle::PlayerMove()
 
 		// 3. 타일 상태 갱신(목적지, 현재위치 갱신), 타일 리스트 한칸 삭제		
 
-		m_TurnCenter->SetPlayerPos(moveRoute.front());
+		m_pPlayer->SetGridPos(moveRoute.front());
 		moveRoute.pop_front();
 		if (moveRoute.empty()) return;		// 목적지 타일 도착하면, 함수 탈출
 
@@ -274,19 +278,23 @@ void CScene_Battle::PlayerMove()
 	}
 
 	// 캐릭터에게 도착지쪽으로 움직이게 명령
-	m_pPlayer->Move(vDestination);
+	m_pPlayer->Move(m_pPlayer->GetGridPos(), GRID(vDestination), vDestination);
 }
 
 void CScene_Battle::PlayerAttack()
 {
 	list<CObject*> targetList = m_TurnCenter->GetTargetList();
+
+	// 타겟이 없으면, 다시 Move이벤트 진행
 	if (targetList.empty())
 	{
 		m_TurnCenter->SetTurnState(TURN_TYPE::PLAYER_MOVE);
 		return;
 	}
 
-	auto iter = targetList.begin();
+	// 리스트의 가장 위의 적군
+	CMonster* pMonster = (CMonster*)targetList.front();
+	m_pPlayer->Attack(m_pPlayer->GetGridPos(), pMonster->GetGridPos(), pMonster->GetPos());
 
 }
 
@@ -312,8 +320,8 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 	{
 	case TURN_TYPE::PLAYER_START:
 	{
-		Vec2 vPlayerPos = GRID(m_pPlayer->GetPos());
-		Vec2 selectPos = GRID(_pObj->GetPos());
+		Vec2 vPlayerPos = m_pPlayer->GetGridPos();
+		Vec2 selectPos = _pObj->GetGridPos();
 
 		// BFS로 8방향 탐색 (주변 1칸), 오브젝트가 존재하면, 
 		m_BFS->BFS(vPlayerPos, vecTiles, DIRECTION::EIGHT_WAY, 1);
@@ -344,7 +352,7 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 		break;
 	case TURN_TYPE::PLAYER_TILESELECT:
 	{
-		Vec2 selectPos = GRID(_pObj->GetPos());
+		Vec2 selectPos = _pObj->GetGridPos();
 		Vec2 currentPos = m_TurnCenter->GetSelectTile();
 		m_BFS->BFS(currentPos, vecTiles, DIRECTION::EIGHT_WAY, 1);
 
@@ -395,6 +403,10 @@ void CScene_Battle::Update()
 		CCamera::GetInstance()->SetLookAt(vLookAt);
 	}
 
+	// 유닛 오브젝트의 렌더링 순서 조절(좌표가 낮을수록 더 낮은 순서로)
+	vector<CObject*>& groupObject = GetGroupObject(GROUP_TYPE::UNIT);
+	sort(groupObject.begin(), groupObject.end(), CompareGridPos);
+
 	// 메인 씬 업데이트 (각자 오브젝트들의 업데이트)
 	CScene::Update();
 
@@ -421,3 +433,15 @@ void CScene_Battle::Exit()
 	CCollisionMgr::GetInstance()->Reset();
 }
 
+bool CompareGridPos(CObject* _pObj1, CObject* _pObj2)
+{
+	Vec2 pos1 = _pObj1->GetGridPos();
+	Vec2 pos2 = _pObj2->GetGridPos();
+
+	// x 좌표 우선 비교
+	if (pos1.x < pos2.x) return true;
+	if (pos1.x > pos2.x) return false;
+
+	// x 같으면 y 비교
+	return pos1.y < pos2.y;
+}

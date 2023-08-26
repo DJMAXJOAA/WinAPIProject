@@ -18,6 +18,7 @@
 CObject::CObject()
 	: m_vPos{}
 	, m_vScale{}
+	, m_vGridPos{}
 	, m_pCollider(nullptr)
 	, m_pAnimator(nullptr)
 	, m_pAnimatorGdiPlus(nullptr)

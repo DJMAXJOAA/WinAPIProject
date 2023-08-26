@@ -8,6 +8,8 @@ class CMonsterSpawner;
 class CTurnCenter;
 class CTileCenter;
 
+bool CompareGridPos(CObject* _pObj1, CObject* _pObj2);	// 렌더링 순서 정렬용 비교 함수
+
 class CScene_Battle :
     public CScene
 {
@@ -32,12 +34,16 @@ public:
     void InitField(int _level, FIELD_TYPE _type);    // 여기를 Enter로 사용
 
 public:
+    // 로직 관련
     void TurnLogic();
     void PlayerMove();
     void PlayerAttack();
 
 public:
+    // 배틀 씬에서만 사용하는 유틸리티
     Vec2 GetRandomGridPos();
+    //bool CompareGridPos(CObject* _pObj1, CObject* _pObj2);	// 렌더링 순서 정렬용 비교 함수
+
 
 public:
     virtual void Update() override;

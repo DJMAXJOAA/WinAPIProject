@@ -16,6 +16,7 @@ private:
 
 	Vec2		m_vPos;
 	Vec2		m_vScale;
+	Vec2		m_vGridPos;		// 격자 좌표 (필요시만 사용)
 
 	// Componet
 	CCollider*			m_pCollider;	// nullptr이라면 콜라이더가 필요 없는 오브젝트들(배경이나 ui 등)
@@ -33,8 +34,9 @@ public:
 
 public:
 	void SetName(const wstring& _strName) { m_strName = _strName; }
-	void SetPos(Vec2 vPos) { m_vPos = vPos; }
+	void SetPos(Vec2 _vPos) { m_vPos = _vPos; }
 	void SetScale(Vec2 vScale) { m_vScale = vScale; }
+	void SetGridPos(Vec2 _vPos) { m_vGridPos = _vPos; }
 
 private:
 	// 이벤트 매니저만 접근
@@ -47,6 +49,7 @@ public:
 	wstring GetName() { return m_strName; }
 	Vec2 GetPos() { return m_vPos; }
 	Vec2 GetScale() { return m_vScale; }
+	Vec2 GetGridPos() { return m_vGridPos; }
 
 	CCollider* GetCollider() { return m_pCollider; }
 	CAnimator* GetAnimator() { return m_pAnimator; }

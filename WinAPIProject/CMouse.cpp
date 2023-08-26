@@ -25,6 +25,7 @@ void CMouse::OnCollisionEnter(CCollider* _pOther)
 	if (KEY_HOLD(KEY::LBTN) && (m_pOtherCollider != _pOther))
 	{
 		PlayerTileSelectTrigger(_pOther->GetObj());
+		printf("마우스 이벤트 호출\n");
 	}
 	m_pOtherCollider = _pOther;
 }

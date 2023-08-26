@@ -9,6 +9,7 @@ class CAnimator
 private:
 	CObject*					m_pOwner;		// 애니메이션 소유 오브젝트
 	bool						m_bRepeat;		// 반복재생 여부
+	bool						m_eventTrigger;	// 이벤트 중복 전송 방지
 	int							m_iID;			// 데이터 아이디
 
 	map<wstring, CAnimation*>	m_mapAnim;				// 모든 애니메이션 목록

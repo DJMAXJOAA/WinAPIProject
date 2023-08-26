@@ -56,13 +56,15 @@ public:
     void SetState(PLAYER_STATE _state) { m_playerState = _state; }
 
 public:
-    void Move(Vec2 _vDestination);
+    void Move(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination);
+    void Attack(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination);
 
 public:
     virtual void Render(HDC hdc);
     virtual void Update();
 
 private:
-    void CreateMissile();   // 아무나 생성 못하게 private
+    virtual void AnimationEvent() override;
+    void AnimationFrontBack(PLAYER_STATE _anim, Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination);     // 애니메이션 방향 지정
 };
 

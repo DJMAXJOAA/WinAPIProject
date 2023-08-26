@@ -48,7 +48,7 @@ void CMonsterSpawner::SpawnMonster(FieldData* _data)
 			CMonster* pMonster = m_mapMonsterData.find(vecSpawn[i].first)->second->Clone();
 			assert(pMonster);
 			m_vecMonsters.push_back(pMonster);
-			CreateObj(pMonster, GROUP_TYPE::MONSTER);
+			CreateObj(pMonster, GROUP_TYPE::UNIT);
 		}
 	}
 }

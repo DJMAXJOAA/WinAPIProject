@@ -20,8 +20,8 @@ public:
 	vector<CObject*>& GetUIGroup() { return m_arrObj[(UINT)GROUP_TYPE::UI]; }
 
 public:
-	const wstring& GetName() { return m_strName; }
-	const vector<CObject*>& GetGroupObject(GROUP_TYPE _eType) { return m_arrObj[(UINT)_eType]; } // 레퍼런스로 주되, 변경은 불가능하게 const
+	wstring& GetName() { return m_strName; }
+	vector<CObject*>& GetGroupObject(GROUP_TYPE _eType) { return m_arrObj[(UINT)_eType]; } // 레퍼런스로 주되, 변경은 불가능하게 const
 
 public:
 	void SetName(const wstring& _strName) { m_strName = _strName; }

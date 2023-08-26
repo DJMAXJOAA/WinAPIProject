@@ -41,17 +41,15 @@ namespace battle
 #define GRID(key) m_TileCenter->RealToGrid(key) 
 }
 
-
 enum class GROUP_TYPE
 {
 	DEFAULT,
 	BLOCK,
 	TILE,
-	PLAYER,
 	MISSILE_PLAYER,
 	MISSILE_MONSTER,
+	UNIT,
 	MOUSE,
-	MONSTER,
 
 	UI = 31,
 	END = 32,
