@@ -45,9 +45,9 @@
         "ID": 603,
         "MapType": "common",
         "MonsterID": [
+            500,
             501,
-            502,
-            503
+            502
         ],
         "NumberOfMonster": [
             1,
@@ -61,8 +61,8 @@
         "ID": 604,
         "MapType": "elite",
         "MonsterID": [
-            502,
-            503
+            501,
+            502
         ],
         "NumberOfMonster": [
             2,

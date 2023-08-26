@@ -103,6 +103,7 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 	// 600번 대의 필드 데이터 중에 조건에 맞는 데이터들
 	vector<CData*> allData = CDataMgr::GetInstance()->LoadAllData(600);
 	vector<FieldData*> fieldData{};
+	FieldData* randomFieldData = nullptr;
 	for (int i = 0; i < allData.size(); i++)
 	{
 		if (((FieldData*)allData[i])->m_iDifficulty == _level
@@ -114,16 +115,17 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distr(0, fieldData.size() - 1);
+		std::uniform_int_distribution<int> distr(0, int(fieldData.size() - 1));
 
 		int randomIndex = distr(gen);
-		FieldData* randomFieldData = fieldData[randomIndex];
+		randomFieldData = fieldData[randomIndex];
 		m_iFieldType = randomFieldData->GetKey();
 	}
 	else
 	{
 		assert(0);	// 데이터 가져오기 실패 디버깅
 	}
+	m_MonsterSpawner->SpawnMonster(randomFieldData);
 
 	// 마우스 추가
 	CMouse* pMouse = new CMouse;
@@ -155,8 +157,8 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 			vecTileState[y][x].pTile = pTile;
 			AddObject(pTile, GROUP_TYPE::TILE);
 
-			// 블럭 복사생성
-			CBlock* cBlcok = new CBlock(BLOCK_TYPE::SNOW);
+			// 블럭 복사생성 -> 필드에 맞게
+			CBlock* cBlcok = new CBlock(randomFieldData->m_BlockType);
 			cBlcok->SetPos(Vec2(drawX, drawY));
 			AddObject(cBlcok, GROUP_TYPE::BLOCK);
 		}
@@ -173,12 +175,6 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 	CEffect* pEffect = new CEffect;
 	pEffect->SetPos(REAL(PlayerStartPos));
 	AddObject(pEffect, GROUP_TYPE::MISSILE_PLAYER);
-
-	// Monster 추가
-	CMonster* pMonster = new CMonster;
-	Vec2 MonsterStartPos(6, 3);
-	pMonster->SetPos(REAL(MonsterStartPos));
-	AddObject(pMonster, GROUP_TYPE::MONSTER);
 
 	// 카메라 설정
 	CCamera::GetInstance()->SetLookAt(REAL(PlayerStartPos));
@@ -355,9 +351,9 @@ void CScene_Battle::Enter()
 
 void CScene_Battle::Exit()
 {
-	DeleteAll();
 	m_BFS->BFS_Init(m_TileCenter->GetTileState());
 	m_TurnCenter->Init();
+	DeleteAll();
 	CCollisionMgr::GetInstance()->Reset();
 }
 

@@ -1,22 +1,28 @@
 #pragma once
 #include "CObject.h"
 
+class MonsterData;
 class IMonsterStrategy;
 
 class CMonster :
     public CObject
 {
 private:
-    float   m_fHP;
-    float   m_fAtt;
-    int     m_iMove;
-    int     m_iRange;
+    wstring                     m_strName;
+    vector<IMonsterStrategy*>   m_vecStrategy;
+    float                       m_fMaxHP;
+    float                       m_fHP;
+    float                       m_fAtt;
+    int                         m_iMove;
+    int                         m_iRange;
 
 public:
-    CMonster();
+    CMonster(int _key);
+    CMonster(MonsterData* _data);
+    CMonster(const CMonster& _origin);
     virtual ~CMonster();
 
-    CLONE(CMonster);
+    CLONE(CMonster)
 
 public:
     void MovePattern(IMonsterStrategy* _stratey);

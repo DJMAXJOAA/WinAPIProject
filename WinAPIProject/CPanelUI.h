@@ -11,7 +11,7 @@ public:
     CPanelUI();
     ~CPanelUI();
 
-    CLONE(CPanelUI);    
+    CLONE(CPanelUI)
 
 public:
     virtual void Update();

@@ -152,24 +152,6 @@
     <Filter Include="Engine\08. Module\Strategy\MonsterMove">
       <UniqueIdentifier>{9a37a27f-ff09-43e0-9fb9-71069545c935}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\08. Module\Strategy\MonsterMove\MoveStrategy">
-      <UniqueIdentifier>{680d3f73-bb6d-4596-a1df-3e20310c0c61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Barrier">
-      <UniqueIdentifier>{70832af4-fe20-4322-8bcf-a846cea2e751}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Heal">
-      <UniqueIdentifier>{a9ed7108-dff4-415c-ab41-797faf6771d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\08. Module\Strategy\MonsterMove\MoveStrategy\RandomMove">
-      <UniqueIdentifier>{07443ddf-0e0b-4d37-91e9-052cee8a8da8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Teleport">
-      <UniqueIdentifier>{9b671e7e-e328-46c8-8179-7362b9ed1d36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Trace">
-      <UniqueIdentifier>{dbac847a-85a7-4474-8d1e-b52f55c5411f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\09. Data">
       <UniqueIdentifier>{d643f5d4-a5d9-405b-8d4a-b4ab0e013be9}</UniqueIdentifier>
     </Filter>
@@ -197,15 +179,6 @@
     <Filter Include="Engine\10. BattleCenter\MonsterSpawner">
       <UniqueIdentifier>{3a1c6fc7-b100-4a6b-a067-09b63e50dc1c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\08. Module\MonsterFacotry">
-      <UniqueIdentifier>{7d00d267-d68a-4343-8080-6a5ea0485346}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\08. Module\MonsterFacotry\Stage1">
-      <UniqueIdentifier>{32068ef8-e63d-47a3-8ee1-fa0043ecfd11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\08. Module\MonsterFacotry\Stage2">
-      <UniqueIdentifier>{800e8a7f-0fbf-49cb-b6c7-f0a83493a257}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\09. Data\600. Field">
       <UniqueIdentifier>{9215465f-4b75-489a-90bc-e1b8e28a3c48}</UniqueIdentifier>
     </Filter>
@@ -217,6 +190,27 @@
     </Filter>
     <Filter Include="Engine\10. BattleCenter\TurnCenter">
       <UniqueIdentifier>{82cffa74-44c6-489d-b9e2-5d7587eb8c71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Module\Strategy\MonsterMove\Barrier">
+      <UniqueIdentifier>{70832af4-fe20-4322-8bcf-a846cea2e751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Module\Strategy\MonsterMove\Heal">
+      <UniqueIdentifier>{a9ed7108-dff4-415c-ab41-797faf6771d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Module\Strategy\MonsterMove\FriendlyHeal">
+      <UniqueIdentifier>{290765dc-8b46-43fc-963e-2345a768fcab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Module\Strategy\MonsterMove\SelfHeal">
+      <UniqueIdentifier>{2814e127-b104-4ca4-97c2-49810b0e0d5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Module\Strategy\MonsterMove\RandomMove">
+      <UniqueIdentifier>{07443ddf-0e0b-4d37-91e9-052cee8a8da8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Module\Strategy\MonsterMove\Teleport">
+      <UniqueIdentifier>{9b671e7e-e328-46c8-8179-7362b9ed1d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Module\Strategy\MonsterMove\Trace">
+      <UniqueIdentifier>{dbac847a-85a7-4474-8d1e-b52f55c5411f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -374,26 +368,20 @@
     <ClInclude Include="CAnimatorGdiPlus.h">
       <Filter>Engine\07. Component\AnimatorGDI+</Filter>
     </ClInclude>
-    <ClInclude Include="IStrategy.h">
-      <Filter>Engine\08. Module\Strategy\MonsterMove</Filter>
-    </ClInclude>
     <ClInclude Include="Heal.h">
-      <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Heal</Filter>
+      <Filter>Engine\08. Module\Strategy\MonsterMove\Heal</Filter>
     </ClInclude>
     <ClInclude Include="RandomMove.h">
-      <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\RandomMove</Filter>
+      <Filter>Engine\08. Module\Strategy\MonsterMove\RandomMove</Filter>
     </ClInclude>
     <ClInclude Include="Teleport.h">
-      <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Teleport</Filter>
+      <Filter>Engine\08. Module\Strategy\MonsterMove\Teleport</Filter>
     </ClInclude>
     <ClInclude Include="Trace.h">
-      <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Trace</Filter>
+      <Filter>Engine\08. Module\Strategy\MonsterMove\Trace</Filter>
     </ClInclude>
     <ClInclude Include="Barrier.h">
-      <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Barrier</Filter>
-    </ClInclude>
-    <ClInclude Include="CMonsterFactory.h">
-      <Filter>Engine\08. Module\MonsterFacotry</Filter>
+      <Filter>Engine\08. Module\Strategy\MonsterMove\Barrier</Filter>
     </ClInclude>
     <ClInclude Include="BFSSearch.h">
       <Filter>Engine\10. BattleCenter\BFS</Filter>
@@ -410,12 +398,6 @@
     <ClInclude Include="CMonsterSpawner.h">
       <Filter>Engine\10. BattleCenter\MonsterSpawner</Filter>
     </ClInclude>
-    <ClInclude Include="CMonsterFactory_Stage1.h">
-      <Filter>Engine\08. Module\MonsterFacotry\Stage1</Filter>
-    </ClInclude>
-    <ClInclude Include="CMonsterFactory_Stage2.h">
-      <Filter>Engine\08. Module\MonsterFacotry\Stage2</Filter>
-    </ClInclude>
     <ClInclude Include="FieldData.h">
       <Filter>Engine\09. Data\600. Field</Filter>
     </ClInclude>
@@ -427,6 +409,15 @@
     </ClInclude>
     <ClInclude Include="CTileManager.h">
       <Filter>Engine\10. BattleCenter\TileCenter</Filter>
+    </ClInclude>
+    <ClInclude Include="FriendlyHeal.h">
+      <Filter>Engine\08. Module\Strategy\MonsterMove\FriendlyHeal</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfHeal.h">
+      <Filter>Engine\08. Module\Strategy\MonsterMove\SelfHeal</Filter>
+    </ClInclude>
+    <ClInclude Include="IStrategy.h">
+      <Filter>Engine\08. Module\Strategy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -563,26 +554,20 @@
     <ClCompile Include="CAnimatorGdiPlus.cpp">
       <Filter>Engine\07. Component\AnimatorGDI+</Filter>
     </ClCompile>
-    <ClCompile Include="IStrategy.cpp">
-      <Filter>Engine\08. Module\Strategy\MonsterMove</Filter>
-    </ClCompile>
     <ClCompile Include="Heal.cpp">
-      <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Heal</Filter>
+      <Filter>Engine\08. Module\Strategy\MonsterMove\Heal</Filter>
     </ClCompile>
     <ClCompile Include="RandomMove.cpp">
-      <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\RandomMove</Filter>
+      <Filter>Engine\08. Module\Strategy\MonsterMove\RandomMove</Filter>
     </ClCompile>
     <ClCompile Include="Teleport.cpp">
-      <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Teleport</Filter>
+      <Filter>Engine\08. Module\Strategy\MonsterMove\Teleport</Filter>
     </ClCompile>
     <ClCompile Include="Trace.cpp">
-      <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Trace</Filter>
+      <Filter>Engine\08. Module\Strategy\MonsterMove\Trace</Filter>
     </ClCompile>
     <ClCompile Include="Barrier.cpp">
-      <Filter>Engine\08. Module\Strategy\MonsterMove\MoveStrategy\Barrier</Filter>
-    </ClCompile>
-    <ClCompile Include="CMonsterFactory.cpp">
-      <Filter>Engine\08. Module\MonsterFacotry</Filter>
+      <Filter>Engine\08. Module\Strategy\MonsterMove\Barrier</Filter>
     </ClCompile>
     <ClCompile Include="BFSSearch.cpp">
       <Filter>Engine\10. BattleCenter\BFS</Filter>
@@ -599,12 +584,6 @@
     <ClCompile Include="CMonsterSpawner.cpp">
       <Filter>Engine\10. BattleCenter\MonsterSpawner</Filter>
     </ClCompile>
-    <ClCompile Include="CMonsterFactory_Stage1.cpp">
-      <Filter>Engine\08. Module\MonsterFacotry\Stage1</Filter>
-    </ClCompile>
-    <ClCompile Include="CMonsterFactory_Stage2.cpp">
-      <Filter>Engine\08. Module\MonsterFacotry\Stage2</Filter>
-    </ClCompile>
     <ClCompile Include="FieldData.cpp">
       <Filter>Engine\09. Data\600. Field</Filter>
     </ClCompile>
@@ -613,6 +592,15 @@
     </ClCompile>
     <ClCompile Include="GameData.cpp">
       <Filter>Engine\09. Data\000. GameSave</Filter>
+    </ClCompile>
+    <ClCompile Include="FriendlyHeal.cpp">
+      <Filter>Engine\08. Module\Strategy\MonsterMove\FriendlyHeal</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfHeal.cpp">
+      <Filter>Engine\08. Module\Strategy\MonsterMove\SelfHeal</Filter>
+    </ClCompile>
+    <ClCompile Include="IStrategy.cpp">
+      <Filter>Engine\08. Module\Strategy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

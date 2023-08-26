@@ -12,7 +12,7 @@ public:
     CBlock(BLOCK_TYPE _type);
     virtual ~CBlock();
 
-    CLONE(CBlock);
+    CLONE(CBlock)
 
 public:
     int RandomBlock();

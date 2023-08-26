@@ -3,5 +3,9 @@
 class Barrier :
     public IMonsterStrategy
 {
+    CLONE(Barrier)
+
+public:
+    virtual void MoveStrategy(CMonster* _pMon) {};
 };
 

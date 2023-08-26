@@ -12,7 +12,7 @@ public:
     virtual void Render(HDC hdc);
     virtual void Update();
 
-    CLONE(CEffect);
+    CLONE(CEffect)
 
 public:
     virtual void AnimationEvent() override { DeleteObj(this); }

@@ -11,7 +11,7 @@ public:
 	CToolTest2(int iAnimator, int iAnimation);
 	virtual ~CToolTest2();
 
-	CLONE(CToolTest2);
+	CLONE(CToolTest2)
 
 public:
 	void ChangeAnimation(int _key);

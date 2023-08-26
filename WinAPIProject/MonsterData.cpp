@@ -14,7 +14,8 @@ MonsterData::~MonsterData()
 
 void MonsterData::ParseData(const json& item)
 {
-    m_strAnimationKey = string_to_wstring(item["Name"].get<string>());
+    m_strName = string_to_wstring(item["Name"].get<string>());
+    m_iAnimatorKey = item["AnimatorID"].get<int>();
 
     for (const auto& strategy : item["Strategies"])
     {

@@ -25,7 +25,7 @@ public:
     CBtnUI();
     ~CBtnUI();
 
-    CLONE(CBtnUI);
+    CLONE(CBtnUI)
 
 public:
     virtual void MouseOn();

@@ -14,7 +14,8 @@ public:
     CTile();
     virtual ~CTile();
    
-    CLONE(CTile);
+private:
+    CLONE(CTile)
 
 public:
     TILE_STATE GetTileState() { return m_TileState; }

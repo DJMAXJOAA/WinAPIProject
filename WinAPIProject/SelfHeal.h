@@ -1,9 +1,9 @@
 #pragma once
 #include "IStrategy.h"
-class Trace :
+class SelfHeal :
     public IMonsterStrategy
 {
-    CLONE(Trace)
+    CLONE(SelfHeal)
 
 public:
     virtual void MoveStrategy(CMonster* _pMon) {};

@@ -63,11 +63,11 @@ void CScene_Start::Enter()
 	Vec2 vResolution = CCore::GetInstance()->GetResolution();
 	CMonster* pMonsterObj = nullptr;
 
-	pMonsterObj = new CMonster;
-	pMonsterObj->SetName(L"Monster");
-	pMonsterObj->SetPos(Vec2(500.f, 100.f));
-	pMonsterObj->SetScale(Vec2(50.f, 50.f));
-	AddObject(pMonsterObj, GROUP_TYPE::MONSTER);
+	//pMonsterObj = new CMonster;
+	//pMonsterObj->SetName(L"Monster");
+	//pMonsterObj->SetPos(Vec2(500.f, 100.f));
+	//pMonsterObj->SetScale(Vec2(50.f, 50.f));
+	//AddObject(pMonsterObj, GROUP_TYPE::MONSTER);
 
 	// 충돌 처리 -> player 그룹과 monster 그룹 간의 충돌 체크
 	CCollisionMgr::GetInstance()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);

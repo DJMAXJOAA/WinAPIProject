@@ -47,7 +47,7 @@ public:
     virtual ~CPlayer();
 
 private:
-    CLONE(CPlayer);
+    CLONE(CPlayer)
 
 public:
     PLAYER_STATE GetState() { return m_playerState; }

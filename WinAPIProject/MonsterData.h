@@ -4,8 +4,9 @@
 class MonsterData :
 	public CData
 {
-private:
-	wstring						m_strAnimationKey;		// 애니메이션 이름
+public:
+	wstring						m_strName;				// 몬스터 이름
+	int							m_iAnimatorKey;			// 애니메이션 이름
 	vector<MONSTER_STRATEGY>	m_vecMosterStrategy;	// 가질 수 있는 패턴
 	float						m_fHP;					// 체력
 	float						m_fAtt;					// 공격력

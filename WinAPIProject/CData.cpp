@@ -11,6 +11,7 @@ static std::mt19937 rng(rd());
 
 CData::CData(int _iID)
 	: m_iID(_iID)
+	, m_bValid(true)
 {
 
 }
@@ -40,9 +41,11 @@ void CData::LoadData(const wstring& _filename)
 		if (item["ID"].get<int>() == targetID)
 		{
 			ParseData(item);
-			break;
+			m_bValid = true;
+			return;
 		}
 	}
+	m_bValid = false;
 }
 
 string wstring_to_string(const wstring& wstr)

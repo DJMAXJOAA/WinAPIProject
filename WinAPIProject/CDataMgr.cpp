@@ -53,7 +53,7 @@ vector<CData*> CDataMgr::LoadDataRange(int _start, int _end)
 
 	for (int i = _start; i <= _end; ++i) {
 		CData* data = FindData(i);
-		if (data != nullptr) {
+		if (!data->GetValid()) {
 			dataList.push_back(data);
 		}
 	}
@@ -76,7 +76,7 @@ vector<CData*> CDataMgr::LoadAllData(int _number)
 
 	for (int i = start; i <= end; ++i) {
 		CData* data = FindData(i);
-		if (data == nullptr) {
+		if (!data->GetValid()) {
 			break;
 		}
 		dataList.push_back(data);

@@ -14,7 +14,7 @@ public:
     CMissile();
     virtual ~CMissile();
 
-    CLONE(CMissile);
+    CLONE(CMissile)
 
 public:
     void SetDir(float _fTheta) { m_fTheta = _fTheta; }

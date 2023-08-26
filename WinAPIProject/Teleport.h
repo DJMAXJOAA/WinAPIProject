@@ -3,5 +3,9 @@
 class Teleport :
     public IMonsterStrategy
 {
+    CLONE(Teleport)
+
+public:
+    virtual void MoveStrategy(CMonster* _pMon) {};
 };
 

@@ -13,7 +13,7 @@ public:
     virtual ~CMouse();
 
 private:
-    CLONE(CMouse);
+    CLONE(CMouse)
 
 public:
     virtual void OnCollisionEnter(CCollider* _pOther);

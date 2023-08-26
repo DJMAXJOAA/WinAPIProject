@@ -12,7 +12,7 @@ public:
 	CToolTest1(int iAnimator, int iAnimation);
 	virtual ~CToolTest1();
 
-	CLONE(CToolTest1);
+	CLONE(CToolTest1)
 
 public:
 	void ChangeAnimation(int _key);
