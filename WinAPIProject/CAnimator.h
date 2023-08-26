@@ -16,7 +16,10 @@ private:
 
 public:
 	CAnimator();
+	CAnimator(const CAnimator& _origin);
 	~CAnimator();
+
+	CLONE(CAnimator)
 
 	friend class CObject;
 
