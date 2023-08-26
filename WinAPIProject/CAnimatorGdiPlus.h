@@ -24,6 +24,7 @@ public:
 
 public:
 	void AnimationEvent(CObject* _pObj);
+	void AnimationEnd(CObject* _pObj);
 
 public:
 	int GetID() { return m_iID; }

@@ -65,6 +65,7 @@ public:
 
 private:
     virtual void AnimationEvent() override;
-    void AnimationFrontBack(PLAYER_STATE _anim, Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination);     // 애니메이션 방향 지정
+    virtual void AnimationEnd() override;
+    void AnimationDirection(PLAYER_STATE _anim, bool _bRepeat, Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination);     // 애니메이션 방향 지정
 };
 

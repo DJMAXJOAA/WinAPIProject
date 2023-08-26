@@ -55,6 +55,15 @@ void CAnimator::AnimationEvent(CObject* _pObj)
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
+void CAnimator::AnimationEnd(CObject* _pObj)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::ANIMATION_END;
+	evn.lParam = (DWORD_PTR)_pObj;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
+}
+
 void CAnimator::CreateAnimation(const wstring& _strName, CTexture* _pTex, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount, int _id, int _iEventFrame)
 {
 	CAnimation* pAnim = FindAnimation(_strName);
@@ -135,9 +144,14 @@ void CAnimator::Update()
 			m_eventTrigger = false;
 		}
 
-		if (m_bRepeat && m_pCurAnim->isFinish())
+		if (m_pCurAnim->isFinish())
 		{
 			m_pCurAnim->SetFrame(0);
+
+			if (!m_bRepeat)
+			{
+				AnimationEnd(m_pOwner);
+			}
 		}
 		else if (m_eventTrigger == false
 		 && m_pCurAnim->GetEventFrame() != 0

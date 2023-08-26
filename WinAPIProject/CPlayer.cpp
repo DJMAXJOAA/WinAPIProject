@@ -36,7 +36,7 @@ void CPlayer::Move(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination)
 {
 	Vec2 vPos = GetPos();
 
-	AnimationFrontBack(PLAYER_STATE::MOVE, _vGridFront, _vGridRear, _vDestination);
+	AnimationDirection(PLAYER_STATE::MOVE, false, _vGridFront, _vGridRear, _vDestination);
 
 	// 소수점 버리고 반환되게
 	if(vPos.DistanceTo(_vDestination) <= m_fSpeed * fDT)
@@ -52,7 +52,7 @@ void CPlayer::Move(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination)
 
 void CPlayer::Attack(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination)
 {
-	AnimationFrontBack(PLAYER_STATE::UPPERCUT, _vGridFront, _vGridRear, _vDestination);
+	AnimationDirection(PLAYER_STATE::UPPERCUT, false, _vGridFront, _vGridRear, _vDestination);
 }
 
 void CPlayer::Render(HDC hdc)
@@ -67,10 +67,17 @@ void CPlayer::Update()
 
 void CPlayer::AnimationEvent()
 {
+	CCamera::GetInstance()->SetVibrateCamera(10.f, 1, 0.02f);
 	printf("애니메이션 이벤트 호출\n");
 }
 
-void CPlayer::AnimationFrontBack(PLAYER_STATE _anim, Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination)
+void CPlayer::AnimationEnd()
+{
+	GetAnimator()->Play(100, true);
+	printf("애니메이션 종료 호출\n");
+}
+
+void CPlayer::AnimationDirection(PLAYER_STATE _anim, bool _bRepeat, Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination)
 {
 	Vec2 vPos = GetPos();
 	const int animationInterval = 14;	// 앞에보는 모션과 뒤에보는 모션의 값 차이가 14
@@ -78,7 +85,7 @@ void CPlayer::AnimationFrontBack(PLAYER_STATE _anim, Vec2 _vGridFront, Vec2 _vGr
 	// 뒤도는 모션 설정
 	if (_vGridFront.x >= _vGridRear.x && _vGridFront.y >= _vGridRear.y)
 	{
-		GetAnimator()->Play((int)_anim + animationInterval, true);
+		GetAnimator()->Play((int)_anim + animationInterval, _bRepeat);
 
 		// 이미지 좌우 반전
 		if (vPos.x < _vDestination.x) GetAnimator()->GetAnimation()->SetFlip(false);
@@ -87,7 +94,7 @@ void CPlayer::AnimationFrontBack(PLAYER_STATE _anim, Vec2 _vGridFront, Vec2 _vGr
 	// 뒤 안돔
 	else 
 	{
-		GetAnimator()->Play((int)_anim, true);
+		GetAnimator()->Play((int)_anim, _bRepeat);
 
 		// 이미지 좌우 반전
 		if (vPos.x < _vDestination.x) GetAnimator()->GetAnimation()->SetFlip(true);

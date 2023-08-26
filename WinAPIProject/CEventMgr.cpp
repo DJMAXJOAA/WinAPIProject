@@ -78,10 +78,18 @@ void CEventMgr::Excute(const tEvent& _eve)
 	}
 	case EVENT_TYPE::ANIMATION_EVENT:
 	{
+		// lParam :: Animation Event Trigger
+		// Animation Event Frame이 되면, 이벤트 발생 (event frame이 0이면 이벤트가 발생하지 않음)
+		CObject* pObj = (CObject*)_eve.lParam;
+		pObj->AnimationEvent();
+		break;
+	}
+	case EVENT_TYPE::ANIMATION_END:
+	{
 		// lParam :: Animation Finish Trigger
 		// Animation Repeat가 false인 상황에서, 애니메이션이 종료되면 주인 오브젝트에 이벤트 발생시킴
 		CObject* pObj = (CObject*)_eve.lParam;
-		pObj->AnimationEvent();
+		pObj->AnimationEnd();
 		break;
 	}
 	case EVENT_TYPE::END:

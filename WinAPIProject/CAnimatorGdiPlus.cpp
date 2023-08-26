@@ -54,6 +54,15 @@ void CAnimatorGdiPlus::AnimationEvent(CObject* _pObj)
     CEventMgr::GetInstance()->AddEvent(evn);
 }
 
+void CAnimatorGdiPlus::AnimationEnd(CObject* _pObj)
+{
+    tEvent evn = {  };
+    evn.eEvent = EVENT_TYPE::ANIMATION_END;
+    evn.lParam = (DWORD_PTR)_pObj;
+
+    CEventMgr::GetInstance()->AddEvent(evn);
+}
+
 void CAnimatorGdiPlus::CreateAnimation(const wstring& _strName, CGdiPlus* _pBitmap, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount, int _id, int _eventFrame)
 {
     CAnimationGdiPlus* pAnim = FindAnimation(_strName);
@@ -133,9 +142,14 @@ void CAnimatorGdiPlus::Update()
             m_eventTrigger = false;
         }
 
-        if (m_bRepeat && m_pCurAnim->isFinish())
+        if (m_pCurAnim->isFinish())
         {
             m_pCurAnim->SetFrame(0);
+
+            if (!m_bRepeat)
+            {
+                AnimationEnd(m_pOwner);
+            }
         }
         else if (m_eventTrigger == false
             && m_pCurAnim->GetEventFrame() != 0

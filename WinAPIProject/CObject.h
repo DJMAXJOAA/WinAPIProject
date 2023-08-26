@@ -43,7 +43,8 @@ private:
 	void SetDead() { m_bAlive = false; }
 
 public:
-	virtual void AnimationEvent() {};	// 이벤트가 마지막 프레임이면 이벤트 호출
+	virtual void AnimationEvent() {};	// 설정한 이벤트 프레임에 호출 (0이면 호출 X)
+	virtual void AnimationEnd() {};		// 애니메이션 반복이 false인 상태에서, 마지막 프레임이면 호출
 
 public:
 	wstring GetName() { return m_strName; }
