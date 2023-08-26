@@ -925,7 +925,7 @@
         "AnimationInfo": {
             "Duration": 0.1,
             "Frame": 15,
-            "EventFrame": 0,
+            "EventFrame": 14,
             "Offset": [
                 0.0,
                 0.0

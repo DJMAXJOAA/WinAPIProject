@@ -45,16 +45,16 @@ CAnimator::~CAnimator()
 	SafeDeleteMap(m_mapAnim);
 }
 
-void CAnimator::AnimationFinish(CObject* _pObj)
+void CAnimator::AnimationEvent(CObject* _pObj)
 {
 	tEvent evn = {  };
-	evn.eEvent = EVENT_TYPE::ANIMATION_FINISH;
+	evn.eEvent = EVENT_TYPE::ANIMATION_EVENT;
 	evn.lParam = (DWORD_PTR)_pObj;
 
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
-void CAnimator::CreateAnimation(const wstring& _strName, CTexture* _pTex, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount, int _id)
+void CAnimator::CreateAnimation(const wstring& _strName, CTexture* _pTex, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount, int _id, int _iEventFrame)
 {
 	CAnimation* pAnim = FindAnimation(_strName);
 	assert(pAnim == nullptr); // 이미 같은 이름의 애니메이션이 존재하면 안되니까, 오류 검출 부분
@@ -64,6 +64,7 @@ void CAnimator::CreateAnimation(const wstring& _strName, CTexture* _pTex, Vec2 _
 
 	pAnim->SetName(_strName);
 	pAnim->m_pAnimator = this;
+	pAnim->m_iEventFrame = _iEventFrame;
 
 	pAnim->Create(_pTex, _vLeftTop, _vSliceSize, _vStep, _fDuration, _iFrameCount);
 
@@ -81,6 +82,7 @@ void CAnimator::CreateAnimation(int _key)
 	// 존재 안하면 애니메이션 새로 하나 만듬
 	pAnim = new CAnimation;
 	pAnim->m_iID = data->GetKey();
+	pAnim->m_iEventFrame = data->m_AniInfo.iEventFram;
 
 	pAnim->SetName(data->m_strAnimationName);
 	pAnim->m_pAnimator = this;
@@ -129,8 +131,12 @@ void CAnimator::Update()
 
 		if (m_bRepeat && m_pCurAnim->isFinish())
 		{
-			AnimationFinish(m_pOwner);
 			m_pCurAnim->SetFrame(0);
+		}
+		else if (m_pCurAnim->GetEventFrame() != 0
+		 && m_pCurAnim->GetEventFrame() == m_pCurAnim->GetCurrentFrame())
+		{
+			AnimationEvent(m_pOwner);
 		}
 	}
 }

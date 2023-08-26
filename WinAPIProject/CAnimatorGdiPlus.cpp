@@ -44,16 +44,16 @@ CAnimatorGdiPlus::~CAnimatorGdiPlus()
 	SafeDeleteMap(m_mapAnim);
 }
 
-void CAnimatorGdiPlus::AnimationFinish(CObject* _pObj)
+void CAnimatorGdiPlus::AnimationEvent(CObject* _pObj)
 {
     tEvent evn = {  };
-    evn.eEvent = EVENT_TYPE::ANIMATION_FINISH;
+    evn.eEvent = EVENT_TYPE::ANIMATION_EVENT;
     evn.lParam = (DWORD_PTR)_pObj;
 
     CEventMgr::GetInstance()->AddEvent(evn);
 }
 
-void CAnimatorGdiPlus::CreateAnimation(const wstring& _strName, CGdiPlus* _pBitmap, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount, int _id)
+void CAnimatorGdiPlus::CreateAnimation(const wstring& _strName, CGdiPlus* _pBitmap, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount, int _id, int _eventFrame)
 {
     CAnimationGdiPlus* pAnim = FindAnimation(_strName);
     assert(pAnim == nullptr);
@@ -61,6 +61,8 @@ void CAnimatorGdiPlus::CreateAnimation(const wstring& _strName, CGdiPlus* _pBitm
     pAnim = new CAnimationGdiPlus;
     pAnim->SetName(_strName);
     pAnim->m_pAnimator = this;
+    pAnim->m_iID = _id;
+    pAnim->m_iEventFrame = _eventFrame;
 
     pAnim->Create(_pBitmap, _vLeftTop, _vSliceSize, _vStep, _fDuration, _iFrameCount);
 
@@ -78,6 +80,7 @@ void CAnimatorGdiPlus::CreateAnimation(int _key)
     // 존재 안하면 애니메이션 새로 하나 만듬
     pAnim = new CAnimationGdiPlus;
     pAnim->m_iID = data->GetKey();
+    pAnim->m_iEventFrame = data->m_AniInfo.iEventFram;
 
     pAnim->SetName(data->m_strAnimationName);
     pAnim->m_pAnimator = this;
@@ -126,8 +129,12 @@ void CAnimatorGdiPlus::Update()
 
         if (m_bRepeat && m_pCurAnim->isFinish())
         {
-            AnimationFinish(m_pOwner);
             m_pCurAnim->SetFrame(0);
+        }
+        else if (m_pCurAnim->GetEventFrame() != 0
+            && m_pCurAnim->GetEventFrame() == m_pCurAnim->GetCurrentFrame())
+        {
+            AnimationEvent(m_pOwner);
         }
     }
 }

@@ -61,7 +61,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 
 		// 리스트 내에 있는 모든 타일들의 색깔을 원래 색상으로 돌리기
 		list<Vec2>& moveRoute = m_TurnCenter->GetMoveRoute();
-		m_TileCenter->TileInit(moveRoute);
+		m_TileCenter->TileRouteInit(moveRoute);
 
 		// 리스트 초기화
 		m_TurnCenter->RouteInit();
@@ -413,8 +413,9 @@ void CScene_Battle::Enter()
 
 void CScene_Battle::Exit()
 {
-	m_BFS->BFS_Init(m_TileCenter->GetTiles());
+	CCamera::GetInstance()->SetTarget(nullptr);
 	m_TurnCenter->Init();
+	m_TileCenter->Init();
 	m_MonsterSpawner->Init();
 	DeleteAll();
 	CCollisionMgr::GetInstance()->Reset();

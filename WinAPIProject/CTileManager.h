@@ -13,7 +13,8 @@ public:
 	~CTileCenter();
 
 public:
-	void TileInit(list<Vec2>& _tileList);
+	void Init();
+	void TileRouteInit(list<Vec2>& _tileList);
 	void TileRandomInit();
 
 public:

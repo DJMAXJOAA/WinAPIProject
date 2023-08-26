@@ -22,7 +22,7 @@ public:
 	friend class CObject;
 
 public:
-	void AnimationFinish(CObject* _pObj);
+	void AnimationEvent(CObject* _pObj);
 
 public:
 	int GetID() { return m_iID; }
@@ -30,7 +30,7 @@ public:
 	CObject* GetObj() { return m_pOwner; }
 
 public:
-	void CreateAnimation(const wstring& _strName, CGdiPlus* _pTex, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount, int _id);
+	void CreateAnimation(const wstring& _strName, CGdiPlus* _pTex, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vStep, float _fDuration, UINT _iFrameCount, int _id, int _eventID);
 	void CreateAnimation(int _key);
 	CAnimationGdiPlus* FindAnimation(const wstring& _strName);
 	CAnimationGdiPlus* FindAnimation(int _key);

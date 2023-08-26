@@ -76,7 +76,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TurnInit(turnType);
 		break;
 	}
-	case EVENT_TYPE::ANIMATION_FINISH:
+	case EVENT_TYPE::ANIMATION_EVENT:
 	{
 		// lParam :: Animation Finish Trigger
 		// Animation Repeat가 false인 상황에서, 애니메이션이 종료되면 주인 오브젝트에 이벤트 발생시킴

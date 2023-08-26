@@ -13,6 +13,7 @@ private:
 	CGdiPlus*			m_pBitmap;		// 애니메이션이 참조하는 GDI+
 	vector<tAnimFrame>	m_vecFrame;		// 모든 프레임 정보가 담긴 배열
 	int					m_iCurFrame;	// 현재 어떤 프레임?
+	int					m_iEventFrame;	// 이벤트가 어느 프레임에 호출되는지?
 	float				m_fAccTime;		// 시간 누적
 
 	bool				m_bFinish;		// 애니메이션 끝났는지 체크
@@ -33,6 +34,8 @@ public:
 	tAnimFrame& GetFrame(int _iIndex) { return m_vecFrame[_iIndex]; } // 피벗 수정용, 호출한 쪽에서 수정이 가능하게
 	vector<tAnimFrame>& GetAllFrame() { return m_vecFrame; }
 	int GetMaxFrame() { return (int)m_vecFrame.size(); }
+	int GetCurrentFrame() { return m_iCurFrame; }
+	int GetEventFrame() { return m_iEventFrame; }
 	CGdiPlus* GetBitmap() { return m_pBitmap; }
 
 	bool isFinish() { return m_bFinish; }

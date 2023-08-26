@@ -14,7 +14,19 @@ CTileCenter::~CTileCenter()
 {
 }
 
-void CTileCenter::TileInit(list<Vec2>& _tileList)
+void CTileCenter::Init()
+{
+	for (int y = 0; y < m_vecTileState.size(); y++)
+	{
+		for (int x = 0; x < m_vecTileState[y].size(); x++)
+		{
+			m_vecTileState[y][x].pObj = nullptr;
+			m_vecTileState[y][x].bVisited = false;
+		}
+	}
+}
+
+void CTileCenter::TileRouteInit(list<Vec2>& _tileList)
 {
 	for (auto& tile : _tileList)
 	{
