@@ -21,6 +21,7 @@ private:
 
 public:
 	CAnimationGdiPlus();
+	CAnimationGdiPlus(const CAnimationGdiPlus& _origin);
 	~CAnimationGdiPlus();
 
 	friend class CAnimatorGdiPlus;

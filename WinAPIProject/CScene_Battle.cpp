@@ -22,6 +22,8 @@
 #include "FieldData.h"
 
 using namespace battle;
+static std::random_device rd;
+static std::mt19937 gen(rd());
 
 CScene_Battle::CScene_Battle()
 	: m_pPlayer(nullptr)
@@ -99,22 +101,22 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 {
 	Vec2 vResolution = CCore::GetInstance()->GetResolution();
 
-	// 랜덤하게 필드 ID 결정
 	// 600번 대의 필드 데이터 중에 조건에 맞는 데이터들
 	vector<CData*> allData = CDataMgr::GetInstance()->LoadAllData(600);
 	vector<FieldData*> fieldData{};
 	FieldData* randomFieldData = nullptr;
+
+	// 랜덤하게 필드 ID 결정
+	// 600번 대의 필드 데이터 중에 조건에 맞는 데이터들
 	for (int i = 0; i < allData.size(); i++)
 	{
 		if (((FieldData*)allData[i])->m_iDifficulty == _level
-		&& ((FieldData*)allData[i])->m_MapType == _type)
+			&& ((FieldData*)allData[i])->m_MapType == _type)
 			fieldData.push_back((FieldData*)allData[i]);
 	}
 	// 추려낸 데이터들중에 랜덤으로 1개 선택
-	if (!fieldData.empty()) 
+	if (!fieldData.empty())
 	{
-		std::random_device rd;
-		std::mt19937 gen(rd());
 		std::uniform_int_distribution<int> distr(0, int(fieldData.size() - 1));
 
 		int randomIndex = distr(gen);
@@ -125,7 +127,6 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 	{
 		assert(0);	// 데이터 가져오기 실패 디버깅
 	}
-	m_MonsterSpawner->SpawnMonster(randomFieldData);
 
 	// 마우스 추가
 	CMouse* pMouse = new CMouse;
@@ -136,7 +137,7 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 	int startY = (int)(vResolution.y / 4);
 	map<Vec2, Vec2>& mapRealPoint = m_TileCenter->GetMapRealPoint();
 	map<Vec2, Vec2>& mapGridPoint = m_TileCenter->GetMapGridPoint();
-	vector<vector<TileState>>& vecTileState = m_TileCenter->GetTileState();
+	vector<vector<TileState>>& vecTileState = m_TileCenter->GetTiles();
 
 	for (int y = 0; y < 9; ++y) {
 		for (int x = 0; x < 9; ++x) {
@@ -171,6 +172,31 @@ void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
 	m_pPlayer = pPlayer;
 	AddObject(pPlayer, GROUP_TYPE::PLAYER);
 
+	// 몬스터 생성
+	m_MonsterSpawner->SpawnMonster(randomFieldData);
+	vector<CMonster*>& monsterList = m_MonsterSpawner->GetMonsterList();
+	for (int i = 0; i < monsterList.size(); i++)
+	{
+		// 몬스터들의 위치 랜덤 지정 (오브젝트 중복 안되게)
+		Vec2 randomPos = GetRandomGridPos();
+		if (m_TileCenter->GetObj(randomPos) == nullptr)
+		{
+			// 타일 위의 오브젝트가 nullptr이면, 오브젝트 좌표 설정
+			monsterList[i]->SetPos(REAL(randomPos));
+			m_TileCenter->SetTileObject(randomPos, monsterList[i]);
+			// 디버깅
+			if (m_TileCenter->GetObj(randomPos) != nullptr)
+			{
+				cout << "타일 오브젝트 등록 " << i << "번째 :" << randomPos.x << "," << randomPos.y << ",\n";
+			}
+		}
+		else
+		{
+			// 다시 좌표 지정
+			i--;
+		}
+	}
+
 	// GDI+ Test (Effect)
 	CEffect* pEffect = new CEffect;
 	pEffect->SetPos(REAL(PlayerStartPos));
@@ -196,7 +222,11 @@ void CScene_Battle::TurnLogic()
 		PlayerMove();
 		break;
 	}
-	case TURN_TYPE::PLAYER_ATTACK: break;
+	case TURN_TYPE::PLAYER_ATTACK:
+	{
+		PlayerAttack();
+		break;
+	}
 	case TURN_TYPE::PLAYER_SKILL: break;
 	case TURN_TYPE::ENEMY_MOVE: break;
 	case TURN_TYPE::ENEMY_ATTACK: break;
@@ -220,15 +250,22 @@ void CScene_Battle::PlayerMove()
 	if (vCurrentPos == vDestination)
 	{
 		// 1. 적군 탐색 후, 적군이 있으면 함수 리턴 후 공격상태 들어감(lstTargetEnemy 배열에 적들 정보 들어감)
-		// Update에서 적 리스트 빈거 체크하고, 안비었으면 빌때까지 공격상태 돌입
-		/*BFS(m_mapGridPoint[vDestination], DIRECTION::FOUR_WAY, 1);*/
+		// Update에서 적 리스트 빈거 체크하고, 안비었으면 함수 종료 후 공격상태로 돌입
+		vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
+		list<CObject*>& lstMonsters = m_TurnCenter->GetTargetList();
+		m_BFS->BFS(GRID(vDestination), vecTile, lstMonsters, DIRECTION::FOUR_WAY, 1);
+		if (!lstMonsters.empty())
+		{
+			m_TurnCenter->SetTurnState(TURN_TYPE::PLAYER_ATTACK);
+		}
 
 		// 2. 타일 상태 갱신 -> 이동한 발판은 검은색 처리
 		Vec2 gridDestination = moveRoute.front();
-		vector<vector<TileState>>& tiles = m_TileCenter->GetTileState();
+		vector<vector<TileState>>& tiles = m_TileCenter->GetTiles();
 		tiles[(int)gridDestination.y][(int)gridDestination.x].pTile->SetTileState(TILE_STATE::BLACK);
 
-		// 3. 타일 상태 갱신(목적지, 현재위치 갱신), 타일 리스트 한칸 삭제
+		// 3. 타일 상태 갱신(목적지, 현재위치 갱신), 타일 리스트 한칸 삭제		
+
 		m_TurnCenter->SetPlayerPos(moveRoute.front());
 		moveRoute.pop_front();
 		if (moveRoute.empty()) return;		// 목적지 타일 도착하면, 함수 탈출
@@ -240,12 +277,36 @@ void CScene_Battle::PlayerMove()
 	m_pPlayer->Move(vDestination);
 }
 
+void CScene_Battle::PlayerAttack()
+{
+	list<CObject*> targetList = m_TurnCenter->GetTargetList();
+	if (targetList.empty())
+	{
+		m_TurnCenter->SetTurnState(TURN_TYPE::PLAYER_MOVE);
+		return;
+	}
+
+	auto iter = targetList.begin();
+
+}
+
+Vec2 CScene_Battle::GetRandomGridPos()
+{
+	std::uniform_int_distribution<int> distr(0, 8);
+
+	Vec2 result;
+	result.x = float(distr(gen)); // x 좌표 랜덤 생성
+	result.y = float(distr(gen)); // y 좌표 랜덤 생성
+
+	return result;
+}
+
 void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 {
 	// 조건 :: 마우스를 꾹 누른 상태에서 타일의 콜라이더와 닿은 상태
 	// 마우스 꾹 눌린 상태에서, 콜라이더가 닿으면 -> 이벤트 매니저에서 이 함수를 호출시킴
 	TURN_TYPE CurrnetTurn = m_TurnCenter->GetTurnState();
-	vector<vector<TileState>>& vecTiles = m_TileCenter->GetTileState();
+	vector<vector<TileState>>& vecTiles = m_TileCenter->GetTiles();
 
 	switch (CurrnetTurn)
 	{
@@ -254,11 +315,11 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 		Vec2 vPlayerPos = GRID(m_pPlayer->GetPos());
 		Vec2 selectPos = GRID(_pObj->GetPos());
 
-		// BFS로 8방향 탐색 (주변 1칸)
+		// BFS로 8방향 탐색 (주변 1칸), 오브젝트가 존재하면, 
 		m_BFS->BFS(vPlayerPos, vecTiles, DIRECTION::EIGHT_WAY, 1);
 
-		// BFS 탐색결과, 방문 했었으면(result 배열에 있으면, 찾은것)
-		if (vecTiles[(int)selectPos.y][(int)selectPos.x].bVisited)
+		// BFS 탐색결과, 방문 했음 + 위에 오브젝트 없음
+		if (m_TileCenter->IsVisited(selectPos) && m_TileCenter->GetObj(selectPos) == nullptr)
 		{
 			// 타일 색깔 지정, 현재 위치 갱신, 리스트 추가, 타일 선택됐다고 함수 날려주기
 			CTile* tile = (CTile*)_pObj;
@@ -290,8 +351,9 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 		// 중복된 위치는 리스트에 들어가지 못하게 설정
 		list<Vec2>& moveRoute = m_TurnCenter->GetMoveRoute();
 		auto iter = std::find(moveRoute.begin(), moveRoute.end(), selectPos);
-		if (vecTiles[(int)selectPos.y][(int)selectPos.x].bVisited && 
-			vecTiles[(int)selectPos.y][(int)selectPos.x].pTile->GetTileState() == m_TurnCenter->GetTileColor() &&
+		if (m_TileCenter->IsVisited(selectPos) &&
+			m_TileCenter->GetTile(selectPos)->GetTileState() == m_TurnCenter->GetTileColor() &&\
+			m_TileCenter->GetObj(selectPos) == nullptr &&
 			iter == moveRoute.end())
 		{
 			CTile* tile = (CTile*)_pObj;
@@ -351,8 +413,9 @@ void CScene_Battle::Enter()
 
 void CScene_Battle::Exit()
 {
-	m_BFS->BFS_Init(m_TileCenter->GetTileState());
+	m_BFS->BFS_Init(m_TileCenter->GetTiles());
 	m_TurnCenter->Init();
+	m_MonsterSpawner->Init();
 	DeleteAll();
 	CCollisionMgr::GetInstance()->Reset();
 }

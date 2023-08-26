@@ -26,8 +26,10 @@ CAnimator::CAnimator(const CAnimator& _origin)
 	, m_iID(_origin.m_iID)
 	, m_pCurAnim(nullptr)
 {
-	for (const auto& pair : _origin.m_mapAnim) {
+	for (const auto& pair : _origin.m_mapAnim)
+	{
 		m_mapAnim[pair.first] = new CAnimation(*(pair.second));
+		m_mapAnim[pair.first]->m_pAnimator = this;
 	}
 
 	if (_origin.m_pCurAnim) {

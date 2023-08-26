@@ -34,6 +34,10 @@ public:
 public:
     void TurnLogic();
     void PlayerMove();
+    void PlayerAttack();
+
+public:
+    Vec2 GetRandomGridPos();
 
 public:
     virtual void Update() override;

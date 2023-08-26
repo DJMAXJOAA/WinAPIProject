@@ -21,6 +21,7 @@ private:
 
 public:
 	CAnimation();
+	CAnimation(const CAnimation& _origin);
 	~CAnimation();
 
 	friend class CAnimator;

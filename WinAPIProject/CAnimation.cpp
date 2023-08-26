@@ -19,6 +19,20 @@ CAnimation::CAnimation()
 {
 }
 
+CAnimation::CAnimation(const CAnimation& _origin)
+	: m_strName(_origin.m_strName)
+	, m_pAnimator(nullptr)
+	, m_pTex(_origin.m_pTex)
+	, m_vecFrame(_origin.m_vecFrame)
+	, m_iCurFrame(_origin.m_iCurFrame)
+	, m_fAccTime(_origin.m_fAccTime)
+	, m_bFinish(_origin.m_bFinish)
+	, m_bFlip(_origin.m_bFlip)
+	, m_iID(_origin.m_iID)
+{
+
+}
+
 CAnimation::~CAnimation()
 {
 }

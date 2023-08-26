@@ -74,7 +74,8 @@ void to_json(json& j, const AnimationInfo& a)
         {"Step", vec2_to_json(a.vStep)},
         {"Offset", vec2_to_json(a.vOffset)},
         {"Duration", a.fDuration},
-        {"Frame", a.iFrame}
+        {"Frame", a.iFrame},
+        {"EventFrame", a.iEventFram}
     };
 }
 
@@ -94,4 +95,5 @@ void from_json(const json& j, AnimationInfo& a)
 
     a.fDuration = j["Duration"].get<float>();
     a.iFrame = j["Frame"].get<int>();
+    a.iEventFram = j["EventFrame"].get<int>();
 }

@@ -9,6 +9,7 @@ struct AnimationInfo
 	Vec2				vOffset;		// 오프셋 보정 정보
 	float				fDuration;		// 애니메이션 지속시간
 	int					iFrame;			// 애니메이션 몇프레임?
+	int					iEventFram;		// 이벤트 프레임 (0이면 애니메이션 이벤트 없음)
 };
 
 // json의 직렬화, 역직렬화

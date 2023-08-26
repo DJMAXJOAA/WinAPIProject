@@ -7,6 +7,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 0,
             "Offset": [
                 0.0,
                 -76.0
@@ -33,6 +34,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 3.0,
                 -72.0
@@ -59,6 +61,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 3.0,
                 -65.0
@@ -85,6 +88,7 @@
         "AnimationInfo": {
             "Duration": 0.1,
             "Frame": 3,
+            "EventFrame": 0,
             "Offset": [
                 -6.0,
                 -70.0
@@ -111,6 +115,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 0,
             "Offset": [
                 4.0,
                 -70.0
@@ -137,6 +142,7 @@
         "AnimationInfo": {
             "Duration": 9999999.0,
             "Frame": 1,
+            "EventFrame": 0,
             "Offset": [
                 9.0,
                 -70.0
@@ -163,6 +169,7 @@
         "AnimationInfo": {
             "Duration": 9999999.0,
             "Frame": 1,
+            "EventFrame": 0,
             "Offset": [
                 -19.0,
                 -64.0
@@ -185,10 +192,11 @@
         "ID": 107,
         "Name": "PlayerFist",
         "Path": "texture\\Player\\fist.bmp",
-        "Type": "player_front",
+        "Type": "player_front_attack",
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 2,
             "Offset": [
                 2.0,
                 -68.0
@@ -215,6 +223,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 2,
             "Offset": [
                 0.0,
                 -67.0
@@ -241,6 +250,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 2,
             "Offset": [
                 3.0,
                 -69.0
@@ -267,6 +277,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 2,
             "Offset": [
                 16.0,
                 -78.0
@@ -293,6 +304,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 2,
             "Offset": [
                 6.0,
                 -74.0
@@ -319,6 +331,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 2,
             "Offset": [
                 15.0,
                 -66.0
@@ -345,6 +358,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 4,
+            "EventFrame": 2,
             "Offset": [
                 -3.0,
                 -81.0
@@ -371,6 +385,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 0,
             "Offset": [
                 5.0,
                 -65.0
@@ -397,6 +412,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 6.0,
                 -66.0
@@ -423,6 +439,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 3.0,
                 -57.0
@@ -449,6 +466,7 @@
         "AnimationInfo": {
             "Duration": 0.1,
             "Frame": 3,
+            "EventFrame": 0,
             "Offset": [
                 0.0,
                 -63.0
@@ -475,6 +493,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 0,
             "Offset": [
                 11.0,
                 -74.0
@@ -501,6 +520,7 @@
         "AnimationInfo": {
             "Duration": 9999999.0,
             "Frame": 1,
+            "EventFrame": 0,
             "Offset": [
                 -7.0,
                 -74.0
@@ -527,6 +547,7 @@
         "AnimationInfo": {
             "Duration": 9999999.0,
             "Frame": 1,
+            "EventFrame": 0,
             "Offset": [
                 23.0,
                 -67.0
@@ -549,10 +570,11 @@
         "ID": 121,
         "Name": "PlayerFist2",
         "Path": "texture\\Player\\fist2.bmp",
-        "Type": "player_back",
+        "Type": "player_back_attack",
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 2,
             "Offset": [
                 18.0,
                 -64.0
@@ -579,6 +601,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 2,
             "Offset": [
                 -7.0,
                 -67.0
@@ -605,6 +628,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 2,
             "Offset": [
                 9.0,
                 -64.0
@@ -631,6 +655,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 2,
             "Offset": [
                 2.0,
                 -66.0
@@ -657,6 +682,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 2,
             "Offset": [
                 0.0,
                 -61.0
@@ -683,6 +709,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 2,
             "Offset": [
                 0.0,
                 -63.0
@@ -709,6 +736,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 5,
+            "EventFrame": 2,
             "Offset": [
                 4.0,
                 -69.0
@@ -735,6 +763,7 @@
         "AnimationInfo": {
             "Duration": 9999999.0,
             "Frame": 9,
+            "EventFrame": 0,
             "Offset": [
                 0.0,
                 0.0
@@ -761,6 +790,7 @@
         "AnimationInfo": {
             "Duration": 9999999.0,
             "Frame": 3,
+            "EventFrame": 0,
             "Offset": [
                 2.0,
                 50.0
@@ -787,6 +817,7 @@
         "AnimationInfo": {
             "Duration": 9999999.0,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 0.0,
                 50.0
@@ -813,6 +844,7 @@
         "AnimationInfo": {
             "Duration": 9999999.0,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 0.0,
                 50.0
@@ -839,6 +871,7 @@
         "AnimationInfo": {
             "Duration": 9999999.0,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 0.0,
                 50.0
@@ -865,6 +898,7 @@
         "AnimationInfo": {
             "Duration": 9999999.0,
             "Frame": 3,
+            "EventFrame": 0,
             "Offset": [
                 0.0,
                 50.0
@@ -891,6 +925,7 @@
         "AnimationInfo": {
             "Duration": 0.1,
             "Frame": 15,
+            "EventFrame": 0,
             "Offset": [
                 0.0,
                 0.0
@@ -917,6 +952,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 24.0,
                 -84.0
@@ -943,6 +979,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 7.0,
                 -60.0
@@ -969,6 +1006,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 37.0,
                 -82.0
@@ -995,6 +1033,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 8,
+            "EventFrame": 3,
             "Offset": [
                 -12.0,
                 -81.0
@@ -1021,6 +1060,7 @@
         "AnimationInfo": {
             "Duration": 0.100000001490116,
             "Frame": 4,
+            "EventFrame": 3,
             "Offset": [
                 19.0,
                 -97.0
@@ -1047,6 +1087,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 2.0,
                 -80.0
@@ -1073,6 +1114,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 7.0,
                 -61.0
@@ -1099,6 +1141,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 -6.0,
                 -63.0
@@ -1125,6 +1168,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 8,
+            "EventFrame": 3,
             "Offset": [
                 -11.0,
                 -82.0
@@ -1151,6 +1195,7 @@
         "AnimationInfo": {
             "Duration": 0.15,
             "Frame": 2,
+            "EventFrame": 3,
             "Offset": [
                 -17.0,
                 -91.0
@@ -1177,6 +1222,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 -5.0,
                 -71.0
@@ -1203,6 +1249,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 -3.0,
                 -69.0
@@ -1229,6 +1276,7 @@
         "AnimationInfo": {
             "Duration": 0.12,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 -3.0,
                 -65.0
@@ -1255,6 +1303,7 @@
         "AnimationInfo": {
             "Duration": 0.100000001490116,
             "Frame": 11,
+            "EventFrame": 4,
             "Offset": [
                 -41.0,
                 -32.0
@@ -1281,6 +1330,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 6,
+            "EventFrame": 2,
             "Offset": [
                 -4.0,
                 -66.0
@@ -1307,6 +1357,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 -6.0,
                 -68.0
@@ -1333,6 +1384,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 -5.0,
                 -68.0
@@ -1359,6 +1411,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 -2.0,
                 -59.0
@@ -1385,6 +1438,7 @@
         "AnimationInfo": {
             "Duration": 0.100000001490116,
             "Frame": 11,
+            "EventFrame": 4,
             "Offset": [
                 34.0,
                 -77.0
@@ -1411,6 +1465,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 6,
+            "EventFrame": 2,
             "Offset": [
                 6.0,
                 -55.0
@@ -1437,6 +1492,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 -1.0,
                 -79.0
@@ -1463,6 +1519,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 14.0,
                 -69.0
@@ -1489,6 +1546,7 @@
         "AnimationInfo": {
             "Duration": 0.100000001490116,
             "Frame": 9,
+            "EventFrame": 4,
             "Offset": [
                 5.0,
                 -80.0
@@ -1515,6 +1573,7 @@
         "AnimationInfo": {
             "Duration": 0.100000001490116,
             "Frame": 10,
+            "EventFrame": 3,
             "Offset": [
                 -23.0,
                 -74.0
@@ -1541,6 +1600,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 6,
+            "EventFrame": 0,
             "Offset": [
                 -0.0,
                 -82.0
@@ -1567,6 +1627,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 4,
+            "EventFrame": 0,
             "Offset": [
                 -1.0,
                 -74.0
@@ -1593,6 +1654,7 @@
         "AnimationInfo": {
             "Duration": 0.100000001490116,
             "Frame": 9,
+            "EventFrame": 4,
             "Offset": [
                 -8.0,
                 -79.0
@@ -1619,6 +1681,7 @@
         "AnimationInfo": {
             "Duration": 0.119999997317791,
             "Frame": 10,
+            "EventFrame": 3,
             "Offset": [
                 15.0,
                 -77.0

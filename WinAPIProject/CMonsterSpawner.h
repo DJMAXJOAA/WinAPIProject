@@ -6,11 +6,15 @@ class FieldData;
 class CMonsterSpawner
 {
 private:
-	map<int, CMonster*>			m_mapMonsterData;		// 클론용 몬스터 데이터(검색용)
+	map<int, CMonster*>			m_mapMonsterData;	// 클론용 몬스터 데이터(검색용)
+	vector<CMonster*>			m_vecMonsters;		// 필드에 있는 몬스터 리스트
 	
 public:
 	CMonsterSpawner();
 	~CMonsterSpawner();
+
+public:
+	vector<CMonster*>& GetMonsterList() { return m_vecMonsters; }
 
 public:
 	void Init();		// 몬스터 데이터 객체화시켜서 저장

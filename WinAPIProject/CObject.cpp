@@ -36,17 +36,17 @@ CObject::CObject(const CObject& _origin)
 {
 	if(_origin.m_pCollider)
 	{
-		m_pCollider = new CCollider(*_origin.m_pCollider); // 콜라이더 복사 생성
+		m_pCollider = new CCollider(*_origin.m_pCollider);
 		m_pCollider->m_pOwner = this;
 	}
 	if (_origin.m_pAnimator)
 	{
-		m_pAnimator = new CAnimator(*_origin.m_pAnimator); // 콜라이더 복사 생성
+		m_pAnimator = new CAnimator(*_origin.m_pAnimator);
 		m_pAnimator->m_pOwner = this;
 	}
 	if (_origin.m_pAnimatorGdiPlus)
 	{
-		m_pAnimatorGdiPlus = new CAnimatorGdiPlus(*_origin.m_pAnimatorGdiPlus); // 콜라이더 복사 생성
+		m_pAnimatorGdiPlus = new CAnimatorGdiPlus(*_origin.m_pAnimatorGdiPlus);
 		m_pAnimatorGdiPlus->m_pOwner = this;
 	}
 }

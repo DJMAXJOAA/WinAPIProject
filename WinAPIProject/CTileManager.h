@@ -17,15 +17,21 @@ public:
 	void TileRandomInit();
 
 public:
-	Vec2 GridToReal(Vec2 vPos) { return m_mapRealPoint[Vec2((int)vPos.x, (int)vPos.y)]; }
-	Vec2 RealToGrid(Vec2 vPos) { return m_mapGridPoint[Vec2((int)vPos.x, (int)vPos.y)]; }
+	Vec2 GridToReal(Vec2 _vPos) { return m_mapRealPoint[Vec2((int)_vPos.x, (int)_vPos.y)]; }
+	Vec2 RealToGrid(Vec2 _vPos) { return m_mapGridPoint[Vec2((int)_vPos.x, (int)_vPos.y)]; }
 
 public:
-	vector<vector<TileState>>& GetTileState() { return m_vecTileState; }
 	map<Vec2, Vec2>& GetMapRealPoint() { return m_mapRealPoint; }
 	map<Vec2, Vec2>& GetMapGridPoint() { return m_mapGridPoint; }
+	vector<vector<TileState>>& GetTiles() { return m_vecTileState; }
+	CTile* GetTile(Vec2 _vGridPos) { return  m_vecTileState[(int)_vGridPos.y][(int)_vGridPos.x].pTile; }
+	CObject* GetObj(Vec2 _vGridPos) { return  m_vecTileState[(int)_vGridPos.y][(int)_vGridPos.x].pObj; }
 
 public:
-	void SetTileState(vector<vector<TileState>> vecTiles) { m_vecTileState = vecTiles; }
+	bool IsVisited(Vec2 _vGridPos) { return m_vecTileState[(int)_vGridPos.y][(int)_vGridPos.x].bVisited; }
+
+public:
+	void SetTileState(vector<vector<TileState>> _vecTiles) { m_vecTileState = _vecTiles; }
+	void SetTileObject(Vec2 _vGridPos, CObject* _pObj) { m_vecTileState[(int)_vGridPos.y][(int)_vGridPos.x].pObj = _pObj; }
 };
 

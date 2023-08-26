@@ -9,7 +9,7 @@
 CTurnCenter::CTurnCenter()
 	: m_CurrentTurn(TURN_TYPE::PLAYER_START)
 	, m_lstMoveRoute{}
-	, m_lstTargetEnemy{}
+	, m_lstTarget{}
 {
 }
 
@@ -55,7 +55,7 @@ void CTurnCenter::Update()
 	case TURN_TYPE::PLAYER_MOVE:
 	{
 		// BFS 탐색 결과로 적이 존재하게 되면, 잠깐 공격 상태에 돌입 후 다시 이동상태 돌입
-		if (!m_lstTargetEnemy.empty())
+		if (!m_lstTarget.empty())
 		{
 			ChangeTurn(TURN_TYPE::PLAYER_ATTACK);
 			break;
@@ -72,7 +72,7 @@ void CTurnCenter::Update()
 	case TURN_TYPE::PLAYER_ATTACK:
 	{
 		// 공격 처리를 전부 처리하면, 다시 움직이는 상태로 전환시키기
-		if (m_lstTargetEnemy.empty())
+		if (m_lstTarget.empty())
 		{
 			m_CurrentTurn = TURN_TYPE::PLAYER_MOVE;
 			break;
@@ -99,5 +99,5 @@ void CTurnCenter::Init()
 {
 	m_CurrentTurn = TURN_TYPE::PLAYER_START;
 	m_lstMoveRoute.clear();
-	m_lstTargetEnemy.clear();
+	m_lstTarget.clear();
 }

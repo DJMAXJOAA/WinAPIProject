@@ -20,8 +20,20 @@ CAnimationGdiPlus::CAnimationGdiPlus()
     , m_bFinish(false)
     , m_iID(0)
 {
-    /*m_pGraphics = new Graphics(CCore::GetInstance()->GetMemTex()->GetDC());*/
     m_pGraphics = CCore::GetInstance()->GetGraphics();
+}
+
+CAnimationGdiPlus::CAnimationGdiPlus(const CAnimationGdiPlus& _origin)
+    : m_strName(_origin.m_strName)
+    , m_pAnimator(nullptr)
+    , m_pGraphics(_origin.m_pGraphics)
+    , m_pBitmap(_origin.m_pBitmap)
+    , m_vecFrame(_origin.m_vecFrame)
+    , m_iCurFrame(_origin.m_iCurFrame)
+    , m_fAccTime(_origin.m_fAccTime)
+    , m_bFinish(_origin.m_bFinish)
+    , m_iID(_origin.m_iID)
+{
 }
 
 CAnimationGdiPlus::~CAnimationGdiPlus()

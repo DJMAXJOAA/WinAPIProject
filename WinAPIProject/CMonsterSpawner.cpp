@@ -15,27 +15,26 @@
 CMonsterSpawner::CMonsterSpawner()
 	: m_mapMonsterData{}
 {
-	Init();
-}
-
-CMonsterSpawner::~CMonsterSpawner()
-{
-	// 스테이지 생성 패턴 객체만 해제시킴
-	// 몬스터 객체는 어차피 씬에서 해제시켜줌
-	
-}
-
-void CMonsterSpawner::Init()
-{
 	vector<CData*> allData = CDataMgr::GetInstance()->LoadAllData(500);
 	for (int i = 0; i < allData.size(); i++)
 	{
-		// 맵에 클론용 객체정보 등록
+		// 맵에 클론용 프로토타입 객체정보 등록
 		MonsterData* monData = ((MonsterData*)allData[i]);
 		CMonster* pMonster = new CMonster(monData);
 		m_mapMonsterData.insert(make_pair(monData->GetKey(), pMonster));
 	}
-	
+}
+
+CMonsterSpawner::~CMonsterSpawner()
+{
+	// 프로토타입 객체만 동적할당 해제
+	// 몬스터 객체는 어차피 씬에서 해제시켜줌
+	SafeDeleteMap(m_mapMonsterData);
+}
+
+void CMonsterSpawner::Init()
+{
+	m_vecMonsters.clear();
 }
 
 void CMonsterSpawner::SpawnMonster(FieldData* _data)
@@ -48,6 +47,7 @@ void CMonsterSpawner::SpawnMonster(FieldData* _data)
 		{
 			CMonster* pMonster = m_mapMonsterData.find(vecSpawn[i].first)->second->Clone();
 			assert(pMonster);
+			m_vecMonsters.push_back(pMonster);
 			CreateObj(pMonster, GROUP_TYPE::MONSTER);
 		}
 	}

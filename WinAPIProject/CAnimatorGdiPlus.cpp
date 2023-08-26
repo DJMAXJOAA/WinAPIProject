@@ -19,6 +19,26 @@ CAnimatorGdiPlus::CAnimatorGdiPlus()
 {
 }
 
+CAnimatorGdiPlus::CAnimatorGdiPlus(const CAnimatorGdiPlus& _origin)
+    : m_pOwner(nullptr)
+    , m_bRepeat(_origin.m_bRepeat)
+    , m_iID(_origin.m_iID)
+    , m_pCurAnim(nullptr)
+{
+    for (const auto& pair : _origin.m_mapAnim)
+    {
+        m_mapAnim[pair.first] = new CAnimationGdiPlus(*(pair.second));
+        m_mapAnim[pair.first]->m_pAnimator = this;
+    }
+
+    if (_origin.m_pCurAnim) {
+        auto iter = m_mapAnim.find(_origin.m_pCurAnim->GetName());
+        if (iter != m_mapAnim.end()) {
+            m_pCurAnim = iter->second;
+        }
+    }
+}
+
 CAnimatorGdiPlus::~CAnimatorGdiPlus()
 {
 	SafeDeleteMap(m_mapAnim);
