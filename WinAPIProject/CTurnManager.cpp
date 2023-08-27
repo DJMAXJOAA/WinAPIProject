@@ -51,6 +51,10 @@ void CTurnCenter::Update(CScene_Battle* _pScene)
 			ChangeTurn(TURN_TYPE::PLAYER_START);
 			break;
 		}
+
+		{
+			_pScene->SetBattleState(TURN_TYPE::PLAYER_TILESELECT);
+		}
 	}
 	break;
 	case TURN_TYPE::PLAYER_MOVE:
@@ -68,11 +72,6 @@ void CTurnCenter::Update(CScene_Battle* _pScene)
 			ChangeTurn(TURN_TYPE::PLAYER_SKILL);
 			break;
 		}
-
-		else
-		{
-			_pScene->SetBattleState(TURN_TYPE::PLAYER_MOVE);
-		}
 	}
 	break;
 	case TURN_TYPE::PLAYER_ATTACK:
@@ -80,21 +79,16 @@ void CTurnCenter::Update(CScene_Battle* _pScene)
 		// 공격 처리를 전부 처리하면, 다시 움직이는 상태로 전환시키기
 		if (m_lstTarget.empty())
 		{
-			m_CurrentTurn = TURN_TYPE::PLAYER_MOVE;
+			ChangeTurn(TURN_TYPE::PLAYER_MOVE);
 			break;
-		}
-
-		else
-		{
-			_pScene->SetBattleState(TURN_TYPE::PLAYER_ATTACK);
 		}
 	}
 	break;
 	case TURN_TYPE::PLAYER_SKILL:
 	{
-		m_CurrentTurn = TURN_TYPE::PLAYER_START;
+		ChangeTurn(TURN_TYPE::PLAYER_START);
+		break;
 	}
-	break;
 	case TURN_TYPE::ENEMY_MOVE:
 		break;
 	case TURN_TYPE::ENEMY_ATTACK:

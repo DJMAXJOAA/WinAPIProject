@@ -17,7 +17,7 @@
 
 CPlayer::CPlayer()
 	: m_fSpeed(200.f)
-	, m_playerState(PLAYER_STATE::IDEL)
+	, m_playerState(PLAYER_STATE::IDLE)
 	, m_pTargetMonster(nullptr)
 	, m_fAtt(50.f)
 {
@@ -26,7 +26,7 @@ CPlayer::CPlayer()
 
 	// 텍스쳐 로딩 (애니메이션 설정)
 	SetAnimator(200);
-	GetAnimator()->Play((int)PLAYER_STATE::IDEL, true);
+	GetAnimator()->Play((int)PLAYER_STATE::IDLE, true);
 }
 
 CPlayer::~CPlayer()
@@ -52,7 +52,7 @@ void CPlayer::Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination)
 	SetPos(vPos);
 }
 
-void CPlayer::Attack(GRID_DIRECTION _aniDirection, CObject* pMon)
+void CPlayer::PlayerAttackDone(GRID_DIRECTION _aniDirection, CObject* pMon)
 {
 	// 애니메이션 이벤트 프레임에 공격 들어가게
 	// 여기선 애니메이션 설정
@@ -72,17 +72,21 @@ void CPlayer::Update()
 
 void CPlayer::AnimationEvent()
 {
-	PlayerAttackMonster(m_fAtt, m_pTargetMonster);
+	if (m_pTargetMonster)
+	{
+		PlayerAttackMonster(m_fAtt, m_pTargetMonster);
+	}
 	CCamera::GetInstance()->SetVibrateCamera(10.f, 1, 0.02f);
-	printf("애니메이션 이벤트 호출\n");
+	printf("캐릭터 애니메이션 이벤트 호출\n");
 }
 
 void CPlayer::AnimationEnd()
 {
 	GetAnimator()->PlayType(L"Idle", true);
 
-	m_pTargetMonster = nullptr;
-	printf("애니메이션 종료 호출\n");
+	PlayerAttackDone();
+
+	printf("캐릭터 애니메이션 종료 호출\n");
 }
 
 void CPlayer::PlayerAttackMonster(float _damage, CObject* _pMon)
@@ -93,6 +97,14 @@ void CPlayer::PlayerAttackMonster(float _damage, CObject* _pMon)
 	evn.wParam = (DWORD_PTR)_pMon;
 
 	CEventMgr::GetInstance()->AddEvent(evn);
+}
+
+void CPlayer::PlayerAttackDone()
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::PLAYER_ATTACK_DONE;
+
+	CEventMgr::GetInstance()->AddEventEarly(evn);
 }
 
 void CPlayer::AnimationDirection(PLAYER_STATE _anim, bool _bRepeat, GRID_DIRECTION _aniDirection)

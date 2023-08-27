@@ -152,15 +152,28 @@ void CMonster::MovePattern(IMonsterStrategy* _stratey)
 
 void CMonster::GetDamaged(float _damaged)
 {
-	GetAnimator()->PlayType(L"front_damaged", false);
+	if (this == nullptr || m_fHP <= 0)
+	{
+		return;
+	}
+
 	m_fHP -= _damaged;
-
-	printf("데미지 받음 : %1.f, 남은 체력 : %1.f\n", _damaged, m_fHP);
-
-	if (m_fHP < 0)
+	if (m_fHP <= 0)
 	{
 		m_fHP = 0;
 		Died(this);
+
+		// 디버깅
+		printf("몬스터 사망\n");
+
+		return;
+	}
+	else
+	{
+		GetAnimator()->PlayType(L"front_damaged", false);
+
+		// 디버깅
+		printf("데미지 받음 : %1.f, 남은 체력 : %1.f\n", _damaged, m_fHP);
 	}
 }
 
@@ -171,6 +184,7 @@ void CMonster::Died(CObject* _pMonster)
 	evn.lParam = (DWORD_PTR)_pMonster;
 
 	CEventMgr::GetInstance()->AddEvent(evn);
+	DeleteObj(this);
 }
 
 void CMonster::Update()

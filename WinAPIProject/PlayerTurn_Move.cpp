@@ -38,8 +38,9 @@ void PlayerTurn_Move::Handle(CScene_Battle* _pScene)
 		m_BFS->BFS(GRID(vDestination), vecTile, lstMonsters, DIRECTION::FOUR_WAY, 1);
 		if (!lstMonsters.empty())
 		{
-			m_TurnCenter->SetTurnState(TURN_TYPE::PLAYER_ATTACK);
+			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_ATTACK);
 		}
+		m_BFS->BFS_Init(vecTile);
 
 		// 2. 타일 상태 갱신 -> 이동한 발판은 검은색 처리
 		Vec2 gridDestination = moveRoute.front();

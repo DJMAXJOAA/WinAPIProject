@@ -26,7 +26,6 @@ public:
     Vec2 GetSelectTile() { return m_vSelectTile; }
 
 public:
-    void SetTurnState(TURN_TYPE _type) { m_CurrentTurn = _type; }
     void SetTileColor(TILE_STATE _color) { m_TileColor = _color; }
     void SetSelectTile(Vec2 _vPos) { m_vSelectTile = _vPos; }
 

@@ -53,7 +53,9 @@ public:
     void TileSelectTrigger(CObject* _pObj);
     void TurnInit(TURN_TYPE _type);
 
-    void AttackMonster(float _damage, CMonster* _pMon);
+    void PlayerAttackMonster(float _damage, CMonster* _pMon);
+    void PlayerAttackDone();
+    void MonsterDied(CMonster* _pObj);
 
 public:
     virtual void Update() override;

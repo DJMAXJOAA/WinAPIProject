@@ -3,7 +3,7 @@
 
 enum class MONSTER_STATE
 {
-    IDEL,
+    IDLE,
     MOVE,
     DAMAGED,
     ATTACK,

@@ -7,6 +7,7 @@
 #include "CObject.h"
 #include "CScene.h"
 #include "CScene_Battle.h"
+#include "CPlayer.h"
 
 CEventMgr::CEventMgr()
 {
@@ -20,6 +21,20 @@ void CEventMgr::Update()
 {
 	// 이번 프레임에 삭제 예정인 오브젝트들 싹다 지워주기
 	SafeDeleteVec(m_vecDead);
+
+	// 먼저 처리할 이벤트를 추가시키고, 클리어
+	for (size_t i = 0; i < m_vecEarlyEvent.size(); i++)
+	{
+		m_vecEvent.insert(m_vecEvent.begin(), m_vecEarlyEvent[i]);
+	}
+	m_vecEarlyEvent.clear();
+
+	// 후순위 이벤트를 이벤트에 추가시키고, 클리어
+	for (size_t i = 0; i < m_vecLateEvent.size(); i++)
+	{
+		m_vecEvent.push_back(m_vecLateEvent[i]);
+	}
+	m_vecLateEvent.clear();
 
 	// 이벤트 처리
 	for (size_t i = 0; i < m_vecEvent.size(); i++)
@@ -99,7 +114,21 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// 애니메이션의 특정 프레임(공격 프레임)에서 호출되서, 게임센터에 캐릭터의 데미지를 전송
 		float fDamage = (float)_eve.lParam;
 		CMonster* pObj = (CMonster*)_eve.wParam;
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->AttackMonster(fDamage, pObj);
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerAttackMonster(fDamage, pObj);
+		break;
+	}
+	case EVENT_TYPE::PLAYER_ATTACK_DONE:
+	{
+		// 애니메이션이 끝나면, 리스트를 지워줌
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerAttackDone();
+		break;
+	}
+	case EVENT_TYPE::MONSTER_DIED:
+	{
+		// lParam :: Monster Object
+		// 애니메이션이 끝나면, 리스트를 지워줌
+		CMonster* pObj = (CMonster*)_eve.lParam;
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->MonsterDied(pObj);
 		break;
 	}
 	case EVENT_TYPE::END:

@@ -1,17 +1,16 @@
 #include "pch.h"
 #include "CScene_Battle.h"
 
-#include "CCore.h"
 #include "CCollisionMgr.h"
 #include "CKeyMgr.h"
-#include "CDataMgr.h"
 
 #include "CPlayer.h"
 #include "CTile.h"
-#include "CBlock.h"
 #include "CMouse.h"
-#include "CEffect.h"
 #include "CMonster.h"
+
+#include "CAnimator.h"
+#include "CAnimation.h"
 
 #include "BFSSearch.h"
 #include "CTurnManager.h"
@@ -19,11 +18,9 @@
 #include "CMonsterSpawner.h"
 
 #include "EnterBattle.h"
+#include "PlayerTurn_TileSelect.h"
 #include "PlayerTurn_Move.h"
 #include "PlayerTurn_Attack.h"
-
-#include "CData.h"
-#include "FieldData.h"
 
 using namespace battle;
 static std::random_device rd;
@@ -31,6 +28,7 @@ static std::mt19937 gen(rd());
 
 CScene_Battle::CScene_Battle()
 	: m_pPlayer(nullptr)
+	, m_iFieldType(0)
 	, m_iDifficulty(1)
 	, m_FieldType(FIELD_TYPE::COMMON)
 	, m_vecStates((int)TURN_TYPE::EXIT)
@@ -48,7 +46,8 @@ CScene_Battle::CScene_Battle()
 	m_TileCenter = new CTileCenter;
 
 	m_vecStates[(int)TURN_TYPE::ENTER] = new EnterBattle;
-	m_vecStates[(int)TURN_TYPE::PLAYER_START] = new PlayerTurn_Move;
+	m_vecStates[(int)TURN_TYPE::PLAYER_TILESELECT] = new PlayerTurn_TileSelect;
+	m_vecStates[(int)TURN_TYPE::PLAYER_MOVE] = new PlayerTurn_Move;
 	m_vecStates[(int)TURN_TYPE::PLAYER_ATTACK] = new PlayerTurn_Attack;
 }
 
@@ -66,7 +65,12 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 {
 	switch (_type)
 	{
-	case TURN_TYPE::ENTER: break;
+	case TURN_TYPE::ENTER:
+	{
+		// 디버깅
+		printf("배틀 씬 시작 초기화\n");
+		break;
+	}
 	case TURN_TYPE::PLAYER_START:
 	{
 		// 카메라 캐릭터로 초기화
@@ -77,32 +81,54 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		list<Vec2>& moveRoute = m_TurnCenter->GetMoveRoute();
 		m_TileCenter->TileRouteInit(moveRoute);
 
+		// 캐릭터 애니메이션 초기화
+		m_pPlayer->GetAnimator()->PlayType(L"front_idle", true);
+
 		// 리스트 초기화
 		m_TurnCenter->RouteInit();
+
+		// 상태 변경
+		SetBattleState(TURN_TYPE::PLAYER_TILESELECT);
+
+		// 플레이어 애니메이션 설정
+		m_pPlayer->SetState(PLAYER_STATE::IDLE);
+
+		// 디버깅
+		printf("플레이어 턴 시작 초기화\n");
 		break;
 	}
 	case TURN_TYPE::PLAYER_TILESELECT: break;
 	case TURN_TYPE::PLAYER_MOVE:
 	{
+		// 카메라 플레이어로 타겟 변경
 		CCamera::GetInstance()->SetTarget(m_pPlayer);
 
-		// 플레이어 애니메이션 설정
-		m_pPlayer->SetState(PLAYER_STATE::MOVE);
+		// 상태 변경
+		SetBattleState(TURN_TYPE::PLAYER_MOVE);
+
+		// 디버깅
+		printf("플레이어 이동 시작 초기화\n");
 		break;
 	}
 	case TURN_TYPE::PLAYER_ATTACK:
 	{
-		m_pPlayer->SetState(PLAYER_STATE::SWORD);
+		// 상태 변경
+		SetBattleState(TURN_TYPE::PLAYER_ATTACK);
+
+		// 디버깅
+		printf("플레이어 공격 상태 초기화\n");
 		break;
 	}
 	case TURN_TYPE::PLAYER_SKILL:
 	{
-		// 검은 타일들(밟고 지나왔던 타일들) 랜덤 타일들로 리셋시키기
+		// 카메라 타겟 해제
 		CCamera::GetInstance()->SetTarget(nullptr);
+
+		// 검은 타일들(밟고 지나왔던 타일들) 랜덤 타일들로 리셋시키기
 		m_TileCenter->TileRandomInit();
 
-		// 플레이어 애니메이션 설정
-		m_pPlayer->SetState(PLAYER_STATE::ROLLING);
+		// 디버깅
+		printf("플레이어 스킬 상태 초기화\n");
 		break;
 	}
 	case TURN_TYPE::ENEMY_MOVE: break;
@@ -111,12 +137,38 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	}
 }
 
-void CScene_Battle::AttackMonster(float _damage, CMonster* _pMon)
+void CScene_Battle::PlayerAttackMonster(float _damage, CMonster* _pMon)
 {
 	_pMon->GetDamaged(_damage);
-	m_TurnCenter->GetTargetList().pop_back();
 
 	printf("적에게 %1.f 데미지를 주는 이벤트\n", _damage);
+}
+
+void CScene_Battle::PlayerAttackDone()
+{
+	list<CObject*>& list = m_TurnCenter->GetTargetList();
+	if (list.empty())
+	{
+		printf("리스트가 비었습니다.\n");
+		return;
+	}
+	else
+	{
+		printf("타겟 리스트를 하나 삭제합니다.\n");
+		list.pop_back();
+		return;
+	}
+
+}
+
+void CScene_Battle::MonsterDied(CMonster* _pObj)
+{
+	Vec2 GridPos = _pObj->GetGridPos();
+	vector<vector<TileState>>& vecTiles = m_TileCenter->GetTiles();
+
+	vecTiles[(int)GridPos.y][(int)GridPos.x].pObj = nullptr;
+
+	printf("%d, %d 타일 위의 오브젝트를 초기화 시켰습니다.\n", (int)GridPos.x, (int)GridPos.y);
 }
 
 void CScene_Battle::TileSelectTrigger(CObject* _pObj)
@@ -148,15 +200,15 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 			m_TurnCenter->GetMoveRoute().push_back(selectPos);
 			tile->SetTileState((TILE_STATE)((int)tile->GetTileState() + 4));
 
-			// 디버깅
-			DEBUG2(selectPos.x, selectPos.y);
-			printf("타일 시작\n");
-
 			// 카메라 타일로 지정
 			CCamera::GetInstance()->SetLookAt(REAL(selectPos));
 
 			// 턴 변경
-			m_TurnCenter->SetTurnState(TURN_TYPE::PLAYER_TILESELECT);
+			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_TILESELECT);
+
+			// 디버깅
+			DEBUG2(selectPos.x, selectPos.y);
+			printf("타일 그리기 시작\n");
 		}
 	}
 		break;
@@ -170,7 +222,7 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 		list<Vec2>& moveRoute = m_TurnCenter->GetMoveRoute();
 		auto iter = std::find(moveRoute.begin(), moveRoute.end(), selectPos);
 		if (m_TileCenter->IsVisited(selectPos) &&
-			m_TileCenter->GetTile(selectPos)->GetTileState() == m_TurnCenter->GetTileColor() &&\
+			/*m_TileCenter->GetTile(selectPos)->GetTileState() == m_TurnCenter->GetTileColor() &&*/
 			m_TileCenter->GetObj(selectPos) == nullptr &&
 			iter == moveRoute.end())
 		{
@@ -220,11 +272,14 @@ void CScene_Battle::Update()
 	// 메인 씬 업데이트 (각자 오브젝트들의 업데이트)
 	CScene::Update();
 
-	// 로직 처리 (상태 머신)
-	m_BattleState->Handle(this);
-
 	// 턴 결정 업데이트
 	m_TurnCenter->Update(this);
+
+	// 로직 처리 (상태 머신)
+	if (m_BattleState != nullptr)
+	{
+		m_BattleState->Handle(this);
+	}
 }
 
 void CScene_Battle::Enter()
@@ -233,7 +288,7 @@ void CScene_Battle::Enter()
 	SetBattleState(TURN_TYPE::ENTER);
 	m_BattleState->Handle(this);
 	SetBattleState(TURN_TYPE::PLAYER_START);
-	m_TurnCenter->SetTurnState(TURN_TYPE::PLAYER_START);
+	m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
 }
 
 void CScene_Battle::Exit()

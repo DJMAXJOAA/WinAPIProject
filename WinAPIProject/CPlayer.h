@@ -3,7 +3,7 @@
 
 enum class PLAYER_STATE
 {
-    IDEL = 100,
+    IDLE = 100,
     MOVE,
     DAMAGED,
     ROLLING,
@@ -18,7 +18,7 @@ enum class PLAYER_STATE
     GUN,
     BOW,
 
-    IDEL2,
+    IDLE2,
     MOVE2,
     DAMAGED2,
     ROLLING2,
@@ -62,7 +62,7 @@ public:
 
 public:
     void Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination);
-    void Attack(GRID_DIRECTION _aniDirection, CObject* pMon);
+    void PlayerAttackDone(GRID_DIRECTION _aniDirection, CObject* pMon);
 
 public:
     virtual void Render(HDC hdc);
@@ -74,6 +74,7 @@ private:
     virtual void AnimationEnd() override;
 
     void PlayerAttackMonster(float _damage, CObject* _pMon);
+    void PlayerAttackDone();
 
     void AnimationDirection(PLAYER_STATE _anim, bool _bRepeat, GRID_DIRECTION _aniDirection);     // 애니메이션 방향 지정
 };
