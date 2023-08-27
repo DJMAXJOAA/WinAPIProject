@@ -1,6 +1,15 @@
 #pragma once
 #include "CObject.h"
 
+enum class MONSTER_STATE
+{
+    IDEL,
+    MOVE,
+    DAMAGED,
+    ATTACK,
+    SKILL,
+};
+
 class MonsterData;
 class IMonsterStrategy;
 
@@ -26,6 +35,10 @@ public:
 
 public:
     void MovePattern(IMonsterStrategy* _stratey);
+
+public:
+    void GetDamaged(float _damaged);
+    void Died(CObject* _pMonster);
 
 public:
     virtual void Update();

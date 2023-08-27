@@ -83,7 +83,7 @@ void CObject::SetAnimator(int _key, bool _repeat)
 
 	CreateAnimator(_key);
 
-	for (auto& animation : data->m_strAnimation)
+	for (auto& animation : data->m_vecAnimation)
 	{
 		AnimationData* aniData = (AnimationData*)CDataMgr::GetInstance()->FindData(animation);
 
@@ -94,7 +94,7 @@ void CObject::SetAnimator(int _key, bool _repeat)
 			pAnim->GetFrame(i).vOffset = aniData->m_AniInfo.vOffset;
 		}
 	}
-	GetAnimator()->Play(data->m_strAnimation.front(), _repeat);
+	GetAnimator()->Play(data->m_vecAnimation.front(), _repeat);
 }
 
 void CObject::CreateAnimator(int _key)
@@ -116,7 +116,7 @@ void CObject::SetAnimatorGdiPlus(int _key, bool _repeat)
 
 	CreateAnimatorGdiPlus(_key);
 
-	for (auto& animation : data->m_strAnimation)
+	for (auto& animation : data->m_vecAnimation)
 	{
 		AnimationData* aniData = (AnimationData*)CDataMgr::GetInstance()->FindData(animation);
 
@@ -127,7 +127,7 @@ void CObject::SetAnimatorGdiPlus(int _key, bool _repeat)
 			pAnim->GetFrame(i).vOffset = aniData->m_AniInfo.vOffset;
 		}
 	}
-	GetAnimatorGdiPlus()->Play(data->m_strAnimation.front(), _repeat);
+	GetAnimatorGdiPlus()->Play(data->m_vecAnimation.front(), _repeat);
 }
 
 void CObject::CreateAnimatorGdiPlus(int _key)

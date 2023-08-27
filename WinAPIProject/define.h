@@ -90,7 +90,20 @@ enum class EVENT_TYPE
 	ANIMATION_EVENT,
 	ANIMATION_END,
 
+	PLAYER_ATTACK,
+	
+	MONSTER_DIED,
+
+
 	END,
+};
+
+enum class GRID_DIRECTION
+{
+	UP,		// 1시 방향
+	RIGHT,	// 4시 방향
+	DOWN,	// 7시 방향
+	LEFT,	// 10시 방향
 };
 
 enum class GRADE

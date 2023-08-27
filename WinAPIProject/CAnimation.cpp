@@ -21,6 +21,7 @@ CAnimation::CAnimation()
 
 CAnimation::CAnimation(const CAnimation& _origin)
 	: m_strName(_origin.m_strName)
+	, m_strType(_origin.m_strType)
 	, m_pAnimator(nullptr)
 	, m_pTex(_origin.m_pTex)
 	, m_vecFrame(_origin.m_vecFrame)

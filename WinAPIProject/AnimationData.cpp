@@ -62,6 +62,7 @@ void AnimationData::ParseData(const json& item)
 {
     m_strAnimationName = string_to_wstring(item["Name"].get<string>());
     m_strTexturePath = string_to_wstring(item["Path"].get<string>());
+    m_strAnimationType = string_to_wstring(item["Type"].get<string>());
     m_AniInfo = item["AnimationInfo"].get<AnimationInfo>();
 }
 

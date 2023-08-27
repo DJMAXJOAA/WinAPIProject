@@ -3,6 +3,7 @@
 
 #include "CTimeMgr.h"
 #include "CDataMgr.h"
+#include "CEventMgr.h"
 
 #include "CAnimator.h"
 #include "CAnimation.h"
@@ -147,6 +148,29 @@ CMonster::~CMonster()
 void CMonster::MovePattern(IMonsterStrategy* _stratey)
 {
 	_stratey->MoveStrategy(this);
+}
+
+void CMonster::GetDamaged(float _damaged)
+{
+	GetAnimator()->PlayType(L"front_damaged", false);
+	m_fHP -= _damaged;
+
+	printf("데미지 받음 : %1.f, 남은 체력 : %1.f\n", _damaged, m_fHP);
+
+	if (m_fHP < 0)
+	{
+		m_fHP = 0;
+		Died(this);
+	}
+}
+
+void CMonster::Died(CObject* _pMonster)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::MONSTER_DIED;
+	evn.lParam = (DWORD_PTR)_pMonster;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
 void CMonster::Update()

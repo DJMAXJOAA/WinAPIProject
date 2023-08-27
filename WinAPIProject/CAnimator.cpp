@@ -95,6 +95,7 @@ void CAnimator::CreateAnimation(int _key)
 	pAnim->m_iEventFrame = data->m_AniInfo.iEventFram;
 
 	pAnim->SetName(data->m_strAnimationName);
+	pAnim->SetType(data->m_strAnimationType);
 	pAnim->m_pAnimator = this;
 
 	pAnim->Create(pTex, data->m_AniInfo.vLeftTop, data->m_AniInfo.vSliceSize, data->m_AniInfo.vStep, data->m_AniInfo.fDuration, data->m_AniInfo.iFrame);
@@ -109,6 +110,18 @@ CAnimation* CAnimator::FindAnimation(const wstring& _strName)
 		return nullptr;
 	
 	return iter->second;
+}
+
+CAnimation* CAnimator::FindAnimationType(const wstring& _strType)
+{
+	for (auto& pair : m_mapAnim)
+	{
+		if (pair.second->GetType() == _strType)
+		{
+			return pair.second;
+		}
+	}
+	return nullptr;
 }
 
 CAnimation* CAnimator::FindAnimation(int _key)
@@ -130,6 +143,12 @@ void CAnimator::Play(const wstring& _strName, bool _bRepeat)
 void CAnimator::Play(int _key, bool _bRepeat)
 {
 	m_pCurAnim = FindAnimation(_key);
+	m_bRepeat = _bRepeat;
+}
+
+void CAnimator::PlayType(const wstring& _strName, bool _bRepeat)
+{
+	m_pCurAnim = FindAnimationType(_strName);
 	m_bRepeat = _bRepeat;
 }
 

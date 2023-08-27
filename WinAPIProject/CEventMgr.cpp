@@ -92,6 +92,16 @@ void CEventMgr::Excute(const tEvent& _eve)
 		pObj->AnimationEnd();
 		break;
 	}
+	case EVENT_TYPE::PLAYER_ATTACK:
+	{
+		// lParam :: Player Attack Damage
+		// wParam :: Attack Target
+		// 애니메이션의 특정 프레임(공격 프레임)에서 호출되서, 게임센터에 캐릭터의 데미지를 전송
+		float fDamage = (float)_eve.lParam;
+		CMonster* pObj = (CMonster*)_eve.wParam;
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->AttackMonster(fDamage, pObj);
+		break;
+	}
 	case EVENT_TYPE::END:
 		break;
 	default:

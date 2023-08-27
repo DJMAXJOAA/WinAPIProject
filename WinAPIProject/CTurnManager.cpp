@@ -4,6 +4,7 @@
 #include "CKeyMgr.h"
 #include "CEventMgr.h"
 
+#include "CScene_Battle.h"
 #include "CTile.h"
 
 CTurnCenter::CTurnCenter()
@@ -30,7 +31,7 @@ void CTurnCenter::ChangeTurn(TURN_TYPE _type)
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
-void CTurnCenter::Update()
+void CTurnCenter::Update(CScene_Battle* _pScene)
 {
 	switch (m_CurrentTurn)
 	{
@@ -62,10 +63,15 @@ void CTurnCenter::Update()
 		}
 
 		// 이동할 타일이 사라지면, 스킬 단계로 넘어가게됨
-		if (m_lstMoveRoute.empty())
+		else if (m_lstMoveRoute.empty())
 		{
 			ChangeTurn(TURN_TYPE::PLAYER_SKILL);
 			break;
+		}
+
+		else
+		{
+			_pScene->SetBattleState(TURN_TYPE::PLAYER_MOVE);
 		}
 	}
 	break;
@@ -76,6 +82,11 @@ void CTurnCenter::Update()
 		{
 			m_CurrentTurn = TURN_TYPE::PLAYER_MOVE;
 			break;
+		}
+
+		else
+		{
+			_pScene->SetBattleState(TURN_TYPE::PLAYER_ATTACK);
 		}
 	}
 	break;

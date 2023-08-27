@@ -212,6 +212,18 @@
     <Filter Include="Engine\08. Module\Strategy\MonsterMove\Trace">
       <UniqueIdentifier>{dbac847a-85a7-4474-8d1e-b52f55c5411f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\10. BattleCenter\BattleState">
+      <UniqueIdentifier>{5b23aac0-bd8a-4d95-94c6-7185e72032b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\BattleState\PlayerTurn_Move">
+      <UniqueIdentifier>{27f6c21b-c542-41dd-bf2b-f7446fb3a73f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\BattleState\EnterBattle">
+      <UniqueIdentifier>{e7c0bdbf-f664-4d62-ad33-0eae6aa158cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\BattleState\PlayerTurn_Attack">
+      <UniqueIdentifier>{4d6dae16-6f81-4b50-9e82-6b0766c588c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -419,6 +431,18 @@
     <ClInclude Include="IStrategy.h">
       <Filter>Engine\08. Module\Strategy</Filter>
     </ClInclude>
+    <ClInclude Include="CBattleState.h">
+      <Filter>Engine\10. BattleCenter\BattleState</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTurn_Move.h">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerTurn_Move</Filter>
+    </ClInclude>
+    <ClInclude Include="EnterBattle.h">
+      <Filter>Engine\10. BattleCenter\BattleState\EnterBattle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTurn_Attack.h">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerTurn_Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -601,6 +625,18 @@
     </ClCompile>
     <ClCompile Include="IStrategy.cpp">
       <Filter>Engine\08. Module\Strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="CBattleState.cpp">
+      <Filter>Engine\10. BattleCenter\BattleState</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTurn_Move.cpp">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerTurn_Move</Filter>
+    </ClCompile>
+    <ClCompile Include="EnterBattle.cpp">
+      <Filter>Engine\10. BattleCenter\BattleState\EnterBattle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTurn_Attack.cpp">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerTurn_Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

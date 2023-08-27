@@ -8,6 +8,7 @@ class CAnimation
 {
 private:
 	wstring				m_strName;
+	wstring				m_strType;
 	CAnimator*			m_pAnimator;
 	CTexture*			m_pTex;			// 애니메이션이 참조하는 텍스쳐
 	vector<tAnimFrame>	m_vecFrame;		// 모든 프레임 정보가 담긴 배열
@@ -31,6 +32,7 @@ public:
 public:
 	int GetID() { return m_iID; }
 	const wstring& GetName() { return m_strName; }
+	const wstring& GetType() { return m_strType; }
 	tAnimFrame& GetFrame(int _iIndex) { return m_vecFrame[_iIndex]; } // 피벗 수정용, 호출한 쪽에서 수정이 가능하게
 	vector<tAnimFrame>& GetAllFrame() { return m_vecFrame; }
 	int GetMaxFrame() { return (int)m_vecFrame.size(); }
@@ -47,6 +49,7 @@ public:
 
 private:
 	void SetName(const wstring& _strName) { m_strName = _strName; }
+	void SetType(const wstring& _strType) { m_strType = _strType; }
 
 public:
 	void Update();

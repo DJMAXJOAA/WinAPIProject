@@ -40,7 +40,10 @@ class CPlayer :
 private:
     PLAYER_STATE    m_playerState;  // 캐릭 상태
 
+    CObject*       m_pTargetMonster;   // 현재 타게팅 된 몬스터
+
     float           m_fSpeed;       // 이동속도
+    float           m_fAtt;         // 플레이어 공격력
 
 public:
     CPlayer();
@@ -51,21 +54,27 @@ private:
 
 public:
     PLAYER_STATE GetState() { return m_playerState; }
+    CObject* GetTarget() { return m_pTargetMonster; }
 
 public:
     void SetState(PLAYER_STATE _state) { m_playerState = _state; }
+    void SetTarget(CObject* _pObj) { m_pTargetMonster = _pObj; }
 
 public:
-    void Move(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination);
-    void Attack(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination);
+    void Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination);
+    void Attack(GRID_DIRECTION _aniDirection, CObject* pMon);
 
 public:
     virtual void Render(HDC hdc);
     virtual void Update();
 
 private:
+    // 이벤트 호출 받음
     virtual void AnimationEvent() override;
     virtual void AnimationEnd() override;
-    void AnimationDirection(PLAYER_STATE _anim, bool _bRepeat, Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDestination);     // 애니메이션 방향 지정
+
+    void PlayerAttackMonster(float _damage, CObject* _pMon);
+
+    void AnimationDirection(PLAYER_STATE _anim, bool _bRepeat, GRID_DIRECTION _aniDirection);     // 애니메이션 방향 지정
 };
 

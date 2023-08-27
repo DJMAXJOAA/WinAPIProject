@@ -2,6 +2,7 @@
 #include "tile.h"
 
 class CMonster;
+class CScene_Battle;
 
 class CTurnCenter
 {
@@ -36,7 +37,7 @@ public:
     void RouteInit() { m_lstMoveRoute.clear(); }
 
 public:
-    void Update();
+    void Update(CScene_Battle* _pScene);
     void Init();
 };
 

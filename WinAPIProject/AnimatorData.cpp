@@ -14,5 +14,5 @@ AnimatorData::~AnimatorData()
 void AnimatorData::ParseData(const json& item)
 {
     m_strAnimatorName = string_to_wstring(item["Name"].get<string>());
-    m_strAnimation = item["AnimationList"].get<vector<int>>();
+    m_vecAnimation = item["AnimationList"].get<vector<int>>();
 }

@@ -22,6 +22,7 @@ class AnimationData
 public:
 	wstring				m_strAnimationName;	// 생성된 애니메이션 이름
 	wstring				m_strTexturePath;	// 가져올 폴더 파일 경로
+	wstring				m_strAnimationType;	// 애니메이션 타입
 	AnimationInfo		m_AniInfo;			// 애니메이션 정보
 
 public:

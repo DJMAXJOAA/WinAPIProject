@@ -36,8 +36,10 @@ public:
 	void CreateAnimation(int _key);
 	CAnimation* FindAnimation(const wstring& _strName);
 	CAnimation* FindAnimation(int _key);
+	CAnimation* FindAnimationType(const wstring& _strType);
 	void Play(const wstring& s, bool _bRepeat);
 	void Play(int _key, bool _bRepeat);
+	void PlayType(const wstring& _strName, bool _bRepeat);
 
 public:
 	void Update();

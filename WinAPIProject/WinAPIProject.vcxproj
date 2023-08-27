@@ -143,6 +143,7 @@
     <ClInclude Include="BFSSearch.h" />
     <ClInclude Include="CAnimationGDIplus.h" />
     <ClInclude Include="CAnimatorGdiPlus.h" />
+    <ClInclude Include="CBattleState.h" />
     <ClInclude Include="CBlock.h" />
     <ClInclude Include="CData.h" />
     <ClInclude Include="CDataMgr.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CToolTest.h" />
     <ClInclude Include="CToolTest2.h" />
+    <ClInclude Include="EnterBattle.h" />
     <ClInclude Include="FieldData.h" />
     <ClInclude Include="FriendlyHeal.h" />
     <ClInclude Include="GameData.h" />
@@ -162,6 +164,8 @@
     <ClInclude Include="IStrategy.h" />
     <ClInclude Include="ItemData.h" />
     <ClInclude Include="MonsterData.h" />
+    <ClInclude Include="PlayerTurn_Attack.h" />
+    <ClInclude Include="PlayerTurn_Move.h" />
     <ClInclude Include="RandomMove.h" />
     <ClInclude Include="SelfHeal.h" />
     <ClInclude Include="SkillData.h" />
@@ -216,6 +220,7 @@
     <ClCompile Include="CAnimationGDIplus.cpp" />
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CAnimatorGdiPlus.cpp" />
+    <ClCompile Include="CBattleState.cpp" />
     <ClCompile Include="CBlock.cpp" />
     <ClCompile Include="CBtnUI.cpp" />
     <ClCompile Include="CCamera.cpp" />
@@ -251,6 +256,7 @@
     <ClCompile Include="CToolTest2.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIMgr.cpp" />
+    <ClCompile Include="EnterBattle.cpp" />
     <ClCompile Include="FieldData.cpp" />
     <ClCompile Include="FriendlyHeal.cpp" />
     <ClCompile Include="func.cpp" />
@@ -259,6 +265,8 @@
     <ClCompile Include="IStrategy.cpp" />
     <ClCompile Include="ItemData.cpp" />
     <ClCompile Include="MonsterData.cpp" />
+    <ClCompile Include="PlayerTurn_Attack.cpp" />
+    <ClCompile Include="PlayerTurn_Move.cpp" />
     <ClCompile Include="RandomMove.cpp" />
     <ClCompile Include="SelectGDI.cpp" />
     <ClCompile Include="SelfHeal.cpp" />

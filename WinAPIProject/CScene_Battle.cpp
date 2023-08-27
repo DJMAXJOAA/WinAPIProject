@@ -18,6 +18,10 @@
 #include "CTileManager.h"
 #include "CMonsterSpawner.h"
 
+#include "EnterBattle.h"
+#include "PlayerTurn_Move.h"
+#include "PlayerTurn_Attack.h"
+
 #include "CData.h"
 #include "FieldData.h"
 
@@ -27,10 +31,14 @@ static std::mt19937 gen(rd());
 
 CScene_Battle::CScene_Battle()
 	: m_pPlayer(nullptr)
+	, m_iDifficulty(1)
+	, m_FieldType(FIELD_TYPE::COMMON)
+	, m_vecStates((int)TURN_TYPE::EXIT)
 	, m_BFS(nullptr)
 	, m_MonsterSpawner(nullptr)
 	, m_TurnCenter(nullptr)
 	, m_TileCenter(nullptr)
+	, m_BattleState(nullptr)
 {
 	// 매니저를 등록 -> 오브젝트로 등록하는게 아니라서 직접 해제 시켜주어야 한다. Enter, Exit 함수와 관련없음
 	// 메인 씬에 있는 그룹 오브젝트들을 참조해서 관리하는 형식이라, 임의로 값들을 해제시키지 않게 주의해야 한다
@@ -38,6 +46,10 @@ CScene_Battle::CScene_Battle()
 	m_BFS = new BFSSearch;
 	m_MonsterSpawner = new CMonsterSpawner;
 	m_TileCenter = new CTileCenter;
+
+	m_vecStates[(int)TURN_TYPE::ENTER] = new EnterBattle;
+	m_vecStates[(int)TURN_TYPE::PLAYER_START] = new PlayerTurn_Move;
+	m_vecStates[(int)TURN_TYPE::PLAYER_ATTACK] = new PlayerTurn_Attack;
 }
 
 CScene_Battle::~CScene_Battle()
@@ -46,6 +58,8 @@ CScene_Battle::~CScene_Battle()
 	delete m_MonsterSpawner;
 	delete m_TurnCenter;
 	delete m_TileCenter;
+
+	SafeDeleteVec(m_vecStates);
 }
 
 void CScene_Battle::TurnInit(TURN_TYPE _type)
@@ -97,216 +111,12 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	}
 }
 
-void CScene_Battle::InitField(int _level, FIELD_TYPE _type)
+void CScene_Battle::AttackMonster(float _damage, CMonster* _pMon)
 {
-	Vec2 vResolution = CCore::GetInstance()->GetResolution();
+	_pMon->GetDamaged(_damage);
+	m_TurnCenter->GetTargetList().pop_back();
 
-	// 600번 대의 필드 데이터 중에 조건에 맞는 데이터들
-	vector<CData*> allData = CDataMgr::GetInstance()->LoadAllData(600);
-	vector<FieldData*> fieldData{};
-	FieldData* randomFieldData = nullptr;
-
-	// 랜덤하게 필드 ID 결정
-	// 600번 대의 필드 데이터 중에 조건에 맞는 데이터들
-	for (int i = 0; i < allData.size(); i++)
-	{
-		if (((FieldData*)allData[i])->m_iDifficulty == _level
-			&& ((FieldData*)allData[i])->m_MapType == _type)
-			fieldData.push_back((FieldData*)allData[i]);
-	}
-	// 추려낸 데이터들중에 랜덤으로 1개 선택
-	if (!fieldData.empty())
-	{
-		std::uniform_int_distribution<int> distr(0, int(fieldData.size() - 1));
-
-		int randomIndex = distr(gen);
-		randomFieldData = fieldData[randomIndex];
-		m_iFieldType = randomFieldData->GetKey();
-	}
-	else
-	{
-		assert(0);	// 데이터 가져오기 실패 디버깅
-	}
-
-	// 마우스 추가
-	CMouse* pMouse = new CMouse;
-	AddObject(pMouse, GROUP_TYPE::MOUSE);
-
-	// 타일 + 블럭 추가
-	int startX = (int)(vResolution.x / 2);
-	int startY = (int)(vResolution.y / 4);
-	map<Vec2, Vec2>& mapRealPoint = m_TileCenter->GetMapRealPoint();
-	map<Vec2, Vec2>& mapGridPoint = m_TileCenter->GetMapGridPoint();
-	vector<vector<TileState>>& vecTileState = m_TileCenter->GetTiles();
-
-	for (int y = 0; y < 9; ++y) {
-		for (int x = 0; x < 9; ++x) {
-			int drawX = startX + (x - y) * (TILE_WIDTH / 2);
-			int drawY = startY + (x + y) * (TILE_HEIGHT / 2) - (TILE_HEIGHT / 2);
-
-			// 좌표 저장
-			Vec2 gridPos = Vec2(x, y);
-			Vec2 realPos = Vec2(drawX, drawY);
-
-			// 이중맵으로 격자 좌표계 <-> 실제 좌표 연결
-			mapRealPoint.insert(make_pair(gridPos, realPos));
-			mapGridPoint.insert(make_pair(realPos, gridPos));
-
-			// 타일 생성
-			CTile* pTile = new CTile;
-			pTile->SetPos(realPos);
-			pTile->SetGridPos(gridPos);
-			vecTileState[y][x].pTile = pTile;
-			AddObject(pTile, GROUP_TYPE::TILE);
-
-			// 블럭 복사생성 -> 필드에 맞게
-			CBlock* cBlcok = new CBlock(randomFieldData->m_BlockType);
-			cBlcok->SetPos(realPos);
-			cBlcok->SetGridPos(gridPos);
-			AddObject(cBlcok, GROUP_TYPE::BLOCK);
-		}
-	}
-
-	// Player 추가
-	CPlayer* pPlayer = new CPlayer;
-	Vec2 PlayerStartPos(4, 2);
-	pPlayer->SetPos(REAL(PlayerStartPos));
-	pPlayer->SetGridPos(PlayerStartPos);
-	m_pPlayer = pPlayer;
-	AddObject(pPlayer, GROUP_TYPE::UNIT);
-
-	// 몬스터 생성
-	m_MonsterSpawner->SpawnMonster(randomFieldData);
-	vector<CMonster*>& monsterList = m_MonsterSpawner->GetMonsterList();
-	for (int i = 0; i < monsterList.size(); i++)
-	{
-		// 몬스터들의 위치 랜덤 지정 (오브젝트 중복 안되게)
-		Vec2 randomPos = GetRandomGridPos();
-		if (m_TileCenter->GetObj(randomPos) == nullptr)
-		{
-			// 타일 위의 오브젝트가 nullptr이면, 오브젝트 좌표 설정
-			monsterList[i]->SetPos(REAL(randomPos));
-			monsterList[i]->SetGridPos(randomPos);
-			m_TileCenter->SetTileObject(randomPos, monsterList[i]);
-			// 디버깅
-			if (m_TileCenter->GetObj(randomPos) != nullptr)
-			{
-				cout << "타일 오브젝트 등록 " << i << "번째 :" << randomPos.x << "," << randomPos.y << ",\n";
-			}
-		}
-		else
-		{
-			// 다시 좌표 지정
-			i--;
-		}
-	}
-
-	// GDI+ Test (Effect)
-	CEffect* pEffect = new CEffect;
-	pEffect->SetPos(REAL(PlayerStartPos));
-	AddObject(pEffect, GROUP_TYPE::MISSILE_PLAYER);
-
-	// 카메라 설정
-	CCamera::GetInstance()->SetLookAt(REAL(PlayerStartPos));
-
-	// 타일과 마우스의 충돌처리
-	CCollisionMgr::GetInstance()->CheckGroup(GROUP_TYPE::MOUSE, GROUP_TYPE::TILE);
-}
-
-void CScene_Battle::TurnLogic()
-{
-	TURN_TYPE currentTurn = m_TurnCenter->GetTurnState();
-	switch (currentTurn)
-	{
-	case TURN_TYPE::ENTER: break;
-	case TURN_TYPE::PLAYER_START: break;
-	case TURN_TYPE::PLAYER_TILESELECT: break;
-	case TURN_TYPE::PLAYER_MOVE:
-	{
-		PlayerMove();
-		break;
-	}
-	case TURN_TYPE::PLAYER_ATTACK:
-	{
-		PlayerAttack();
-		break;
-	}
-	case TURN_TYPE::PLAYER_SKILL: break;
-	case TURN_TYPE::ENEMY_MOVE: break;
-	case TURN_TYPE::ENEMY_ATTACK: break;
-	case TURN_TYPE::EXIT: break;
-	}
-}
-
-void CScene_Battle::PlayerMove()
-{
-	list<Vec2>& moveRoute = m_TurnCenter->GetMoveRoute();
-	if (moveRoute.empty())
-	{
-		// 턴 매니저에서 조건 체크 해서, 상태 변경됨
-		return;
-	}
-
-	Vec2 vDestination = REAL(moveRoute.front());
-	Vec2 vCurrentPos = m_pPlayer->GetPos();
-
-	// 도착했음(위치가 일치) = 주변 적군 체크 -> 갱신
-	if (vCurrentPos == vDestination)
-	{
-		// 1. 적군 탐색 후, 적군이 있으면 함수 리턴 후 공격상태 들어감(lstTargetEnemy 배열에 적들 정보 들어감)
-		// Update에서 적 리스트 빈거 체크하고, 안비었으면 함수 종료 후 공격상태로 돌입
-		vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
-		list<CObject*>& lstMonsters = m_TurnCenter->GetTargetList();
-		m_BFS->BFS(GRID(vDestination), vecTile, lstMonsters, DIRECTION::FOUR_WAY, 1);
-		if (!lstMonsters.empty())
-		{
-			m_TurnCenter->SetTurnState(TURN_TYPE::PLAYER_ATTACK);
-		}
-
-		// 2. 타일 상태 갱신 -> 이동한 발판은 검은색 처리
-		Vec2 gridDestination = moveRoute.front();
-		vector<vector<TileState>>& tiles = m_TileCenter->GetTiles();
-		tiles[(int)gridDestination.y][(int)gridDestination.x].pTile->SetTileState(TILE_STATE::BLACK);
-
-		// 3. 타일 상태 갱신(목적지, 현재위치 갱신), 타일 리스트 한칸 삭제		
-
-		m_pPlayer->SetGridPos(moveRoute.front());
-		moveRoute.pop_front();
-		if (moveRoute.empty()) return;		// 목적지 타일 도착하면, 함수 탈출
-
-		vDestination = REAL(moveRoute.front());
-	}
-
-	// 캐릭터에게 도착지쪽으로 움직이게 명령
-	m_pPlayer->Move(m_pPlayer->GetGridPos(), GRID(vDestination), vDestination);
-}
-
-void CScene_Battle::PlayerAttack()
-{
-	list<CObject*> targetList = m_TurnCenter->GetTargetList();
-
-	// 타겟이 없으면, 다시 Move이벤트 진행
-	if (targetList.empty())
-	{
-		m_TurnCenter->SetTurnState(TURN_TYPE::PLAYER_MOVE);
-		return;
-	}
-
-	// 리스트의 가장 위의 적군
-	CMonster* pMonster = (CMonster*)targetList.front();
-	m_pPlayer->Attack(m_pPlayer->GetGridPos(), pMonster->GetGridPos(), pMonster->GetPos());
-
-}
-
-Vec2 CScene_Battle::GetRandomGridPos()
-{
-	std::uniform_int_distribution<int> distr(0, 8);
-
-	Vec2 result;
-	result.x = float(distr(gen)); // x 좌표 랜덤 생성
-	result.y = float(distr(gen)); // y 좌표 랜덤 생성
-
-	return result;
+	printf("적에게 %1.f 데미지를 주는 이벤트\n", _damage);
 }
 
 void CScene_Battle::TileSelectTrigger(CObject* _pObj)
@@ -410,17 +220,20 @@ void CScene_Battle::Update()
 	// 메인 씬 업데이트 (각자 오브젝트들의 업데이트)
 	CScene::Update();
 
-	// 전투 로직 처리
-	TurnLogic();
+	// 로직 처리 (상태 머신)
+	m_BattleState->Handle(this);
 
 	// 턴 결정 업데이트
-	m_TurnCenter->Update();
+	m_TurnCenter->Update(this);
 }
 
 void CScene_Battle::Enter()
 {
 	// 버튼 이벤트로 대체시키기
-	InitField(1, FIELD_TYPE::COMMON);
+	SetBattleState(TURN_TYPE::ENTER);
+	m_BattleState->Handle(this);
+	SetBattleState(TURN_TYPE::PLAYER_START);
+	m_TurnCenter->SetTurnState(TURN_TYPE::PLAYER_START);
 }
 
 void CScene_Battle::Exit()
