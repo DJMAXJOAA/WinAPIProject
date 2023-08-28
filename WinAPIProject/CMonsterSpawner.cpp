@@ -37,6 +37,15 @@ void CMonsterSpawner::Init()
 	m_vecMonsters.clear();
 }
 
+void CMonsterSpawner::Update()
+{
+	// Á×À» ¿¹Á¤ÀÎ °´Ã¼µé remove
+	auto removeIter = remove_if(m_vecMonsters.begin(), m_vecMonsters.end(),
+		[](CMonster* monster) { return monster->IsDead(); });
+
+	m_vecMonsters.erase(removeIter, m_vecMonsters.end());
+}
+
 void CMonsterSpawner::SpawnMonster(FieldData* _data)
 {
 	assert(_data);

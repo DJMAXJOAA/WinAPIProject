@@ -3,8 +3,10 @@
 #include <queue>
 using std::priority_queue;
 
-vector<Node*> AstarSearch::AStar(vector<vector<TileState>>& vecTiles, Vec2 _startPos, Vec2 _endPos, int _move)
+vector<Vec2> AstarSearch::AStar(vector<vector<TileState>>& vecTiles, pair<Vec2, Vec2> posPair, int _move)
 {
+    Vec2 _startPos = posPair.first;
+    Vec2 _endPos = posPair.second;
     priority_queue<Node*, vector<Node*>, CompareNode> openSet;
     Node startNode(_startPos);
 
@@ -16,11 +18,12 @@ vector<Node*> AstarSearch::AStar(vector<vector<TileState>>& vecTiles, Vec2 _star
         openSet.pop();
 
         if (current->x == (int)_endPos.x && current->y == (int)_endPos.y) {
-            vector<Node*> path;
+            vector<Vec2> vec2Path;
             for (Node* node = current; node != nullptr; node = node->pParent) {
-                path.push_back(new Node(*node));
+                vec2Path.push_back(Vec2(node->x, node->y));
+                delete node; 
             }
-            return path;
+            return vec2Path;
         }
 
         for (int dx = -1; dx <= 1; ++dx) {
@@ -31,8 +34,8 @@ vector<Node*> AstarSearch::AStar(vector<vector<TileState>>& vecTiles, Vec2 _star
                 if (x >= 0 && x < vecTiles.size() && y >= 0 && y < vecTiles[0].size()) {
                     if (vecTiles[x][y].bVisited) continue;
 
-                    float tentativeCost = current->fCost + sqrt(dx * dx + dy * dy);
-                    if (tentativeCost > 3) continue; // Limit to 3 steps
+                    float tentativeCost = float(current->fCost + sqrt(dx * dx + dy * dy));
+                    if (tentativeCost > _move) continue; 
 
                     Node* neighbor = new Node(x, y, tentativeCost, current);
                     Vec2 neighborVec2(x, y);
@@ -43,23 +46,20 @@ vector<Node*> AstarSearch::AStar(vector<vector<TileState>>& vecTiles, Vec2 _star
         }
     }
 
-    return vector<Node*>();
+    return vector<Vec2>();
 }
 
-vector<vector<Node*>> AstarSearch::SequentialAstar(vector<vector<TileState>>& vecTiles, vector<Vec2> _startPos, vector<Vec2> _endPos, int _move)
+vector<vector<Vec2>> AstarSearch::SequentialAstar(vector<vector<TileState>>& vecTiles, vector<pair<Vec2, Vec2>> positions, int _move)
 {
-    vector<vector<Node*>> allPaths;
+    vector<vector<Vec2>> allPaths;
 
-    // 가정: startPositions.size() == endPositions.size() == n
-    for (size_t i = 0; i < _startPos.size(); ++i) {
-        Vec2 start = _startPos[i];
-        Vec2 end = _endPos[i];
+    for (const auto& posPair : positions) {
+        Vec2 start = posPair.first;
+        Vec2 end = posPair.second;
 
-        // 각 플레이어에 대해 A* 알고리즘 실행
-        vector<Node*> path = AStar(vecTiles, start, end, _move);
+        vector<Vec2> vec2Path = AStar(vecTiles, posPair, _move);
 
-        // 결과를 allPaths에 추가
-        allPaths.push_back(path);
+        allPaths.push_back(vec2Path);
     }
 
     return allPaths;

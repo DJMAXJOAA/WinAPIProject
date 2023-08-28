@@ -1,34 +1,18 @@
 #pragma once
 #include "tile.h"
-
-class Node {
-public:
-    int x, y;
-    float       fCost;      // F Value
-    float       fHeuristic; // G + H Value를 계산한 휴리스틱
-    Node*       pParent;
-
-    Node(int _x, int _y, float cost = 0.f, Node* parent = nullptr)
-        : x(_x), y(_y), fCost(cost), fHeuristic(0), pParent(parent) {}
-    Node(Vec2 _vPos, float cost = 0.f, Node* parent = nullptr)
-        : x((int)_vPos.x), y((int)_vPos.y), fCost(cost), fHeuristic(0), pParent(parent) {}
-
-    static float Heuristic(const Vec2& a, const Vec2& b)
-    {
-        return a.DistanceTo(b);
-    }
-};
+#include "node.h"
 
 class AstarSearch
 {
 private:
-    float       m_fWeight;      // Weighted A* 알고리즘 -> 가중치를 둘 수 있음
+    float           m_fWeight;      // Weighted A* 알고리즘 -> 가중치를 둘 수 있음
+    list<Node*>     m_lstNodes;     // 동적 할당 시킨 노드들을 담아둠
 
     struct CompareNode 
     {
         bool operator() (Node* a, Node* b)
         {
-            return a->fCost + a->fHeuristic > b->fCost > b->fHeuristic;
+            return (a->fCost + a->fHeuristic > b->fCost > b->fHeuristic);
         }
     };
 
@@ -37,7 +21,9 @@ public:
     ~AstarSearch() {}
 
 public:
-    vector<Node*> AStar(vector<vector<TileState>>& vecTiles, Vec2 _startPos, Vec2 _endPos, int _move);
-    vector<vector<Node*>> SequentialAstar(vector<vector<TileState>>& vecTiles, vector<Vec2> _startPos, vector<Vec2> _endPos, int _move);
+    // A* 알고리즘을 이용해서, 각 오브젝트의 길찾기를 진행
+    vector<Vec2> AStar(vector<vector<TileState>>& vecTiles, pair<Vec2, Vec2> posPair, int _move);
+    // 여러 객체의 A*를 순차적으로 진행되게 (그래야 겹치지 않고 이동) 함수를 설정
+    vector<vector<Vec2>> SequentialAstar(vector<vector<TileState>>& vecTiles, vector<pair<Vec2, Vec2>> positions, int _move);
 };
 

@@ -2,6 +2,7 @@
 
 class CScene_Battle;
 
+// 배틀 씬의 상태 로직을 클래스로 나눠놓음
 class CBattleState
 {
 public:

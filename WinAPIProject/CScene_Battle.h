@@ -42,6 +42,7 @@ public:
     FIELD_TYPE GetFieldType() { return m_FieldType; }
     CPlayer* GetPlayer() { return m_pPlayer; }
     BFSSearch* GetBFS() { return m_BFS; }
+    AstarSearch* GetAstar() { return m_Astar; }
     CMonsterSpawner* GetSpawner() { return m_MonsterSpawner; }
     CTurnCenter* GetTurnCenter() {return m_TurnCenter; }
     CTileCenter* GetTileCenter() { return m_TileCenter; }

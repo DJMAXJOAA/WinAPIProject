@@ -94,6 +94,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 리스트 초기화
 		m_TurnCenter->RouteInit();
 		m_TurnCenter->GetTargetList().clear();
+		m_BFS->BFS_Init(m_TileCenter->GetTiles());
 
 		// 콤보 초기화
 		m_TurnCenter->SetCombo(0);
@@ -350,6 +351,7 @@ void CScene_Battle::Update()
 	// 메인 씬 업데이트 (각자 오브젝트들의 업데이트)
 	CScene::Update();
 
+
 	// 턴 결정 업데이트
 	m_TurnCenter->Update(this);
 
@@ -358,6 +360,11 @@ void CScene_Battle::Update()
 	{
 		m_BattleState->Handle(this);
 	}
+	
+	//// 몬스터 관리 배열 업데이트 (사망 예정인 오브젝트들을 삭제)
+	m_MonsterSpawner->Update();
+	
+	cout << m_MonsterSpawner->GetMonsterList().size() ;
 }
 
 void CScene_Battle::Enter()
