@@ -17,33 +17,21 @@ enum class PLAYER_STATE
     AXE,
     GUN,
     BOW,
-
-    IDLE2,
-    MOVE2,
-    DAMAGED2,
-    ROLLING2,
-    LANDING2,
-    WIN2,
-    DASH2,
-    FIST2,
-    UPPERCUT2,
-    SWORD2,
-    LANCE2,
-    AXE2,
-    GUN2,
-    BOW2,
 };
 
 class CPlayer :
     public CObject
 {
 private:
-    PLAYER_STATE    m_playerState;  // 캐릭 상태
+    PLAYER_STATE    m_playerState;      // 캐릭 상태
+    GRID_DIRECTION  m_playerDirection;  // 캐릭터 현재 방향
 
     CObject*       m_pTargetMonster;   // 현재 타게팅 된 몬스터
 
     float           m_fSpeed;       // 이동속도
     float           m_fAtt;         // 플레이어 공격력
+    bool            m_bAttack;      // 공격 중 여부
+    float           m_fCombo;       // 콤보 데미지(스킬 데미지에 가산)
 
 public:
     CPlayer();
@@ -56,17 +44,16 @@ public:
     PLAYER_STATE GetState() { return m_playerState; }
     CObject* GetTarget() { return m_pTargetMonster; }
 
-public:
     void SetState(PLAYER_STATE _state) { m_playerState = _state; }
     void SetTarget(CObject* _pObj) { m_pTargetMonster = _pObj; }
+    void SetAttacking(bool _bTF) { m_bAttack = _bTF; }
+
+    bool IsAttacking() { return m_bAttack; }
 
 public:
     void Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination);
-    void PlayerAttackDone(GRID_DIRECTION _aniDirection, CObject* pMon);
-
-public:
-    virtual void Render(HDC hdc);
-    virtual void Update();
+    void PlayerAttackStart(GRID_DIRECTION _aniDirection, CObject* pMon);
+    void PlayerSkillStart(int _iCombo);
 
 private:
     // 이벤트 호출 받음
@@ -75,7 +62,15 @@ private:
 
     void PlayerAttackMonster(float _damage, CObject* _pMon);
     void PlayerAttackDone();
+    void PlayerSkillCast(float _value);
+    void PlayerSkillDone();
 
     void AnimationDirection(PLAYER_STATE _anim, bool _bRepeat, GRID_DIRECTION _aniDirection);     // 애니메이션 방향 지정
+    void AnimationDirection(PLAYER_STATE _anim, bool _bRepeat);
+
+public:
+    virtual void Render(HDC hdc);
+    virtual void Update();
+
 };
 

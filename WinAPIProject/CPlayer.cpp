@@ -20,6 +20,8 @@ CPlayer::CPlayer()
 	, m_playerState(PLAYER_STATE::IDLE)
 	, m_pTargetMonster(nullptr)
 	, m_fAtt(50.f)
+	, m_bAttack(false)
+	, m_fCombo(0)
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(15.f, 15.f));
@@ -52,12 +54,26 @@ void CPlayer::Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination)
 	SetPos(vPos);
 }
 
-void CPlayer::PlayerAttackDone(GRID_DIRECTION _aniDirection, CObject* pMon)
+void CPlayer::PlayerAttackStart(GRID_DIRECTION _aniDirection, CObject* pMon)
 {
 	// 애니메이션 이벤트 프레임에 공격 들어가게
 	// 여기선 애니메이션 설정
 	SetTarget(pMon);
+	m_playerState = PLAYER_STATE::UPPERCUT;
 	AnimationDirection(PLAYER_STATE::UPPERCUT, false, _aniDirection);
+
+	printf("CPlayer::PlayerAttackDone :: 공격 시작\n");
+}
+
+void CPlayer::PlayerSkillStart(int _iCombo)
+{
+	// 콤보 * 0.1이 콤보 데미지
+	m_fCombo = float(_iCombo * 0.1);
+
+	m_playerState = PLAYER_STATE::AXE;
+	AnimationDirection(PLAYER_STATE::AXE, false);
+
+	printf("CPlayer::PlayerAttackDone :: 스킬 시작\n");
 }
 
 void CPlayer::Render(HDC hdc)
@@ -72,21 +88,57 @@ void CPlayer::Update()
 
 void CPlayer::AnimationEvent()
 {
-	if (m_pTargetMonster)
+	switch (m_playerState)
 	{
-		PlayerAttackMonster(m_fAtt, m_pTargetMonster);
+	case PLAYER_STATE::UPPERCUT:
+	{
+		CCamera::GetInstance()->SetVibrateCamera(10.f, 1, 0.02f);
+		if (m_pTargetMonster)
+		{
+			PlayerAttackMonster(m_fAtt, m_pTargetMonster);
+		}
+
+		printf("CPlayer::AnimationEvent :: 캐릭터 공격 애니메이션 이벤트 시작\n");
+
+		break;
 	}
-	CCamera::GetInstance()->SetVibrateCamera(10.f, 1, 0.02f);
-	printf("캐릭터 애니메이션 이벤트 호출\n");
+	case PLAYER_STATE::AXE:
+	{
+		// 스킬 데미지 : 플레이어의 공격력 + 콤보수 * 0.1
+		float fSkillAtt = m_fAtt + float(m_fAtt * m_fCombo);
+
+		CCamera::GetInstance()->SetVibrateCamera(30.f, 1, 0.02f);
+		PlayerSkillCast(fSkillAtt);
+		printf("CPlayer::AnimationEvent :: 캐릭터 스킬 애니메이션 이벤트 시작\n");
+		break;
+	}
+	}
+	
 }
 
 void CPlayer::AnimationEnd()
 {
-	GetAnimator()->PlayType(L"Idle", true);
+	cout << (int)m_playerState << "\n";
+	switch (m_playerState)
+	{
+	case PLAYER_STATE::UPPERCUT:
+	{
+		PlayerAttackDone();
+		printf("CPlayer::AnimationEnd :: 캐릭터 공격 애니메이션 종료 시작\n");
 
-	PlayerAttackDone();
+		break;
+	}
+	case PLAYER_STATE::AXE:
+	{
+		// 콤보 초기화
+		m_fCombo = 0;
 
-	printf("캐릭터 애니메이션 종료 호출\n");
+		PlayerSkillDone();
+		printf("CPlayer::AnimationEnd :: 캐릭터 스킬 애니메이션 종료 시작\n");
+		break;
+	}
+	}
+
 }
 
 void CPlayer::PlayerAttackMonster(float _damage, CObject* _pMon)
@@ -107,11 +159,67 @@ void CPlayer::PlayerAttackDone()
 	CEventMgr::GetInstance()->AddEventEarly(evn);
 }
 
+void CPlayer::PlayerSkillCast(float _value)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::PLAYER_SKILL_CAST;
+	evn.lParam = (DWORD_PTR)_value;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
+}
+
+void CPlayer::PlayerSkillDone()
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::PLAYER_SKILL_DONE;
+
+	CEventMgr::GetInstance()->AddEventEarly(evn);
+}
+
+
+
 void CPlayer::AnimationDirection(PLAYER_STATE _anim, bool _bRepeat, GRID_DIRECTION _aniDirection)
 {
 	const int animationInterval = 14;	// 앞에보는 모션과 뒤에보는 모션의 값 차이가 14
 
 	switch (_aniDirection)
+	{
+	case GRID_DIRECTION::UP:
+	{
+		GetAnimator()->Play((int)_anim + animationInterval, _bRepeat);
+		GetAnimator()->GetAnimation()->SetFlip(false);
+		m_playerDirection = GRID_DIRECTION::UP;
+		break;
+	}
+	case GRID_DIRECTION::LEFT:
+	{
+		GetAnimator()->Play((int)_anim + animationInterval, _bRepeat);
+		GetAnimator()->GetAnimation()->SetFlip(true);
+		m_playerDirection = GRID_DIRECTION::LEFT;
+		break;
+	}
+	case GRID_DIRECTION::RIGHT:
+	{
+		GetAnimator()->Play((int)_anim, _bRepeat);
+		GetAnimator()->GetAnimation()->SetFlip(true);
+		m_playerDirection = GRID_DIRECTION::RIGHT;
+		break;
+	}
+	case GRID_DIRECTION::DOWN:
+	{
+		GetAnimator()->Play((int)_anim, _bRepeat);
+		GetAnimator()->GetAnimation()->SetFlip(false);
+		m_playerDirection = GRID_DIRECTION::DOWN;
+		break;
+	}
+	}
+}
+
+void CPlayer::AnimationDirection(PLAYER_STATE _anim, bool _bRepeat)
+{
+	const int animationInterval = 14;	// 앞에보는 모션과 뒤에보는 모션의 값 차이가 14
+
+	switch (m_playerDirection)
 	{
 	case GRID_DIRECTION::UP:
 	{

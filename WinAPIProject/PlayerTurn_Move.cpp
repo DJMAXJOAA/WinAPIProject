@@ -36,6 +36,14 @@ void PlayerTurn_Move::Handle(CScene_Battle* _pScene)
 		vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
 		list<CObject*>& lstMonsters = m_TurnCenter->GetTargetList();
 		m_BFS->BFS(GRID(vDestination), vecTile, lstMonsters, DIRECTION::FOUR_WAY, 1);
+		printf("PlayerTurn_Move::Handle :: BFS 탐색 결과 -> ");
+		for (list<CObject*>::iterator iter = lstMonsters.begin(); iter != lstMonsters.end(); iter++)
+		{
+			cout << *iter << ", ";
+		}
+		printf("\n");
+
+		// 적군이 있으면, 공격 상태 돌입
 		if (!lstMonsters.empty())
 		{
 			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_ATTACK);

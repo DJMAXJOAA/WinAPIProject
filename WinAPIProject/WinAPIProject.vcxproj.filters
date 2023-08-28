@@ -227,6 +227,9 @@
     <Filter Include="Engine\10. BattleCenter\BattleState\PlayerTurn_TileSelect">
       <UniqueIdentifier>{895eabc5-b72d-470b-b10d-8055f122ff81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\10. BattleCenter\BattleState\PlayerTurn_Skill">
+      <UniqueIdentifier>{cef5ac37-af6a-4d84-b283-bda29d9e0e5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -449,6 +452,9 @@
     <ClInclude Include="PlayerTurn_TileSelect.h">
       <Filter>Engine\10. BattleCenter\BattleState\PlayerTurn_TileSelect</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerTurn_Skill.h">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerTurn_Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -646,6 +652,9 @@
     </ClCompile>
     <ClCompile Include="PlayerTurn_TileSelect.cpp">
       <Filter>Engine\10. BattleCenter\BattleState\PlayerTurn_TileSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTurn_Skill.cpp">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerTurn_Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -166,6 +166,7 @@
     <ClInclude Include="MonsterData.h" />
     <ClInclude Include="PlayerTurn_Attack.h" />
     <ClInclude Include="PlayerTurn_Move.h" />
+    <ClInclude Include="PlayerTurn_Skill.h" />
     <ClInclude Include="PlayerTurn_TileSelect.h" />
     <ClInclude Include="RandomMove.h" />
     <ClInclude Include="SelfHeal.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="MonsterData.cpp" />
     <ClCompile Include="PlayerTurn_Attack.cpp" />
     <ClCompile Include="PlayerTurn_Move.cpp" />
+    <ClCompile Include="PlayerTurn_Skill.cpp" />
     <ClCompile Include="PlayerTurn_TileSelect.cpp" />
     <ClCompile Include="RandomMove.cpp" />
     <ClCompile Include="SelectGDI.cpp" />

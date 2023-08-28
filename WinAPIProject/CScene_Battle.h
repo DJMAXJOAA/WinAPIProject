@@ -19,9 +19,9 @@ class CScene_Battle :
 {
 private:
     int                     m_iFieldType;       // 필드의 생성 타입 ID
-
     int                     m_iDifficulty;
     FIELD_TYPE              m_FieldType;        
+
     CPlayer*                m_pPlayer;          // 플레이어 객체를 따로 관리
     vector<CBattleState*>   m_vecStates;        // 스테이트 패턴들
 
@@ -55,6 +55,8 @@ public:
 
     void PlayerAttackMonster(float _damage, CMonster* _pMon);
     void PlayerAttackDone();
+    void PlayerSkillCasted(float _value);
+    void PlayerSkillDone();
     void MonsterDied(CMonster* _pObj);
 
 public:

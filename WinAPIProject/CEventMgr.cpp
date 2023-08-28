@@ -123,6 +123,19 @@ void CEventMgr::Excute(const tEvent& _eve)
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerAttackDone();
 		break;
 	}
+	case EVENT_TYPE::PLAYER_SKILL_CAST:
+	{
+		// 애니메이션이 끝나면, 리스트를 지워줌
+		float fValue = (float)_eve.lParam;
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerSkillCasted(fValue);
+		break;
+	}
+	case EVENT_TYPE::PLAYER_SKILL_DONE:
+	{
+		// 애니메이션이 끝나면, 리스트를 지워줌
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerSkillDone();
+		break;
+	}
 	case EVENT_TYPE::MONSTER_DIED:
 	{
 		// lParam :: Monster Object

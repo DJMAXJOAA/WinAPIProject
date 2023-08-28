@@ -11,6 +11,7 @@ CTurnCenter::CTurnCenter()
 	: m_CurrentTurn(TURN_TYPE::PLAYER_START)
 	, m_lstMoveRoute{}
 	, m_lstTarget{}
+	, m_iCombo(0)
 {
 }
 
@@ -28,7 +29,7 @@ void CTurnCenter::ChangeTurn(TURN_TYPE _type)
 	evn.eEvent = EVENT_TYPE::TURN_CHANGE;
 	evn.lParam = (DWORD_PTR)_type;
 
-	CEventMgr::GetInstance()->AddEvent(evn);
+	CEventMgr::GetInstance()->AddEventLate(evn);
 }
 
 void CTurnCenter::Update(CScene_Battle* _pScene)
@@ -86,7 +87,6 @@ void CTurnCenter::Update(CScene_Battle* _pScene)
 	break;
 	case TURN_TYPE::PLAYER_SKILL:
 	{
-		ChangeTurn(TURN_TYPE::PLAYER_START);
 		break;
 	}
 	case TURN_TYPE::ENEMY_MOVE:

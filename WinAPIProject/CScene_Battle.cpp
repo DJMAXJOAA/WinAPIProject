@@ -21,6 +21,7 @@
 #include "PlayerTurn_TileSelect.h"
 #include "PlayerTurn_Move.h"
 #include "PlayerTurn_Attack.h"
+#include "PlayerTurn_Skill.h"
 
 using namespace battle;
 static std::random_device rd;
@@ -49,6 +50,7 @@ CScene_Battle::CScene_Battle()
 	m_vecStates[(int)TURN_TYPE::PLAYER_TILESELECT] = new PlayerTurn_TileSelect;
 	m_vecStates[(int)TURN_TYPE::PLAYER_MOVE] = new PlayerTurn_Move;
 	m_vecStates[(int)TURN_TYPE::PLAYER_ATTACK] = new PlayerTurn_Attack;
+	m_vecStates[(int)TURN_TYPE::PLAYER_SKILL] = new PlayerTurn_Skill;
 }
 
 CScene_Battle::~CScene_Battle()
@@ -67,8 +69,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	{
 	case TURN_TYPE::ENTER:
 	{
-		// 디버깅
-		printf("배틀 씬 시작 초기화\n");
+		printf("CScene_Battle::TurnInit :: 배틀 씬 시작 초기화\n");
 		break;
 	}
 	case TURN_TYPE::PLAYER_START:
@@ -81,11 +82,15 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		list<Vec2>& moveRoute = m_TurnCenter->GetMoveRoute();
 		m_TileCenter->TileRouteInit(moveRoute);
 
-		// 캐릭터 애니메이션 초기화
+		// 캐릭터 상태 초기화
 		m_pPlayer->GetAnimator()->PlayType(L"front_idle", true);
+		m_pPlayer->SetAttacking(false);
 
 		// 리스트 초기화
 		m_TurnCenter->RouteInit();
+
+		// 콤보 초기화
+		m_TurnCenter->SetCombo(0);
 
 		// 상태 변경
 		SetBattleState(TURN_TYPE::PLAYER_TILESELECT);
@@ -93,8 +98,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 플레이어 애니메이션 설정
 		m_pPlayer->SetState(PLAYER_STATE::IDLE);
 
-		// 디버깅
-		printf("플레이어 턴 시작 초기화\n");
+		printf("CScene_Battle::TurnInit :: 플레이어 턴 시작 초기화\n");
 		break;
 	}
 	case TURN_TYPE::PLAYER_TILESELECT: break;
@@ -106,8 +110,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 상태 변경
 		SetBattleState(TURN_TYPE::PLAYER_MOVE);
 
-		// 디버깅
-		printf("플레이어 이동 시작 초기화\n");
+		printf("CScene_Battle::TurnInit :: 플레이어 이동 시작 초기화\n");
 		break;
 	}
 	case TURN_TYPE::PLAYER_ATTACK:
@@ -115,8 +118,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 상태 변경
 		SetBattleState(TURN_TYPE::PLAYER_ATTACK);
 
-		// 디버깅
-		printf("플레이어 공격 상태 초기화\n");
+		printf("CScene_Battle::TurnInit :: 플레이어 공격 상태 초기화\n");
 		break;
 	}
 	case TURN_TYPE::PLAYER_SKILL:
@@ -127,8 +129,37 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 검은 타일들(밟고 지나왔던 타일들) 랜덤 타일들로 리셋시키기
 		m_TileCenter->TileRandomInit();
 
-		// 디버깅
-		printf("플레이어 스킬 상태 초기화\n");
+		// BFS로 스킬 적중 대상 탐색
+		vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
+		list<CObject*>& lstMonsters = m_TurnCenter->GetTargetList();
+		m_BFS->BFS(m_pPlayer->GetGridPos(), vecTile, lstMonsters, DIRECTION::FOUR_WAY, 3);
+		printf("CScene_Battle::TurnInit :: BFS 탐색 결과 -> ");
+		for (list<CObject*>::iterator iter = lstMonsters.begin(); iter != lstMonsters.end(); iter++)
+		{
+			cout << *iter << ", ";
+		}
+		printf("\n");
+
+		// 만약 적중대상이 없거나 콤보가 5 이하라면, 다시 초기상태로 돌아감
+		if (lstMonsters.empty())
+		{
+			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 적중 대상이 없어서 돌아갑니다.\n");
+
+			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
+			return;
+		}
+		else if(m_TurnCenter->GetCombo() < 5)
+		{
+			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 콤보가 5 이하라서 스킬을 사용하지 않습니다.\n");
+
+			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
+			return;
+		}
+
+		// 상태 변경
+		SetBattleState(TURN_TYPE::PLAYER_SKILL);
+
+		printf("CScene_Battle::TurnInit :: 플레이어 스킬 상태 초기화\n");
 		break;
 	}
 	case TURN_TYPE::ENEMY_MOVE: break;
@@ -141,24 +172,57 @@ void CScene_Battle::PlayerAttackMonster(float _damage, CMonster* _pMon)
 {
 	_pMon->GetDamaged(_damage);
 
-	printf("적에게 %1.f 데미지를 주는 이벤트\n", _damage);
+	printf("CScene_Battle::PlayerAttackMonster :: 적에게 %1.f 데미지로 공격 ->", _damage);
+	cout << _pMon << "\n";
 }
 
 void CScene_Battle::PlayerAttackDone()
 {
 	list<CObject*>& list = m_TurnCenter->GetTargetList();
+	m_pPlayer->SetAttacking(false);
+
 	if (list.empty())
 	{
-		printf("리스트가 비었습니다.\n");
+		printf("CScene_Battle::PlayerAttackDone :: 리스트가 비었습니다.\n");
 		return;
 	}
 	else
 	{
-		printf("타겟 리스트를 하나 삭제합니다.\n");
-		list.pop_back();
+		printf("CScene_Battle::PlayerAttackDone :: 타겟 리스트를 하나 삭제합니다 ->");
+		cout << list.front() << "를 삭제했습니다. \n";
+		list.pop_front();
 		return;
 	}
+}
 
+void CScene_Battle::PlayerSkillCasted(float _value)
+{
+	list<CObject*>& list = m_TurnCenter->GetTargetList();
+	if (list.empty())
+	{
+		printf("CScene_Battle::PlayerSkillCasted :: 리스트가 비었습니다.\n");
+		return;
+	}
+	else
+	{
+		printf("CScene_Battle::PlayerSkillCasted :: 리스트 대상에게 스킬을 시전합니다.\n");
+		printf("CScene_Battle::PlayerSkillCasted :: 적들에게 %1.f 데미지로 스킬 시전 ->", _value);
+		for (auto iter = list.begin(); iter != list.end(); iter++)
+		{
+			((CMonster*)*iter)->GetDamaged(_value);
+		}
+
+		list.clear();
+		return;
+	}
+}
+
+void CScene_Battle::PlayerSkillDone()
+{
+	m_pPlayer->SetAttacking(false);
+	m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
+
+	printf("CScene_Battle::PlayerSkillDone :: 스킬이 종료되었습니다.\n");
 }
 
 void CScene_Battle::MonsterDied(CMonster* _pObj)
@@ -168,7 +232,7 @@ void CScene_Battle::MonsterDied(CMonster* _pObj)
 
 	vecTiles[(int)GridPos.y][(int)GridPos.x].pObj = nullptr;
 
-	printf("%d, %d 타일 위의 오브젝트를 초기화 시켰습니다.\n", (int)GridPos.x, (int)GridPos.y);
+	printf("CScene_Battle::MonsterDied :: %d, %d 타일 위의 오브젝트를 초기화 시켰습니다.\n", (int)GridPos.x, (int)GridPos.y);
 }
 
 void CScene_Battle::TileSelectTrigger(CObject* _pObj)
@@ -206,9 +270,12 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 			// 턴 변경
 			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_TILESELECT);
 
+			// 타일 콤보 추가
+			m_TurnCenter->SetCombo(1);
+
 			// 디버깅
 			DEBUG2(selectPos.x, selectPos.y);
-			printf("타일 그리기 시작\n");
+			printf("CScene_Battle::TileSelectTrigger :: 타일 그리기 시작\n");
 		}
 	}
 		break;
@@ -221,8 +288,9 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 		// 중복된 위치는 리스트에 들어가지 못하게 설정
 		list<Vec2>& moveRoute = m_TurnCenter->GetMoveRoute();
 		auto iter = std::find(moveRoute.begin(), moveRoute.end(), selectPos);
+
 		if (m_TileCenter->IsVisited(selectPos) &&
-			/*m_TileCenter->GetTile(selectPos)->GetTileState() == m_TurnCenter->GetTileColor() &&*/
+			m_TileCenter->GetTile(selectPos)->GetTileState() == m_TurnCenter->GetTileColor() &&
 			m_TileCenter->GetObj(selectPos) == nullptr &&
 			iter == moveRoute.end())
 		{
@@ -236,7 +304,11 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 			moveRoute.push_back(selectPos);
 			tile->SetTileState((TILE_STATE)((int)tile->GetTileState() + 4));
 
+			// 타일 콤보 추가
+			m_TurnCenter->SetCombo(m_TurnCenter->GetCombo() + 1);
+
 			// 디버깅
+			printf("%d 콤보 :: ", m_TurnCenter->GetCombo());
 			for (auto& lstPos : moveRoute) printf("%1.f, %1.f -> ", lstPos.x, lstPos.y);
 			printf("\n");
 		}
