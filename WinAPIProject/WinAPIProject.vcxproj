@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="AnimationData.h" />
     <ClInclude Include="AnimatorData.h" />
+    <ClInclude Include="AstarSearch.h" />
     <ClInclude Include="Barrier.h" />
     <ClInclude Include="BFSSearch.h" />
     <ClInclude Include="CAnimationGDIplus.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CToolTest.h" />
     <ClInclude Include="CToolTest2.h" />
+    <ClInclude Include="EnemyTurn_Move.h" />
     <ClInclude Include="EnterBattle.h" />
     <ClInclude Include="FieldData.h" />
     <ClInclude Include="FriendlyHeal.h" />
@@ -216,6 +218,7 @@
   <ItemGroup>
     <ClCompile Include="AnimationData.cpp" />
     <ClCompile Include="AnimatorData.cpp" />
+    <ClCompile Include="AstarSearch.cpp" />
     <ClCompile Include="Barrier.cpp" />
     <ClCompile Include="BFSSearch.cpp" />
     <ClCompile Include="CAnimation.cpp" />
@@ -258,6 +261,7 @@
     <ClCompile Include="CToolTest2.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIMgr.cpp" />
+    <ClCompile Include="EnemyTurn_Move.cpp" />
     <ClCompile Include="EnterBattle.cpp" />
     <ClCompile Include="FieldData.cpp" />
     <ClCompile Include="FriendlyHeal.cpp" />

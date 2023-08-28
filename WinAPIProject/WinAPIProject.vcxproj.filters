@@ -143,9 +143,6 @@
     <Filter Include="Engine\10. BattleCenter">
       <UniqueIdentifier>{0fe27184-e16a-4fee-a6ff-be334eb2ef40}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\10. BattleCenter\BFS">
-      <UniqueIdentifier>{cfb9ef22-914b-479c-be9e-ff766f22293c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\08. Module\Strategy">
       <UniqueIdentifier>{97b4b74d-4b18-47ad-b576-f7354bf1c4f9}</UniqueIdentifier>
     </Filter>
@@ -229,6 +226,15 @@
     </Filter>
     <Filter Include="Engine\10. BattleCenter\BattleState\PlayerTurn_Skill">
       <UniqueIdentifier>{cef5ac37-af6a-4d84-b283-bda29d9e0e5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\BattleState\EnemyTurn_Move">
+      <UniqueIdentifier>{12f8d7ad-31a8-43ec-874f-042b3def05ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\A%2a_Search">
+      <UniqueIdentifier>{619e9551-203b-4c84-8ce4-78f0e90373f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\BFS_Seacrh">
+      <UniqueIdentifier>{cfb9ef22-914b-479c-be9e-ff766f22293c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -402,7 +408,7 @@
       <Filter>Engine\08. Module\Strategy\MonsterMove\Barrier</Filter>
     </ClInclude>
     <ClInclude Include="BFSSearch.h">
-      <Filter>Engine\10. BattleCenter\BFS</Filter>
+      <Filter>Engine\10. BattleCenter\BFS_Seacrh</Filter>
     </ClInclude>
     <ClInclude Include="CTurnManager.h">
       <Filter>Engine\10. BattleCenter\TurnCenter</Filter>
@@ -454,6 +460,12 @@
     </ClInclude>
     <ClInclude Include="PlayerTurn_Skill.h">
       <Filter>Engine\10. BattleCenter\BattleState\PlayerTurn_Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTurn_Move.h">
+      <Filter>Engine\10. BattleCenter\BattleState\EnemyTurn_Move</Filter>
+    </ClInclude>
+    <ClInclude Include="AstarSearch.h">
+      <Filter>Engine\10. BattleCenter\A%2a_Search</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -606,7 +618,7 @@
       <Filter>Engine\08. Module\Strategy\MonsterMove\Barrier</Filter>
     </ClCompile>
     <ClCompile Include="BFSSearch.cpp">
-      <Filter>Engine\10. BattleCenter\BFS</Filter>
+      <Filter>Engine\10. BattleCenter\BFS_Seacrh</Filter>
     </ClCompile>
     <ClCompile Include="CTileManager.cpp">
       <Filter>Engine\10. BattleCenter\TileCenter</Filter>
@@ -655,6 +667,12 @@
     </ClCompile>
     <ClCompile Include="PlayerTurn_Skill.cpp">
       <Filter>Engine\10. BattleCenter\BattleState\PlayerTurn_Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTurn_Move.cpp">
+      <Filter>Engine\10. BattleCenter\BattleState\EnemyTurn_Move</Filter>
+    </ClCompile>
+    <ClCompile Include="AstarSearch.cpp">
+      <Filter>Engine\10. BattleCenter\A%2a_Search</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

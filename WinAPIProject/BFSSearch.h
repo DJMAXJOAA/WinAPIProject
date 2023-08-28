@@ -3,6 +3,9 @@
 
 class BFSSearch
 {
+private:
+	vector<vector<Vec2>>	m_vecDirection;
+
 public:
 	BFSSearch();
 	~BFSSearch();

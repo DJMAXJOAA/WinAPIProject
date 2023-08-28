@@ -17,9 +17,9 @@ CMapGenerator::~CMapGenerator()
 {
 }
 
-vector<Node*> CMapGenerator::CreateStartPos(const vector<vector<int>>& _vecMap)
+vector<MapNode*> CMapGenerator::CreateStartPos(const vector<vector<int>>& _vecMap)
 {
-    vector<Node*> result{};
+    vector<MapNode*> result{};
     // 첫 시작점 노드을 Node* head로 이어진 길들을 경로 탐색 후 추가
     for (int y = 0; y < HEIGHT * 2 - 1; y++) {
         if (_vecMap[y][0] >= 4) {
@@ -110,13 +110,13 @@ vector<vector<int>> CMapGenerator::CreateRandomMap()
     return grid;
 }
 
-Node* CMapGenerator::CreatePath(int x, int y, const vector<vector<int>>& _vecMap)
+MapNode* CMapGenerator::CreatePath(int x, int y, const vector<vector<int>>& _vecMap)
 {
     // 재귀로 노드 생성
 
     if (x < 0 || x >= WIDTH * 2 - 1 || y < 0 || y >= HEIGHT * 2 - 1) return nullptr;
 
-    Node* node = new Node();
+    MapNode* node = new MapNode();
     node->x = x;
     node->y = y;
     node->value = _vecMap[y][x];

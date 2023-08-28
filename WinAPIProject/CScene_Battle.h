@@ -6,6 +6,7 @@ class CPlayer;
 class CMonster;
 
 class BFSSearch;
+class AstarSearch;
 class CMonsterSpawner;
 class CTurnCenter;
 class CTileCenter;
@@ -26,6 +27,7 @@ private:
     vector<CBattleState*>   m_vecStates;        // 스테이트 패턴들
 
     BFSSearch*              m_BFS;              // BFS로 격자맵 경로 탐색
+    AstarSearch*            m_Astar;            // A*로 최단경로 탐색
     CMonsterSpawner*        m_MonsterSpawner;   // 몬스터 관리
     CTurnCenter*            m_TurnCenter;       // 조건에 따라 턴 전환, 턴 관련 변수들
     CTileCenter*            m_TileCenter;       // 타일 관리

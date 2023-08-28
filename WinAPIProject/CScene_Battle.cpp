@@ -13,6 +13,7 @@
 #include "CAnimation.h"
 
 #include "BFSSearch.h"
+#include "AstarSearch.h"
 #include "CTurnManager.h"
 #include "CTileManager.h"
 #include "CMonsterSpawner.h"
@@ -34,6 +35,7 @@ CScene_Battle::CScene_Battle()
 	, m_FieldType(FIELD_TYPE::COMMON)
 	, m_vecStates((int)TURN_TYPE::EXIT)
 	, m_BFS(nullptr)
+	, m_Astar(nullptr)
 	, m_MonsterSpawner(nullptr)
 	, m_TurnCenter(nullptr)
 	, m_TileCenter(nullptr)
@@ -45,7 +47,9 @@ CScene_Battle::CScene_Battle()
 	m_BFS = new BFSSearch;
 	m_MonsterSpawner = new CMonsterSpawner;
 	m_TileCenter = new CTileCenter;
+	m_Astar = new AstarSearch;
 
+	// 씬의 State들을 추가
 	m_vecStates[(int)TURN_TYPE::ENTER] = new EnterBattle;
 	m_vecStates[(int)TURN_TYPE::PLAYER_TILESELECT] = new PlayerTurn_TileSelect;
 	m_vecStates[(int)TURN_TYPE::PLAYER_MOVE] = new PlayerTurn_Move;
@@ -59,6 +63,7 @@ CScene_Battle::~CScene_Battle()
 	delete m_MonsterSpawner;
 	delete m_TurnCenter;
 	delete m_TileCenter;
+	delete m_Astar;
 
 	SafeDeleteVec(m_vecStates);
 }
@@ -88,6 +93,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 
 		// 리스트 초기화
 		m_TurnCenter->RouteInit();
+		m_TurnCenter->GetTargetList().clear();
 
 		// 콤보 초기화
 		m_TurnCenter->SetCombo(0);
@@ -140,7 +146,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		}
 		printf("\n");
 
-		// 만약 적중대상이 없거나 콤보가 5 이하라면, 다시 초기상태로 돌아감
+		// 만약 적중대상이 없거나 콤보가 4 이하라면, 다시 초기상태로 돌아감
 		if (lstMonsters.empty())
 		{
 			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 적중 대상이 없어서 돌아갑니다.\n");
@@ -148,9 +154,9 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
 			return;
 		}
-		else if(m_TurnCenter->GetCombo() < 5)
+		else if(m_TurnCenter->GetCombo() < 4)
 		{
-			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 콤보가 5 이하라서 스킬을 사용하지 않습니다.\n");
+			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 콤보가 4 이하라서 스킬을 사용하지 않습니다.\n");
 
 			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
 			return;
@@ -290,7 +296,7 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 		auto iter = std::find(moveRoute.begin(), moveRoute.end(), selectPos);
 
 		if (m_TileCenter->IsVisited(selectPos) &&
-			m_TileCenter->GetTile(selectPos)->GetTileState() == m_TurnCenter->GetTileColor() &&
+			/*m_TileCenter->GetTile(selectPos)->GetTileState() == m_TurnCenter->GetTileColor() &&*/
 			m_TileCenter->GetObj(selectPos) == nullptr &&
 			iter == moveRoute.end())
 		{
