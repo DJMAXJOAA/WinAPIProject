@@ -15,6 +15,7 @@ public:
 public:
 	void Init();
 	void TileRouteInit(list<Vec2>& _tileList);
+	void TileVisitedInit();
 	void TileRandomInit();
 
 public:

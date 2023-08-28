@@ -10,7 +10,7 @@ vector<Vec2> AstarSearch::AStar(vector<vector<TileState>>& vecTiles, pair<Vec2, 
     priority_queue<Node*, vector<Node*>, CompareNode> openSet;
     Node startNode(_startPos);
 
-    startNode.fHeuristic = m_fWeight * Node::Heuristic(_startPos, _endPos);
+    startNode.fHeuristic = m_fWeight * Node::Heuristic(_startPos, _endPos) + startNode.fCost;
     openSet.push(new Node(startNode));
 
     while (!openSet.empty()) {
@@ -21,10 +21,13 @@ vector<Vec2> AstarSearch::AStar(vector<vector<TileState>>& vecTiles, pair<Vec2, 
             vector<Vec2> vec2Path;
             for (Node* node = current; node != nullptr; node = node->pParent) {
                 vec2Path.push_back(Vec2(node->x, node->y));
-                delete node; 
             }
+            // Node 삭제 부분은 빼는 것이 좋습니다.
             return vec2Path;
         }
+
+        // Set the tile as visited
+        vecTiles[current->x][current->y].bVisited = true;
 
         for (int dx = -1; dx <= 1; ++dx) {
             for (int dy = -1; dy <= 1; ++dy) {
@@ -35,11 +38,11 @@ vector<Vec2> AstarSearch::AStar(vector<vector<TileState>>& vecTiles, pair<Vec2, 
                     if (vecTiles[x][y].bVisited) continue;
 
                     float tentativeCost = float(current->fCost + sqrt(dx * dx + dy * dy));
-                    if (tentativeCost > _move) continue; 
+                    if (tentativeCost > _move) continue;
 
                     Node* neighbor = new Node(x, y, tentativeCost, current);
                     Vec2 neighborVec2(x, y);
-                    neighbor->fHeuristic = m_fWeight * Node::Heuristic(neighborVec2, _endPos);
+                    neighbor->fHeuristic = neighbor->fCost + m_fWeight * Node::Heuristic(neighborVec2, _endPos);
                     openSet.push(neighbor);
                 }
             }

@@ -22,18 +22,6 @@ bool BFSSearch::isValid(Vec2 _vPos, const vector<vector<TileState>>& _vecTiles)
 		!_vecTiles[(int)_vPos.y][(int)_vPos.x].bVisited);
 }
 
-void BFSSearch::BFS_Init(vector<vector<TileState>>& _vecTiles)
-{
-	// BFS의 방문 초기화
-	for (size_t i = 0; i < _vecTiles.size(); i++)
-	{
-		for (size_t j = 0; j < _vecTiles[i].size(); j++)
-		{
-			_vecTiles[j][i].bVisited = false;
-		}
-	}
-}
-
 void BFSSearch::BFS(Vec2 _startPos, vector<vector<TileState>>& _vecTiles, list<CObject*>& _lstTarget, DIRECTION _dir, int _depth)
 {
 	vector<Vec2> direction{};		// 탐색 방향

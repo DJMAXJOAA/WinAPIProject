@@ -12,7 +12,7 @@ private:
     {
         bool operator() (Node* a, Node* b)
         {
-            return (a->fCost + a->fHeuristic > b->fCost > b->fHeuristic);
+            return (a->fCost + a->fHeuristic) > (b->fCost + b->fHeuristic);
         }
     };
 

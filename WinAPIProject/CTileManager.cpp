@@ -35,6 +35,17 @@ void CTileCenter::TileRouteInit(list<Vec2>& _tileList)
 	}
 }
 
+void CTileCenter::TileVisitedInit()
+{
+	for (int y = 0; y < m_vecTileState.size(); y++)
+	{
+		for (int x = 0; x < m_vecTileState[y].size(); x++)
+		{
+			m_vecTileState[y][x].bVisited = false;
+		}
+	}
+}
+
 void CTileCenter::TileRandomInit()
 {
 	for (int y = 0; y < m_vecTileState.size(); y++)

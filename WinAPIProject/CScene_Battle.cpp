@@ -23,6 +23,7 @@
 #include "PlayerTurn_Move.h"
 #include "PlayerTurn_Attack.h"
 #include "PlayerTurn_Skill.h"
+#include "EnemyTurn_Move.h"
 
 using namespace battle;
 static std::random_device rd;
@@ -55,6 +56,7 @@ CScene_Battle::CScene_Battle()
 	m_vecStates[(int)TURN_TYPE::PLAYER_MOVE] = new PlayerTurn_Move;
 	m_vecStates[(int)TURN_TYPE::PLAYER_ATTACK] = new PlayerTurn_Attack;
 	m_vecStates[(int)TURN_TYPE::PLAYER_SKILL] = new PlayerTurn_Skill;
+	m_vecStates[(int)TURN_TYPE::ENEMY_MOVE] = new EnemyTurn_Move;
 }
 
 CScene_Battle::~CScene_Battle()
@@ -94,7 +96,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 리스트 초기화
 		m_TurnCenter->RouteInit();
 		m_TurnCenter->GetTargetList().clear();
-		m_BFS->BFS_Init(m_TileCenter->GetTiles());
+		m_TileCenter->TileVisitedInit();
 
 		// 콤보 초기화
 		m_TurnCenter->SetCombo(0);
@@ -152,14 +154,16 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		{
 			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 적중 대상이 없어서 돌아갑니다.\n");
 
-			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
+			SetBattleState(TURN_TYPE::ENEMY_MOVE);
+			m_TurnCenter->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
 			return;
 		}
 		else if(m_TurnCenter->GetCombo() < 4)
 		{
 			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 콤보가 4 이하라서 스킬을 사용하지 않습니다.\n");
 
-			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
+			SetBattleState(TURN_TYPE::ENEMY_MOVE);
+			m_TurnCenter->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
 			return;
 		}
 
@@ -169,7 +173,11 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		printf("CScene_Battle::TurnInit :: 플레이어 스킬 상태 초기화\n");
 		break;
 	}
-	case TURN_TYPE::ENEMY_MOVE: break;
+	case TURN_TYPE::ENEMY_MOVE:
+	{
+		printf("CScene_Battle::TurnInit :: 적 이동 상태 초기화\n");
+		break;
+	}
 	case TURN_TYPE::ENEMY_ATTACK: break;
 	case TURN_TYPE::EXIT: break;
 	}
@@ -227,7 +235,8 @@ void CScene_Battle::PlayerSkillCasted(float _value)
 void CScene_Battle::PlayerSkillDone()
 {
 	m_pPlayer->SetAttacking(false);
-	m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
+	SetBattleState(TURN_TYPE::ENEMY_MOVE);
+	m_TurnCenter->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
 
 	printf("CScene_Battle::PlayerSkillDone :: 스킬이 종료되었습니다.\n");
 }
@@ -326,7 +335,7 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 	}
 
 	// BFS 방문 초기화
-	m_BFS->BFS_Init(vecTiles);
+	m_TileCenter->TileVisitedInit();
 }
 
 void CScene_Battle::Update()
@@ -363,8 +372,6 @@ void CScene_Battle::Update()
 	
 	//// 몬스터 관리 배열 업데이트 (사망 예정인 오브젝트들을 삭제)
 	m_MonsterSpawner->Update();
-	
-	cout << m_MonsterSpawner->GetMonsterList().size() ;
 }
 
 void CScene_Battle::Enter()

@@ -87,6 +87,7 @@ void CTurnCenter::Update(CScene_Battle* _pScene)
 	break;
 	case TURN_TYPE::PLAYER_SKILL:
 	{
+		// 캐릭터의 스킬 동작이 끝나면, 배틀 씬에서 이벤트를 받아서 턴을 넘겨준다
 		break;
 	}
 	case TURN_TYPE::ENEMY_MOVE:

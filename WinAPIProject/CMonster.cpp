@@ -59,7 +59,7 @@ CMonster::~CMonster()
 MONSTER_STRATEGY CMonster::RandomPattern()
 {
 	// 배열 내 랜덤 패턴을 반환, 패턴 설정
-	std::uniform_int_distribution<int> distr(0, (int)m_vecStrategy.size());
+	std::uniform_int_distribution<int> distr(0, (int)m_vecStrategy.size() - 1);
 	MONSTER_STRATEGY pattern = m_vecStrategy[distr(gen)];
 	m_currentStrategy = pattern;
 

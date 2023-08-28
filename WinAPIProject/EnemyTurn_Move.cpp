@@ -12,13 +12,13 @@
 #include "Monster_Teleport.h"
 
 EnemyTurn_Move::EnemyTurn_Move()
-	: m_vecStrategies{}
+	: m_vecStrategies(6)
 	, m_MonsterStrategy(nullptr)
 {
-	m_vecStrategies.push_back(new Monster_Trace);
-	m_vecStrategies.push_back(new Monster_RandomMove);
-	m_vecStrategies.push_back(new Monster_SelfHeal);
-	m_vecStrategies.push_back(new Monster_Teleport);
+	m_vecStrategies[(int)MONSTER_STRATEGY::TRACE] = new Monster_Trace;
+	m_vecStrategies[(int)MONSTER_STRATEGY::RANDOM_MOVE] = new Monster_RandomMove;
+	m_vecStrategies[(int)MONSTER_STRATEGY::SELF_HEAL] = new Monster_SelfHeal;
+	m_vecStrategies[(int)MONSTER_STRATEGY::RANDOM_TELEPORT] = new Monster_Teleport;
 }
 
 EnemyTurn_Move::~EnemyTurn_Move()
@@ -38,6 +38,9 @@ void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 
 		// 몬스터가 가지고 있는 패턴들을 랜덤으로 패턴을 뽑아서, 로직을 실행시킴
 		m_MonsterStrategy = m_vecStrategies[(int)monster->RandomPattern()];
-		m_MonsterStrategy->Handle(_pScene, monster);
+		if(m_MonsterStrategy != nullptr)
+		{
+			m_MonsterStrategy->Handle(_pScene, monster);
+		}
 	}
 }
