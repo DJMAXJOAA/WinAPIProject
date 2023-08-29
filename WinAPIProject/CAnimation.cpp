@@ -73,7 +73,16 @@ void CAnimation::Render(HDC hdc)
 	CObject* pObj = m_pAnimator->GetObj();
 	Vec2 vPos = pObj->GetPos();
 
-	vPos += m_vecFrame[m_iCurFrame].vOffset; // offset만큼 추가 이동위치 (피벗 설정)
+	// 피벗 설정
+	if (m_bFlip)
+	{
+		vPos.x -= m_vecFrame[m_iCurFrame].vOffset.x;
+		vPos.y += m_vecFrame[m_iCurFrame].vOffset.y;
+	}
+	else
+	{
+		vPos += m_vecFrame[m_iCurFrame].vOffset;
+	}
 
 	// 렌더링 좌표로 변경
 	vPos = CCamera::GetInstance()->GetRenderPos(vPos);

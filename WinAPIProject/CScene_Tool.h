@@ -28,6 +28,7 @@ public:
     void AddOffset(Vec2 _value);
     void PrevFrame();
     void NextFrame();
+    void Flip();
     void SaveAnimation();
 
 public:

@@ -973,12 +973,12 @@
     },
     {
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.11999999731779099,
             "EventFrame": 0,
             "Frame": 6,
             "Offset": [
-                7.0,
-                -60.0
+                1.0,
+                -54.0
             ],
             "Pos": [
                 0.0,
@@ -1000,12 +1000,12 @@
     },
     {
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.11999999731779099,
             "EventFrame": 0,
             "Frame": 4,
             "Offset": [
-                37.0,
-                -82.0
+                27.0,
+                -77.0
             ],
             "Pos": [
                 0.0,
@@ -1027,12 +1027,12 @@
     },
     {
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.11999999731779099,
             "EventFrame": 4,
             "Frame": 8,
             "Offset": [
-                -12.0,
-                -81.0
+                -1.0,
+                -79.0
             ],
             "Pos": [
                 0.0,
@@ -1216,7 +1216,7 @@
     },
     {
         "AnimationInfo": {
-            "Duration": 0.119999997317791,
+            "Duration": 0.11999999731779099,
             "EventFrame": 0,
             "Frame": 6,
             "Offset": [
@@ -1243,12 +1243,12 @@
     },
     {
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.11999999731779099,
             "EventFrame": 0,
             "Frame": 6,
             "Offset": [
-                -3.0,
-                -69.0
+                -1.0,
+                -65.0
             ],
             "Pos": [
                 0.0,
@@ -1270,12 +1270,12 @@
     },
     {
         "AnimationInfo": {
-            "Duration": 0.12,
+            "Duration": 0.11999999731779099,
             "EventFrame": 0,
             "Frame": 4,
             "Offset": [
-                -3.0,
-                -65.0
+                3.0,
+                -60.0
             ],
             "Pos": [
                 0.0,
@@ -1297,12 +1297,12 @@
     },
     {
         "AnimationInfo": {
-            "Duration": 0.100000001490116,
+            "Duration": 0.10000000149011612,
             "EventFrame": 5,
             "Frame": 11,
             "Offset": [
-                -41.0,
-                -32.0
+                -35.0,
+                -30.0
             ],
             "Pos": [
                 0.0,

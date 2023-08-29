@@ -128,7 +128,7 @@ void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 					m_TileCenter->TileVisitedInit();
 
 					// 몬스터 초기화
-					monster->GetAnimator()->PlayType(L"front_idle", true);
+					monster->AnimationDirection(L"idle", true);
 					printf("도착 -> %1.f, %1.f\n", monster->GetGridPos().x, monster->GetGridPos().y);
 					continue;
 				}

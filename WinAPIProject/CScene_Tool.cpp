@@ -84,6 +84,20 @@ void CScene_Tool::NextFrame()
 	DEBUG1(m_iCurrentAnimation);
 }
 
+void CScene_Tool::Flip()
+{
+	CAnimation* test = m_pObj->GetAnimator()->GetAnimation();
+	if (test->isFliped())
+	{
+		test->SetFlip(false);
+	}
+	else
+	{
+		test->SetFlip(true);
+	}
+	
+}
+
 void CScene_Tool::SaveAnimation()
 {
 	AnimationData* data = (AnimationData*)CDataMgr::GetInstance()->FindData(m_pDisplay->GetAnimator()->GetAnimation()->GetID());
@@ -115,6 +129,10 @@ void CScene_Tool::Update()
 	if (KEY_TAP(KEY::X))
 	{
 		NextFrame();
+	}
+	if (KEY_TAP(KEY::C))
+	{
+		Flip();
 	}
 
 	if (KEY_TAP(KEY::LBTN))

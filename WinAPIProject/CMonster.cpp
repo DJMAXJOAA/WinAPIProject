@@ -292,7 +292,6 @@ void CMonster::Died()
 
 void CMonster::Update()
 {
-	cout << GetAnimator()->GetAnimation()->GetEventFrame();
 	GetAnimator()->Update();
 }
 
