@@ -88,15 +88,11 @@ void CScene_Robby::Enter()
 				int y = HeightMargin + (j * (64 + vertical_gap));
 
 				CBtnUI_Stage* pBtnUI = m_mapGridBtn[Vec2(i, j)];
-				if (pBtnUI)
-				{
-					pBtnUI->SetName(L"ChildUI");
-					pBtnUI->SetScale(Vec2(64.f, 64.f));
-					pBtnUI->SetPos(Vec2(x, y));
+				pBtnUI->SetName(L"ChildUI");
+				pBtnUI->SetScale(Vec2(64.f, 64.f));
+				pBtnUI->SetPos(Vec2(x, y));
 
-					AddObject(pBtnUI, GROUP_TYPE::UI);
-					/*pPanelUI->AddChild(pBtnUI);*/
-				}
+				pPanelUI->AddChild(pBtnUI);
 			}
 		}
 	}
