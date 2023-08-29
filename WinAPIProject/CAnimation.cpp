@@ -16,6 +16,7 @@ CAnimation::CAnimation()
 	, m_bFinish(false)
 	, m_iID(0)
 	, m_bFlip(false)
+	, m_iEventFrame(0)
 {
 }
 
@@ -30,6 +31,7 @@ CAnimation::CAnimation(const CAnimation& _origin)
 	, m_bFinish(_origin.m_bFinish)
 	, m_bFlip(_origin.m_bFlip)
 	, m_iID(_origin.m_iID)
+	, m_iEventFrame(_origin.m_iEventFrame)
 {
 
 }
@@ -75,21 +77,6 @@ void CAnimation::Render(HDC hdc)
 
 	// 렌더링 좌표로 변경
 	vPos = CCamera::GetInstance()->GetRenderPos(vPos);
-
-	// 목적지DC, 렌더링시작좌표, 렌더링표시 너비-높이, 텍스쳐dc, 
-	// 원본텍스쳐에서 시작지점좌표, 원본텍스쳐 너비-높이, 컬러키)
-	//TransparentBlt(hdc
-	//	, (int)(vPos.x - m_vecFrame[m_iCurFrame].vSlice.x / 2.f)
-	//	, (int)(vPos.y - m_vecFrame[m_iCurFrame].vSlice.y / 2.f)
-	//	, (int)m_vecFrame[m_iCurFrame].vSlice.x
-	//	, (int)m_vecFrame[m_iCurFrame].vSlice.y
-	//	, m_pTex->GetDC()
-	//	, (int)m_vecFrame[m_iCurFrame].vLeftTop.x
-	//	, (int)m_vecFrame[m_iCurFrame].vLeftTop.y
-	//	, (int)m_vecFrame[m_iCurFrame].vSlice.x
-	//	, (int)m_vecFrame[m_iCurFrame].vSlice.y
-	//	, RGB(255, 0, 255)
-	//);
 
 	int iRenderStartX = (int)m_vecFrame[m_iCurFrame].vLeftTop.x;
 	int iRenderWidth = (int)m_vecFrame[m_iCurFrame].vSlice.x;

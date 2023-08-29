@@ -136,12 +136,36 @@ void CEventMgr::Excute(const tEvent& _eve)
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerSkillDone();
 		break;
 	}
+	case EVENT_TYPE::MONSTER_ATTACK:
+	{
+		// lParam :: Monster Attack Damage
+		// 애니메이션의 특정 프레임(공격 프레임)에서 호출되서, 게임센터에 캐릭터의 데미지를 전송
+		float fValue = (float)_eve.lParam;
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->MonsterAttackPlayer(fValue);
+		break;
+	}
+	case EVENT_TYPE::MONSTER_ATTACK_DONE:
+	{
+		// lParam :: Monster Object
+		// 애니메이션이 끝나면, 리스트를 지워줌
+		CMonster* pObj = (CMonster*)_eve.lParam;
+
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->MonsterAttackDone(pObj);
+		break;
+	}
 	case EVENT_TYPE::MONSTER_DIED:
 	{
 		// lParam :: Monster Object
 		// 애니메이션이 끝나면, 리스트를 지워줌
 		CMonster* pObj = (CMonster*)_eve.lParam;
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->MonsterDied(pObj);
+		break;
+	}
+	case EVENT_TYPE::PLAYER_DIED:
+	{
+		// lParam :: Monster Object
+		// 애니메이션이 끝나면, 리스트를 지워줌
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerDied();
 		break;
 	}
 	case EVENT_TYPE::END:

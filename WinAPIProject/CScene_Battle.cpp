@@ -81,6 +81,9 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	}
 	case TURN_TYPE::PLAYER_START:
 	{
+		// 상태 변경
+		SetBattleState(TURN_TYPE::PLAYER_TILESELECT);
+
 		// 카메라 캐릭터로 초기화
 		CCamera::GetInstance()->SetTarget(nullptr);
 		CCamera::GetInstance()->SetLookAt(m_pPlayer->GetPos());
@@ -90,7 +93,8 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		m_TileCenter->TileRouteInit(moveRoute);
 
 		// 캐릭터 상태 초기화
-		m_pPlayer->GetAnimator()->PlayType(L"front_idle", true);
+		m_pPlayer->SetState(PLAYER_STATE::IDLE);
+		m_pPlayer->AnimationDirection(PLAYER_STATE::IDLE, true);
 		m_pPlayer->SetAttacking(false);
 
 		// 리스트 초기화
@@ -101,9 +105,6 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 콤보 초기화
 		m_TurnCenter->SetCombo(0);
 
-		// 상태 변경
-		SetBattleState(TURN_TYPE::PLAYER_TILESELECT);
-
 		// 플레이어 애니메이션 설정
 		m_pPlayer->SetState(PLAYER_STATE::IDLE);
 
@@ -113,11 +114,11 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	case TURN_TYPE::PLAYER_TILESELECT: break;
 	case TURN_TYPE::PLAYER_MOVE:
 	{
-		// 카메라 플레이어로 타겟 변경
-		CCamera::GetInstance()->SetTarget(m_pPlayer);
-
 		// 상태 변경
 		SetBattleState(TURN_TYPE::PLAYER_MOVE);
+
+		// 카메라 플레이어로 타겟 변경
+		CCamera::GetInstance()->SetTarget(m_pPlayer);
 
 		printf("CScene_Battle::TurnInit :: 플레이어 이동 시작 초기화\n");
 		break;
@@ -132,6 +133,9 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	}
 	case TURN_TYPE::PLAYER_SKILL:
 	{
+		// 상태 변경
+		SetBattleState(TURN_TYPE::PLAYER_SKILL);
+
 		// 카메라 타겟 해제
 		CCamera::GetInstance()->SetTarget(nullptr);
 
@@ -154,21 +158,16 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		{
 			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 적중 대상이 없어서 돌아갑니다.\n");
 
-			SetBattleState(TURN_TYPE::ENEMY_MOVE);
 			m_TurnCenter->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
 			return;
 		}
-		else if(m_TurnCenter->GetCombo() < 4)
+		else if (m_TurnCenter->GetCombo() < 4)
 		{
 			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 콤보가 4 이하라서 스킬을 사용하지 않습니다.\n");
 
-			SetBattleState(TURN_TYPE::ENEMY_MOVE);
 			m_TurnCenter->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
 			return;
 		}
-
-		// 상태 변경
-		SetBattleState(TURN_TYPE::PLAYER_SKILL);
 
 		printf("CScene_Battle::TurnInit :: 플레이어 스킬 상태 초기화\n");
 		break;
@@ -180,12 +179,10 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 
 		// 플레이어 초기화
 		m_pPlayer->SetState(PLAYER_STATE::IDLE);
-		m_pPlayer->GetAnimator()->PlayType(L"front_idle", true);
+		m_pPlayer->AnimationDirection(PLAYER_STATE::IDLE, true);
 
 		// 플레이어 타겟 삭제
 		m_pPlayer->SetTarget(nullptr);
-
-
 
 		printf("CScene_Battle::TurnInit :: 적 이동 상태 초기화\n");
 		break;
@@ -252,6 +249,22 @@ void CScene_Battle::PlayerSkillDone()
 	printf("CScene_Battle::PlayerSkillDone :: 스킬이 종료되었습니다.\n");
 }
 
+void CScene_Battle::MonsterAttackPlayer(float _damage)
+{
+	m_pPlayer->GetDamaged(_damage);
+
+	printf("CScene_Battle::MonsterAttackPlayer :: 몬스터가 플레이어에게 %1.f 데미지로 공격 ->", _damage);
+	cout << m_pPlayer << "\n";
+}
+
+void CScene_Battle::MonsterAttackDone(CMonster* _pMon)
+{
+	_pMon->SetActing(true);
+	_pMon->GetAnimator()->PlayType(L"front_idle", true);
+
+	printf("CScene_Battle::MonsterAttackDone :: 공격이 종료되었습니다.\n");
+}
+
 void CScene_Battle::MonsterDied(CMonster* _pObj)
 {
 	Vec2 GridPos = _pObj->GetGridPos();
@@ -260,6 +273,14 @@ void CScene_Battle::MonsterDied(CMonster* _pObj)
 	vecTiles[(int)GridPos.y][(int)GridPos.x].pObj = nullptr;
 
 	printf("CScene_Battle::MonsterDied :: %d, %d 타일 위의 오브젝트를 초기화 시켰습니다.\n", (int)GridPos.x, (int)GridPos.y);
+}
+
+
+void CScene_Battle::PlayerDied()
+{
+	CCamera::GetInstance()->FadeOut(1.0f);
+
+	printf("CScene_Battle::PlayerDied :: 플레이어 사망\n");
 }
 
 void CScene_Battle::TileSelectTrigger(CObject* _pObj)

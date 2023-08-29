@@ -3,6 +3,7 @@
 
 class CMonsterStrategy;
 class CMonster;
+class CPlayer;
 
 class EnemyTurn_Move :
     public CBattleState

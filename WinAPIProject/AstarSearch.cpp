@@ -2,14 +2,7 @@
 #include "AstarSearch.h"
 #include <queue>
 using std::priority_queue;
-
-#include <queue>
-#include <vector>
-#include <cmath>
 #include <unordered_set>
-// ... 기타 필요한 헤더
-
-// ... Node, Vec2, TileState, CompareNode의 정의
 
 list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Vec2> posPair, int _move) {
     Vec2 _startPos = posPair.first;
@@ -27,7 +20,7 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
     startNode->fHeuristic = m_fWeight * Node::Heuristic(_startPos, _endPos);
     openSet.push(startNode);
 
-    list<Vec2> lstPath;  // vec2Path -> lstPath
+    list<Vec2> lstPath;
     bool reachedEnd = false;
 
     while (!openSet.empty()) {
@@ -63,22 +56,24 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
 
     if (reachedEnd) {
         Node* node = openSet.top();
-        lstPath.emplace_back(node->x, node->y);  // 목적지 노드 추가
+        lstPath.emplace_back(node->x, node->y);
         node = node->pParent;
         while (node != nullptr && node->pParent != nullptr) {
             lstPath.emplace_back(node->x, node->y);
             node = node->pParent;
         }
-        lstPath.reverse();  // std::reverse 대신에 list::reverse 사용
+        lstPath.reverse();
     }
 
-    if (lstPath.size() > _move) {
+    if (lstPath.size() > _move) 
+    {
         auto it = lstPath.begin();
-        std::advance(it, _move);        // 
+        std::advance(it, _move);
         lstPath.erase(it, lstPath.end());
     }
 
-    if (!lstPath.empty()) {  // 빈 리스트인지 확인
+    if (!lstPath.empty()) 
+    {  
         Vec2 lastPos = lstPath.back();  // 마지막 요소를 가져옴
         vecTiles[(int)lastPos.y][(int)lastPos.x].pObj = prevObj;
     }

@@ -107,6 +107,7 @@ void EnterBattle::Handle(CScene_Battle* _pScene)
 	pPlayer->SetPos(REAL(PlayerStartPos));
 	pPlayer->SetGridPos(PlayerStartPos);
 	_pScene->SetPlayer(pPlayer);
+	m_TileCenter->SetTileObject(PlayerStartPos, pPlayer);
 	CreateObj(pPlayer, GROUP_TYPE::UNIT);
 
 	// 몬스터 생성

@@ -31,17 +31,15 @@ void PlayerTurn_Move::Handle(CScene_Battle* _pScene)
 	// 도착했음(위치가 일치) = 주변 적군 체크 -> 갱신
 	if (vCurrentPos == vDestination)
 	{
+		// BFS 탐색 전에 위치 수정
+		m_TileCenter->SetTileObject(m_pPlayer->GetGridPos(), nullptr);
+		m_TileCenter->SetTileObject(GRID(vDestination), m_pPlayer);
+
 		// 1. 적군 탐색 후, 적군이 있으면 함수 리턴 후 공격상태 들어감(lstTargetEnemy 배열에 적들 정보 들어감)
 		// Update에서 적 리스트 빈거 체크하고, 안비었으면 함수 종료 후 공격상태로 돌입
 		vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
 		list<CObject*>& lstMonsters = m_TurnCenter->GetTargetList();
 		m_BFS->BFS(GRID(vDestination), vecTile, lstMonsters, DIRECTION::FOUR_WAY, 1);
-		printf("PlayerTurn_Move::Handle :: BFS 탐색 결과 -> ");
-		for (list<CObject*>::iterator iter = lstMonsters.begin(); iter != lstMonsters.end(); iter++)
-		{
-			cout << *iter << ", ";
-		}
-		printf("\n");
 
 		// 적군이 있으면, 공격 상태 돌입
 		if (!lstMonsters.empty())

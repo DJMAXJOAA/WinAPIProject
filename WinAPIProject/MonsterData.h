@@ -12,7 +12,6 @@ public:
 	float						m_fAtt;					// 공격력
 	int							m_iMove;				// 한 턴에 이동할 수 있는 이동량
 	int							m_iRange;				// 공격 사거리
-	int							m_aniInterval;			// 애니메이션 간격(앞 뒤)
 
 public:
 	MonsterData(int _key);

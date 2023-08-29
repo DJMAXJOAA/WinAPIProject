@@ -3,6 +3,7 @@
 
 #include "CScene_Battle.h"
 #include "CMonster.h"
+#include "CPlayer.h"
 
 #include "CAnimator.h"
 #include "CAnimation.h"
@@ -39,6 +40,7 @@ void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
 	BFSSearch* m_BFS = _pScene->GetBFS();
 	list<CMonster*>& monsterList = _pScene->GetSpawner()->GetMonsterList();
+	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
 	// 단 1회 계산
 	if (m_bRouteCalculate == false)
@@ -90,27 +92,42 @@ void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 				{
 					// 도착 지점에 플레이어가 있으면, 몬스터 공격 설정 여부 체크
 					vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
-					list<CObject*>& lstPlayer = m_TurnCenter->GetTargetList();
-					m_BFS->BFS(GRID(vDestination), vecTile, lstPlayer, DIRECTION::FOUR_WAY, 1);
+					list<CObject*>& lstObj = m_TurnCenter->GetTargetList();
+
+					// BFS로 사거리만큼 체크
+					m_BFS->BFS(GRID(vDestination), vecTile, lstObj, DIRECTION::FOUR_WAY, monster->GetRange());
 					printf("EnemyTurn_Move::Handle :: BFS 탐색 결과 -> ");
-					for (list<CObject*>::iterator iter = lstPlayer.begin(); iter != lstPlayer.end(); iter++)
+					for (list<CObject*>::iterator iter = lstObj.begin(); iter != lstObj.end(); iter++)
 					{
 						cout << *iter << ", ";
 					}
 					printf("\n");
 
 					// 적군이 있으면, 상태 변경 후 모두 이동이 끝나면 공격하게 상태설정
-					if (!lstPlayer.empty())
+					for (auto& obj : lstObj)
 					{
-						printf("체크용, bfs 걸림\n");
-						monster->SetState(MONSTER_STATE::ATTACK);
+						// 검색 대상이 플레이어면
+						if (obj == (CObject*)m_pPlayer)
+						{
+							// 어택 이벤트
+							GRID_DIRECTION gridDirection = GetGridDirection(monster->GetGridPos(), m_pPlayer->GetGridPos(), monster->GetPos(), m_pPlayer->GetPos());
+							monster->Attack(gridDirection, m_pPlayer);
+
+							// 타겟 리스트 초기화
+							lstObj.clear();
+							m_TileCenter->TileVisitedInit();
+							return;
+						}
 					}
 
+					// 검색시 플레이어가 없었으면 바로 Acting = true
+					monster->SetActing(true);
+
 					// BFS 초기화
+					lstObj.clear();
 					m_TileCenter->TileVisitedInit();
 
-					// 위치 설정
-
+					// 몬스터 초기화
 					monster->GetAnimator()->PlayType(L"front_idle", true);
 					printf("도착 -> %1.f, %1.f\n", monster->GetGridPos().x, monster->GetGridPos().y);
 					continue;
@@ -130,7 +147,13 @@ void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 	// 모든 적군의 이동이 끝났으면, 턴을 바꿈
 	if (IsMonstersMovingDone(monsterList))
 	{
-		printf("턴 이동\n");
+		// 턴 바꾸기 전에 몬스터들의 모든 상태 초기화 
+		for (auto& monster : monsterList)
+		{
+			monster->SetActing(false);
+		}
+
+		printf("EnemyTurn_Move::Handle :: 이동과 공격이 모두 끝나서, 공격턴으로 넘어갑니다.\n");
 		m_bRouteCalculate = false;
 		m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
 	}
@@ -140,7 +163,8 @@ bool EnemyTurn_Move::IsMonstersMovingDone(const list<CMonster*>& monsterList)
 {
 	for (const auto& monster : monsterList)
 	{
-		if (!monster->GetRoute().empty())
+		// 공격 애니메이션 이벤트가 종료되면 true / 공격 안하면 이동 종료시 true
+		if (!monster->IsActingDone())
 		{
 			return false;
 		}

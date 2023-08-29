@@ -17,6 +17,7 @@ CMonster::CMonster(int _key)
 	: m_vecStrategy{}
 	, m_lstRoute{}
 	, m_fSpeed(30.f)
+	, m_currentStrategy(MONSTER_STRATEGY::NONE)
 {
 	MonsterData* monData = (MonsterData*)CDataMgr::GetInstance()->FindData(_key);
 	m_strName = monData->m_strName;
@@ -27,7 +28,6 @@ CMonster::CMonster(int _key)
 	m_iMove = monData->m_iMove;
 	m_iRange = monData->m_iRange;
 	m_vecStrategy = monData->m_vecMosterStrategy;
-	m_animationInterval = monData->m_aniInterval;
 	SetAnimator(monData->m_iAnimatorKey);
 }
 
@@ -39,9 +39,12 @@ CMonster::CMonster(MonsterData* _data)
 	, m_fAtt(_data->m_fAtt)
 	, m_iMove(_data->m_iMove)
 	, m_iRange(_data->m_iRange)
-	, m_animationInterval(_data->m_aniInterval)
 	, m_fSpeed(200.f)
 	, m_lstRoute{}
+	, m_bActionFinish(false)
+	, m_monsterState(MONSTER_STATE::IDLE)
+	, m_monsterDirection(GRID_DIRECTION::DOWN)
+	, m_currentStrategy(MONSTER_STRATEGY::NONE)
 {
 	SetAnimator(_data->m_iAnimatorKey);
 }
@@ -57,6 +60,10 @@ CMonster::CMonster(const CMonster& _origin)
 	, m_iRange(_origin.m_iRange)
 	, m_fSpeed(_origin.m_fSpeed)
 	, m_lstRoute{}
+	, m_bActionFinish(_origin.m_bActionFinish)
+	, m_monsterState(_origin.m_monsterState)
+	, m_monsterDirection(_origin.m_monsterDirection)
+	, m_currentStrategy(_origin.m_currentStrategy)
 {
 }
 
@@ -170,6 +177,80 @@ void CMonster::Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination)
 	SetPos(vPos);
 }
 
+void CMonster::Attack(GRID_DIRECTION _aniDirection, CPlayer* _pPlayer)
+{
+	m_monsterState = MONSTER_STATE::ATTACK;
+	AnimationDirection(L"attack", false, _aniDirection);
+
+	printf("CMonster::AttackPlayer :: 공격 시작\n");
+}
+
+void CMonster::AnimationEvent()
+{
+	switch (m_monsterState)
+	{
+	case MONSTER_STATE::ATTACK:
+	{
+		CCamera::GetInstance()->SetVibrateCamera(10.f, 1, 0.02f);
+		AttackStartEvent(m_fAtt);
+		printf("CMonster::AnimationEvent :: 몬스터 공격 애니메이션 이벤트 시작\n");
+
+		break;
+	}
+	case MONSTER_STATE::SKILL:
+	{
+		printf("CMonster::AnimationEvent :: 몬스터 스킬 애니메이션 이벤트 시작\n");
+
+		break;
+	}
+	}
+}
+
+void CMonster::AnimationEnd()
+{
+	switch (m_monsterState)
+	{
+	case MONSTER_STATE::ATTACK:
+	{
+		AttackDoneEvent();
+		printf("CMonster::AnimationEvent :: 몬스터 공격 애니메이션 종료 시작\n");
+
+		break;
+	}
+	case MONSTER_STATE::SKILL:
+	{
+		printf("CMonster::AnimationEvent :: 몬스터 스킬 애니메이션 종료 시작\n");
+
+		break;
+	}
+	case MONSTER_STATE::DAMAGED:
+	{
+		m_monsterState = MONSTER_STATE::IDLE;
+		AnimationDirection(L"idle", true);
+		printf("CPlayer::AnimationEnd :: 몬스터 피격 애니메이션 종료 시작\n");
+		break;
+	}
+	}
+}
+
+void CMonster::AttackStartEvent(float _damage)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::MONSTER_ATTACK;
+	evn.lParam = (DWORD_PTR)_damage;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
+}
+
+void CMonster::AttackDoneEvent()
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::MONSTER_ATTACK_DONE;
+	evn.lParam = (DWORD_PTR)this;
+
+	CEventMgr::GetInstance()->AddEventEarly(evn);
+}
+
 
 void CMonster::GetDamaged(float _damaged)
 {
@@ -182,7 +263,7 @@ void CMonster::GetDamaged(float _damaged)
 	if (m_fHP <= 0)
 	{
 		m_fHP = 0;
-		Died(this);
+		Died();
 
 		// 디버깅
 		printf("몬스터 사망\n");
@@ -191,18 +272,19 @@ void CMonster::GetDamaged(float _damaged)
 	}
 	else
 	{
-		GetAnimator()->PlayType(L"front_damaged", false);
+		m_monsterState = MONSTER_STATE::DAMAGED;
+		AnimationDirection(L"damaged", false);
 
 		// 디버깅
-		printf("데미지 받음 : %1.f, 남은 체력 : %1.f\n", _damaged, m_fHP);
+		printf("몬스터 데미지 받음 : %1.f, 남은 체력 : %1.f\n", _damaged, m_fHP);
 	}
 }
 
-void CMonster::Died(CObject* _pMonster)
+void CMonster::Died()
 {
 	tEvent evn = {  };
 	evn.eEvent = EVENT_TYPE::MONSTER_DIED;
-	evn.lParam = (DWORD_PTR)_pMonster;
+	evn.lParam = (DWORD_PTR)this;
 
 	CEventMgr::GetInstance()->AddEvent(evn);
 	DeleteObj(this);
@@ -210,6 +292,7 @@ void CMonster::Died(CObject* _pMonster)
 
 void CMonster::Update()
 {
+	cout << GetAnimator()->GetAnimation()->GetEventFrame();
 	GetAnimator()->Update();
 }
 

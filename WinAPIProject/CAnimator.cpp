@@ -26,6 +26,7 @@ CAnimator::CAnimator(const CAnimator& _origin)
 	, m_bRepeat(_origin.m_bRepeat)
 	, m_iID(_origin.m_iID)
 	, m_pCurAnim(nullptr)
+	, m_eventTrigger(_origin.m_eventTrigger)
 {
 	for (const auto& pair : _origin.m_mapAnim)
 	{

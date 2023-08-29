@@ -18,10 +18,13 @@
 CPlayer::CPlayer()
 	: m_fSpeed(200.f)
 	, m_playerState(PLAYER_STATE::IDLE)
+	, m_playerDirection(GRID_DIRECTION::DOWN)
 	, m_pTargetMonster(nullptr)
 	, m_fAtt(50.f)
 	, m_bAttack(false)
 	, m_fCombo(0)
+	, m_fHP(1000)
+	, m_fMaxHP(m_fHP)
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(15.f, 15.f));
@@ -54,7 +57,7 @@ void CPlayer::Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination)
 	SetPos(vPos);
 }
 
-void CPlayer::PlayerAttackStart(GRID_DIRECTION _aniDirection, CObject* pMon)
+void CPlayer::Attack(GRID_DIRECTION _aniDirection, CObject* pMon)
 {
 	// 애니메이션 이벤트 프레임에 공격 들어가게
 	// 여기선 애니메이션 설정
@@ -65,7 +68,7 @@ void CPlayer::PlayerAttackStart(GRID_DIRECTION _aniDirection, CObject* pMon)
 	printf("CPlayer::PlayerAttackDone :: 공격 시작\n");
 }
 
-void CPlayer::PlayerSkillStart(int _iCombo)
+void CPlayer::Skill(int _iCombo)
 {
 	// 콤보 * 0.1이 콤보 데미지
 	m_fCombo = float(_iCombo * 0.1);
@@ -95,7 +98,7 @@ void CPlayer::AnimationEvent()
 		CCamera::GetInstance()->SetVibrateCamera(10.f, 1, 0.02f);
 		if (m_pTargetMonster)
 		{
-			PlayerAttackMonster(m_fAtt, m_pTargetMonster);
+			AttackStartEvent(m_fAtt, m_pTargetMonster);
 		}
 
 		printf("CPlayer::AnimationEvent :: 캐릭터 공격 애니메이션 이벤트 시작\n");
@@ -108,7 +111,7 @@ void CPlayer::AnimationEvent()
 		float fSkillAtt = m_fAtt + float(m_fAtt * m_fCombo);
 
 		CCamera::GetInstance()->SetVibrateCamera(30.f, 1, 0.02f);
-		PlayerSkillCast(fSkillAtt);
+		SkillCastEvent(fSkillAtt);
 		printf("CPlayer::AnimationEvent :: 캐릭터 스킬 애니메이션 이벤트 시작\n");
 		break;
 	}
@@ -123,7 +126,7 @@ void CPlayer::AnimationEnd()
 	{
 	case PLAYER_STATE::UPPERCUT:
 	{
-		PlayerAttackDone();
+		AttackDoneEvent();
 		printf("CPlayer::AnimationEnd :: 캐릭터 공격 애니메이션 종료 시작\n");
 
 		break;
@@ -133,15 +136,21 @@ void CPlayer::AnimationEnd()
 		// 콤보 초기화
 		m_fCombo = 0;
 
-		PlayerSkillDone();
+		SkillDoneEvent();
 		printf("CPlayer::AnimationEnd :: 캐릭터 스킬 애니메이션 종료 시작\n");
 		break;
 	}
+	case PLAYER_STATE::DAMAGED:
+	{
+		m_playerState = PLAYER_STATE::IDLE;
+		AnimationDirection(m_playerState, false);
+		printf("CPlayer::AnimationEnd :: 캐릭터 피격 애니메이션 종료 시작\n");
+		break;
 	}
-
+	}
 }
 
-void CPlayer::PlayerAttackMonster(float _damage, CObject* _pMon)
+void CPlayer::AttackStartEvent(float _damage, CObject* _pMon)
 {
 	tEvent evn = {  };
 	evn.eEvent = EVENT_TYPE::PLAYER_ATTACK;
@@ -151,7 +160,7 @@ void CPlayer::PlayerAttackMonster(float _damage, CObject* _pMon)
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
-void CPlayer::PlayerAttackDone()
+void CPlayer::AttackDoneEvent()
 {
 	tEvent evn = {  };
 	evn.eEvent = EVENT_TYPE::PLAYER_ATTACK_DONE;
@@ -159,7 +168,7 @@ void CPlayer::PlayerAttackDone()
 	CEventMgr::GetInstance()->AddEventEarly(evn);
 }
 
-void CPlayer::PlayerSkillCast(float _value)
+void CPlayer::SkillCastEvent(float _value)
 {
 	tEvent evn = {  };
 	evn.eEvent = EVENT_TYPE::PLAYER_SKILL_CAST;
@@ -168,12 +177,50 @@ void CPlayer::PlayerSkillCast(float _value)
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
-void CPlayer::PlayerSkillDone()
+void CPlayer::SkillDoneEvent()
 {
 	tEvent evn = {  };
 	evn.eEvent = EVENT_TYPE::PLAYER_SKILL_DONE;
 
 	CEventMgr::GetInstance()->AddEventEarly(evn);
+}
+
+void CPlayer::GetDamaged(float _damaged)
+{
+	if (this == nullptr || m_fHP <= 0)
+	{
+		return;
+	}
+
+	m_fHP -= _damaged;
+	if (m_fHP <= 0)
+	{
+		m_fHP = 0;
+		Died();
+
+		// 디버깅
+		printf("캐릭터 사망\n");
+
+		return;
+	}
+	else
+	{
+		m_playerState = PLAYER_STATE::DAMAGED;
+		AnimationDirection(m_playerState, false);
+
+		// 디버깅
+		printf("캐릭터 데미지 받음 : %1.f, 남은 체력 : %1.f\n", _damaged, m_fHP);
+	}
+}
+
+void CPlayer::Died()
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::PLAYER_DIED;
+	evn.lParam = (DWORD_PTR)this;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
+	DeleteObj(this);
 }
 
 

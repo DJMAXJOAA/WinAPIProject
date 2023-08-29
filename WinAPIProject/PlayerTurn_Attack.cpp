@@ -31,6 +31,6 @@ void PlayerTurn_Attack::Handle(CScene_Battle* _pScene)
 		printf("PlayerTurn_Attack::Handle :: 공격을 시작합니다. Target Monster -> ");
 		cout << pMonster << "\n";
 		m_pPlayer->SetAttacking(true);
-		m_pPlayer->PlayerAttackStart(gridDirection, pMonster);
+		m_pPlayer->Attack(gridDirection, pMonster);
 	}
 }

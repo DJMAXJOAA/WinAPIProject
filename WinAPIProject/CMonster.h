@@ -12,6 +12,7 @@ enum class MONSTER_STATE
 };
 
 class MonsterData;
+class CPlayer;
 
 class CMonster :
     public CObject
@@ -19,7 +20,6 @@ class CMonster :
 private:
     wstring                     m_strName;
     vector<MONSTER_STRATEGY>    m_vecStrategy;
-    int                         m_animationInterval;        // 애니메이션 간격
 
     MONSTER_STRATEGY            m_currentStrategy;
     MONSTER_STATE               m_monsterState;
@@ -29,10 +29,11 @@ private:
     float                       m_fAtt;
     int                         m_iMove;
     int                         m_iRange;
-    
     float                       m_fSpeed;       // 실제 이동속도(렌더링 이동속도)
+    
+    bool                        m_bActionFinish;    // 행동 종료 여부
+    list <Vec2>                 m_lstRoute;         // 적 턴에 길찾기 루트 저장
 
-    list <Vec2>                 m_lstRoute;     // 적 턴에 길찾기 루트 저장
 
 public:
     CMonster(int _key);
@@ -47,14 +48,29 @@ public:
     int GetMove() { return m_iMove; }
     MONSTER_STATE GetState() { return m_monsterState; }
     list<Vec2>& GetRoute() { return m_lstRoute; }
+    int GetRange() { return m_iRange; }
 
     void SetState(MONSTER_STATE _state) { m_monsterState = _state; }
     void SetRoute(list<Vec2> _route) { m_lstRoute = _route; }
+    void SetActing(bool _bTF) { m_bActionFinish = _bTF; }
+
+    bool IsActingDone() { return m_bActionFinish; }
 
 public:
     void Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination);
+    void Attack(GRID_DIRECTION _aniDirection, CPlayer* _pPlayer);
+    void Skill() {};
+
+private:
+    virtual void AnimationEvent() override;
+    virtual void AnimationEnd() override;
+
+    void AttackStartEvent(float _damage);
+    void AttackDoneEvent();
+
+    void Died();
+public:
     void GetDamaged(float _damaged);
-    void Died(CObject* _pMonster);
 
 public:
     MONSTER_STRATEGY RandomPattern();

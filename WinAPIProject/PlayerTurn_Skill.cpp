@@ -17,6 +17,6 @@ void PlayerTurn_Skill::Handle(CScene_Battle* _pScene)
 
 		printf("PlayerTurn_Skill::Handle :: 스킬을 발동합니다.\n");
 		m_pPlayer->SetAttacking(true);
-		m_pPlayer->PlayerSkillStart(combo);
+		m_pPlayer->Skill(combo);
 	}
 }
