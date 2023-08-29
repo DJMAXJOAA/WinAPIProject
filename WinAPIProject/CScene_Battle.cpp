@@ -294,7 +294,9 @@ void CScene_Battle::MonsterDied(CMonster* _pObj)
 
 void CScene_Battle::PlayerDied()
 {
-	CCamera::GetInstance()->FadeOut(1.0f);
+	CCamera::GetInstance()->FadeOut(0.5f);
+	CCamera::GetInstance()->FadeIn(0.5f);
+	ChangeScene(SCENE_TYPE::TOOL);
 
 	printf("CScene_Battle::PlayerDied :: 플레이어 사망\n");
 }

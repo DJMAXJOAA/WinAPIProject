@@ -163,6 +163,7 @@ void CMonster::Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination)
 {
 	Vec2 vPos = GetPos();
 
+	m_monsterState = MONSTER_STATE::MOVE;
 	AnimationDirection(L"move", true, _aniDirection);
 
 	// 소수점 버리고 반환되게

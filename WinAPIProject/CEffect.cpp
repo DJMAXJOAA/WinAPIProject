@@ -5,7 +5,7 @@
 
 CEffect::CEffect()
 {
-	SetAnimatorGdiPlus(203, true);
+	SetAnimatorGdiPlus(203, false);
 }
 
 CEffect::~CEffect()

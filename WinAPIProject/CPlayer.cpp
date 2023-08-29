@@ -23,7 +23,7 @@ CPlayer::CPlayer()
 	, m_fAtt(50.f)
 	, m_bAttack(false)
 	, m_fCombo(0)
-	, m_fHP(1000)
+	, m_fHP(100)
 	, m_fMaxHP(m_fHP)
 {
 	CreateCollider();
@@ -220,7 +220,7 @@ void CPlayer::Died()
 	evn.lParam = (DWORD_PTR)this;
 
 	CEventMgr::GetInstance()->AddEvent(evn);
-	DeleteObj(this);
+	//DeleteObj(this);
 }
 
 
