@@ -3,67 +3,89 @@
 #include <queue>
 using std::priority_queue;
 
-vector<Vec2> AstarSearch::AStar(vector<vector<TileState>>& vecTiles, pair<Vec2, Vec2> posPair, int _move)
-{
+#include <queue>
+#include <vector>
+#include <cmath>
+#include <unordered_set>
+// ... 기타 필요한 헤더
+
+// ... Node, Vec2, TileState, CompareNode의 정의
+
+list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Vec2> posPair, int _move) {
     Vec2 _startPos = posPair.first;
     Vec2 _endPos = posPair.second;
-    priority_queue<Node*, vector<Node*>, CompareNode> openSet;
-    Node startNode(_startPos);
 
-    startNode.fHeuristic = m_fWeight * Node::Heuristic(_startPos, _endPos) + startNode.fCost;
-    openSet.push(new Node(startNode));
+    CObject* prevObj = vecTiles[(int)_startPos.y][(int)_startPos.x].pObj;
+    vecTiles[(int)_startPos.y][(int)_startPos.x].pObj = nullptr;
+
+    priority_queue<Node*, vector<Node*>, CompareNode> openSet;
+    std::unordered_set<Node*> allNodes;
+
+    Node* startNode = new Node(_startPos.x, _startPos.y);
+    allNodes.insert(startNode);
+
+    startNode->fHeuristic = m_fWeight * Node::Heuristic(_startPos, _endPos);
+    openSet.push(startNode);
+
+    list<Vec2> lstPath;  // vec2Path -> lstPath
+    bool reachedEnd = false;
 
     while (!openSet.empty()) {
         Node* current = openSet.top();
         openSet.pop();
 
-        if (current->x == (int)_endPos.x && current->y == (int)_endPos.y) {
-            vector<Vec2> vec2Path;
-            for (Node* node = current; node != nullptr; node = node->pParent) {
-                vec2Path.push_back(Vec2(node->x, node->y));
-            }
-            // Node 삭제 부분은 빼는 것이 좋습니다.
-            return vec2Path;
+        if (current->x == _endPos.x && current->y == _endPos.y) {
+            reachedEnd = true;
+            break;
         }
 
-        // Set the tile as visited
-        vecTiles[current->x][current->y].bVisited = true;
+        vecTiles[current->y][current->x].bVisited = true;
 
         for (int dx = -1; dx <= 1; ++dx) {
             for (int dy = -1; dy <= 1; ++dy) {
                 int x = current->x + dx;
                 int y = current->y + dy;
 
-                if (x >= 0 && x < vecTiles.size() && y >= 0 && y < vecTiles[0].size()) {
-                    if (vecTiles[x][y].bVisited) continue;
+                if (y >= 0 && y < vecTiles.size() && x >= 0 && x < vecTiles[0].size()) {
+                    if (vecTiles[y][x].bVisited) continue;
+                    if (vecTiles[y][x].pObj != nullptr && !(x == _endPos.x && y == _endPos.y)) continue;
 
-                    float tentativeCost = float(current->fCost + sqrt(dx * dx + dy * dy));
-                    if (tentativeCost > _move) continue;
+                    Node* neighbor = new Node(x, y, current->fCost + 1.0f, current);
+                    allNodes.insert(neighbor);
 
-                    Node* neighbor = new Node(x, y, tentativeCost, current);
                     Vec2 neighborVec2(x, y);
-                    neighbor->fHeuristic = neighbor->fCost + m_fWeight * Node::Heuristic(neighborVec2, _endPos);
+                    neighbor->fHeuristic = m_fWeight * Node::Heuristic(neighborVec2, _endPos);
                     openSet.push(neighbor);
                 }
             }
         }
     }
 
-    return vector<Vec2>();
-}
-
-vector<vector<Vec2>> AstarSearch::SequentialAstar(vector<vector<TileState>>& vecTiles, vector<pair<Vec2, Vec2>> positions, int _move)
-{
-    vector<vector<Vec2>> allPaths;
-
-    for (const auto& posPair : positions) {
-        Vec2 start = posPair.first;
-        Vec2 end = posPair.second;
-
-        vector<Vec2> vec2Path = AStar(vecTiles, posPair, _move);
-
-        allPaths.push_back(vec2Path);
+    if (reachedEnd) {
+        Node* node = openSet.top();
+        lstPath.emplace_back(node->x, node->y);  // 목적지 노드 추가
+        node = node->pParent;
+        while (node != nullptr && node->pParent != nullptr) {
+            lstPath.emplace_back(node->x, node->y);
+            node = node->pParent;
+        }
+        lstPath.reverse();  // std::reverse 대신에 list::reverse 사용
     }
 
-    return allPaths;
+    if (lstPath.size() > _move) {
+        auto it = lstPath.begin();
+        std::advance(it, _move);        // 
+        lstPath.erase(it, lstPath.end());
+    }
+
+    if (!lstPath.empty()) {  // 빈 리스트인지 확인
+        Vec2 lastPos = lstPath.back();  // 마지막 요소를 가져옴
+        vecTiles[(int)lastPos.y][(int)lastPos.x].pObj = prevObj;
+    }
+
+    for (Node* node : allNodes) {
+        delete node;
+    }
+
+    return lstPath;
 }

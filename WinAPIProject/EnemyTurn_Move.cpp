@@ -4,7 +4,13 @@
 #include "CScene_Battle.h"
 #include "CMonster.h"
 
+#include "CAnimator.h"
+#include "CAnimation.h"
+
 #include "CMonsterSpawner.h"
+#include "CTileManager.h"
+#include "CTurnManager.h"
+#include "BFSSearch.h"
 
 #include "Monster_Trace.h"
 #include "Monster_RandomMove.h"
@@ -14,6 +20,7 @@
 EnemyTurn_Move::EnemyTurn_Move()
 	: m_vecStrategies(6)
 	, m_MonsterStrategy(nullptr)
+	, m_bRouteCalculate(false)
 {
 	m_vecStrategies[(int)MONSTER_STRATEGY::TRACE] = new Monster_Trace;
 	m_vecStrategies[(int)MONSTER_STRATEGY::RANDOM_MOVE] = new Monster_RandomMove;
@@ -28,19 +35,115 @@ EnemyTurn_Move::~EnemyTurn_Move()
 
 void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 {
-	// 몬스터 패턴 결정 (계산을 미리 다 해놓고, 한번에 이동)
-	vector<CMonster*>& monsterList = _pScene->GetSpawner()->GetMonsterList();
+	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
+	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	BFSSearch* m_BFS = _pScene->GetBFS();
+	list<CMonster*>& monsterList = _pScene->GetSpawner()->GetMonsterList();
 
-	for (auto& monster : monsterList)
+	// 단 1회 계산
+	if (m_bRouteCalculate == false)
 	{
-		printf("EnemyTurn_Move::Handle :: 몬스터 이동 계산중 -> ");
-		cout << monster << "의 이동 패턴 실행\n";
+		m_bRouteCalculate = true;
 
-		// 몬스터가 가지고 있는 패턴들을 랜덤으로 패턴을 뽑아서, 로직을 실행시킴
-		m_MonsterStrategy = m_vecStrategies[(int)monster->RandomPattern()];
-		if(m_MonsterStrategy != nullptr)
+		// 몬스터 패턴 결정 (계산을 미리 다 해놓고, 한번에 이동)
+
+		for (auto& monster : monsterList)
 		{
-			m_MonsterStrategy->Handle(_pScene, monster);
+			printf("EnemyTurn_Move::Handle :: 몬스터 이동 계산중 -> ");
+			cout << monster << "의 이동 패턴 실행\n";
+
+			// 몬스터가 가지고 있는 패턴들을 랜덤으로 패턴을 뽑아서, 로직을 실행시킴
+			m_MonsterStrategy = m_vecStrategies[(int)monster->RandomPattern()];
+			if (m_MonsterStrategy != nullptr)
+			{
+				m_MonsterStrategy->Handle(_pScene, monster);
+			}
 		}
 	}
+
+	// 검색 전 타일 초기화
+	m_TileCenter->TileVisitedInit();
+
+	// 루트 확정 후 적군 이동
+	for (auto& monster : monsterList)
+	{
+		list<Vec2>& moveRoute = monster->GetRoute();
+
+		if (moveRoute.empty())
+		{
+			continue;
+		}
+
+		else
+		{
+			Vec2 vDestination = REAL(moveRoute.front());
+			Vec2 vCurrentPos = monster->GetPos();
+
+			// 도착했음(위치가 일치) = 주변 적군 체크 -> 갱신
+			if (vCurrentPos == vDestination)
+			{
+				monster->SetGridPos(moveRoute.front());
+				moveRoute.pop_front();
+
+				// 리스트가 비어있으면
+				if (moveRoute.empty())
+				{
+					// 도착 지점에 플레이어가 있으면, 몬스터 공격 설정 여부 체크
+					vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
+					list<CObject*>& lstPlayer = m_TurnCenter->GetTargetList();
+					m_BFS->BFS(GRID(vDestination), vecTile, lstPlayer, DIRECTION::FOUR_WAY, 1);
+					printf("EnemyTurn_Move::Handle :: BFS 탐색 결과 -> ");
+					for (list<CObject*>::iterator iter = lstPlayer.begin(); iter != lstPlayer.end(); iter++)
+					{
+						cout << *iter << ", ";
+					}
+					printf("\n");
+
+					// 적군이 있으면, 상태 변경 후 모두 이동이 끝나면 공격하게 상태설정
+					if (!lstPlayer.empty())
+					{
+						printf("체크용, bfs 걸림\n");
+						monster->SetState(MONSTER_STATE::ATTACK);
+					}
+
+					// BFS 초기화
+					m_TileCenter->TileVisitedInit();
+
+					// 위치 설정
+
+					monster->GetAnimator()->PlayType(L"front_idle", true);
+					printf("도착 -> %1.f, %1.f\n", monster->GetGridPos().x, monster->GetGridPos().y);
+					continue;
+				}
+
+				if(!moveRoute.empty())
+				{
+					vDestination = REAL(moveRoute.front());
+				}
+			}
+
+			GRID_DIRECTION gridDirection = GetGridDirection(monster->GetGridPos(), GRID(vDestination), vCurrentPos, vDestination);
+			monster->Move(gridDirection, vDestination);
+		}
+	}
+
+	// 모든 적군의 이동이 끝났으면, 턴을 바꿈
+	if (IsMonstersMovingDone(monsterList))
+	{
+		printf("턴 이동\n");
+		m_bRouteCalculate = false;
+		m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
+	}
+}
+
+bool EnemyTurn_Move::IsMonstersMovingDone(const list<CMonster*>& monsterList)
+{
+	for (const auto& monster : monsterList)
+	{
+		if (!monster->GetRoute().empty())
+		{
+			return false;
+		}
+	}
+	return true;
 }

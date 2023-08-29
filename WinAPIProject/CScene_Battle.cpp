@@ -175,6 +175,18 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	}
 	case TURN_TYPE::ENEMY_MOVE:
 	{
+		// 상태 변경
+		SetBattleState(TURN_TYPE::ENEMY_MOVE);
+
+		// 플레이어 초기화
+		m_pPlayer->SetState(PLAYER_STATE::IDLE);
+		m_pPlayer->GetAnimator()->PlayType(L"front_idle", true);
+
+		// 플레이어 타겟 삭제
+		m_pPlayer->SetTarget(nullptr);
+
+
+
 		printf("CScene_Battle::TurnInit :: 적 이동 상태 초기화\n");
 		break;
 	}
@@ -235,7 +247,6 @@ void CScene_Battle::PlayerSkillCasted(float _value)
 void CScene_Battle::PlayerSkillDone()
 {
 	m_pPlayer->SetAttacking(false);
-	SetBattleState(TURN_TYPE::ENEMY_MOVE);
 	m_TurnCenter->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
 
 	printf("CScene_Battle::PlayerSkillDone :: 스킬이 종료되었습니다.\n");

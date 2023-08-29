@@ -38,4 +38,5 @@ void MonsterData::ParseData(const json& item)
     m_fAtt = item["ATT"].get<float>();
     m_iMove = item["Move"].get<int>();
     m_iRange = item["Range"].get<int>();
+    m_aniInterval = item["Interval"].get<int>();
 }

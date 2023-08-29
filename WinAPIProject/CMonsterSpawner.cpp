@@ -34,16 +34,16 @@ CMonsterSpawner::~CMonsterSpawner()
 
 void CMonsterSpawner::Init()
 {
-	m_vecMonsters.clear();
+	m_lstMonsters.clear();
 }
 
 void CMonsterSpawner::Update()
 {
 	// Á×À» ¿¹Á¤ÀÎ °´Ã¼µé remove
-	auto removeIter = remove_if(m_vecMonsters.begin(), m_vecMonsters.end(),
+	auto removeIter = remove_if(m_lstMonsters.begin(), m_lstMonsters.end(),
 		[](CMonster* monster) { return monster->IsDead(); });
 
-	m_vecMonsters.erase(removeIter, m_vecMonsters.end());
+	m_lstMonsters.erase(removeIter, m_lstMonsters.end());
 }
 
 void CMonsterSpawner::SpawnMonster(FieldData* _data)
@@ -56,7 +56,7 @@ void CMonsterSpawner::SpawnMonster(FieldData* _data)
 		{
 			CMonster* pMonster = m_mapMonsterData.find(vecSpawn[i].first)->second->Clone();
 			assert(pMonster);
-			m_vecMonsters.push_back(pMonster);
+			m_lstMonsters.push_back(pMonster);
 			CreateObj(pMonster, GROUP_TYPE::UNIT);
 		}
 	}

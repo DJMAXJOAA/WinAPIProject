@@ -20,13 +20,15 @@ void Monster_Trace::Handle(CScene_Battle* _pScene, CMonster* _pMon)
 	m_TileCenter->TileVisitedInit();
 
 	// 길찾기 결과
-	vector<Vec2> nodeList = m_Astar->AStar(vecTiles, StartToEnd, moveAmount);
+	list<Vec2> nodeList = m_Astar->Astar(vecTiles, StartToEnd, moveAmount);
+	_pMon->SetRoute(nodeList);	// 루트 저장
 
-	m_TileCenter->TileVisitedInit();
 	for (auto& route : nodeList)
 	{
+		printf("시작 좌표 : %1.f, %1.f // 도착 좌표 : %1.f, %1.f // ", _pMon->GetGridPos().x, _pMon->GetGridPos().y, m_pPlayer->GetGridPos().x, m_pPlayer->GetGridPos().y);
 		printf("경로 :: x = %1.f, y = %1.f\n", route.x, route.y);
 	}
-
 	printf("\n");
+
+
 }

@@ -111,27 +111,37 @@ void EnterBattle::Handle(CScene_Battle* _pScene)
 
 	// 몬스터 생성
 	m_MonsterSpawner->SpawnMonster(randomFieldData);
-	vector<CMonster*>& monsterList = m_MonsterSpawner->GetMonsterList();
-	for (int i = 0; i < monsterList.size(); i++)
+	list<CMonster*>& monsterList = m_MonsterSpawner->GetMonsterList();
+
+	// 몬스터 리스트에 대한 반복자
+	auto monsterIter = monsterList.begin();
+
+	// i는 몬스터의 인덱스를 나타냅니다.
+	for (int i = 0; monsterIter != monsterList.end(); )
 	{
 		// 몬스터들의 위치 랜덤 지정 (오브젝트 중복 안되게)
 		Vec2 randomPos = GetRandomGridPos();
+
 		if (m_TileCenter->GetObj(randomPos) == nullptr)
 		{
 			// 타일 위의 오브젝트가 nullptr이면, 오브젝트 좌표 설정
-			monsterList[i]->SetPos(REAL(randomPos));
-			monsterList[i]->SetGridPos(randomPos);
-			m_TileCenter->SetTileObject(randomPos, monsterList[i]);
+			(*monsterIter)->SetPos(REAL(randomPos));
+			(*monsterIter)->SetGridPos(randomPos);
+			m_TileCenter->SetTileObject(randomPos, *monsterIter);
+
 			// 디버깅
 			if (m_TileCenter->GetObj(randomPos) != nullptr)
 			{
 				cout << "타일 오브젝트 등록 " << i << "번째 :" << randomPos.x << "," << randomPos.y << ",\n";
 			}
+
+			// 다음 몬스터로 설정
+			++monsterIter;
+			++i;
 		}
 		else
 		{
-			// 다시 좌표 지정
-			i--;
+			// 좌표가 겹치면 반복자 증가 안하니까 다시 좌표 설정
 		}
 	}
 

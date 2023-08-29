@@ -7,14 +7,14 @@ class CMonsterSpawner
 {
 private:
 	map<int, CMonster*>			m_mapMonsterData;	// 클론용 몬스터 데이터(검색용)
-	vector<CMonster*>			m_vecMonsters;		// 필드에 있는 몬스터 배열
+	list<CMonster*>				m_lstMonsters;		// 필드에 있는 몬스터 리스트
 	
 public:
 	CMonsterSpawner();
 	~CMonsterSpawner();
 
 public:
-	vector<CMonster*>& GetMonsterList() { return m_vecMonsters; }
+	list<CMonster*>& GetMonsterList() { return m_lstMonsters; }
 
 public:
 	// 몬스터 생성 -> level에 따라 난이도 변경, 맵 소환 규칙은 동일한 레벨 중에 랜덤으로 결정

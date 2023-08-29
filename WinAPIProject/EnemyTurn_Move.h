@@ -2,6 +2,7 @@
 #include "CBattleState.h"
 
 class CMonsterStrategy;
+class CMonster;
 
 class EnemyTurn_Move :
     public CBattleState
@@ -9,6 +10,7 @@ class EnemyTurn_Move :
 private:
     vector<CMonsterStrategy*>   m_vecStrategies;    // 몬스터 패턴을 모아둔 배열
     CMonsterStrategy*           m_MonsterStrategy;  // 현재 몬스터의 패턴
+    bool                        m_bRouteCalculate;  // 길찾기 루트 확정했는지
 
 public:
     EnemyTurn_Move();
@@ -16,5 +18,6 @@ public:
 
 public:
     virtual void Handle(CScene_Battle* _pScene) override;
+    bool IsMonstersMovingDone(const list<CMonster*>& monsterList);
 };
 

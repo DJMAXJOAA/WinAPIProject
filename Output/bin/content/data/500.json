@@ -4,27 +4,26 @@
         "Name": "Rabbit",
         "AnimatorID": 204,
         "Strategies": [
-            "trace",
-            "barrier"
+            "trace"
         ],
         "HP": 100.0,
         "ATT": 20.0,
         "Move": 3,
-        "Range": 1
+        "Range": 1,
+        "Interval": 5
     },
     {
         "ID": 501,
         "Name": "Mushroom",
         "AnimatorID": 205,
         "Strategies": [
-            "trace",
-            "random",
-            "heal"
+            "trace"
         ],
         "HP": 150.0,
         "ATT": 30.0,
         "Move": 2,
-        "Range": 1
+        "Range": 1,
+        "Interval": 5
     },
     {
         "ID": 502,
@@ -37,6 +36,7 @@
         "HP": 80.0,
         "ATT": 20.0,
         "Move": 2,
-        "Range": 3
+        "Range": 3,
+        "Interval": 4
     }
 ]
