@@ -171,12 +171,12 @@ void CScene_Tool::Enter()
 	m_pDisplay = toolTest;
 	AddObject(toolTest, GROUP_TYPE::DEFAULT);
 
-	CPanelUI* pPanelUI = new CPanelUI;
+	CPanelUI* pPanelUI = new CPanelUI(false);
 	pPanelUI->SetName(L"ParentUI");
 	pPanelUI->SetScale(Vec2(500.f, 300.f));
 	pPanelUI->SetPos(Vec2(vResolution.x - pPanelUI->GetScale().x, 0.f));
 
-	CBtnUI* pBtnUI = new CBtnUI;
+	CBtnUI* pBtnUI = new CBtnUI(false);
 	pBtnUI->SetName(L"ChildUI");
 	pBtnUI->SetScale(Vec2(100.f, 30.f));
 	pBtnUI->SetPos(Vec2(0.f, 0.f));

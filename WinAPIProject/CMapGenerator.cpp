@@ -1,10 +1,15 @@
 #include "pch.h"
 #include "CMapGenerator.h"
 
+#include "CCore.h"
+
+#include "CBtnUI_Stage.h"
+
 #include<ctime>
 static std::random_device rd;
 static std::mt19937 rng(rd());
 #include<fstream>
+using std::ios;
 using std::locale;
 using std::ifstream;
 using std::ofstream;
@@ -17,18 +22,42 @@ CMapGenerator::~CMapGenerator()
 {
 }
 
-vector<MapNode*> CMapGenerator::CreateStartPos(const vector<vector<int>>& _vecMap)
+void CMapGenerator::Traverse(CBtnUI_Stage* node, map<Vec2, CBtnUI_Stage*>& _mapGridBtn)
 {
-    vector<MapNode*> result{};
-    // 첫 시작점 노드을 Node* head로 이어진 길들을 경로 탐색 후 추가
-    for (int y = 0; y < HEIGHT * 2 - 1; y++) {
-        if (_vecMap[y][0] >= 4) {
-            result.push_back(CreatePath(0, y, _vecMap));
+    // Base condition for DFS
+    if (node == nullptr)
+        return;
 
-            break;
+    // 현재 노드의 GridPos를 이용해서 맵에 추가
+    _mapGridBtn[node->GetGridPos()] = node;
+
+    for (CBtnUI_Stage* child : node->GetChildren())
+    {
+        if (child != nullptr)
+        {
+            // 자식 노드에 해당하는 UI 좌표를 찾는다.
+            _mapGridBtn[child->GetGridPos()] = child;
+
+            // 자식 노드를 현재 노드의 자식으로 설정
+            vector<CBtnUI_Stage*>& temp = node->GetChildren();
+            temp.push_back(child);
+
+            // 재귀 호출
+            Traverse(child, _mapGridBtn);
         }
     }
+}
 
+vector<CBtnUI_Stage*> CMapGenerator::CreateStartPos(const vector<vector<int>>& _vecMap, map<Vec2, CBtnUI_Stage*>& _mapGridBtn)
+{
+    vector<CBtnUI_Stage*> result{};
+    for (int y = 0; y < HEIGHT * 2 - 1; y++)
+    {
+        if (_vecMap[y][0] >= 4)
+        {
+            result.push_back(CreatePath(0, y, _vecMap, _mapGridBtn));
+        }
+    }
     return result;
 }
 
@@ -94,6 +123,7 @@ vector<vector<int>> CMapGenerator::CreateRandomMap()
             }
 
             currentPoint.x += 2;
+            grid[currentPoint.y][currentPoint.x] = GetRandomStageSelect();
         }
     }
 
@@ -110,26 +140,24 @@ vector<vector<int>> CMapGenerator::CreateRandomMap()
     return grid;
 }
 
-MapNode* CMapGenerator::CreatePath(int x, int y, const vector<vector<int>>& _vecMap)
+CBtnUI_Stage* CMapGenerator::CreatePath(int x, int y, const vector<vector<int>>& _vecMap, map<Vec2, CBtnUI_Stage*>& _mapGridBtn)
 {
-    // 재귀로 노드 생성
-
     if (x < 0 || x >= WIDTH * 2 - 1 || y < 0 || y >= HEIGHT * 2 - 1) return nullptr;
 
-    MapNode* node = new MapNode();
-    node->x = x;
-    node->y = y;
-    node->value = _vecMap[y][x];
+    CBtnUI_Stage* node = new CBtnUI_Stage();
+    node->SetGridPos(Vec2(x, y));
+    node->SetValue(_vecMap[y][x]);
+    _mapGridBtn[Vec2(x, y)] = node;
 
     if (x + 1 < WIDTH * 2 - 1) {
         if (y - 1 >= 0 && _vecMap[y - 1][x + 1] == 1) // ↗
-            node->children.push_back(CreatePath(x + 2, y - 2, _vecMap));
+            node->GetChildren().push_back(CreatePath(x + 2, y - 2, _vecMap, _mapGridBtn));
 
         if (_vecMap[y][x + 1] == 2) // →
-            node->children.push_back(CreatePath(x + 2, y, _vecMap));
+            node->GetChildren().push_back(CreatePath(x + 2, y, _vecMap, _mapGridBtn));
 
         if (y + 1 < HEIGHT * 2 - 1 && _vecMap[y + 1][x + 1] == 3) // ↘
-            node->children.push_back(CreatePath(x + 2, y + 2, _vecMap));
+            node->GetChildren().push_back(CreatePath(x + 2, y + 2, _vecMap, _mapGridBtn));
     }
 
     return node;

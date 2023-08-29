@@ -224,6 +224,12 @@
     <Filter Include="Engine\10. BattleCenter\BattleState\EnemyTurn_Move\MonsterStrategy\Random_Teleport">
       <UniqueIdentifier>{1f64f1d4-77e1-48e6-9369-7a88d69d34f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04. Object\UI\BtnUI\StageBtn">
+      <UniqueIdentifier>{51a30b25-7231-4e18-9c00-eea19ccbfdbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object\UI\PanelUI\BackPanel">
+      <UniqueIdentifier>{1ea284a7-1767-475d-8870-18b0203af326}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -449,6 +455,15 @@
     <ClInclude Include="node.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
+    <ClInclude Include="CScene_Robby.h">
+      <Filter>Engine\05. Scene\2. Scene_Robby</Filter>
+    </ClInclude>
+    <ClInclude Include="CPanelUI_Back.h">
+      <Filter>Engine\04. Object\UI\PanelUI\BackPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="CBtnUI_Stage.h">
+      <Filter>Engine\04. Object\UI\BtnUI\StageBtn</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -646,6 +661,15 @@
     </ClCompile>
     <ClCompile Include="Monster_Teleport.cpp">
       <Filter>Engine\10. BattleCenter\BattleState\EnemyTurn_Move\MonsterStrategy\Random_Teleport</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_Robby.cpp">
+      <Filter>Engine\05. Scene\2. Scene_Robby</Filter>
+    </ClCompile>
+    <ClCompile Include="CPanelUI_Back.cpp">
+      <Filter>Engine\04. Object\UI\PanelUI\BackPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="CBtnUI_Stage.cpp">
+      <Filter>Engine\04. Object\UI\BtnUI\StageBtn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,8 @@ struct MapNode
 	}
 };
 
+class CBtnUI_Stage;
+
 class CMapGenerator
 {
 public:
@@ -22,11 +24,14 @@ public:
 	~CMapGenerator();
 
 public:
-	vector<vector<int>> CreateRandomMap();
-	vector<MapNode*> CreateStartPos(const vector<vector<int>>& _vecMap);
+	void Traverse(CBtnUI_Stage* node, map<Vec2, CBtnUI_Stage*>& _mapGridBtn);
 
 public:
-	MapNode* CreatePath(int x, int y, const vector<vector<int>>& _vecMap);
+	vector<vector<int>> CreateRandomMap();
+	vector<CBtnUI_Stage*> CreateStartPos(const vector<vector<int>>& _vecMap, map<Vec2, CBtnUI_Stage*>& _mapGridBtn);
+
+public:
+	CBtnUI_Stage* CreatePath(int x, int y, const vector<vector<int>>& _vecMap, map<Vec2, CBtnUI_Stage*>& _mapGridBtn);
 	int GetValueRandomY();
 	int GetRandomStageSelect();
 };

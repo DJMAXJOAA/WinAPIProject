@@ -145,6 +145,7 @@
     <ClInclude Include="CAnimatorGdiPlus.h" />
     <ClInclude Include="CBattleState.h" />
     <ClInclude Include="CBlock.h" />
+    <ClInclude Include="CBtnUI_Stage.h" />
     <ClInclude Include="CData.h" />
     <ClInclude Include="CDataMgr.h" />
     <ClInclude Include="CEffect.h" />
@@ -152,8 +153,10 @@
     <ClInclude Include="CMonsterSpawner.h" />
     <ClInclude Include="CMonsterStrategy.h" />
     <ClInclude Include="CMouse.h" />
+    <ClInclude Include="CPanelUI_Back.h" />
     <ClInclude Include="CScene_Battle.h" />
     <ClInclude Include="CGdiPlus.h" />
+    <ClInclude Include="CScene_Robby.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CToolTest.h" />
     <ClInclude Include="CToolTest2.h" />
@@ -225,6 +228,7 @@
     <ClCompile Include="CBattleState.cpp" />
     <ClCompile Include="CBlock.cpp" />
     <ClCompile Include="CBtnUI.cpp" />
+    <ClCompile Include="CBtnUI_Stage.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CCollisionMgr.cpp" />
@@ -241,6 +245,7 @@
     <ClCompile Include="CMouse.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CPanelUI.cpp" />
+    <ClCompile Include="CPanelUI_Back.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CRes.cpp" />
@@ -248,6 +253,7 @@
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneMgr.cpp" />
     <ClCompile Include="CScene_Battle.cpp" />
+    <ClCompile Include="CScene_Robby.cpp" />
     <ClCompile Include="CScene_Start.cpp" />
     <ClCompile Include="CScene_Tool.cpp" />
     <ClCompile Include="CSound.cpp" />

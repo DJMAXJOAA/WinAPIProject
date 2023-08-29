@@ -29,6 +29,7 @@ CObject::CObject()
 CObject::CObject(const CObject& _origin)
 	: m_strName(_origin.m_strName)
 	, m_vPos(_origin.m_vPos)
+	, m_vGridPos(_origin.m_vGridPos)
 	, m_vScale(_origin.m_vScale)
 	, m_pCollider(nullptr) // 새로 콜라이더 생성
 	, m_pAnimator(nullptr)

@@ -6,9 +6,10 @@ class CPanelUI :
 {
 private:
     Vec2        m_vDragStart;
+    bool        m_bDragPossible;
 
 public:
-    CPanelUI();
+    CPanelUI(bool _bCamAff, bool _bDrag = false);
     ~CPanelUI();
 
     CLONE(CPanelUI)

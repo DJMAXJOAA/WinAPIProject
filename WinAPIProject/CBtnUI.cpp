@@ -4,8 +4,8 @@
 #include "CScene.h"
 #include "CObject.h"
 
-CBtnUI::CBtnUI()
-	: CUI(false)
+CBtnUI::CBtnUI(bool _bCamAff)
+	: CUI(_bCamAff)
 	, m_pFunc(nullptr)
 	, m_param1(0)
 	, m_param2(0)

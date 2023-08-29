@@ -3,10 +3,10 @@
 
 #include "CKeyMgr.h"
 
-CPanelUI::CPanelUI()
-	: CUI(false)
+CPanelUI::CPanelUI(bool _bCamAff, bool _bDrag)
+	: CUI(_bCamAff)
+	, m_bDragPossible(_bDrag)
 {
-	
 }
 
 CPanelUI::~CPanelUI()
@@ -26,8 +26,8 @@ void CPanelUI::Render(HDC hdc)
 
 void CPanelUI::MouseOn()
 {
-	// 패널UI는 드래그 기능을 추가시켜준다
-	if (IsLbtnDown())
+	// 패널UI는 드래그 기능을 추가시켜준다 (할지 안할지는 선택)
+	if (m_bDragPossible && IsLbtnDown())
 	{
 		Vec2 vDiff = MOUSE_POS - m_vDragStart;
 

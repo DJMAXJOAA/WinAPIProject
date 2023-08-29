@@ -410,7 +410,6 @@ void CScene_Battle::Update()
 	// 메인 씬 업데이트 (각자 오브젝트들의 업데이트)
 	CScene::Update();
 
-
 	// 턴 결정 업데이트
 	m_TurnCenter->Update(this);
 

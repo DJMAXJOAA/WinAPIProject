@@ -60,6 +60,7 @@ enum class SCENE_TYPE
 	TOOL,
 	START,
 	BATTLE,
+	ROBBY,
 
 	END,
 };

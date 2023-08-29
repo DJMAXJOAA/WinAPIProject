@@ -22,7 +22,7 @@ private:
     CScene*         m_pSceneInst;
 
 public:
-    CBtnUI();
+    CBtnUI(bool _bCamAff);
     ~CBtnUI();
 
     CLONE(CBtnUI)
