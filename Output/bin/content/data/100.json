@@ -1513,6 +1513,33 @@
     },
     {
         "ID": 156,
+        "Name": "SpiritMove",
+        "Path": "texture\\Monster\\Spirit\\idle.bmp",
+        "Type": "front_move",
+        "AnimationInfo": {
+            "Duration": 0.119999997317791,
+            "EventFrame": 0,
+            "Frame": 6,
+            "Offset": [
+                -1.0,
+                -79.0
+            ],
+            "Pos": [
+                0.0,
+                0.0
+            ],
+            "Slice": [
+                151.0,
+                173.0
+            ],
+            "Step": [
+                151.0,
+                0.0
+            ]
+        }
+    },
+    {
+        "ID": 157,
         "Name": "SpiritDamaged",
         "Path": "texture\\Monster\\Spirit\\damaged.bmp",
         "Type": "front_damaged",
@@ -1539,7 +1566,7 @@
         }
     },
     {
-        "ID": 157,
+        "ID": 158,
         "Name": "SpiritAttack",
         "Path": "texture\\Monster\\Spirit\\attack.bmp",
         "Type": "front_attack",
@@ -1566,7 +1593,7 @@
         }
     },
     {
-        "ID": 158,
+        "ID": 159,
         "Name": "SpiritMagic",
         "Path": "texture\\Monster\\Spirit\\magic.bmp",
         "Type": "front_magic",
@@ -1593,7 +1620,7 @@
         }
     },
     {
-        "ID": 159,
+        "ID": 160,
         "Name": "SpiritIdle2",
         "Path": "texture\\Monster\\Spirit\\idle2.bmp",
         "Type": "back_idle",
@@ -1620,7 +1647,34 @@
         }
     },
     {
-        "ID": 160,
+        "ID": 161,
+        "Name": "SpiritMove2",
+        "Path": "texture\\Monster\\Spirit\\idle2.bmp",
+        "Type": "back_move",
+        "AnimationInfo": {
+            "Duration": 0.119999997317791,
+            "EventFrame": 0,
+            "Frame": 6,
+            "Offset": [
+                -0.0,
+                -82.0
+            ],
+            "Pos": [
+                0.0,
+                0.0
+            ],
+            "Slice": [
+                151.0,
+                176.0
+            ],
+            "Step": [
+                151.0,
+                0.0
+            ]
+        }
+    },
+    {
+        "ID": 162,
         "Name": "SpiritDamaged2",
         "Path": "texture\\Monster\\Spirit\\damaged2.bmp",
         "Type": "back_damaged",
@@ -1647,7 +1701,7 @@
         }
     },
     {
-        "ID": 161,
+        "ID": 163,
         "Name": "SpiritAttack2",
         "Path": "texture\\Monster\\Spirit\\attack2.bmp",
         "Type": "back_attack",
@@ -1674,7 +1728,7 @@
         }
     },
     {
-        "ID": 162,
+        "ID": 164,
         "Name": "SpiritMagic2",
         "Path": "texture\\Monster\\Spirit\\magic2.bmp",
         "Type": "back_magic",
@@ -1701,7 +1755,7 @@
         }
     },
     {
-        "ID": 163,
+        "ID": 165,
         "Name": "StageDirection",
         "Path": "texture\\UI\\direction.bmp",
         "Type": "ui_direction",
@@ -1728,7 +1782,7 @@
         }
     },
     {
-        "ID": 164,
+        "ID": 166,
         "Name": "StageIcon",
         "Path": "texture\\UI\\stage_icons.bmp",
         "Type": "ui_stage",

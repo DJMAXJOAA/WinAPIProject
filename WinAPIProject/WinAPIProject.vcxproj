@@ -171,10 +171,12 @@
     <ClInclude Include="Monster_Teleport.h" />
     <ClInclude Include="Monster_Trace.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="PlayerDefeat.h" />
     <ClInclude Include="PlayerTurn_Attack.h" />
     <ClInclude Include="PlayerTurn_Move.h" />
     <ClInclude Include="PlayerTurn_Skill.h" />
     <ClInclude Include="PlayerTurn_TileSelect.h" />
+    <ClInclude Include="PlayerWin.h" />
     <ClInclude Include="SkillData.h" />
     <ClInclude Include="tAnimFrame.h" />
     <ClInclude Include="tile.h" />
@@ -276,10 +278,12 @@
     <ClCompile Include="Monster_SelfHeal.cpp" />
     <ClCompile Include="Monster_Teleport.cpp" />
     <ClCompile Include="Monster_Trace.cpp" />
+    <ClCompile Include="PlayerDefeat.cpp" />
     <ClCompile Include="PlayerTurn_Attack.cpp" />
     <ClCompile Include="PlayerTurn_Move.cpp" />
     <ClCompile Include="PlayerTurn_Skill.cpp" />
     <ClCompile Include="PlayerTurn_TileSelect.cpp" />
+    <ClCompile Include="PlayerWin.cpp" />
     <ClCompile Include="SelectGDI.cpp" />
     <ClCompile Include="SkillData.cpp" />
     <ClCompile Include="CTileManager.cpp" />

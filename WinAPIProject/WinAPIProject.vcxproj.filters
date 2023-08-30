@@ -116,9 +116,6 @@
     <Filter Include="Engine\05. Scene\0. Scene_Tool">
       <UniqueIdentifier>{ecf01e0a-307f-4199-9f2c-7884e6501e72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\05. Scene\5. Scene_End">
-      <UniqueIdentifier>{6b522151-cc27-4ba0-b20a-5e0f93b4e5b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\04. Object\Block">
       <UniqueIdentifier>{896daa16-dd39-4182-9a41-3d7e50f72b5e}</UniqueIdentifier>
     </Filter>
@@ -133,9 +130,6 @@
     </Filter>
     <Filter Include="Engine\07. Component\AnimatorGDI+\AnimationGDI+">
       <UniqueIdentifier>{3dcf84f9-15ab-47d2-981d-2c65aaf9903c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05. Scene\4. Scene_GameOver">
-      <UniqueIdentifier>{8293e69a-ceb2-4062-8b09-8b8675c6b4f7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\04. Object\Mouse">
       <UniqueIdentifier>{27c6d8b3-68ef-41a6-9a4c-9b1f379e3031}</UniqueIdentifier>
@@ -229,6 +223,15 @@
     </Filter>
     <Filter Include="Engine\04. Object\UI\PanelUI\BackPanel">
       <UniqueIdentifier>{1ea284a7-1767-475d-8870-18b0203af326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene\4. Scene_End">
+      <UniqueIdentifier>{6b522151-cc27-4ba0-b20a-5e0f93b4e5b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\BattleState\PlayerWin">
+      <UniqueIdentifier>{44d15e20-62cd-45c0-8ded-3115a37728c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\BattleState\PlayerDefeat">
+      <UniqueIdentifier>{cd9d95cf-ff6b-45d7-8fd1-c55715293310}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -464,6 +467,12 @@
     <ClInclude Include="CBtnUI_Stage.h">
       <Filter>Engine\04. Object\UI\BtnUI\StageBtn</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerDefeat.h">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerDefeat</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWin.h">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerWin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -670,6 +679,12 @@
     </ClCompile>
     <ClCompile Include="CBtnUI_Stage.cpp">
       <Filter>Engine\04. Object\UI\BtnUI\StageBtn</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDefeat.cpp">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerDefeat</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWin.cpp">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerWin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

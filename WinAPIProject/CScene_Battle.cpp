@@ -24,6 +24,8 @@
 #include "PlayerTurn_Attack.h"
 #include "PlayerTurn_Skill.h"
 #include "EnemyTurn_Move.h"
+#include "PlayerWin.h"
+#include "PlayerDefeat.h"
 
 using namespace battle;
 static std::random_device rd;
@@ -34,7 +36,7 @@ CScene_Battle::CScene_Battle()
 	, m_iFieldType(0)
 	, m_iDifficulty(1)
 	, m_FieldType(FIELD_TYPE::COMMON)
-	, m_vecStates((int)TURN_TYPE::DEFEAT + 1)
+	, m_vecStates((int)TURN_TYPE::END)
 	, m_BFS(nullptr)
 	, m_Astar(nullptr)
 	, m_MonsterSpawner(nullptr)
@@ -42,15 +44,7 @@ CScene_Battle::CScene_Battle()
 	, m_TileCenter(nullptr)
 	, m_BattleState(nullptr)
 {
-	// 씬의 State들을 추가
-	m_vecStates[(int)TURN_TYPE::ENTER] = new EnterBattle;
-	m_vecStates[(int)TURN_TYPE::PLAYER_TILESELECT] = new PlayerTurn_TileSelect;
-	m_vecStates[(int)TURN_TYPE::PLAYER_MOVE] = new PlayerTurn_Move;
-	m_vecStates[(int)TURN_TYPE::PLAYER_ATTACK] = new PlayerTurn_Attack;
-	m_vecStates[(int)TURN_TYPE::PLAYER_SKILL] = new PlayerTurn_Skill;
-	m_vecStates[(int)TURN_TYPE::ENEMY_MOVE] = new EnemyTurn_Move;
-	m_vecStates[(int)TURN_TYPE::WIN] = new EnemyTurn_Move;
-	m_vecStates[(int)TURN_TYPE::DEFEAT] = new EnemyTurn_Move;
+
 }
 
 CScene_Battle::~CScene_Battle()
@@ -127,13 +121,6 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 검은 타일들(밟고 지나왔던 타일들) 랜덤 타일들로 리셋시키기
 		m_TileCenter->TileRandomInit();
 
-		// 몬스터가 다 죽었으면, 겜 종료
-		if (m_MonsterSpawner->GetMonsterList().empty())
-		{
-			m_TurnCenter->ChangeTurn(TURN_TYPE::WIN);
-			return;
-		}
-
 		if (m_TurnCenter->GetCombo() < 4)
 		{
 			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 콤보가 4 이하라서 스킬을 사용하지 않습니다.\n");
@@ -185,6 +172,21 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	}
 	case TURN_TYPE::ENEMY_MOVE:
 	{
+		// 플레이어 타겟 삭제
+		m_pPlayer->SetTarget(nullptr);
+
+		// 몬스터가 다 죽었으면, 턴 넘어가기
+		if (m_MonsterSpawner->GetMonsterList().empty())
+		{
+			CCamera::GetInstance()->FadeOut(1.0f);
+			CCamera::GetInstance()->BlackScreen(3.0f);
+			CCamera::GetInstance()->Event(0.01f);
+			CCamera::GetInstance()->FadeIn(1.0f);
+
+			m_TurnCenter->ChangeTurn(TURN_TYPE::WIN);
+			return;
+		}
+
 		// 상태 변경
 		SetBattleState(TURN_TYPE::ENEMY_MOVE);
 
@@ -192,20 +194,24 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		m_pPlayer->SetState(PLAYER_STATE::IDLE);
 		m_pPlayer->AnimationDirection(PLAYER_STATE::IDLE, true);
 
-		// 플레이어 타겟 삭제
-		m_pPlayer->SetTarget(nullptr);
-
 		printf("CScene_Battle::TurnInit :: 적 이동 상태 초기화\n");
 		break;
 	}
 	case TURN_TYPE::WIN:
 	{
+		// 상태 변경
 		SetBattleState(TURN_TYPE::WIN);
+
 		break;
 	}
 	case TURN_TYPE::DEFEAT:
 	{
+		// 상태 변경
 		SetBattleState(TURN_TYPE::DEFEAT);
+
+		// 플레이어 애니메이션 실행
+		m_pPlayer->GetAnimator()->PlayType(L"front_damaged", true);
+
 		break;
 	}
 	}
@@ -302,7 +308,6 @@ void CScene_Battle::PlayerDied()
 	CCamera::GetInstance()->Event(0.01f);
 	CCamera::GetInstance()->FadeIn(1.0f);
 
-	m_pPlayer->AnimationDirection(PLAYER_STATE::DAMAGED, true);
 	m_TurnCenter->ChangeTurn(TURN_TYPE::DEFEAT);
 
 	printf("CScene_Battle::PlayerDied :: 플레이어 사망\n");
@@ -445,6 +450,18 @@ void CScene_Battle::Enter()
 	m_TileCenter = new CTileCenter;
 	m_Astar = new AstarSearch;
 
+	m_vecStates.resize((int)TURN_TYPE::END, nullptr);
+
+	// 씬의 State들을 추가
+	m_vecStates[(int)TURN_TYPE::ENTER] = new EnterBattle;
+	m_vecStates[(int)TURN_TYPE::PLAYER_TILESELECT] = new PlayerTurn_TileSelect;
+	m_vecStates[(int)TURN_TYPE::PLAYER_MOVE] = new PlayerTurn_Move;
+	m_vecStates[(int)TURN_TYPE::PLAYER_ATTACK] = new PlayerTurn_Attack;
+	m_vecStates[(int)TURN_TYPE::PLAYER_SKILL] = new PlayerTurn_Skill;
+	m_vecStates[(int)TURN_TYPE::ENEMY_MOVE] = new EnemyTurn_Move;
+	m_vecStates[(int)TURN_TYPE::WIN] = new PlayerWin;
+	m_vecStates[(int)TURN_TYPE::DEFEAT] = new PlayerDefeat;
+
 	SetBattleState(TURN_TYPE::ENTER);
 	m_BattleState->Handle(this);
 	SetBattleState(TURN_TYPE::PLAYER_START);
@@ -460,6 +477,7 @@ void CScene_Battle::Exit()
 	m_MonsterSpawner->Init();
 	DeleteAll();
 	CCollisionMgr::GetInstance()->Reset();
+	SafeDeleteVec(m_vecStates);
 
 	delete m_BFS;
 	delete m_MonsterSpawner;

@@ -6,6 +6,10 @@ class CScene_Battle;
 class CBattleState
 {
 public:
+	CBattleState() {};
+	virtual ~CBattleState() {};
+
+public:
 	virtual void Handle(CScene_Battle* _pScene) = 0;
 
 public:

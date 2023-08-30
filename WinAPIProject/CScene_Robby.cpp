@@ -30,6 +30,7 @@ CScene_Robby::CScene_Robby()
 
 CScene_Robby::~CScene_Robby()
 {
+	SafeDeleteVec(m_vecNodes);
 	delete m_MapGenerator;
 	DeleteAll();
 }

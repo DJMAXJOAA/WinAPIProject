@@ -29,7 +29,7 @@
     },
     {
         "ID": 602,
-        "MapType": "elite",
+        "MapType": "common",
         "MonsterID": [
             501,
             502
@@ -46,6 +46,64 @@
         "MapType": "common",
         "MonsterID": [
             500,
+            502
+        ],
+        "NumberOfMonster": [
+            2,
+            2
+        ],
+        "BlockType": "snow",
+        "DifficultyLevel": 1
+    },
+    {
+        "ID": 604,
+        "MapType": "elite",
+        "MonsterID": [
+            500,
+            501
+        ],
+        "NumberOfMonster": [
+            3,
+            3
+        ],
+        "BlockType": "stone",
+        "DifficultyLevel": 1
+    },
+    {
+        "ID": 605,
+        "MapType": "elite",
+        "MonsterID": [
+            500,
+            501,
+            502
+        ],
+        "NumberOfMonster": [
+            2,
+            1,
+            2
+        ],
+        "BlockType": "grass",
+        "DifficultyLevel": 1
+    },
+    {
+        "ID": 606,
+        "MapType": "common",
+        "MonsterID": [
+            500,
+            501
+        ],
+        "NumberOfMonster": [
+            3,
+            3
+        ],
+        "BlockType": "dirt",
+        "DifficultyLevel": 2
+    },
+    {
+        "ID": 607,
+        "MapType": "common",
+        "MonsterID": [
+            500,
             501,
             502
         ],
@@ -58,17 +116,41 @@
         "DifficultyLevel": 2
     },
     {
-        "ID": 604,
-        "MapType": "elite",
+        "ID": 608,
+        "MapType": "common",
         "MonsterID": [
             501,
             502
         ],
         "NumberOfMonster": [
-            2,
-            3
+            3,
+            2
+        ],
+        "BlockType": "grass",
+        "DifficultyLevel": 2
+    },
+    {
+        "ID": 609,
+        "MapType": "elite",
+        "MonsterID": [
+            502
+        ],
+        "NumberOfMonster": [
+            5
         ],
         "BlockType": "snow",
+        "DifficultyLevel": 2
+    },
+    {
+        "ID": 610,
+        "MapType": "elite",
+        "MonsterID": [
+            500
+        ],
+        "NumberOfMonster": [
+            8
+        ],
+        "BlockType": "brick",
         "DifficultyLevel": 2
     }
 ]

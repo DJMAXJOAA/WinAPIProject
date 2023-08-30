@@ -15,7 +15,7 @@ private:
 
 public:
     EnemyTurn_Move();
-    ~EnemyTurn_Move();
+    virtual ~EnemyTurn_Move();
 
 public:
     virtual void Handle(CScene_Battle* _pScene) override;

@@ -30,8 +30,7 @@
         "Name": "Spirit",
         "AnimatorID": 206,
         "Strategies": [
-            "teleport",
-            "friendly_heal"
+            "trace"
         ],
         "HP": 80.0,
         "ATT": 20.0,

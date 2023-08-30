@@ -192,6 +192,8 @@ enum class TURN_TYPE
 	ENEMY_MOVE,             // 적 :: 움직임 계산 + 움직임
 	WIN,                   // 전투 종료
 	DEFEAT,					// 패배
+	
+	END,
 };
 
 enum class DIRECTION
