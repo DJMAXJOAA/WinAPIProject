@@ -29,9 +29,6 @@
     <Filter Include="Engine\04. Object\Monster">
       <UniqueIdentifier>{114dca6c-47a3-4619-b1d4-91f63a4bbf11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\04. Object\Missile">
-      <UniqueIdentifier>{bbcce6c3-b9d4-4aab-baa6-23b38c955f3e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\06. Resource">
       <UniqueIdentifier>{349a9f4f-e3bb-4e88-90de-b85782fde76c}</UniqueIdentifier>
     </Filter>
@@ -233,6 +230,18 @@
     <Filter Include="Engine\10. BattleCenter\BattleState\PlayerDefeat">
       <UniqueIdentifier>{cd9d95cf-ff6b-45d7-8fd1-c55715293310}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04. Object\BackGround">
+      <UniqueIdentifier>{f418be51-e82b-4a33-920e-8c6d6cd06d97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object\UI\BtnUI\StartBtn">
+      <UniqueIdentifier>{12992367-ba8a-4ff8-842c-8acd1ecf8644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Object\UI\PanelUI\NumberPanel">
+      <UniqueIdentifier>{49a79543-d8c8-4a5f-b0b0-e501bc2d33ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\HPBar">
+      <UniqueIdentifier>{e362ef9f-3c12-4364-af2d-e16b9b6d1126}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -280,9 +289,6 @@
     </ClInclude>
     <ClInclude Include="CMonster.h">
       <Filter>Engine\04. Object\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="CMissile.h">
-      <Filter>Engine\04. Object\Missile</Filter>
     </ClInclude>
     <ClInclude Include="CRes.h">
       <Filter>Engine\06. Resource</Filter>
@@ -473,6 +479,21 @@
     <ClInclude Include="PlayerWin.h">
       <Filter>Engine\10. BattleCenter\BattleState\PlayerWin</Filter>
     </ClInclude>
+    <ClInclude Include="CBackground.h">
+      <Filter>Engine\04. Object\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="CBtnUI_Start.h">
+      <Filter>Engine\04. Object\UI\BtnUI\StartBtn</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene_End.h">
+      <Filter>Engine\05. Scene\4. Scene_End</Filter>
+    </ClInclude>
+    <ClInclude Include="CPanelUI_Number.h">
+      <Filter>Engine\04. Object\UI\PanelUI\NumberPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPBar.h">
+      <Filter>Engine\07. Component\HPBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -502,9 +523,6 @@
     </ClCompile>
     <ClCompile Include="CMonster.cpp">
       <Filter>Engine\04. Object\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="CMissile.cpp">
-      <Filter>Engine\04. Object\Missile</Filter>
     </ClCompile>
     <ClCompile Include="CRes.cpp">
       <Filter>Engine\06. Resource</Filter>
@@ -685,6 +703,21 @@
     </ClCompile>
     <ClCompile Include="PlayerWin.cpp">
       <Filter>Engine\10. BattleCenter\BattleState\PlayerWin</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackground.cpp">
+      <Filter>Engine\04. Object\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="CBtnUI_Start.cpp">
+      <Filter>Engine\04. Object\UI\BtnUI\StartBtn</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_End.cpp">
+      <Filter>Engine\05. Scene\4. Scene_End</Filter>
+    </ClCompile>
+    <ClCompile Include="CPanelUI_Number.cpp">
+      <Filter>Engine\04. Object\UI\PanelUI\NumberPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPBar.cpp">
+      <Filter>Engine\07. Component\HPBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,23 +1,21 @@
 #include "pch.h"
-#include "CScene_Start.h"
+#include "CScene_End.h"
 
 #include "CCore.h"
 #include "CKeyMgr.h"
 
 #include "CBackground.h"
 #include "CBtnUI_Start.h"
-#include "CPanelUI_Number.h"
 
-CScene_Start::CScene_Start()
-{
-
-}
-
-CScene_Start::~CScene_Start()
+CScene_End::CScene_End()
 {
 }
 
-void CScene_Start::Update()
+CScene_End::~CScene_End()
+{
+}
+
+void CScene_End::Update()
 {
 	CScene::Update();	// 부모쪽 함수를 이용할 수도 있음, 오버라이딩 한 이유는 +@ 하기 위해서
 
@@ -27,13 +25,12 @@ void CScene_Start::Update()
 	}
 }
 
-
-void CScene_Start::Enter()
+void CScene_End::Enter()
 {
 	Vec2 vResolution = CCore::GetInstance()->GetResolution();
 
 	// 백그라운드
-	CBackground* pBackground = new CBackground(L"texture\\Background\\title_background.png");
+	CBackground* pBackground = new CBackground(L"texture\\Background\\end_background.png");
 	CreateObj(pBackground, GROUP_TYPE::BACKGROUND);
 
 	// 타이틀 제목
@@ -57,8 +54,7 @@ void CScene_Start::Enter()
 	CreateObj(pLoad, GROUP_TYPE::UI);
 }
 
-void CScene_Start::Exit()
+void CScene_End::Exit()
 {
 	DeleteAll();
 }
-

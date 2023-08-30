@@ -92,3 +92,26 @@ Vec2 json_to_vec2(const json& j)
 	}
 	return v;
 }
+
+json vectorVec2_to_json(const vector<Vec2>& vec)
+{
+	json j = json::array();
+	for (const auto& v : vec) 
+	{
+		j.push_back(vec2_to_json(v));
+	}
+	return j;
+}
+
+vector<Vec2> json_to_vectorVec2(const json& j)
+{
+	std::vector<Vec2> vec;
+	if (j.is_array()) 
+	{  
+		for (const auto& element : j) 
+		{
+			vec.push_back(json_to_vec2(element));
+		}
+	}
+	return vec;
+}

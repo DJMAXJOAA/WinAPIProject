@@ -7,9 +7,12 @@
 #include "CCamera.h"
 #include "CSceneMgr.h"
 
+#include "CBackground.h"
+
 #include "CPanelUI_Back.h"
 #include "CBtnUI_Stage.h"
 
+// 최초 1회 필드 구성
 static bool enter;
 
 CScene_Robby::CScene_Robby()
@@ -38,8 +41,8 @@ CScene_Robby::~CScene_Robby()
 void CScene_Robby::EnterStage(Vec2 _vPos)
 {
 	CCamera::GetInstance()->FadeOut(0.5f);
-	CCamera::GetInstance()->BlackScreen(1.0f);
 	CCamera::GetInstance()->Event(0.01f);
+	CCamera::GetInstance()->BlackScreen(1.0f);
 	CCamera::GetInstance()->FadeIn(0.5f);
 
 	// 같은 x들 선택 못하게 삭제
@@ -55,6 +58,7 @@ void CScene_Robby::EnterStage(Vec2 _vPos)
 
 	if (m_mapBtnUI[_vPos] != nullptr)
 	{
+		// 선택 상태로 만들기
 		m_mapBtnUI[_vPos]->SetSelect(true);
 		//m_mapBtnUI[_vPos]->SetClear(true);		// 이건 따로 이벤트로 수정
 
@@ -103,7 +107,6 @@ void CScene_Robby::Update()
 	{
 		ChangeScene(SCENE_TYPE::BATTLE);
 	}
-	
 
 	if (KEY_HOLD(KEY::LEFT))
 	{
@@ -178,7 +181,11 @@ void CScene_Robby::Enter()
 				}
 			}
 		}
-		AddObject(pPanelUI, GROUP_TYPE::UI);
+		CreateObj(pPanelUI, GROUP_TYPE::UI);
+
+		// 백그라운드
+		CBackground* pBackground = new CBackground(L"texture\\Background\\stage_background.png");
+		CreateObj(pBackground, GROUP_TYPE::BACKGROUND);
 
 		// 맨 앞 노드들 선택 가능으로 설정
 		for (int i = 0; i < m_vecStage.size(); i++)

@@ -10,12 +10,14 @@ class CScene_Robby :
 {
 private:
     CMapGenerator*                      m_MapGenerator;     // 노드맵 생성
-    vector<vector<int>>                 m_vecStage;         // 맵 생성
     vector<MapNode*>                    m_vecNodes;         // 노드맵 배열 생성
-    map<Vec2, MapNode*>                 m_mapGridNode;       // 격자 -> 진짜 좌표
-    map<Vec2, CBtnUI_Stage*>            m_mapBtnUI;
+
+    vector<vector<int>>                 m_vecStage;         // 맵 생성 -> 데이터 매니저에서 값을 가져와서 복사생성
+    map<Vec2, MapNode*>                 m_mapGridNode;      // 격자 -> 노드맵과 연결
+    map<Vec2, CBtnUI_Stage*>            m_mapBtnUI;         // 격자 좌표 -> 버튼과 연결
 
     CPanelUI_Back*      m_mainUI;           // 메인 패널 UI
+
     Vec2                m_CameraPos;        // 카메라 위치 저장
 
     MapNode*            m_pCurrentNode;     // 현재 내가 어느 노드에 있는지?

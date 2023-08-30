@@ -7,6 +7,7 @@
 class CCollider;
 class CAnimator;
 class CAnimatorGdiPlus;
+class CHPBar;
 
 // 객체화 할 수 없는 추상 클래스
 class CObject
@@ -22,6 +23,7 @@ private:
 	CCollider*			m_pCollider;	// nullptr이라면 콜라이더가 필요 없는 오브젝트들(배경이나 ui 등)
 	CAnimator*			m_pAnimator;
 	CAnimatorGdiPlus*	m_pAnimatorGdiPlus;
+	CHPBar*				m_pHealthBar;
 
 	bool		m_bAlive;		// 활성화, 비활성화 -> 비활성화되면 다음 프레임에 삭제
 
@@ -71,6 +73,10 @@ public:
 public:
 	void SetAnimatorGdiPlus(int _key, bool _repeat = true);
 	void CreateAnimatorGdiPlus(int _key);
+
+public:
+	void CreateHealthBar(int width = 100, int height = 50, Vec2 offset = Vec2(0, -50));
+
 
 public:
 	virtual void Update() = 0; // 순수 가상 함수 -> 오브젝트들의 Update는 모두 기능이 다름 (다형성)

@@ -5,6 +5,8 @@
 #include "CDataMgr.h"
 #include "CEventMgr.h"
 
+#include "CPanelUI_Number.h"
+
 #include "CAnimator.h"
 #include "CAnimation.h"
 
@@ -261,6 +263,14 @@ void CMonster::GetDamaged(float _damaged)
 	}
 
 	m_fHP -= _damaged;
+
+	// 데미지 출력
+	Vec2 vRenderPos = CCamera::GetInstance()->GetRenderPos(GetPos());
+	vRenderPos.y -= 100.f;
+
+	CPanelUI_Number* pNumber = new CPanelUI_Number((int)_damaged, vRenderPos, 1.0, 1.f);
+	CreateObj(pNumber, GROUP_TYPE::NUMBER);
+
 	if (m_fHP <= 0)
 	{
 		m_fHP = 0;

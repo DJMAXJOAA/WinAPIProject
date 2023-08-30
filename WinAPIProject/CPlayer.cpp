@@ -8,6 +8,8 @@
 #include "CResMgr.h"
 #include "CEventMgr.h"
 
+#include "CPanelUI_Number.h"
+
 #include "CTexture.h"
 #include "CScene.h"
 
@@ -28,6 +30,8 @@ CPlayer::CPlayer()
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(15.f, 15.f));
+
+	CreateHealthBar();
 
 	// 텍스쳐 로딩 (애니메이션 설정)
 	SetAnimator(200);
@@ -115,6 +119,8 @@ void CPlayer::AnimationEvent()
 		printf("CPlayer::AnimationEvent :: 캐릭터 스킬 애니메이션 이벤트 시작\n");
 		break;
 	}
+	default:
+		break;
 	}
 	
 }
@@ -147,6 +153,8 @@ void CPlayer::AnimationEnd()
 		printf("CPlayer::AnimationEnd :: 캐릭터 피격 애니메이션 종료 시작\n");
 		break;
 	}
+	default:
+		break;
 	}
 }
 
@@ -193,6 +201,14 @@ void CPlayer::GetDamaged(float _damaged)
 	}
 
 	m_fHP -= _damaged;
+
+	// 데미지 출력
+	Vec2 vRenderPos = CCamera::GetInstance()->GetRenderPos(GetPos());
+	vRenderPos.y -= 100.f;
+
+	CPanelUI_Number* pNumber = new CPanelUI_Number((int)_damaged, vRenderPos, 1.0, 1.f);
+	CreateObj(pNumber, GROUP_TYPE::NUMBER);
+
 	if (m_fHP <= 0)
 	{
 		m_fHP = 0;

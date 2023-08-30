@@ -13,6 +13,7 @@
 #include "CPlayer.h"
 #include "CMonster.h"
 #include "CEffect.h"
+#include "CBackground.h"
 
 #include "BFSSearch.h"
 #include "CTurnManager.h"
@@ -65,6 +66,10 @@ void EnterBattle::Handle(CScene_Battle* _pScene)
 	// 마우스 추가
 	CMouse* pMouse = new CMouse;
 	CreateObj(pMouse, GROUP_TYPE::MOUSE);
+
+	// 백그라운드 추가
+	CBackground* pBackground = new CBackground(L"texture\\Background\\battle_background.png");
+	CreateObj(pBackground, GROUP_TYPE::BACKGROUND);
 
 	// 타일 + 블럭 추가
 	int startX = (int)(vResolution.x / 2);
@@ -147,9 +152,9 @@ void EnterBattle::Handle(CScene_Battle* _pScene)
 	}
 
 	// GDI+ Test (Effect)
-	CEffect* pEffect = new CEffect;
-	pEffect->SetPos(REAL(PlayerStartPos));
-	CreateObj(pEffect, GROUP_TYPE::MISSILE_PLAYER);
+	//CEffect* pEffect = new CEffect;
+	//pEffect->SetPos(REAL(PlayerStartPos));
+	//CreateObj(pEffect, GROUP_TYPE::MISSILE_PLAYER);
 
 	// 카메라 설정
 	CCamera::GetInstance()->SetLookAt(REAL(PlayerStartPos));

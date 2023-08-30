@@ -11,7 +11,9 @@ using std::endl;
 using std::vector;
 #include <string>
 using std::string;
+using std::to_string;
 using std::wstring;
+using std::to_wstring;
 #include <map>
 using std::map;
 #include <unordered_map>

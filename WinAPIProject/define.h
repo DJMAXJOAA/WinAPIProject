@@ -44,12 +44,14 @@ namespace battle
 enum class GROUP_TYPE
 {
 	DEFAULT,
+	BACKGROUND,
 	BLOCK,
 	TILE,
 	MISSILE_PLAYER,
 	MISSILE_MONSTER,
 	UNIT,
 	MOUSE,
+	NUMBER,
 
 	UI = 31,
 	END = 32,

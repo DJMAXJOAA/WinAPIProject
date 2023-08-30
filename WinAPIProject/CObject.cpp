@@ -11,6 +11,7 @@
 #include "CAnimation.h"
 #include "CAnimatorGdiPlus.h"
 #include "CAnimationGdiPlus.h"
+#include "CHPBar.h"
 
 #include "AnimationData.h"
 #include "AnimatorData.h"
@@ -22,6 +23,7 @@ CObject::CObject()
 	, m_pCollider(nullptr)
 	, m_pAnimator(nullptr)
 	, m_pAnimatorGdiPlus(nullptr)
+	, m_pHealthBar(nullptr)
 	, m_bAlive(true)
 {
 }
@@ -34,6 +36,7 @@ CObject::CObject(const CObject& _origin)
 	, m_pCollider(nullptr) // 새로 콜라이더 생성
 	, m_pAnimator(nullptr)
 	, m_pAnimatorGdiPlus(nullptr)
+	, m_pHealthBar(nullptr)
 	, m_bAlive(true)
 {
 	if(_origin.m_pCollider)
@@ -51,6 +54,11 @@ CObject::CObject(const CObject& _origin)
 		m_pAnimatorGdiPlus = new CAnimatorGdiPlus(*_origin.m_pAnimatorGdiPlus);
 		m_pAnimatorGdiPlus->m_pOwner = this;
 	}
+	if (_origin.m_pHealthBar)
+	{
+		m_pHealthBar = new CHPBar(*_origin.m_pHealthBar);
+		m_pHealthBar->m_pOwner = this;
+	}
 }
 
 CObject::~CObject()
@@ -63,7 +71,10 @@ CObject::~CObject()
 		delete m_pAnimator;
 
 	if (m_pAnimatorGdiPlus != nullptr)
-		delete m_pAnimator;
+		delete m_pAnimatorGdiPlus;
+
+	if (m_pHealthBar != nullptr)
+		delete m_pHealthBar;
 }
 
 void CObject::CreateCollider()
@@ -138,6 +149,12 @@ void CObject::CreateAnimatorGdiPlus(int _key)
 	m_pAnimatorGdiPlus->m_pOwner = this;
 }
 
+void CObject::CreateHealthBar(int width, int height, Vec2 offset)
+{
+	m_pHealthBar = new CHPBar(width, height, offset);
+	m_pHealthBar->m_pOwner = this;
+}
+
 void CObject::FinalUpdate()
 {
 	if (m_pAnimator != nullptr)
@@ -148,6 +165,9 @@ void CObject::FinalUpdate()
 
 	if (m_pCollider != nullptr)
 		m_pCollider->FinalUpdate();
+
+	if (m_pCollider != nullptr)
+		m_pHealthBar->FinalUpdate();
 }
 
 void CObject::Render(HDC hdc)
@@ -175,6 +195,10 @@ void CObject::ComponetRender(HDC hdc)
 	if (m_pCollider != nullptr)
 	{
 		m_pCollider->Render(hdc);
+	}
+	if (m_pHealthBar != nullptr)
+	{
+		m_pHealthBar->Render(hdc);
 	}
 }
 

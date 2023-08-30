@@ -21,6 +21,7 @@ void GameData::SaveData()
     json j;
     j["PlayerInfo"] = m_PlayerInfo;
     j["MapInfo"] = m_vecMap;
+    j["MoveRoute"] = vectorVec2_to_json(m_vecRoute);
     j["PlayTime"] = m_fPlaytime;
 
     ofstream outFile(strFilePath);
@@ -34,8 +35,9 @@ void GameData::SaveData()
 
 void GameData::ParseData(const json& item)
 {
-    m_vecMap = item["MapInfo"];
     m_PlayerInfo = item["PlayerInfo"].get<PlayerInfo>();
+    m_vecMap = item["MapInfo"];
+    m_vecRoute = json_to_vectorVec2(item["MoveRoute"]);
     m_fPlaytime = item["PlayTime"];
 }
 
@@ -44,8 +46,6 @@ void to_json(json& j, const PlayerInfo& p)
     j = json
     {
     {"Money", p.fMoney},
-    {"XPos", p.ptMyLocation.x},
-    {"YPos", p.ptMyLocation.y},
     {"MaxHP", p.fMaxHP},
     {"CurrentHP", p.fCurHP},
     {"Inventory", vector_wstring_to_json(p.vecInventory)},
@@ -56,8 +56,6 @@ void to_json(json& j, const PlayerInfo& p)
 void from_json(const json& j, PlayerInfo& p)
 {
     p.fMoney = j["Money"].get<float>();
-    p.ptMyLocation.x = j["XPos"].get<LONG>();
-    p.ptMyLocation.y = j["YPos"].get<LONG>();
     p.fMaxHP = j["MaxHP"].get<float>();
     p.fCurHP = j["CurrentHP"].get<float>();
     p.vecInventory = json_to_vector_wstring(j["Inventory"].get<vector<string>>());
