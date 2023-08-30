@@ -3,39 +3,41 @@
 
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
-#include "CSceneMgr.h"
-#include "CPathMgr.h"
-#include "CResMgr.h"
 #include "CEventMgr.h"
+#include "CDataMgr.h"
 
 #include "CPanelUI_Number.h"
-
-#include "CTexture.h"
-#include "CScene.h"
 
 #include "CCollider.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
+
+#include "GameData.h"
 
 CPlayer::CPlayer()
 	: m_fSpeed(200.f)
 	, m_playerState(PLAYER_STATE::IDLE)
 	, m_playerDirection(GRID_DIRECTION::DOWN)
 	, m_pTargetMonster(nullptr)
-	, m_fAtt(40.f)
 	, m_bAttack(false)
 	, m_fCombo(0)
-	, m_fHP(100.f)
-	, m_fMaxHP(100.f)
 {
+	// 데이터 매니저에서 캐릭터 정보 가져오기
+	GameData* gameData = (GameData*)CDataMgr::GetInstance()->FindData(0);
+	PlayerInfo characterData = gameData->m_PlayerInfo;
+
+	m_fHP = characterData.fCurHP;
+	m_fMaxHP = characterData.fMaxHP;
+	m_fAtt = characterData.fAtt;
+	m_iMoney = characterData.iMoney;
+
+	// 컴포넌트 설정
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(15.f, 15.f));
 
 	CreateHealthBar(false);
 
-	// 텍스쳐 로딩 (애니메이션 설정)
 	SetAnimator(200);
-	GetAnimator()->Play((int)PLAYER_STATE::IDLE, true);
 }
 
 CPlayer::~CPlayer()

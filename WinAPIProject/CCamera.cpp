@@ -162,10 +162,11 @@ void CCamera::Render(HDC hdc)
 	{
 		iAlpha = (int)255.f;
 	}
-	else if (CAM_EFFECT::EVENT == effect.eEffect)
+	else if (CAM_EFFECT::WHITE == effect.eEffect || CAM_EFFECT::EVENT == effect.eEffect)
 	{
-		// 없음
+		// 효과 없음
 	}
+
 
 	BLENDFUNCTION bf = {};
 	bf.BlendOp = AC_SRC_OVER;

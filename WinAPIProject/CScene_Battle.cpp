@@ -3,6 +3,7 @@
 
 #include "CCollisionMgr.h"
 #include "CKeyMgr.h"
+#include "CDataMgr.h"
 
 #include "CPlayer.h"
 #include "CTile.h"
@@ -26,6 +27,8 @@
 #include "EnemyTurn_Move.h"
 #include "PlayerWin.h"
 #include "PlayerDefeat.h"
+
+#include "GameData.h"
 
 using namespace battle;
 static std::random_device rd;
@@ -178,11 +181,6 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 몬스터가 다 죽었으면, 턴 넘어가기
 		if (m_MonsterSpawner->GetMonsterList().empty())
 		{
-			CCamera::GetInstance()->FadeOut(1.0f);
-			CCamera::GetInstance()->BlackScreen(3.0f);
-			CCamera::GetInstance()->Event(0.01f);
-			CCamera::GetInstance()->FadeIn(1.0f);
-
 			m_TurnCenter->ChangeTurn(TURN_TYPE::WIN);
 			return;
 		}
@@ -202,6 +200,21 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 상태 변경
 		SetBattleState(TURN_TYPE::WIN);
 
+		// 카메라 효과 :: 2초 후, 페이드아웃 -> 턴넘김 -> 페이드인
+		CCamera::GetInstance()->WhiteScreen(1.0f);
+		CCamera::GetInstance()->FadeOut(1.0f);
+		CCamera::GetInstance()->Event(0.01f);
+		CCamera::GetInstance()->BlackScreen(2.0f);
+		CCamera::GetInstance()->FadeIn(1.0f);
+
+		// 게임 데이터 저장
+		GameData* data = (GameData*)CDataMgr::GetInstance()->FindData(0);
+		
+		data->m_PlayerInfo.fCurHP = m_pPlayer->GetHP();
+		data->m_PlayerInfo.iMoney = m_pPlayer->GetMoney();
+
+		data->SaveData();
+
 		break;
 	}
 	case TURN_TYPE::DEFEAT:
@@ -209,8 +222,14 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 상태 변경
 		SetBattleState(TURN_TYPE::DEFEAT);
 
-		// 플레이어 애니메이션 실행
-		m_pPlayer->GetAnimator()->PlayType(L"front_damaged", true);
+		// 카메라 효과 :: 2초 후, 페이드아웃 -> 턴넘김 -> 페이드인
+		CCamera::GetInstance()->WhiteScreen(1.0f);
+		CCamera::GetInstance()->FadeOut(1.0f);
+		CCamera::GetInstance()->Event(0.01f);
+		CCamera::GetInstance()->BlackScreen(2.0f);
+		CCamera::GetInstance()->FadeIn(1.0f);
+
+
 
 		break;
 	}
@@ -292,6 +311,10 @@ void CScene_Battle::MonsterAttackDone(CMonster* _pMon)
 
 void CScene_Battle::MonsterDied(CMonster* _pObj)
 {
+	int money = _pObj->GetMoney();
+	m_pPlayer->SetMoney(m_pPlayer->GetMoney() + money);
+	printf("CScene_Battle::MonsterDied :: %d원을 얻어서 돈이 %d원이 됐습니다.\n", money, m_pPlayer->GetMoney());
+
 	Vec2 GridPos = _pObj->GetGridPos();
 	vector<vector<TileState>>& vecTiles = m_TileCenter->GetTiles();
 
@@ -303,11 +326,6 @@ void CScene_Battle::MonsterDied(CMonster* _pObj)
 
 void CScene_Battle::PlayerDied()
 {
-	CCamera::GetInstance()->FadeOut(1.0f);
-	CCamera::GetInstance()->BlackScreen(3.0f);
-	CCamera::GetInstance()->Event(0.01f);
-	CCamera::GetInstance()->FadeIn(1.0f);
-
 	m_TurnCenter->ChangeTurn(TURN_TYPE::DEFEAT);
 
 	printf("CScene_Battle::PlayerDied :: 플레이어 사망\n");

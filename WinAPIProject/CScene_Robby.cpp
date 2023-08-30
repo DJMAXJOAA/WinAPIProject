@@ -37,10 +37,14 @@ CScene_Robby::~CScene_Robby()
 
 void CScene_Robby::EnterStage(Vec2 _vPos)
 {
-	CCamera::GetInstance()->FadeOut(0.5f);
+	// 화면 전환
+
+	// 카메라 효과 :: 1초 후, 페이드아웃 -> 턴넘김 -> 페이드인
+	CCamera::GetInstance()->WhiteScreen(1.0f);
+	CCamera::GetInstance()->FadeOut(1.0f);
 	CCamera::GetInstance()->Event(0.01f);
-	CCamera::GetInstance()->BlackScreen(1.0f);
-	CCamera::GetInstance()->FadeIn(0.5f);
+	CCamera::GetInstance()->BlackScreen(2.0f);
+	CCamera::GetInstance()->FadeIn(1.0f);
 
 	// 같은 x들 선택 못하게 삭제
 	int x = (int)_vPos.x;
@@ -135,7 +139,6 @@ void CScene_Robby::Enter()
 		// 맵 정보를 토대로 노드 생성
 		CMapGenerator mapGenerator;
 		m_vecNodes = mapGenerator.CreateStartPos(m_vecStage, m_mapGridNode);
-
 
 		// UI 추가
 		Vec2 vResolution = CCore::GetInstance()->GetResolution(); // 화면 크기 가져오기

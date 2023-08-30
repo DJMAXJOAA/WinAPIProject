@@ -4,10 +4,10 @@
 
 struct PlayerInfo
 {
-    float	fMoney;				// 현재 돈
-
-    float	fMaxHP;				// 최대체력
-    float	fCurHP;				// 현재체력
+    int 	iMoney;				// 현재 돈
+    float	fMaxHP;				// 최대 체력
+    float	fCurHP;				// 현재 체력
+    float   fAtt;               // 현재 공격력
 
     vector<wstring> vecInventory;	// 현재 장착중인 아이템 목록
     vector<wstring> vecSkill;		// 현재 장착중인 스킬 목록

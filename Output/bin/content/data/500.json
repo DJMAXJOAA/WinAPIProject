@@ -10,7 +10,7 @@
         "ATT": 20.0,
         "Move": 3,
         "Range": 1,
-        "Interval": 5
+        "Money": 100
     },
     {
         "ID": 501,
@@ -23,7 +23,7 @@
         "ATT": 30.0,
         "Move": 2,
         "Range": 1,
-        "Interval": 5
+        "Money": 200
     },
     {
         "ID": 502,
@@ -36,6 +36,6 @@
         "ATT": 20.0,
         "Move": 2,
         "Range": 3,
-        "Interval": 4
+        "Money": 150
     }
 ]

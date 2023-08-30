@@ -29,6 +29,7 @@ private:
     float                       m_fAtt;
     int                         m_iMove;
     int                         m_iRange;
+    int                         m_iMoney;       // 죽이면 나오는 돈
     float                       m_fSpeed;       // 실제 이동속도(렌더링 이동속도)
     
     bool                        m_bActionFinish;    // 행동 종료 여부
@@ -49,6 +50,7 @@ public:
     MONSTER_STATE GetState() { return m_monsterState; }
     list<Vec2>& GetRoute() { return m_lstRoute; }
     int GetRange() { return m_iRange; }
+    int GetMoney() { return m_iMoney; }
 
     void SetState(MONSTER_STATE _state) { m_monsterState = _state; }
     void SetRoute(list<Vec2> _route) { m_lstRoute = _route; }

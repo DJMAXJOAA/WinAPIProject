@@ -12,6 +12,7 @@ public:
 	float						m_fAtt;					// 공격력
 	int							m_iMove;				// 한 턴에 이동할 수 있는 이동량
 	int							m_iRange;				// 공격 사거리
+	int							m_iMoney;				// 죽이면 나오는 돈
 
 public:
 	MonsterData(int _key);

@@ -12,17 +12,21 @@ GameData::GameData(int _key)
     strFilePath += L"data\\save.json";
 
     ifstream inFile(strFilePath);
-    if (!inFile.is_open())
+    if (inFile.is_open())
     {
-        assert(0);
-        return;
+        // 파일이 있으면 불러옴
+        json j;
+        inFile >> j;
+        inFile.close();
+
+        ParseData(j);
     }
-
-    json j;
-    inFile >> j;
-    inFile.close();
-
-    ParseData(j);
+    else
+    {
+        // 파일이 없으면 안불러옴
+        Init();
+        SaveData();
+    }
 }
 
 GameData::~GameData()
@@ -39,9 +43,10 @@ void GameData::Init()
     // 플레이어 정보 초기화
     m_PlayerInfo = PlayerInfo
     {
-        0.f,
+        0,
         100.f,
         100.f,
+        40.f,
         {},
         {},
     };
@@ -80,9 +85,10 @@ void to_json(json& j, const PlayerInfo& p)
 {
     j = json
     {
-    {"Money", p.fMoney},
+    {"Money", p.iMoney},
     {"MaxHP", p.fMaxHP},
     {"CurrentHP", p.fCurHP},
+    {"Att", p.fAtt},
     //{"Inventory", vector_wstring_to_json(p.vecInventory)},
     //{"Skill", vector_wstring_to_json(p.vecSkill)}
     };
@@ -90,9 +96,10 @@ void to_json(json& j, const PlayerInfo& p)
 
 void from_json(const json& j, PlayerInfo& p)
 {
-    p.fMoney = j["Money"].get<float>();
+    p.iMoney = j["Money"].get<int>();
     p.fMaxHP = j["MaxHP"].get<float>();
     p.fCurHP = j["CurrentHP"].get<float>();
+    p.fAtt = j["Att"].get<float>();
     //p.vecInventory = json_to_vector_wstring(j["Inventory"].get<vector<string>>());
     //p.vecSkill = json_to_vector_wstring(j["Skill"].get<vector<string>>());
 }

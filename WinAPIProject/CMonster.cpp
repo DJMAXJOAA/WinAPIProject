@@ -30,6 +30,7 @@ CMonster::CMonster(int _key)
 	m_iMove = monData->m_iMove;
 	m_iRange = monData->m_iRange;
 	m_vecStrategy = monData->m_vecMosterStrategy;
+	m_iMoney = monData->m_iMoney;
 	SetAnimator(monData->m_iAnimatorKey);
 
 	CreateHealthBar(true);
@@ -43,6 +44,7 @@ CMonster::CMonster(MonsterData* _data)
 	, m_fAtt(_data->m_fAtt)
 	, m_iMove(_data->m_iMove)
 	, m_iRange(_data->m_iRange)
+	, m_iMoney(_data->m_iMoney)
 	, m_fSpeed(200.f)
 	, m_lstRoute{}
 	, m_bActionFinish(false)
@@ -65,6 +67,7 @@ CMonster::CMonster(const CMonster& _origin)
 	, m_iMove(_origin.m_iMove)
 	, m_iRange(_origin.m_iRange)
 	, m_fSpeed(_origin.m_fSpeed)
+	, m_iMoney(_origin.m_iMoney)
 	, m_lstRoute{}
 	, m_bActionFinish(_origin.m_bActionFinish)
 	, m_monsterState(_origin.m_monsterState)

@@ -9,6 +9,7 @@ enum class CAM_EFFECT
 	FADE_IN,
 	FADE_OUT,
 	BLACK,
+	WHITE,
 	EVENT,
 	NONE,
 };
@@ -95,6 +96,18 @@ public:
 	{
 		tCamEffect ef = {};
 		ef.eEffect = CAM_EFFECT::BLACK;
+		ef.fDuration = _fDuration;
+		ef.fCurTime = 0.f;
+		if (ef.fDuration == 0.f)
+			assert(nullptr);
+
+		m_listCamEffect.push_back(ef);
+	}
+
+	void WhiteScreen(float _fDuration)
+	{
+		tCamEffect ef = {};
+		ef.eEffect = CAM_EFFECT::WHITE;
 		ef.fDuration = _fDuration;
 		ef.fCurTime = 0.f;
 		if (ef.fDuration == 0.f)

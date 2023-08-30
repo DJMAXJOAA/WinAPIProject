@@ -31,6 +31,7 @@ private:
     float           m_fAtt;         // 플레이어 공격력
     float           m_fMaxHP;       // 플레이어 최대체력
     float           m_fHP;          // 플레이어 현재체력
+    int             m_iMoney;       // 플레이어 현재 돈
 
     bool            m_bAttack;      // 공격 중 여부
     float           m_fCombo;       // 콤보 데미지(스킬 데미지에 가산)
@@ -44,12 +45,16 @@ private:
     CLONE(CPlayer)
 
 public:
+    virtual float GetHP() { return m_fHP; }
+    virtual float GetMaxHP() { return m_fMaxHP; }
     PLAYER_STATE GetState() { return m_playerState; }
     CObject* GetTarget() { return m_pTargetMonster; }
+    int GetMoney() { return m_iMoney; }
 
     void SetState(PLAYER_STATE _state) { m_playerState = _state; }
     void SetTarget(CObject* _pObj) { m_pTargetMonster = _pObj; }
     void SetAttacking(bool _bTF) { m_bAttack = _bTF; }
+    void SetMoney(int _money) { m_iMoney = _money; }
 
     bool IsAttacking() { return m_bAttack; }
 
@@ -69,10 +74,6 @@ private:
     void SkillDoneEvent();
 
     void Died();
-
-public:
-    virtual float GetHP() { return m_fHP; }
-    virtual float GetMaxHP() { return m_fMaxHP; }
 
 public:
     void GetDamaged(float _damaged);
