@@ -26,6 +26,9 @@ public:
     vector<Vec2>            m_vecRoute;     // 현재 캐릭터가 지나간 루트 배열 -> 리스트의 마지막 위치가 현재 캐릭터 위치
     PlayerInfo              m_PlayerInfo;   // 캐릭터 관련 정보
 
+    // 실시간 정보
+    Vec2                    m_currentGridPos;   // 현재 격자 좌표에서 어디 있는지?
+
 public:
     GameData(int _key);
     ~GameData();

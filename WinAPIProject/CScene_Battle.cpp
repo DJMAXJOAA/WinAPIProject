@@ -207,13 +207,17 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		CCamera::GetInstance()->BlackScreen(2.0f);
 		CCamera::GetInstance()->FadeIn(1.0f);
 
-		// 게임 데이터 저장
+		// 맵에 정보 반영
 		GameData* data = (GameData*)CDataMgr::GetInstance()->FindData(0);
-		
+		data->m_vecRoute.push_back(data->m_currentGridPos);
+
+		// 게임 데이터 저장
 		data->m_PlayerInfo.fCurHP = m_pPlayer->GetHP();
 		data->m_PlayerInfo.iMoney = m_pPlayer->GetMoney();
 
 		data->SaveData();
+
+		printf("CScene_Battle::TurnInit :: 전투에서 승리했습니다! 정보가 저장되었습니다. \n");
 
 		break;
 	}
@@ -229,7 +233,7 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		CCamera::GetInstance()->BlackScreen(2.0f);
 		CCamera::GetInstance()->FadeIn(1.0f);
 
-
+		printf("CScene_Battle::TurnInit :: 전투에서 패배했습니다. 다시 돌아갑니다.\n");
 
 		break;
 	}

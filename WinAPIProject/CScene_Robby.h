@@ -27,6 +27,7 @@ public:
     ~CScene_Robby();
 
 public:
+    void NodeInit();
     void EnterStage(Vec2 _vPos);
     virtual void CameraEvent() override;
 

@@ -35,9 +35,62 @@ CScene_Robby::~CScene_Robby()
 	DeleteAll();
 }
 
+void CScene_Robby::NodeInit()
+{
+	// 전투 종료 시, 함수 실행
+	GameData* data = (GameData*)CDataMgr::GetInstance()->FindData(0);
+
+	for (auto& route : data->m_vecRoute)
+	{
+		// 같은 x들 선택 못하게 삭제
+		int x = (int)route.x;
+		for (int i = 0; i < m_vecStage.size(); ++i)
+		{
+			Vec2 pos(x, i);
+			if (m_mapBtnUI[pos] != nullptr)
+			{
+				m_mapBtnUI[pos]->SetSelect(false);
+			}
+		}
+
+		if (m_mapBtnUI[route] != nullptr)
+		{
+			// 선택 상태로 만들기
+			m_mapBtnUI[route]->SetSelect(true);
+			m_mapBtnUI[route]->SetClear(true);		// 이건 따로 이벤트로 수정
+
+			Vec2 CameraPos = Vec2(m_mapBtnUI[route]->GetPos().x, m_CameraPos.y);
+			CCamera::GetInstance()->SetLookAt(CameraPos);
+		}
+
+		auto iter = m_mapGridNode.find(route);
+		if (iter == m_mapGridNode.end())
+			assert(1);
+		else
+		{
+			m_pCurrentNode = iter->second;
+			m_lstRoute.push_back(route);
+
+			for (auto& child : iter->second->children)
+			{
+				if (child != nullptr)
+				{
+					m_mapBtnUI[Vec2(child->x, child->y)]->SetSelect(true);
+				}
+				else
+				{
+					printf("nullptr");
+				}
+			}
+		}
+	}
+}
+
 void CScene_Robby::EnterStage(Vec2 _vPos)
 {
-	// 화면 전환
+	// 현재 좌표 설정 -> 전투 승리 시, 설정 위해서
+	GameData* data = (GameData*)CDataMgr::GetInstance()->FindData(0);
+	data->m_currentGridPos = _vPos;
 
 	// 카메라 효과 :: 1초 후, 페이드아웃 -> 턴넘김 -> 페이드인
 	CCamera::GetInstance()->WhiteScreen(1.0f);
@@ -61,32 +114,11 @@ void CScene_Robby::EnterStage(Vec2 _vPos)
 	{
 		// 선택 상태로 만들기
 		m_mapBtnUI[_vPos]->SetSelect(true);
-		//m_mapBtnUI[_vPos]->SetClear(true);		// 이건 따로 이벤트로 수정
 
 		Vec2 CameraPos = Vec2(m_mapBtnUI[_vPos]->GetPos().x, m_CameraPos.y);
 		CCamera::GetInstance()->SetLookAt(CameraPos);
 	}
 
-	auto iter = m_mapGridNode.find(_vPos);
-	if (iter == m_mapGridNode.end())
-		assert(1);
-	else
-	{
-		m_pCurrentNode = iter->second;
-		m_lstRoute.push_back(_vPos);
-
-		for (auto& child : iter->second->children)
-		{
-			if (child != nullptr)
-			{
-				m_mapBtnUI[Vec2(child->x, child->y)]->SetSelect(true);
-			}
-			else
-			{
-				printf("nullptr");
-			}
-		}
-	}
 }
 
 void CScene_Robby::CameraEvent()
@@ -215,6 +247,11 @@ void CScene_Robby::Enter()
 		
 		enter = true;
 	}
+
+	// 노드 설정
+	NodeInit();
+
+	// 카메라 설정
 	CCamera::GetInstance()->SetLookAt(m_CameraPos);
 }
 
