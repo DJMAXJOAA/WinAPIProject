@@ -8,13 +8,15 @@ enum class CAM_EFFECT
 {
 	FADE_IN,
 	FADE_OUT,
+	BLACK,
+	EVENT,
 	NONE,
 };
 
 struct tCamEffect
 {
 	CAM_EFFECT	eEffect;		// 카메라 효과
-	float		fDuration;	// 효과 최대 진행시간
+	float		fDuration;		// 효과 최대 진행시간
 	float		fCurTime;		// 카메라 효과 현재 진행시간
 };
 
@@ -89,6 +91,30 @@ public:
 		m_listCamEffect.push_back(ef);
 	}
 
+	void BlackScreen(float _fDuration)
+	{
+		tCamEffect ef = {};
+		ef.eEffect = CAM_EFFECT::BLACK;
+		ef.fDuration = _fDuration;
+		ef.fCurTime = 0.f;
+		if (ef.fDuration == 0.f)
+			assert(nullptr);
+
+		m_listCamEffect.push_back(ef);
+	}
+
+	void Event(float _fDuration)
+	{
+		tCamEffect ef = {};
+		ef.eEffect = CAM_EFFECT::EVENT;
+		ef.fDuration = _fDuration;
+		ef.fCurTime = 0.f;
+		if (ef.fDuration == 0.f)
+			assert(nullptr);
+
+		m_listCamEffect.push_back(ef);
+	}
+
 public:
 	void Init();
 	void Update();
@@ -96,5 +122,6 @@ public:
 
 private:
 	void CalDiif();
+	void CameraEvent();
 };
 

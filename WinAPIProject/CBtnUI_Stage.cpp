@@ -3,26 +3,20 @@
 
 #include "CCore.h"
 #include "CKeyMgr.h"
+#include "CEventMgr.h"
+#include "CResMgr.h"
+
+#include "CTexture.h"
 
 #include "CAnimator.h"
 #include "CAnimation.h"
 
-CBtnUI_Stage::CBtnUI_Stage()
-	: CBtnUI(true)
-	, m_FieldType(FIELD_TYPE::NONE)
-	, m_bCleared(true)
-	, m_bSelect(false)
-{
-
-}
-
 CBtnUI_Stage::CBtnUI_Stage(int _value)
 	: CBtnUI(true)
+	, m_pCircle(nullptr)
 	, m_FieldType((FIELD_TYPE)_value)
 	, m_bCleared(false)
 	, m_bSelect(false)
-	, m_pBtnSelect(0)
-	, m_pSceneRobby(nullptr)
 {
 	SetScale(Vec2(30, 30));
 
@@ -34,6 +28,9 @@ CBtnUI_Stage::CBtnUI_Stage(int _value)
 	{
 		SetAnimator(208, true);
 	}
+
+	// 클리어용
+	m_pCircle = CResMgr::GetInstance()->LoadTexture(L"Clear_Circle", L"texture\\UI\\circle.bmp");
 }
 
 CBtnUI_Stage::~CBtnUI_Stage()
@@ -56,14 +53,20 @@ void CBtnUI_Stage::MouseLbtnUp()
 
 void CBtnUI_Stage::MouseLbtnClicked()
 {
-	if (1)
+	if (m_bSelect && !m_bCleared)
 	{
-		if (m_pBtnSelect && m_pSceneRobby)
-		{
-			// 원형 객체와 원형 함수에 접근 -> ((*객체).*함수())(인자있으면 인자);
-			((*m_pSceneRobby).*m_pBtnSelect)(GetGridPos());
-		}
+		EnterStageEvent(GetGridPos());
 	}
+}
+
+void CBtnUI_Stage::EnterStageEvent(Vec2 _vPos)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::FIELD_ENTER_STAGE;
+	evn.lParam = (DWORD_PTR)_vPos.x;
+	evn.wParam = (DWORD_PTR)_vPos.y;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
 }
 
 void CBtnUI_Stage::MouseOnCheck()
@@ -91,9 +94,15 @@ void CBtnUI_Stage::MouseOnCheck()
 
 void CBtnUI_Stage::Render(HDC hdc)
 {
-	CUI::Render(hdc);
+	/*CUI::Render(hdc);*/
 
 	ComponetRender(hdc);
+
+	if(m_bCleared)
+	{
+		Vec2 vRenderPos = CCamera::GetInstance()->GetRenderPos(GetPos());
+		TransparentBlt(hdc, (int)(vRenderPos.x - m_pCircle->Width()/2.f), (int)(vRenderPos.y - m_pCircle->Height() / 2.f), m_pCircle->Width(), m_pCircle->Height(), m_pCircle->GetDC(), 0, 0, m_pCircle->Width(), m_pCircle->Height(), RGB(255, 0, 255));
+	}
 }
 
 void CBtnUI_Stage::Update()
@@ -102,40 +111,40 @@ void CBtnUI_Stage::Update()
 	switch (m_FieldType)
 	{
 	case FIELD_TYPE::UP:
-		animation->SetFrame(0);
+		animation->SetFrame(3);
 		break;
 	case FIELD_TYPE::MID:
-		animation->SetFrame(1);
+		animation->SetFrame(4);
 		break;
 	case FIELD_TYPE::DOWN:
-		animation->SetFrame(2);
+		animation->SetFrame(5);
 		break;
 
 	case FIELD_TYPE::COMMON:
-		animation->SetFrame(4);
-		break;
-	case FIELD_TYPE::ELITE:
-		animation->SetFrame(5);
-		break;
-	case FIELD_TYPE::SHOP:
-		animation->SetFrame(6);
-		break;
-	case FIELD_TYPE::SHELTER:
-		animation->SetFrame(7);
-		break;
-	case FIELD_TYPE::BOSS:
 		animation->SetFrame(8);
 		break;
-	case FIELD_TYPE::MESSAGE:
+	case FIELD_TYPE::ELITE:
 		animation->SetFrame(9);
+		break;
+	case FIELD_TYPE::SHOP:
+		animation->SetFrame(10);
+		break;
+	case FIELD_TYPE::SHELTER:
+		animation->SetFrame(11);
+		break;
+	case FIELD_TYPE::BOSS:
+		animation->SetFrame(12);
+		break;
+	case FIELD_TYPE::MESSAGE:
+		animation->SetFrame(13);
 		break;
 	}
 
-	//if (m_bSelect)
-	//{
-	//	if ((int)m_FieldType < 4) animation->SetFrame(animation->GetCurrentFrame() - 3);
-	//	else animation->SetFrame(animation->GetCurrentFrame() - 7);
-	//}
+	if (m_bSelect || m_bCleared)
+	{
+		if ((int)m_FieldType < 4) animation->SetFrame(animation->GetCurrentFrame() - 3);
+		else animation->SetFrame(animation->GetCurrentFrame() - 7);
+	}
 
 	CUI::Update();
 	GetAnimator()->Update();

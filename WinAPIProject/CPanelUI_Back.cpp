@@ -27,7 +27,7 @@ void CPanelUI_Back::Render(HDC hdc)
 	/*CUI::Render(hdc);*/
 	Vec2 vRenderPos = CCamera::GetInstance()->GetRenderPos(GetPos());
 
-	TransparentBlt(hdc, vRenderPos.x, vRenderPos.y, m_pTexture->Width(), m_pTexture->Height(), m_pTexture->GetDC(), 0, 0, m_pTexture->Width(), m_pTexture->Height(), RGB(255, 0, 255));
+	TransparentBlt(hdc, (int)vRenderPos.x, (int)vRenderPos.y, m_pTexture->Width(), m_pTexture->Height(), m_pTexture->GetDC(), 0, 0, m_pTexture->Width(), m_pTexture->Height(), RGB(255, 0, 255));
 
 	Render_Child(hdc);
 }

@@ -7,6 +7,7 @@
 #include "CObject.h"
 #include "CScene.h"
 #include "CScene_Battle.h"
+#include "CScene_Robby.h"
 #include "CPlayer.h"
 
 CEventMgr::CEventMgr()
@@ -75,6 +76,12 @@ void CEventMgr::Excute(const tEvent& _eve)
 		CUIMgr::GetInstance()->SetFocusedUI(nullptr);
 		break;
 	}
+	case EVENT_TYPE::CAMERA_EVENT:
+	{
+		// 이벤트 끝나면, 알아서 카메라 이벤트 발생
+		CSceneMgr::GetInstance()->GetCurScene()->CameraEvent();
+		break;
+	}
 	case EVENT_TYPE::TILESELECT_TRIGGER:
 	{
 		// lParam :: Player Tile Select Trigger
@@ -89,6 +96,15 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// 턴 종료되었을 때, 씬 배틀에서 알게 하기 위해 함수 호출(타입에 맞는 초기화 함수 호출)
 		TURN_TYPE turnType = (TURN_TYPE)_eve.lParam;
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TurnInit(turnType);
+		break;
+	}
+	case EVENT_TYPE::FIELD_ENTER_STAGE:
+	{
+		// lParam :: float x
+		// wParam :: float y
+		// 특정 격자 좌표의 버튼이 눌렸다고 이벤트 호출
+		Vec2 vGridPos = Vec2((float)_eve.lParam, (float)_eve.wParam);
+		((CScene_Robby*)CSceneMgr::GetInstance()->GetCurScene())->EnterStage(vGridPos);
 		break;
 	}
 	case EVENT_TYPE::ANIMATION_EVENT:
@@ -163,8 +179,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 	}
 	case EVENT_TYPE::PLAYER_DIED:
 	{
-		// lParam :: Monster Object
-		// 애니메이션이 끝나면, 리스트를 지워줌
+		// 플레이어가 죽었다고 씬에게 알림을 줌
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerDied();
 		break;
 	}

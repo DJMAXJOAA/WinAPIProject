@@ -34,7 +34,7 @@ CScene_Battle::CScene_Battle()
 	, m_iFieldType(0)
 	, m_iDifficulty(1)
 	, m_FieldType(FIELD_TYPE::COMMON)
-	, m_vecStates((int)TURN_TYPE::EXIT)
+	, m_vecStates((int)TURN_TYPE::DEFEAT + 1)
 	, m_BFS(nullptr)
 	, m_Astar(nullptr)
 	, m_MonsterSpawner(nullptr)
@@ -42,14 +42,6 @@ CScene_Battle::CScene_Battle()
 	, m_TileCenter(nullptr)
 	, m_BattleState(nullptr)
 {
-	// 매니저를 등록 -> 오브젝트로 등록하는게 아니라서 직접 해제 시켜주어야 한다. Enter, Exit 함수와 관련없음
-	// 메인 씬에 있는 그룹 오브젝트들을 참조해서 관리하는 형식이라, 임의로 값들을 해제시키지 않게 주의해야 한다
-	m_TurnCenter = new CTurnCenter;
-	m_BFS = new BFSSearch;
-	m_MonsterSpawner = new CMonsterSpawner;
-	m_TileCenter = new CTileCenter;
-	m_Astar = new AstarSearch;
-
 	// 씬의 State들을 추가
 	m_vecStates[(int)TURN_TYPE::ENTER] = new EnterBattle;
 	m_vecStates[(int)TURN_TYPE::PLAYER_TILESELECT] = new PlayerTurn_TileSelect;
@@ -57,16 +49,12 @@ CScene_Battle::CScene_Battle()
 	m_vecStates[(int)TURN_TYPE::PLAYER_ATTACK] = new PlayerTurn_Attack;
 	m_vecStates[(int)TURN_TYPE::PLAYER_SKILL] = new PlayerTurn_Skill;
 	m_vecStates[(int)TURN_TYPE::ENEMY_MOVE] = new EnemyTurn_Move;
+	m_vecStates[(int)TURN_TYPE::WIN] = new EnemyTurn_Move;
+	m_vecStates[(int)TURN_TYPE::DEFEAT] = new EnemyTurn_Move;
 }
 
 CScene_Battle::~CScene_Battle()
 {
-	delete m_BFS;
-	delete m_MonsterSpawner;
-	delete m_TurnCenter;
-	delete m_TileCenter;
-	delete m_Astar;
-
 	SafeDeleteVec(m_vecStates);
 }
 
@@ -139,6 +127,13 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 검은 타일들(밟고 지나왔던 타일들) 랜덤 타일들로 리셋시키기
 		m_TileCenter->TileRandomInit();
 
+		// 몬스터가 다 죽었으면, 겜 종료
+		if (m_MonsterSpawner->GetMonsterList().empty())
+		{
+			m_TurnCenter->ChangeTurn(TURN_TYPE::WIN);
+			return;
+		}
+
 		if (m_TurnCenter->GetCombo() < 4)
 		{
 			printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 콤보가 4 이하라서 스킬을 사용하지 않습니다.\n");
@@ -203,8 +198,16 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		printf("CScene_Battle::TurnInit :: 적 이동 상태 초기화\n");
 		break;
 	}
-	case TURN_TYPE::ENEMY_ATTACK: break;
-	case TURN_TYPE::EXIT: break;
+	case TURN_TYPE::WIN:
+	{
+		SetBattleState(TURN_TYPE::WIN);
+		break;
+	}
+	case TURN_TYPE::DEFEAT:
+	{
+		SetBattleState(TURN_TYPE::DEFEAT);
+		break;
+	}
 	}
 }
 
@@ -294,11 +297,20 @@ void CScene_Battle::MonsterDied(CMonster* _pObj)
 
 void CScene_Battle::PlayerDied()
 {
-	CCamera::GetInstance()->FadeOut(0.5f);
-	CCamera::GetInstance()->FadeIn(0.5f);
-	ChangeScene(SCENE_TYPE::TOOL);
+	CCamera::GetInstance()->FadeOut(1.0f);
+	CCamera::GetInstance()->BlackScreen(3.0f);
+	CCamera::GetInstance()->Event(0.01f);
+	CCamera::GetInstance()->FadeIn(1.0f);
+
+	m_pPlayer->AnimationDirection(PLAYER_STATE::DAMAGED, true);
+	m_TurnCenter->ChangeTurn(TURN_TYPE::DEFEAT);
 
 	printf("CScene_Battle::PlayerDied :: 플레이어 사망\n");
+}
+
+void CScene_Battle::CameraEvent()
+{
+	ChangeScene(SCENE_TYPE::ROBBY);
 }
 
 void CScene_Battle::TileSelectTrigger(CObject* _pObj)
@@ -419,13 +431,20 @@ void CScene_Battle::Update()
 		m_BattleState->Handle(this);
 	}
 	
-	//// 몬스터 관리 배열 업데이트 (사망 예정인 오브젝트들을 삭제)
+	// 몬스터 관리 배열 업데이트 (사망 예정인 오브젝트들을 삭제)
 	m_MonsterSpawner->Update();
 }
 
 void CScene_Battle::Enter()
 {
-	// 버튼 이벤트로 대체시키기
+	// 매니저를 등록 -> 오브젝트로 등록하는게 아니라서 직접 해제 시켜주어야 한다. Enter, Exit 함수와 관련없음
+	// 메인 씬에 있는 그룹 오브젝트들을 참조해서 관리하는 형식이라, 임의로 값들을 해제시키지 않게 주의해야 한다
+	m_TurnCenter = new CTurnCenter;
+	m_BFS = new BFSSearch;
+	m_MonsterSpawner = new CMonsterSpawner;
+	m_TileCenter = new CTileCenter;
+	m_Astar = new AstarSearch;
+
 	SetBattleState(TURN_TYPE::ENTER);
 	m_BattleState->Handle(this);
 	SetBattleState(TURN_TYPE::PLAYER_START);
@@ -435,11 +454,18 @@ void CScene_Battle::Enter()
 void CScene_Battle::Exit()
 {
 	CCamera::GetInstance()->SetTarget(nullptr);
+
 	m_TurnCenter->Init();
 	m_TileCenter->Init();
 	m_MonsterSpawner->Init();
 	DeleteAll();
 	CCollisionMgr::GetInstance()->Reset();
+
+	delete m_BFS;
+	delete m_MonsterSpawner;
+	delete m_TurnCenter;
+	delete m_TileCenter;
+	delete m_Astar;
 }
 
 bool CompareGridPos(CObject* _pObj1, CObject* _pObj2)

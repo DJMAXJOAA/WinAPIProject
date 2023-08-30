@@ -67,6 +67,8 @@ public:
     void MonsterDied(CMonster* _pObj);
     void PlayerDied();
 
+    virtual void CameraEvent() override;
+
 public:
     virtual void Update() override;
     virtual void Enter() override;

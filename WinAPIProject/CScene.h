@@ -30,6 +30,8 @@ public:
 	virtual void Enter() = 0; // Scene의 진입
 	virtual void Exit() = 0; // Scene의 탈출
 
+	virtual void CameraEvent() {};
+
 public:
 	virtual void Update();
 	virtual void FinalUpdate(); // 마무리 작업(모두 업데이트 끝나고, 확정 후 render)

@@ -62,7 +62,6 @@ void CUI::MouseOnCheck()
 		&& m_vFinalPos.y <= vMousePos.y && vMousePos.y <= m_vFinalPos.y + vScale.y)
 	{
 		m_bMouseOn = true;
-		printf("a");
 	}
 	else
 	{
@@ -108,18 +107,18 @@ void CUI::Render(HDC hdc)
 		SelectGDI select(hdc, PEN_TYPE::GREEN);
 
 		Rectangle(hdc
-			, (int)vPos.x - vScale.x / 2.f
-			, (int)vPos.y - vScale.y / 2.f
-			, (int)vPos.x + vScale.x / 2.f
-			, (int)vPos.y + vScale.y / 2.f);
+			, (int)(vPos.x - vScale.x / 2.f)
+			, (int)(vPos.y - vScale.y / 2.f)
+			, (int)(vPos.x + vScale.x / 2.f)
+			, (int)(vPos.y + vScale.y / 2.f));
 	}
 	else
 	{
 		Rectangle(hdc
-			, (int)vPos.x - vScale.x / 2.f
-			, (int)vPos.y - vScale.y / 2.f
-			, (int)vPos.x + vScale.x / 2.f
-			, (int)vPos.y + vScale.y / 2.f);
+			, (int)(vPos.x - vScale.x / 2.f)
+			, (int)(vPos.y - vScale.y / 2.f)
+			, (int)(vPos.x + vScale.x / 2.f)
+			, (int)(vPos.y + vScale.y / 2.f));
 	}
 
 	Render_Child(hdc);

@@ -85,8 +85,12 @@ enum class EVENT_TYPE
 	DELETE_OBJECT,
 	SCENE_CHANGE,
 
+	CAMERA_EVENT,
+
 	TILESELECT_TRIGGER,
 	TURN_CHANGE,
+
+	FIELD_ENTER_STAGE,
 
 	ANIMATION_EVENT,
 	ANIMATION_END,
@@ -186,8 +190,8 @@ enum class TURN_TYPE
 	PLAYER_ATTACK,          // 플레이어 :: 이동중에 공격 상태 들어감(잠깐)
 	PLAYER_SKILL,           // 플레이어 :: 움직임이 끝나고, 스킬 시전중
 	ENEMY_MOVE,             // 적 :: 움직임 계산 + 움직임
-	ENEMY_ATTACK,           // 적 :: 움직임이 끝나고, 플레이어 공격 혹은 스킬
-	EXIT,                   // 전투 종료
+	WIN,                   // 전투 종료
+	DEFEAT,					// 패배
 };
 
 enum class DIRECTION

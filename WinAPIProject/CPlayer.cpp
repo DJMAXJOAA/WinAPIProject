@@ -217,10 +217,8 @@ void CPlayer::Died()
 {
 	tEvent evn = {  };
 	evn.eEvent = EVENT_TYPE::PLAYER_DIED;
-	evn.lParam = (DWORD_PTR)this;
 
 	CEventMgr::GetInstance()->AddEvent(evn);
-	//DeleteObj(this);
 }
 
 

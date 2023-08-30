@@ -5,6 +5,7 @@
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
 #include "CCamera.h"
+#include "CSceneMgr.h"
 
 #include "CPanelUI_Back.h"
 #include "CBtnUI_Stage.h"
@@ -26,8 +27,58 @@ CScene_Robby::~CScene_Robby()
 	delete m_MapGenerator;
 }
 
-void CScene_Robby::SetCurrentNode(Vec2 _vPos)
+void CScene_Robby::EnterStage(Vec2 _vPos)
 {
+	CCamera::GetInstance()->FadeOut(0.5f);
+	CCamera::GetInstance()->BlackScreen(1.0f);
+	CCamera::GetInstance()->Event(0.01f);
+	CCamera::GetInstance()->FadeIn(0.5f);
+
+	// 같은 x들 선택 못하게 삭제
+	int x = (int)_vPos.x;
+	for (int i = 0; i < m_vecStage.size(); ++i)
+	{
+		Vec2 pos(x, i);
+		if (m_mapBtnUI[pos] != nullptr)
+		{
+			m_mapBtnUI[pos]->SetSelect(false);
+		}
+	}
+
+	if (m_mapBtnUI[_vPos] != nullptr)
+	{
+		m_mapBtnUI[_vPos]->SetSelect(true);
+		//m_mapBtnUI[_vPos]->SetClear(true);		// 이건 따로 이벤트로 수정
+
+		Vec2 CameraPos = Vec2(m_mapBtnUI[_vPos]->GetPos().x, m_CameraPos.y);
+		CCamera::GetInstance()->SetLookAt(CameraPos);
+	}
+
+	auto iter = m_mapGridNode.find(_vPos);
+	if (iter == m_mapGridNode.end())
+		assert(1);
+	else
+	{
+		m_pCurrentNode = iter->second;
+		m_lstRoute.push_back(_vPos);
+
+		for (auto& child : iter->second->children)
+		{
+			if (child != nullptr)
+			{
+				m_mapBtnUI[Vec2(child->x, child->y)]->SetSelect(true);
+			}
+			else
+			{
+				printf("nullptr");
+			}
+		}
+	}
+}
+
+void CScene_Robby::CameraEvent()
+{
+	ChangeScene(SCENE_TYPE::BATTLE);
 }
 
 void CScene_Robby::Render(HDC hdc)

@@ -6,6 +6,7 @@
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
 #include "CResMgr.h"
+#include "CEventMgr.h"
 
 #include "CObject.h"
 #include "CTexture.h"
@@ -148,7 +149,7 @@ void CCamera::Render(HDC hdc)
 	if (fRatio > 1.f)
 		fRatio = 1.f;
 
-	int iAlpha = 0;
+	static int iAlpha;
 	if (CAM_EFFECT::FADE_OUT == effect.eEffect)
 	{
 		iAlpha = (int)(255.f * fRatio);
@@ -156,6 +157,14 @@ void CCamera::Render(HDC hdc)
 	else if (CAM_EFFECT::FADE_IN == effect.eEffect)
 	{
 		iAlpha = (int)(255.f * (1.f - fRatio));
+	}
+	else if (CAM_EFFECT::BLACK == effect.eEffect)
+	{
+		iAlpha = (int)255.f;
+	}
+	else if (CAM_EFFECT::EVENT == effect.eEffect)
+	{
+		// 없음
 	}
 
 	BLENDFUNCTION bf = {};
@@ -176,6 +185,10 @@ void CCamera::Render(HDC hdc)
 	// 진행시간이 이펙트 최대 지정 시간을 넘어가면
 	if (effect.fDuration < effect.fCurTime)
 	{
+		if (CAM_EFFECT::EVENT == effect.eEffect)
+		{
+			CameraEvent();
+		}
 		m_listCamEffect.pop_front();
 		return;
 	}
@@ -214,4 +227,12 @@ void CCamera::CalDiif()
 
 	m_vDiff = m_vCurLookAt - vCenter;
 	m_vPrevLookAt = m_vCurLookAt;
+}
+
+void CCamera::CameraEvent()
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::CAMERA_EVENT;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
 }

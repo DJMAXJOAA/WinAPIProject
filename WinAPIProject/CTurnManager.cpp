@@ -92,9 +92,9 @@ void CTurnCenter::Update(CScene_Battle* _pScene)
 	}
 	case TURN_TYPE::ENEMY_MOVE:
 		break;
-	case TURN_TYPE::ENEMY_ATTACK:
+	case TURN_TYPE::WIN:
 		break;
-	case TURN_TYPE::EXIT:
+	case TURN_TYPE::DEFEAT:
 		break;
 	default:
 		break;
