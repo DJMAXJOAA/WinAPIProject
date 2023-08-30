@@ -4,6 +4,7 @@
 
 class CPlayer;
 class CMonster;
+class CPanelUI_Number;
 
 class BFSSearch;
 class AstarSearch;
@@ -24,6 +25,7 @@ private:
     FIELD_TYPE              m_FieldType;        
 
     CPlayer*                m_pPlayer;          // 플레이어 객체를 따로 관리
+    CPanelUI_Number*        m_mMoneyUI;           // 돈 표시용 (임시 UI)
     vector<CBattleState*>   m_vecStates;        // 스테이트 패턴들
 
     BFSSearch*              m_BFS;              // BFS로 격자맵 경로 탐색
@@ -48,6 +50,7 @@ public:
     CTileCenter* GetTileCenter() { return m_TileCenter; }
 
     void SetPlayer(CPlayer* _pPlayer) { m_pPlayer = _pPlayer; }
+    void SetMoneyUI(CPanelUI_Number* _pUI) { m_mMoneyUI = _pUI; }
     void SetFieldType(int _iID) { m_iFieldType = _iID; }
     void SetBattleState(TURN_TYPE _type) { m_BattleState = m_vecStates[(int)_type]; }
 

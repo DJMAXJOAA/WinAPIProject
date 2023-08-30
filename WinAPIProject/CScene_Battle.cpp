@@ -432,7 +432,7 @@ void CScene_Battle::Update()
 	// 화면 전환
 	if (KEY_TAP(KEY::ENTER))
 	{
-		ChangeScene(SCENE_TYPE::ROBBY);
+		ChangeScene(SCENE_TYPE::END);
 	}
 
 	// 시점 조절

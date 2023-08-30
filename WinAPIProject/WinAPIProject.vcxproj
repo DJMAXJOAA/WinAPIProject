@@ -164,6 +164,7 @@
     <ClInclude Include="CGdiPlus.h" />
     <ClInclude Include="CScene_End.h" />
     <ClInclude Include="CScene_Robby.h" />
+    <ClInclude Include="CSoundMgr.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CToolTest.h" />
     <ClInclude Include="CToolTest2.h" />
@@ -269,6 +270,7 @@
     <ClCompile Include="CScene_Start.cpp" />
     <ClCompile Include="CScene_Tool.cpp" />
     <ClCompile Include="CSound.cpp" />
+    <ClCompile Include="CSoundMgr.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CGdiPlus.cpp" />
     <ClCompile Include="CTile.cpp" />
@@ -308,9 +310,6 @@
     <Image Include="AssortrockWinAPI.ico" />
     <Image Include="WinAPIProject.ico" />
     <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

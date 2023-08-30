@@ -242,6 +242,9 @@
     <Filter Include="Engine\07. Component\HPBar">
       <UniqueIdentifier>{e362ef9f-3c12-4364-af2d-e16b9b6d1126}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\03. Manager\Sound">
+      <UniqueIdentifier>{f41e0b88-b64e-488d-a398-fca7473cdf13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -494,6 +497,9 @@
     <ClInclude Include="CHPBar.h">
       <Filter>Engine\07. Component\HPBar</Filter>
     </ClInclude>
+    <ClInclude Include="CSoundMgr.h">
+      <Filter>Engine\03. Manager\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -719,6 +725,9 @@
     <ClCompile Include="CHPBar.cpp">
       <Filter>Engine\07. Component\HPBar</Filter>
     </ClCompile>
+    <ClCompile Include="CSoundMgr.cpp">
+      <Filter>Engine\03. Manager\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPIProject.rc">
@@ -735,8 +744,5 @@
     <Image Include="AssortrockWinAPI.ico">
       <Filter>Default\리소스 파일</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

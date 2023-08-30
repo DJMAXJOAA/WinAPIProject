@@ -11,6 +11,7 @@
 #include "CUIMgr.h"
 #include "CResMgr.h"
 #include "CDataMgr.h"
+#include "CSoundMgr.h"
 
 #include "CTexture.h"
 #include "CObject.h"
@@ -83,6 +84,9 @@ int CCore::Init(HWND hWnd, POINT ptResolution)
 	CKeyMgr::GetInstance()->Init();
 	CCamera::GetInstance()->Init();		// 씬매니저보다 먼저
 	CSceneMgr::GetInstance()->Init();
+	CSoundMgr::GetInstance()->Init();
+
+	CResMgr::GetInstance()->
 
 	return S_OK;
 }

@@ -8,7 +8,7 @@ class CUIMgr
 private:
 	CUI*		m_pFocusedUI;	// 포커싱 된 ui만 움직이게 수정
 
-public:
+private:
 	CUIMgr();
 	~CUIMgr();
 

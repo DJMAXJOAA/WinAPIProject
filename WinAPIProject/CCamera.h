@@ -47,7 +47,7 @@ private:
 	list<tCamEffect>	m_listCamEffect;	// 페이드인, 페이드아웃이 연속적으로 진행될 수 있게 배열에 저장해두기
 	CTexture*	m_pVeilTex;		// 가림막 텍스쳐 (검은색 -> fade in, fade out)
 
-public:
+private:
 	CCamera();
 	~CCamera();
 

@@ -40,6 +40,9 @@ void GameData::Init()
     // 맵 생성
     m_vecMap = mapGenrator.CreateRandomMap();
 
+    // 길찾기 루트는 삭제
+    m_vecRoute.clear();
+
     // 플레이어 정보 초기화
     m_PlayerInfo = PlayerInfo
     {

@@ -14,6 +14,7 @@
 #include "CMonster.h"
 #include "CEffect.h"
 #include "CBackground.h"
+#include "CPanelUI_Number.h"
 
 #include "BFSSearch.h"
 #include "CTurnManager.h"
@@ -150,6 +151,11 @@ void EnterBattle::Handle(CScene_Battle* _pScene)
 			// 좌표가 겹치면 반복자 증가 안하니까 다시 좌표 설정
 		}
 	}
+
+	// 돈 표시 UI (임시)
+	CPanelUI_Number* pNumber = new CPanelUI_Number(pPlayer->GetMoney(), Vec2(50, 650), 2.0f);
+	_pScene->SetMoneyUI(pNumber);
+	CreateObj(pNumber, GROUP_TYPE::UI);
 
 	// GDI+ Test (Effect)
 	//CEffect* pEffect = new CEffect;
