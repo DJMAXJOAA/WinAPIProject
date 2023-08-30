@@ -69,6 +69,11 @@ private:
     void AttackDoneEvent();
 
     void Died();
+
+public:
+    virtual float GetHP() { return m_fHP; }
+    virtual float GetMaxHP() { return m_fMaxHP; }
+
 public:
     void GetDamaged(float _damaged);
 

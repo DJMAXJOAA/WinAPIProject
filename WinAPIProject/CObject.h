@@ -75,8 +75,7 @@ public:
 	void CreateAnimatorGdiPlus(int _key);
 
 public:
-	void CreateHealthBar(int width = 100, int height = 50, Vec2 offset = Vec2(0, -50));
-
+	void CreateHealthBar(bool IsItMonster, int _width = 100, int _height = 10, Vec2 _offset = Vec2(0, -80));
 
 public:
 	virtual void Update() = 0; // 순수 가상 함수 -> 오브젝트들의 Update는 모두 기능이 다름 (다형성)

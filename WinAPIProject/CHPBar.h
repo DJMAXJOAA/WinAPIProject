@@ -11,6 +11,7 @@ private:
 	
 	int			m_iWidth;
 	int			m_iHeight;		// 체력바 크기
+	bool		m_bMonster;		// 몬스터인지 아닌지
 	
 public:
 	CHPBar(int _width, int _height, Vec2 _offset);
@@ -19,10 +20,11 @@ public:
 
 	friend class CObject;
 
+private:
+	void DrawTextWithBorder(Graphics& graphics, const std::wstring& text, const Font& font, const PointF& point);
+
 public:
 	void FinalUpdate();
 	void Render(HDC hdc);
-
-
 };
 

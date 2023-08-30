@@ -31,6 +31,8 @@ CMonster::CMonster(int _key)
 	m_iRange = monData->m_iRange;
 	m_vecStrategy = monData->m_vecMosterStrategy;
 	SetAnimator(monData->m_iAnimatorKey);
+
+	CreateHealthBar(true);
 }
 
 CMonster::CMonster(MonsterData* _data)
@@ -49,6 +51,8 @@ CMonster::CMonster(MonsterData* _data)
 	, m_currentStrategy(MONSTER_STRATEGY::NONE)
 {
 	SetAnimator(_data->m_iAnimatorKey);
+
+	CreateHealthBar(true);
 }
 
 CMonster::CMonster(const CMonster& _origin)

@@ -22,16 +22,16 @@ CPlayer::CPlayer()
 	, m_playerState(PLAYER_STATE::IDLE)
 	, m_playerDirection(GRID_DIRECTION::DOWN)
 	, m_pTargetMonster(nullptr)
-	, m_fAtt(50.f)
+	, m_fAtt(40.f)
 	, m_bAttack(false)
 	, m_fCombo(0)
-	, m_fHP(100)
-	, m_fMaxHP(m_fHP)
+	, m_fHP(100.f)
+	, m_fMaxHP(100.f)
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(15.f, 15.f));
 
-	CreateHealthBar();
+	CreateHealthBar(false);
 
 	// 텍스쳐 로딩 (애니메이션 설정)
 	SetAnimator(200);
@@ -236,8 +236,6 @@ void CPlayer::Died()
 
 	CEventMgr::GetInstance()->AddEvent(evn);
 }
-
-
 
 void CPlayer::AnimationDirection(PLAYER_STATE _anim, bool _bRepeat, GRID_DIRECTION _aniDirection)
 {

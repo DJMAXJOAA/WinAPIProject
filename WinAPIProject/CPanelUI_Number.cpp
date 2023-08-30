@@ -88,7 +88,7 @@ void CPanelUI_Number::Render(HDC hdc)
             float scaledHeight = img->GetHeight() * m_fScale;
 
             RectF destRect(vPos.x + xOffset, vPos.y, scaledWidth, scaledHeight);
-            graphics.DrawImage(img, destRect, 0, 0, img->GetWidth(), img->GetHeight(), UnitPixel, &imgAttr);
+            graphics.DrawImage(img, destRect, 0, 0, (REAL)img->GetWidth(), (REAL)img->GetHeight(), UnitPixel, &imgAttr);
 
             xOffset += (int)scaledWidth;  // 다음 숫자 이미지를 그릴 위치를 업데이트
         }

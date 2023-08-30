@@ -357,7 +357,7 @@
         "Type": "front_bow",
         "AnimationInfo": {
             "Duration": 0.12,
-            "EventFrame": 2,
+            "EventFrame": 0,
             "Frame": 4,
             "Offset": [
                 -3.0,

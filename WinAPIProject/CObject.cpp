@@ -149,10 +149,11 @@ void CObject::CreateAnimatorGdiPlus(int _key)
 	m_pAnimatorGdiPlus->m_pOwner = this;
 }
 
-void CObject::CreateHealthBar(int width, int height, Vec2 offset)
+void CObject::CreateHealthBar(bool _bTF, int _width, int _height, Vec2 _offset)
 {
-	m_pHealthBar = new CHPBar(width, height, offset);
+	m_pHealthBar = new CHPBar(_width, _height, _offset);
 	m_pHealthBar->m_pOwner = this;
+	m_pHealthBar->m_bMonster = _bTF;
 }
 
 void CObject::FinalUpdate()
@@ -166,7 +167,7 @@ void CObject::FinalUpdate()
 	if (m_pCollider != nullptr)
 		m_pCollider->FinalUpdate();
 
-	if (m_pCollider != nullptr)
+	if (m_pHealthBar != nullptr)
 		m_pHealthBar->FinalUpdate();
 }
 
