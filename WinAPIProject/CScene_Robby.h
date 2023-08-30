@@ -9,7 +9,6 @@ class CScene_Robby :
     public CScene
 {
 private:
-    CMapGenerator*                      m_MapGenerator;     // 노드맵 생성
     vector<MapNode*>                    m_vecNodes;         // 노드맵 배열 생성
 
     vector<vector<int>>                 m_vecStage;         // 맵 생성 -> 데이터 매니저에서 값을 가져와서 복사생성

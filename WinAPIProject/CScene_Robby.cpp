@@ -6,35 +6,32 @@
 #include "CTimeMgr.h"
 #include "CCamera.h"
 #include "CSceneMgr.h"
+#include "CDataMgr.h"
 
 #include "CBackground.h"
 
 #include "CPanelUI_Back.h"
 #include "CBtnUI_Stage.h"
 
-// 최초 1회 필드 구성
+#include "GameData.h"
+
+// 최초 1회 필드 구성 static 변수
 static bool enter;
 
 CScene_Robby::CScene_Robby()
 	: m_CameraPos{}
 	, m_vecStage{}
-	, m_MapGenerator(nullptr)
 	, m_mainUI(nullptr)
 	, m_mapGridNode{}
 	, m_mapBtnUI{}
 	, m_pCurrentNode(nullptr)
 {
-	m_MapGenerator = new CMapGenerator;
 
-	// 맵 생성
-	m_vecStage = m_MapGenerator->CreateRandomMap();
-	m_vecNodes = m_MapGenerator->CreateStartPos(m_vecStage, m_mapGridNode);
 }
 
 CScene_Robby::~CScene_Robby()
 {
 	SafeDeleteVec(m_vecNodes);
-	delete m_MapGenerator;
 	DeleteAll();
 }
 
@@ -129,6 +126,17 @@ void CScene_Robby::Enter()
 	// 최초 1회만 실행
 	if (!enter)
 	{
+		// 게임 데이터 로드
+		GameData* data = (GameData*)CDataMgr::GetInstance()->FindData(0);
+
+		// 데이터 매니저에 저장되있는 배열을 가져옴
+		m_vecStage = data->m_vecMap;
+
+		// 맵 정보를 토대로 노드 생성
+		CMapGenerator mapGenerator;
+		m_vecNodes = mapGenerator.CreateStartPos(m_vecStage, m_mapGridNode);
+
+
 		// UI 추가
 		Vec2 vResolution = CCore::GetInstance()->GetResolution(); // 화면 크기 가져오기
 

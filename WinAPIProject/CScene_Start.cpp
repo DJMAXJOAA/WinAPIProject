@@ -38,20 +38,20 @@ void CScene_Start::Enter()
 
 	// 타이틀 제목
 	vector<wstring> tile{ L"texture\\UI\\title.png", L"texture\\UI\\title.png" };
-	CBtnUI_Start* pTilte = new CBtnUI_Start(tile);
+	CBtnUI_Start* pTilte = new CBtnUI_Start(tile, false);
 	pTilte->SetPos(Vec2(vResolution.x / 2, 200.f));
 	CreateObj(pTilte, GROUP_TYPE::UI);
 
 	// 시작 버튼
 	vector<wstring> start{ L"texture\\UI\\start1.png", L"texture\\UI\\start2.png" };
-	CBtnUI_Start* pStart = new CBtnUI_Start(start);
+	CBtnUI_Start* pStart = new CBtnUI_Start(start, false);
 	pStart->SetPos(Vec2(vResolution.x / 2, 550.f));
 	pStart->SetScale(Vec2(300, 80));
 	CreateObj(pStart, GROUP_TYPE::UI);
 
 	// 로드 버튼
 	vector<wstring> load{ L"texture\\UI\\load1.png", L"texture\\UI\\load2.png" };
-	CBtnUI_Start* pLoad = new CBtnUI_Start(load);
+	CBtnUI_Start* pLoad = new CBtnUI_Start(load, true);
 	pLoad->SetPos(Vec2(vResolution.x / 2, 650.f));
 	pLoad->SetScale(Vec2(300, 80));
 	CreateObj(pLoad, GROUP_TYPE::UI);

@@ -7,11 +7,13 @@ class CBtnUI_Start :
 private:
     vector<Image*>  m_vecImage;
     Image*          m_pImage;
+
+    bool            m_bLoad;
     
     CLONE(CBtnUI_Start)
 
 public:
-    CBtnUI_Start(vector<wstring> _filenames);
+    CBtnUI_Start(vector<wstring> _filenames, bool _bLoad);
     ~CBtnUI_Start();
 
 public:

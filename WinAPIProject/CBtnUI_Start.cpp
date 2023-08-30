@@ -3,11 +3,15 @@
 
 #include "CPathMgr.h"
 #include "CKeyMgr.h"
+#include "CDataMgr.h"
 
-CBtnUI_Start::CBtnUI_Start(vector<wstring> _filenames)
+#include "GameData.h"
+
+CBtnUI_Start::CBtnUI_Start(vector<wstring> _filenames, bool _bLoad)
 	: CBtnUI(false)
 	, m_vecImage{}
 	, m_pImage(nullptr)
+	, m_bLoad(_bLoad)
 {
 	for (auto& file : _filenames)
 	{
@@ -67,7 +71,23 @@ void CBtnUI_Start::MouseLbtnUp()
 
 void CBtnUI_Start::MouseLbtnClicked()
 {
-	ChangeScene(SCENE_TYPE::ROBBY);
+	// ·Îµå
+	if (m_bLoad)
+	{
+		GameData* data = (GameData*)CDataMgr::GetInstance()->FindData(0);
+		
+
+		ChangeScene(SCENE_TYPE::ROBBY);
+	}
+	// °Á °×½ÃÀÛ
+	else
+	{
+		GameData* data = (GameData*)CDataMgr::GetInstance()->FindData(0);
+		data->Init();
+
+		ChangeScene(SCENE_TYPE::ROBBY);
+	}
+	
 }
 
 void CBtnUI_Start::Render(HDC hdc)
