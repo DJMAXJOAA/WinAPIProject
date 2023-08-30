@@ -36,7 +36,7 @@ void CSceneMgr::Init()
 
 	m_arrScene[(UINT)SCENE_TYPE::ROBBY] = new CScene_Robby;
 	m_arrScene[(UINT)SCENE_TYPE::ROBBY]->SetName(L"Robby Scene");
-
+	
 	// 현재 씬 저장
 	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::ROBBY];
 	m_pCurScene->Enter(); // 씬 진입

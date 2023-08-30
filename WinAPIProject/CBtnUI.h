@@ -1,3 +1,4 @@
+
 #pragma once
 #include "CUI.h"
 
@@ -8,7 +9,7 @@
 // 원래는 공통의 클래스를 하나로 묶어서, 하나로만 사용(Engine Object...) -> 유니티의 gameObject....
 typedef void(*BTN_FUNC)(DWORD_PTR, DWORD_PTR); 
 typedef void(CScene::*SCENE_MEMFUNC)(void);
-typedef void(CObject::* OBJECT_MEMFUNC)(void);
+typedef void(CObject::*OBJECT_MEMFUNC)(void);
 
 class CBtnUI :
     public CUI

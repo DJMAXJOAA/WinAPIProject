@@ -171,30 +171,6 @@ void CScene_Tool::Enter()
 	m_pDisplay = toolTest;
 	AddObject(toolTest, GROUP_TYPE::DEFAULT);
 
-	CPanelUI* pPanelUI = new CPanelUI(false);
-	pPanelUI->SetName(L"ParentUI");
-	pPanelUI->SetScale(Vec2(500.f, 300.f));
-	pPanelUI->SetPos(Vec2(vResolution.x - pPanelUI->GetScale().x, 0.f));
-
-	CBtnUI* pBtnUI = new CBtnUI(false);
-	pBtnUI->SetName(L"ChildUI");
-	pBtnUI->SetScale(Vec2(100.f, 30.f));
-	pBtnUI->SetPos(Vec2(0.f, 0.f));
-	((CBtnUI*)pBtnUI)->SetClickedCallBack(ChangeScene, 0, 0);
-	/*((CBtnUI*)pBtnUI)->SetClickedCallBack(this, (SCENE_MEMFUNC)&CScene_Tool::SaveTileData);*/
-	pPanelUI->AddChild(pBtnUI);
-
-	// UI는 메인 UI하나만 들어감 -> 대신 ChildUI도 함께 들어감
-	AddObject(pPanelUI, GROUP_TYPE::UI);
-
-	//// 복사본 ui 만들기
-	//CUI* pClonePanel = pPanelUI->Clone();
-	//pClonePanel->SetPos(pClonePanel->GetPos() + Vec2(-300.f, 0.f));
-	//((CBtnUI*)pClonePanel->GetChildUI()[0])->SetClickedCallBack(ChangeScene, 0, 0);		// 복사본에만 CallBack함수 구현 -> 아래 구현
-	//AddObject(pClonePanel, GROUP_TYPE::UI);
-
-	//m_pUI = pClonePanel;
-
 	int startX = (int)(vResolution.x / 2);
 	int startY = (int)(vResolution.y / 4);
 

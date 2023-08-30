@@ -110,5 +110,21 @@
             161,
             162
         ]
+    },
+    {
+        "ID": 207,
+        "Name": "Direction",
+        "Type": "map",
+        "AnimationList": [
+            163
+        ]
+    },
+    {
+        "ID": 208,
+        "Name": "Stages",
+        "Type": "map",
+        "AnimationList": [
+            164
+        ]
     }
 ]

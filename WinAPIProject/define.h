@@ -157,11 +157,15 @@ enum class ATTACK_TYPE
 enum class FIELD_TYPE
 {
 	NONE,
+	UP,
+	MID,
+	DOWN,
 	COMMON = 4,
 	ELITE,
 	SHOP,
 	SHELTER,
 	BOSS,
+	MESSAGE,
 };
 
 enum class BLOCK_TYPE

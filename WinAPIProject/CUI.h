@@ -26,9 +26,12 @@ public:
     CUI* GetParent() { return m_pParentUI; }
     const vector<CUI*>& GetChildUI() { return m_vecChildUI; }
     Vec2 GetFinalPos() { return m_vFinalPos; }
-
+    
+    bool IsCamAffected() { return m_bCamAffected; }
     bool IsMouseOn() { return m_bMouseOn; }
     bool IsLbtnDown() { return m_bLbtnDown; }
+
+    void SetMouseOn(bool _bTF) { m_bMouseOn = _bTF; }
 
 public:
     void AddChild(CUI* _pUI) { m_vecChildUI.push_back(_pUI); _pUI->m_pParentUI = this; }
@@ -40,7 +43,7 @@ public:
     virtual void MouseLbtnClicked();    // 마우스가 UI 위에서 눌렸으면서 + 뗄 떼도 UI 위에도 있음
 
 public:
-    void MouseOnCheck();
+    virtual void MouseOnCheck();
 
 public:
     virtual void Update();
