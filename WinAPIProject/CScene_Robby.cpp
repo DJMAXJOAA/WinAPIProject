@@ -92,11 +92,12 @@ void CScene_Robby::EnterStage(Vec2 _vPos)
 	GameData* data = (GameData*)CDataMgr::GetInstance()->FindData(0);
 	data->m_currentGridPos = _vPos;
 
+
 	// 카메라 효과 :: 1초 후, 페이드아웃 -> 턴넘김 -> 페이드인
-	CCamera::GetInstance()->WhiteScreen(1.0f);
+	CCamera::GetInstance()->WhiteScreen(0.5f);
 	CCamera::GetInstance()->FadeOut(1.0f);
 	CCamera::GetInstance()->Event(0.01f);
-	CCamera::GetInstance()->BlackScreen(2.0f);
+	CCamera::GetInstance()->BlackScreen(1.0f);
 	CCamera::GetInstance()->FadeIn(1.0f);
 
 	// 같은 x들 선택 못하게 삭제
@@ -115,8 +116,8 @@ void CScene_Robby::EnterStage(Vec2 _vPos)
 		// 선택 상태로 만들기
 		m_mapBtnUI[_vPos]->SetSelect(true);
 
-		Vec2 CameraPos = Vec2(m_mapBtnUI[_vPos]->GetPos().x, m_CameraPos.y);
-		CCamera::GetInstance()->SetLookAt(CameraPos);
+		m_CameraPos = Vec2(m_mapBtnUI[_vPos]->GetPos().x, m_CameraPos.y);
+		CCamera::GetInstance()->SetLookAt(m_CameraPos);
 	}
 
 }

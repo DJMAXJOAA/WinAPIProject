@@ -10,10 +10,10 @@ enum class SOUND_TYPE
     END,
 };
 
-
 class CPlayer;
 class CMonster;
 class CPanelUI_Number;
+
 class BFSSearch;
 class AstarSearch;
 class CMonsterSpawner;

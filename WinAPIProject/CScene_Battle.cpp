@@ -221,10 +221,10 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		m_vecSoundEffect[(int)SOUND_TYPE::WIN]->Play(false);
 
 		// 카메라 효과 :: 2초 후, 페이드아웃 -> 턴넘김 -> 페이드인
-		CCamera::GetInstance()->WhiteScreen(1.0f);
+		CCamera::GetInstance()->WhiteScreen(0.5f);
 		CCamera::GetInstance()->FadeOut(1.0f);
 		CCamera::GetInstance()->Event(0.01f);
-		CCamera::GetInstance()->BlackScreen(2.0f);
+		CCamera::GetInstance()->BlackScreen(1.0f);
 		CCamera::GetInstance()->FadeIn(1.0f);
 
 		// 맵에 정보 반영
