@@ -19,13 +19,19 @@ enum class PLAYER_STATE
     BOW,
 };
 
+
+
+class CSound;
+
 class CPlayer :
     public CObject
 {
 private:
+    CSound*         m_pHitSound;     // 효과음
+
     PLAYER_STATE    m_playerState;      // 캐릭 상태
     GRID_DIRECTION  m_playerDirection;  // 캐릭터 현재 방향
-    CObject*       m_pTargetMonster;   // 현재 타게팅 된 몬스터
+    CObject*        m_pTargetMonster;   // 현재 타게팅 된 몬스터
 
     float           m_fSpeed;       // 이동속도
     float           m_fAtt;         // 플레이어 공격력
@@ -57,6 +63,9 @@ public:
     void SetMoney(int _money) { m_iMoney = _money; }
 
     bool IsAttacking() { return m_bAttack; }
+
+    void SetHP(float _hp) { m_fHP = _hp; }
+    void SetAtt(float _att) { m_fAtt = _att; }  // 치트용
 
 public:
     void Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination);

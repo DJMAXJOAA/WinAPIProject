@@ -5,9 +5,12 @@
 #include "CKeyMgr.h"
 #include "CEventMgr.h"
 #include "CDataMgr.h"
+#include "CSoundMgr.h"
+#include "CResMgr.h"
 
 #include "CPanelUI_Number.h"
 
+#include "CSound.h"
 #include "CCollider.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
@@ -21,6 +24,7 @@ CPlayer::CPlayer()
 	, m_pTargetMonster(nullptr)
 	, m_bAttack(false)
 	, m_fCombo(0)
+	, m_pHitSound(nullptr)
 {
 	// 데이터 매니저에서 캐릭터 정보 가져오기
 	GameData* gameData = (GameData*)CDataMgr::GetInstance()->FindData(0);
@@ -38,6 +42,9 @@ CPlayer::CPlayer()
 	CreateHealthBar(false);
 
 	SetAnimator(200);
+
+	// 사운드 설정
+	m_pHitSound = CResMgr::GetInstance()->LoadSound(L"hitSound", L"sound\\attack.wav");
 }
 
 CPlayer::~CPlayer()
@@ -210,6 +217,9 @@ void CPlayer::GetDamaged(float _damaged)
 
 	CPanelUI_Number* pNumber = new CPanelUI_Number((int)_damaged, vRenderPos, 1.0, 1.f);
 	CreateObj(pNumber, GROUP_TYPE::NUMBER);
+
+	// 피격 효과음
+	m_pHitSound->Play(false);
 
 	if (m_fHP <= 0)
 	{

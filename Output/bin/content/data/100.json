@@ -1807,5 +1807,32 @@
                 0.0
             ]
         }
+    },
+    {
+        "ID": 167,
+        "Name": "HitEffect",
+        "Path": "texture\\Effect\\hit_effect.png",
+        "Type": "effect_hit",
+        "AnimationInfo": {
+            "Duration": 0.1,
+            "EventFrame": 0,
+            "Frame": 6,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "Pos": [
+                0.0,
+                0.0
+            ],
+            "Slice": [
+                267.0,
+                213.0
+            ],
+            "Step": [
+                267.0,
+                0.0
+            ]
+        }
     }
 ]

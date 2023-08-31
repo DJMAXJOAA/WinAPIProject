@@ -157,6 +157,11 @@ void EnterBattle::Handle(CScene_Battle* _pScene)
 	_pScene->SetMoneyUI(pNumber);
 	CreateObj(pNumber, GROUP_TYPE::UI);
 
+	// 콤보 표시 UI (임시)
+	CPanelUI_Number* pCombo = new CPanelUI_Number(0, Vec2(1200, 650), 2.0f);
+	_pScene->SetComboUI(pCombo);
+	CreateObj(pCombo, GROUP_TYPE::UI);
+
 	// GDI+ Test (Effect)
 	//CEffect* pEffect = new CEffect;
 	//pEffect->SetPos(REAL(PlayerStartPos));

@@ -4,12 +4,16 @@
 #include "CCollisionMgr.h"
 #include "CKeyMgr.h"
 #include "CDataMgr.h"
+#include "CResMgr.h"
 
 #include "CPlayer.h"
 #include "CTile.h"
 #include "CMouse.h"
 #include "CMonster.h"
+#include "CEffect.h"
+#include "CPanelUI_Number.h"
 
+#include "CSound.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
 
@@ -28,11 +32,14 @@
 #include "PlayerWin.h"
 #include "PlayerDefeat.h"
 
+
 #include "GameData.h"
 
 using namespace battle;
 static std::random_device rd;
 static std::mt19937 gen(rd());
+
+static bool cheat;
 
 CScene_Battle::CScene_Battle()
 	: m_pPlayer(nullptr)
@@ -46,8 +53,12 @@ CScene_Battle::CScene_Battle()
 	, m_TurnCenter(nullptr)
 	, m_TileCenter(nullptr)
 	, m_BattleState(nullptr)
+	, m_pMoneyUI(nullptr)
+	, m_pComboUI(nullptr)
+	, m_vecSoundEffect((int)SOUND_TYPE::END)
 {
-
+	m_vecSoundEffect[(int)SOUND_TYPE::WIN] = CResMgr::GetInstance()->LoadSound(L"winSound", L"sound\\win.wav");
+	m_vecSoundEffect[(int)SOUND_TYPE::LOSE] = CResMgr::GetInstance()->LoadSound(L"losdSound", L"sound\\lose.wav");
 }
 
 CScene_Battle::~CScene_Battle()
@@ -82,6 +93,9 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		m_pPlayer->AnimationDirection(PLAYER_STATE::IDLE, true);
 		m_pPlayer->SetAttacking(false);
 
+		// 타일 타겟 지정 잠깐 해제 
+		m_TileCenter->SetTileObject(m_pPlayer->GetGridPos(), nullptr);
+
 		// 리스트 초기화
 		m_TurnCenter->RouteInit();
 		m_TurnCenter->GetTargetList().clear();
@@ -99,6 +113,9 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 	case TURN_TYPE::PLAYER_TILESELECT: break;
 	case TURN_TYPE::PLAYER_MOVE:
 	{
+		// 타일 타겟 다시 지정
+		m_TileCenter->SetTileObject(m_pPlayer->GetGridPos(), m_pPlayer);
+
 		// 상태 변경
 		SetBattleState(TURN_TYPE::PLAYER_MOVE);
 
@@ -200,6 +217,9 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 상태 변경
 		SetBattleState(TURN_TYPE::WIN);
 
+		// 패배 효과음 재생
+		m_vecSoundEffect[(int)SOUND_TYPE::WIN]->Play(false);
+
 		// 카메라 효과 :: 2초 후, 페이드아웃 -> 턴넘김 -> 페이드인
 		CCamera::GetInstance()->WhiteScreen(1.0f);
 		CCamera::GetInstance()->FadeOut(1.0f);
@@ -226,6 +246,9 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 		// 상태 변경
 		SetBattleState(TURN_TYPE::DEFEAT);
 
+		// 패배 효과음 재생
+		m_vecSoundEffect[(int)SOUND_TYPE::LOSE]->Play(false);
+
 		// 카메라 효과 :: 2초 후, 페이드아웃 -> 턴넘김 -> 페이드인
 		CCamera::GetInstance()->WhiteScreen(1.0f);
 		CCamera::GetInstance()->FadeOut(1.0f);
@@ -242,6 +265,10 @@ void CScene_Battle::TurnInit(TURN_TYPE _type)
 
 void CScene_Battle::PlayerAttackMonster(float _damage, CMonster* _pMon)
 {
+	// 피격 이펙트 생성
+	CEffect* pEffect = new CEffect(209, _pMon->GetPos());
+	CreateObj(pEffect, GROUP_TYPE::EFFECT);
+
 	_pMon->GetDamaged(_damage);
 
 	printf("CScene_Battle::PlayerAttackMonster :: 적에게 %1.f 데미지로 공격 ->", _damage);
@@ -281,6 +308,10 @@ void CScene_Battle::PlayerSkillCasted(float _value)
 		printf("CScene_Battle::PlayerSkillCasted :: 적들에게 %1.f 데미지로 스킬 시전 ->", _value);
 		for (auto iter = list.begin(); iter != list.end(); iter++)
 		{
+			// 피격 이펙트 생성
+			CEffect* pEffect = new CEffect(209, ((CMonster*)*iter)->GetPos());
+			CreateObj(pEffect, GROUP_TYPE::EFFECT);
+
 			((CMonster*)*iter)->GetDamaged(_value);
 		}
 
@@ -299,6 +330,10 @@ void CScene_Battle::PlayerSkillDone()
 
 void CScene_Battle::MonsterAttackPlayer(float _damage)
 {
+	// 피격 이펙트 생성
+	CEffect* pEffect = new CEffect(209, m_pPlayer->GetPos());
+	CreateObj(pEffect, GROUP_TYPE::EFFECT);
+
 	m_pPlayer->GetDamaged(_damage);
 
 	printf("CScene_Battle::MonsterAttackPlayer :: 몬스터가 플레이어에게 %1.f 데미지로 공격 ->", _damage);
@@ -399,23 +434,28 @@ void CScene_Battle::TileSelectTrigger(CObject* _pObj)
 			m_TileCenter->GetObj(selectPos) == nullptr &&
 			iter == moveRoute.end())
 		{
-			CTile* tile = (CTile*)_pObj;
-			
-			// 카메라 타일로 지정
-			CCamera::GetInstance()->SetLookAt(REAL(selectPos));
+			// 치트 켜지면 타일 색깔 쌩까기
+			if (cheat == true ||
+				(cheat == false && m_TileCenter->GetTile(selectPos)->GetTileState() == m_TurnCenter->GetTileColor()))
+			{
+				CTile* tile = (CTile*)_pObj;
 
-			// 현재 위치 갱신, 리스트 추가, 타일 선택됐다고 함수 날려주기
-			m_TurnCenter->SetSelectTile(selectPos);
-			moveRoute.push_back(selectPos);
-			tile->SetTileState((TILE_STATE)((int)tile->GetTileState() + 4));
+				// 카메라 타일로 지정
+				CCamera::GetInstance()->SetLookAt(REAL(selectPos));
 
-			// 타일 콤보 추가
-			m_TurnCenter->SetCombo(m_TurnCenter->GetCombo() + 1);
+				// 현재 위치 갱신, 리스트 추가, 타일 선택됐다고 함수 날려주기
+				m_TurnCenter->SetSelectTile(selectPos);
+				moveRoute.push_back(selectPos);
+				tile->SetTileState((TILE_STATE)((int)tile->GetTileState() + 4));
 
-			// 디버깅
-			printf("%d 콤보 :: ", m_TurnCenter->GetCombo());
-			for (auto& lstPos : moveRoute) printf("%1.f, %1.f -> ", lstPos.x, lstPos.y);
-			printf("\n");
+				// 타일 콤보 추가
+				m_TurnCenter->SetCombo(m_TurnCenter->GetCombo() + 1);
+
+				// 디버깅
+				printf("%d 콤보 :: ", m_TurnCenter->GetCombo());
+				for (auto& lstPos : moveRoute) printf("%1.f, %1.f -> ", lstPos.x, lstPos.y);
+				printf("\n");
+			}
 		}
 	}
 		break;
@@ -433,6 +473,29 @@ void CScene_Battle::Update()
 	if (KEY_TAP(KEY::ENTER))
 	{
 		ChangeScene(SCENE_TYPE::END);
+	}
+
+	// 치트키
+	if (KEY_TAP(KEY::P))
+	{
+
+		if (cheat == false)
+		{
+			m_pPlayer->SetHP(m_pPlayer->GetMaxHP());
+			m_pPlayer->SetAtt(150.f);
+			cheat = true;
+		}
+		else
+		{
+			m_pPlayer->SetAtt(40.f);
+			cheat = false;
+		}
+	}
+	
+	// 승리
+	if (KEY_TAP(KEY::O))
+	{
+		m_TurnCenter->ChangeTurn(TURN_TYPE::WIN);
 	}
 
 	// 시점 조절
@@ -460,6 +523,10 @@ void CScene_Battle::Update()
 	
 	// 몬스터 관리 배열 업데이트 (사망 예정인 오브젝트들을 삭제)
 	m_MonsterSpawner->Update();
+
+	// UI 업데이트 (임시)
+	m_pMoneyUI->SetNumber((int)m_pPlayer->GetMoney());
+	m_pComboUI->SetNumber((int)m_TurnCenter->GetCombo());
 }
 
 void CScene_Battle::Enter()

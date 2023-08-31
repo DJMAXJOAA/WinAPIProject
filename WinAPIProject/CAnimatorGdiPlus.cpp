@@ -144,11 +144,13 @@ void CAnimatorGdiPlus::Update()
 
         if (m_pCurAnim->isFinish())
         {
-            m_pCurAnim->SetFrame(0);
-
             if (!m_bRepeat)
             {
                 AnimationEnd(m_pOwner);
+            }
+            else
+            {
+                m_pCurAnim->SetFrame(0);
             }
         }
         else if (m_eventTrigger == false

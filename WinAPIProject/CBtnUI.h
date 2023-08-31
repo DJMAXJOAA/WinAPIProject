@@ -11,10 +11,14 @@ typedef void(*BTN_FUNC)(DWORD_PTR, DWORD_PTR);
 typedef void(CScene::*SCENE_MEMFUNC)(void);
 typedef void(CObject::*OBJECT_MEMFUNC)(void);
 
+class CSound;
+
 class CBtnUI :
     public CUI
 {
 private:
+    CSound*         m_pBtnSound;
+
     BTN_FUNC        m_pFunc;
     DWORD_PTR       m_param1;
     DWORD_PTR       m_param2;

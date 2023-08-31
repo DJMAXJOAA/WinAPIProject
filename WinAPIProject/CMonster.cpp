@@ -4,9 +4,11 @@
 #include "CTimeMgr.h"
 #include "CDataMgr.h"
 #include "CEventMgr.h"
+#include "CResMgr.h"
 
 #include "CPanelUI_Number.h"
 
+#include "CSound.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
 
@@ -20,6 +22,7 @@ CMonster::CMonster(int _key)
 	, m_lstRoute{}
 	, m_fSpeed(30.f)
 	, m_currentStrategy(MONSTER_STRATEGY::NONE)
+	, m_pHitSound(nullptr)
 {
 	MonsterData* monData = (MonsterData*)CDataMgr::GetInstance()->FindData(_key);
 	m_strName = monData->m_strName;
@@ -34,6 +37,9 @@ CMonster::CMonster(int _key)
 	SetAnimator(monData->m_iAnimatorKey);
 
 	CreateHealthBar(true);
+
+	// 사운드 설정
+	m_pHitSound = CResMgr::GetInstance()->LoadSound(L"hitSound", L"sound\\attack.wav");
 }
 
 CMonster::CMonster(MonsterData* _data)
@@ -51,10 +57,14 @@ CMonster::CMonster(MonsterData* _data)
 	, m_monsterState(MONSTER_STATE::IDLE)
 	, m_monsterDirection(GRID_DIRECTION::DOWN)
 	, m_currentStrategy(MONSTER_STRATEGY::NONE)
+	, m_pHitSound(nullptr)
 {
 	SetAnimator(_data->m_iAnimatorKey);
 
 	CreateHealthBar(true);
+
+	// 사운드 설정
+	m_pHitSound = CResMgr::GetInstance()->LoadSound(L"hitSound", L"sound\\attack.wav");
 }
 
 CMonster::CMonster(const CMonster& _origin)
@@ -73,6 +83,7 @@ CMonster::CMonster(const CMonster& _origin)
 	, m_monsterState(_origin.m_monsterState)
 	, m_monsterDirection(_origin.m_monsterDirection)
 	, m_currentStrategy(_origin.m_currentStrategy)
+	, m_pHitSound(_origin.m_pHitSound)
 {
 }
 
@@ -277,6 +288,9 @@ void CMonster::GetDamaged(float _damaged)
 
 	CPanelUI_Number* pNumber = new CPanelUI_Number((int)_damaged, vRenderPos, 1.0, 1.f);
 	CreateObj(pNumber, GROUP_TYPE::NUMBER);
+
+	// 사운드 출력
+	m_pHitSound->Play(false);
 
 	if (m_fHP <= 0)
 	{

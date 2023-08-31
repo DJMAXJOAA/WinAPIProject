@@ -83,10 +83,8 @@ int CCore::Init(HWND hWnd, POINT ptResolution)
 	CTimeMgr::GetInstance()->Init();
 	CKeyMgr::GetInstance()->Init();
 	CCamera::GetInstance()->Init();		// 씬매니저보다 먼저
-	CSceneMgr::GetInstance()->Init();
 	CSoundMgr::GetInstance()->Init();
-
-	CResMgr::GetInstance()->
+	CSceneMgr::GetInstance()->Init();
 
 	return S_OK;
 }

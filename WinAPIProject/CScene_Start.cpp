@@ -3,18 +3,27 @@
 
 #include "CCore.h"
 #include "CKeyMgr.h"
+#include "CResMgr.h"
+#include "CSoundMgr.h"
+
+#include "CSound.h"
 
 #include "CBackground.h"
 #include "CBtnUI_Start.h"
 #include "CPanelUI_Number.h"
 
 CScene_Start::CScene_Start()
+	: m_pBGM(nullptr)
 {
-
+	// 배경음 등록
+	m_pBGM = CResMgr::GetInstance()->LoadSound(L"BGM", L"sound\\reminiscence.wav");
+	CSoundMgr::GetInstance()->RegisterToBGM(m_pBGM);
+	m_pBGM->PlayToBGM(true);
 }
 
 CScene_Start::~CScene_Start()
 {
+
 }
 
 void CScene_Start::Update()

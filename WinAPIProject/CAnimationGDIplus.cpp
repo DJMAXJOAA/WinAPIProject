@@ -14,19 +14,17 @@
 CAnimationGdiPlus::CAnimationGdiPlus()
     : m_pAnimator(nullptr)
     , m_pBitmap(nullptr)
-    , m_pGraphics(nullptr)
     , m_iCurFrame(0)
     , m_fAccTime(0.f)
     , m_bFinish(false)
     , m_iID(0)
 {
-    m_pGraphics = CCore::GetInstance()->GetGraphics();
+
 }
 
 CAnimationGdiPlus::CAnimationGdiPlus(const CAnimationGdiPlus& _origin)
     : m_strName(_origin.m_strName)
     , m_pAnimator(nullptr)
-    , m_pGraphics(_origin.m_pGraphics)
     , m_pBitmap(_origin.m_pBitmap)
     , m_vecFrame(_origin.m_vecFrame)
     , m_iCurFrame(_origin.m_iCurFrame)
@@ -75,6 +73,8 @@ void CAnimationGdiPlus::Render(HDC hdc)
     if (m_bFinish)
         return;
 
+    Graphics graphics(hdc);
+
     CObject* pObj = m_pAnimator->GetObj();
     Vec2 vPos = pObj->GetPos();
 
@@ -87,7 +87,7 @@ void CAnimationGdiPlus::Render(HDC hdc)
         (int)m_vecFrame[m_iCurFrame].vSlice.x,
         (int)m_vecFrame[m_iCurFrame].vSlice.y);
 
-    m_pGraphics->DrawImage(m_pBitmap->GetBitmap(), destRect,
+    graphics.DrawImage(m_pBitmap->GetBitmap(), destRect,
         (int)m_vecFrame[m_iCurFrame].vLeftTop.x,
         (int)m_vecFrame[m_iCurFrame].vLeftTop.y,
         (int)m_vecFrame[m_iCurFrame].vSlice.x,

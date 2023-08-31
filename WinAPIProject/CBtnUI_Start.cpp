@@ -71,6 +71,9 @@ void CBtnUI_Start::MouseLbtnUp()
 
 void CBtnUI_Start::MouseLbtnClicked()
 {
+	// 마우스 효과음
+	CBtnUI::MouseLbtnClicked();
+
 	// 로드
 	if (m_bLoad)
 	{

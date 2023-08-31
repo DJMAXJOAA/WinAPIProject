@@ -7,7 +7,7 @@
             501
         ],
         "NumberOfMonster": [
-            3,
+            1,
             1
         ],
         "BlockType": "brick",
@@ -22,7 +22,7 @@
         ],
         "NumberOfMonster": [
             2,
-            2
+            1
         ],
         "BlockType": "dirt",
         "DifficultyLevel": 1
@@ -35,8 +35,8 @@
             502
         ],
         "NumberOfMonster": [
-            2,
-            2
+            1,
+            1
         ],
         "BlockType": "grass",
         "DifficultyLevel": 1
@@ -49,8 +49,8 @@
             502
         ],
         "NumberOfMonster": [
-            2,
-            2
+            1,
+            1
         ],
         "BlockType": "snow",
         "DifficultyLevel": 1
@@ -63,8 +63,8 @@
             501
         ],
         "NumberOfMonster": [
-            3,
-            3
+            2,
+            2
         ],
         "BlockType": "stone",
         "DifficultyLevel": 1
@@ -80,7 +80,7 @@
         "NumberOfMonster": [
             2,
             1,
-            2
+            1
         ],
         "BlockType": "grass",
         "DifficultyLevel": 1

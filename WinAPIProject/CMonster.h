@@ -13,6 +13,7 @@ enum class MONSTER_STATE
 
 class MonsterData;
 class CPlayer;
+class CSound;
 
 class CMonster :
     public CObject
@@ -20,6 +21,7 @@ class CMonster :
 private:
     wstring                     m_strName;
     vector<MONSTER_STRATEGY>    m_vecStrategy;
+    CSound*                     m_pHitSound;        // 피격 효과음
 
     MONSTER_STRATEGY            m_currentStrategy;
     MONSTER_STATE               m_monsterState;

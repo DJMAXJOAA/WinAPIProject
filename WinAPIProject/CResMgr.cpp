@@ -5,6 +5,7 @@
 
 #include "CTexture.h"
 #include "CGdiPlus.h"
+#include "CSound.h"
 
 CResMgr::CResMgr()
 {
@@ -15,6 +16,7 @@ CResMgr::~CResMgr()
     // 맵의 모든 텍스쳐 할당을 해제시켜준다
     SafeDeleteMap(m_mapTex);
     SafeDeleteMap(m_mapGdiPlus);
+    SafeDeleteMap(m_mapSound);
 }
 
 CTexture* CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelativePath)
@@ -100,4 +102,35 @@ CGdiPlus* CResMgr::FindGdiPlus(const wstring& _strKey)
     }
 
     return (CGdiPlus*)iter->second;
+}
+
+CSound* CResMgr::LoadSound(const wstring& _strKey, const wstring& _strRelativePath)
+{
+    CSound* pSound = FindSound(_strKey);
+    if (pSound != nullptr)
+    {
+        return pSound;
+    }
+
+    wstring strFilePath = CPathMgr::GetInstance()->GetContentPath();
+    strFilePath += _strRelativePath;
+
+    pSound = new CSound;
+    pSound->Load(strFilePath);
+    pSound->SetRelativePath(_strRelativePath);
+
+    m_mapSound.insert(make_pair(_strKey, pSound));
+
+    return pSound;
+}
+
+CSound* CResMgr::FindSound(const wstring& _strKey)
+{
+    map<wstring, CRes*>::iterator iter = m_mapSound.find(_strKey);
+    if (iter == m_mapSound.end())
+    {
+        return nullptr;
+    }
+
+    return (CSound*)iter->second;
 }

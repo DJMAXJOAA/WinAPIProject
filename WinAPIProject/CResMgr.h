@@ -3,6 +3,7 @@
 class CRes;
 class CTexture;
 class CGdiPlus;
+class CSound;
 
 class CResMgr
 {
@@ -11,6 +12,7 @@ class CResMgr
 private:
 	map<wstring, CRes*>			m_mapTex;
 	map<wstring, CRes*>			m_mapGdiPlus;
+	map<wstring, CRes*>			m_mapSound;
 
 private:
 	CResMgr();
@@ -24,5 +26,9 @@ public:
 public:
 	CGdiPlus* LoadGdiPlus(const wstring& _strKey, const wstring& _strRelativePath);
 	CGdiPlus* FindGdiPlus(const wstring& _strKey);
+
+public:
+	CSound* LoadSound(const wstring& _strKey, const wstring& _strRelativePath);
+	CSound* FindSound(const wstring& _strKey);
 };
 

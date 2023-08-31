@@ -4,8 +4,11 @@
 class CEffect :
     public CObject
 {
+private:
+    bool    m_bRendered;
+
 public:
-    CEffect();
+    CEffect(int _animator, Vec2 _vPos);
     virtual ~CEffect();
 
 public:
@@ -15,6 +18,6 @@ public:
     CLONE(CEffect)
 
 public:
-    virtual void AnimationEnd() override { DeleteObj(this); }
+    virtual void AnimationEnd() override { m_bRendered = false; DeleteObj(this); }
 };
 

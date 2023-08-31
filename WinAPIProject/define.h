@@ -49,6 +49,7 @@ enum class GROUP_TYPE
 	TILE,
 	UNIT,
 	MOUSE,
+	EFFECT,
 	NUMBER,
 
 	UI = 31,
@@ -218,3 +219,4 @@ enum class MONSTER_STRATEGY
 
 	NONE,
 };
+

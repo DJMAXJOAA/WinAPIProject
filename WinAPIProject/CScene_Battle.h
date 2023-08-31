@@ -2,17 +2,25 @@
 #include "CScene.h"
 #include "tile.h"
 
+enum class SOUND_TYPE
+{
+    WIN,
+    LOSE,
+
+    END,
+};
+
+
 class CPlayer;
 class CMonster;
 class CPanelUI_Number;
-
 class BFSSearch;
 class AstarSearch;
 class CMonsterSpawner;
 class CTurnCenter;
 class CTileCenter;
-
 class CBattleState;
+class CSound;
 
 bool CompareGridPos(CObject* _pObj1, CObject* _pObj2);	// 렌더링 순서 정렬용 비교 함수
 
@@ -21,12 +29,14 @@ class CScene_Battle :
 {
 private:
     int                     m_iFieldType;       // 필드의 생성 타입 ID
-    int                     m_iDifficulty;
-    FIELD_TYPE              m_FieldType;        
+    int                     m_iDifficulty;      // 필드의 난이도
+    FIELD_TYPE              m_FieldType;        // 필드의 방 타입
+    vector<CSound*>         m_vecSoundEffect;   // 사운드 목록
+    vector<CBattleState*>   m_vecStates;        // 스테이트 패턴들
 
     CPlayer*                m_pPlayer;          // 플레이어 객체를 따로 관리
-    CPanelUI_Number*        m_mMoneyUI;           // 돈 표시용 (임시 UI)
-    vector<CBattleState*>   m_vecStates;        // 스테이트 패턴들
+    CPanelUI_Number*        m_pMoneyUI;         // 돈 표시용 (임시 UI)
+    CPanelUI_Number*        m_pComboUI;         // 콤보 표시용 (임시 UI)
 
     BFSSearch*              m_BFS;              // BFS로 격자맵 경로 탐색
     AstarSearch*            m_Astar;            // A*로 최단경로 탐색
@@ -50,7 +60,8 @@ public:
     CTileCenter* GetTileCenter() { return m_TileCenter; }
 
     void SetPlayer(CPlayer* _pPlayer) { m_pPlayer = _pPlayer; }
-    void SetMoneyUI(CPanelUI_Number* _pUI) { m_mMoneyUI = _pUI; }
+    void SetMoneyUI(CPanelUI_Number* _pUI) { m_pMoneyUI = _pUI; }
+    void SetComboUI(CPanelUI_Number* _pUI) { m_pComboUI = _pUI; }
     void SetFieldType(int _iID) { m_iFieldType = _iID; }
     void SetBattleState(TURN_TYPE _type) { m_BattleState = m_vecStates[(int)_type]; }
 

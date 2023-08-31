@@ -3,9 +3,13 @@
 
 #include "CAnimatorGdiPlus.h"
 
-CEffect::CEffect()
+CEffect::CEffect(int _animator, Vec2 _vPos)
+	: m_bRendered(true)
 {
-	SetAnimatorGdiPlus(203, false);
+	SetAnimatorGdiPlus(_animator, false);
+
+	_vPos.y -= 50.f;
+	SetPos(_vPos);
 }
 
 CEffect::~CEffect()
@@ -14,10 +18,16 @@ CEffect::~CEffect()
 
 void CEffect::Render(HDC hdc)
 {
+	if (!m_bRendered)
+		return;
+
 	ComponetRender(hdc);
 }
 
 void CEffect::Update()
 {
+	if (!m_bRendered)
+		return;
+
 	GetAnimatorGdiPlus()->Update();
 }

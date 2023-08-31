@@ -22,6 +22,9 @@ private:
     void InitImages();
 
 public:
+    void SetNumber(int _number) { m_iNumber = _number; }
+
+public:
     virtual void Update() override;
     virtual void Render(HDC hdc) override;
 };

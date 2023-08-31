@@ -25,11 +25,11 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::Init()
 {
-	m_arrScene[(UINT)SCENE_TYPE::START] = new CScene_Start;
-	m_arrScene[(UINT)SCENE_TYPE::START]->SetName(L"Start Scene");
-
 	m_arrScene[(UINT)SCENE_TYPE::TOOL] = new CScene_Tool;
 	m_arrScene[(UINT)SCENE_TYPE::TOOL]->SetName(L"Tool Scene");
+
+	m_arrScene[(UINT)SCENE_TYPE::START] = new CScene_Start;
+	m_arrScene[(UINT)SCENE_TYPE::START]->SetName(L"Start Scene");
 
 	m_arrScene[(UINT)SCENE_TYPE::BATTLE] = new CScene_Battle;
 	m_arrScene[(UINT)SCENE_TYPE::BATTLE]->SetName(L"Battle Scene");

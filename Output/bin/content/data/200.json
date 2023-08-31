@@ -128,5 +128,13 @@
         "AnimationList": [
             166
         ]
+    },
+    {
+        "ID": 209,
+        "Name": "HitEffect",
+        "Type": "effect",
+        "AnimationList": [
+            167
+        ]
     }
 ]
