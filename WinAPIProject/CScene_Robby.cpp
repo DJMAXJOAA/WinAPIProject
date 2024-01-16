@@ -193,11 +193,11 @@ void CScene_Robby::Enter()
 		int available_width = PanelWidth - WidthMargin * 2;
 		int available_height = PanelHeight - HeightMargin * 2;
 
-		// 일정한 간격으로 오브젝트를 배치하기 위한 간격을 계산합니다.
+		// 일정한 간격으로 오브젝트를 배치하기 위한 간격을 계산
 		int horizontal_gap = available_width / extendedWidth;
 		int vertical_gap = available_height / extendedHeight;
 
-		// 2차원 배열을 순회하면서 오브젝트를 생성합니다.
+		// 2차원 배열을 순회하면서 오브젝트를 생성
 		for (int i = 0; i < extendedWidth; ++i)
 		{
 			for (int j = 0; j < extendedHeight; ++j)
@@ -216,9 +216,6 @@ void CScene_Robby::Enter()
 					pBtnUI->SetGridPos(Vec2(i, j));
 					pBtnUI->SetPos(Vec2(x, y));
 					m_mapBtnUI[Vec2(i, j)] = pBtnUI;
-
-					// 버튼에 함수 포인터 설정 -> 버튼 클릭시 스테이지 선택
-					/*((CBtnUI_Stage*)pBtnUI)->SetClickedCallBack(this, (SCENE_BTNCLICK)&CScene_Robby::SetCurrentNode);*/
 
 					// 패널에 오브젝트를 추가
 					pPanelUI->AddChild(pBtnUI);

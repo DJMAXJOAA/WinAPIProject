@@ -22,12 +22,14 @@ public:
 	~CMapGenerator();
 
 public:
+	int GetValueRandomY();
+	int GetRandomStageSelect();
+
+public:
 	vector<vector<int>> CreateRandomMap();
 	vector<MapNode*> CreateStartPos(const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn);
 
-public:
+private:
 	MapNode* CreatePath(int x, int y, const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn);
-	int GetValueRandomY();
-	int GetRandomStageSelect();
 };
 

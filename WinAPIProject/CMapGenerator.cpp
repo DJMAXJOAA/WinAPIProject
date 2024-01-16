@@ -12,6 +12,11 @@ using std::locale;
 using std::ifstream;
 using std::ofstream;
 
+const int NUMBER_OF_STARTING = 6;
+const int ELITE_ROOM_CHANCE = 15;
+const int SHOP_ROOM_CHANCE = 25;
+const int REST_ROOM_CHANCE = 40;
+
 CMapGenerator::CMapGenerator()
 {
 }
@@ -25,7 +30,7 @@ vector<MapNode*> CMapGenerator::CreateStartPos(const vector<vector<int>>& _vecMa
     vector<MapNode*> result{};
     for (int y = 0; y < HEIGHT * 2 - 1; y++)
     {
-        if (_vecMap[y][0] >= 4)
+        if (_vecMap[y][0] >= (int)ROOM_TYPE::NORMAL_ROOM)
         {
             result.push_back(CreatePath(0, y, _vecMap, _mapGridBtn));
         }
@@ -41,48 +46,51 @@ vector<vector<int>> CMapGenerator::CreateRandomMap()
     std::uniform_int_distribution<int> dist(0, HEIGHT - 1);
 
     // 시작점 6개 생성 (시작 좌표 중복 가능)
-    for (int line = 0; line < 6; line++) {
+    for (int line = 0; line < NUMBER_OF_STARTING; line++)
+    {
         POINT currentPoint{};
         currentPoint.x = 0;
         int iRandom = dist(rng);
         currentPoint.y = iRandom * 2;
 
         // 첫 방은 무조건 일반 방(int 4)
-        grid[currentPoint.y][currentPoint.x] = 4;
+        grid[currentPoint.y][currentPoint.x] = (int)ROOM_TYPE::NORMAL_ROOM;
 
-        while (currentPoint.x < (WIDTH - 1) * 2) {
+        while (currentPoint.x < (WIDTH - 1) * 2)
+        {
             int deltaY = GetValueRandomY();
 
             if (currentPoint.y + (deltaY * 2) >= 0 && currentPoint.y + (deltaY * 2) < HEIGHT * 2) {
-                switch (deltaY) {
+                switch (deltaY) 
+                {
                 case -1:
                 {
-                    if (grid[currentPoint.y - 1][currentPoint.x + 1] == 3) //L'↘'
+                    if (grid[currentPoint.y - 1][currentPoint.x + 1] == (int)ROOM_TYPE::DOWN_DIRECTION) //L'↘'
                     {
-                        grid[currentPoint.y][currentPoint.x + 1] = 2; // L'→';
+                        grid[currentPoint.y][currentPoint.x + 1] = (int)ROOM_TYPE::RIGHT_DIRECTION; // L'→';
                         deltaY = 0;
                     }
                     else
                     {
-                        grid[currentPoint.y - 1][currentPoint.x + 1] = 1; // L'↗';
+                        grid[currentPoint.y - 1][currentPoint.x + 1] = (int)ROOM_TYPE::UP_DIRECTION; // L'↗';
                     }
                 }
                 break;
                 case  0:
                 {
-                    grid[currentPoint.y][currentPoint.x + 1] = 2; // L'→';
+                    grid[currentPoint.y][currentPoint.x + 1] = (int)ROOM_TYPE::RIGHT_DIRECTION; // L'→';
                 }
                 break;
                 case  1:
                 {
-                    if (grid[currentPoint.y + 1][currentPoint.x + 1] == 1) //L'↗'
+                    if (grid[currentPoint.y + 1][currentPoint.x + 1] == (int)ROOM_TYPE::UP_DIRECTION) //L'↗'
                     {
-                        grid[currentPoint.y][currentPoint.x + 1] = 2; // L'→';
+                        grid[currentPoint.y][currentPoint.x + 1] = (int)ROOM_TYPE::RIGHT_DIRECTION; // L'→';
                         deltaY = 0;
                     }
                     else
                     {
-                        grid[currentPoint.y + 1][currentPoint.x + 1] = 3; // L'↘';
+                        grid[currentPoint.y + 1][currentPoint.x + 1] = (int)ROOM_TYPE::DOWN_DIRECTION; // L'↘';
                     }
                 }
                 break;
@@ -91,7 +99,7 @@ vector<vector<int>> CMapGenerator::CreateRandomMap()
             }
             else
             {
-                grid[currentPoint.y][currentPoint.x + 1] = 2; // L'→';
+                grid[currentPoint.y][currentPoint.x + 1] = (int)ROOM_TYPE::RIGHT_DIRECTION; // L'→';
             }
 
             currentPoint.x += 2;
@@ -101,8 +109,10 @@ vector<vector<int>> CMapGenerator::CreateRandomMap()
 
     /* 확인용 맵 출력 코드 -> 2차원 벡터를 WCHAR형으로 수정하고 확인 */
     ofstream outfile("map.txt");
-    for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid[0].size(); j++) {
+    for (int i = 0; i < grid.size(); i++) 
+    {
+        for (int j = 0; j < grid[0].size(); j++) 
+        {
             outfile << grid[i][j];
         }
         outfile << '\n';
@@ -122,14 +132,15 @@ MapNode* CMapGenerator::CreatePath(int x, int y, const vector<vector<int>>& _vec
     node->value = _vecMap[y][x];
     _mapGridBtn[Vec2(x, y)] = node;
 
-    if (x + 1 < WIDTH * 2 - 1) {
-        if (y - 1 >= 0 && _vecMap[y - 1][x + 1] == 1) // ↗
+    if (x + 1 < WIDTH * 2 - 1) 
+    {
+        if (y - 1 >= 0 && _vecMap[y - 1][x + 1] == (int)ROOM_TYPE::UP_DIRECTION) // ↗
             node->children.push_back(CreatePath(x + 2, y - 2, _vecMap, _mapGridBtn));
 
-        if (_vecMap[y][x + 1] == 2) // →
+        if (_vecMap[y][x + 1] == (int)ROOM_TYPE::RIGHT_DIRECTION) // →
             node->children.push_back(CreatePath(x + 2, y, _vecMap, _mapGridBtn));
 
-        if (y + 1 < HEIGHT * 2 - 1 && _vecMap[y + 1][x + 1] == 3) // ↘
+        if (y + 1 < HEIGHT * 2 - 1 && _vecMap[y + 1][x + 1] == (int)ROOM_TYPE::DOWN_DIRECTION) // ↘
             node->children.push_back(CreatePath(x + 2, y + 2, _vecMap, _mapGridBtn));
     }
 
@@ -147,12 +158,12 @@ int CMapGenerator::GetValueRandomY()
 int CMapGenerator::GetRandomStageSelect()
 {
     // 방 종류 정하기
-    // 15% 엘리트방, 10% 상점, 15% 쉼터, 60% 일반방, 나머지 일반방
+    // 15% 엘리트방, 10% 상점, 15% 쉼터, 나머지 60% 일반방
     std::uniform_int_distribution<int> dist(0, 99);
     int randomValue = dist(rng);
 
-    if (randomValue < 15) return 5;
-    if (randomValue < 25) return 6;
-    if (randomValue < 40) return 7;
-    return 4;
+    if (randomValue < ELITE_ROOM_CHANCE) return (int)ROOM_TYPE::ELITE_ROOM;
+    if (randomValue < SHOP_ROOM_CHANCE) return (int)ROOM_TYPE::SHOP_ROOM;
+    if (randomValue < REST_ROOM_CHANCE) return (int)ROOM_TYPE::REST_ROOM;
+    return (int)ROOM_TYPE::NORMAL_ROOM;
 }

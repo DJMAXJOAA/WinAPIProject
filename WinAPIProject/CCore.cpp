@@ -116,4 +116,3 @@ void CCore::Progress()
 	// (렌더링까지 모두 마치고 다음프레임 넘어가기 전에 실행)=============
 	CEventMgr::GetInstance()->Update();
 }
-

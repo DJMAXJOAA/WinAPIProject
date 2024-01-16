@@ -28,7 +28,7 @@ return &mgr;\
 
 namespace battle
 {
-	// 지도 크기
+// 지도 크기
 #define WIDTH 15
 #define HEIGHT 7
 #define TILE_WIDTH 140
@@ -40,6 +40,19 @@ namespace battle
 #define REAL(key) m_TileCenter->GridToReal(key)
 #define GRID(key) m_TileCenter->RealToGrid(key) 
 }
+
+enum class ROOM_TYPE
+{
+	NONE,
+
+	UP_DIRECTION,
+	RIGHT_DIRECTION,
+	DOWN_DIRECTION,
+	NORMAL_ROOM,
+	ELITE_ROOM,
+	SHOP_ROOM,
+	REST_ROOM,
+};
 
 enum class GROUP_TYPE
 {

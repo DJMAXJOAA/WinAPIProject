@@ -4,6 +4,7 @@
 #include "CPathMgr.h"
 
 #include "CMapGenerator.h"
+#include "CDataUtils.h"
 
 GameData::GameData(int _key)
     : CData(0)
