@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "SkillData.h"
 
+#include "CDataUtils.h"
+
 SkillData::SkillData(int _key)
 	: CData(_key)
 {

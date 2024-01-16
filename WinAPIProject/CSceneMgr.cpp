@@ -5,6 +5,7 @@
 #include "CScene_Tool.h"
 #include "CScene_Battle.h"
 #include "CScene_Robby.h"
+#include "CScene_End.h"
 
 CSceneMgr::CSceneMgr()
 	: m_arrScene{}
@@ -36,6 +37,9 @@ void CSceneMgr::Init()
 
 	m_arrScene[(UINT)SCENE_TYPE::ROBBY] = new CScene_Robby;
 	m_arrScene[(UINT)SCENE_TYPE::ROBBY]->SetName(L"Robby Scene");
+
+	m_arrScene[(UINT)SCENE_TYPE::ENDING] = new CScene_End;
+	m_arrScene[(UINT)SCENE_TYPE::ENDING]->SetName(L"Ending Scene");
 	
 	// 현재 씬 저장
 	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::START];

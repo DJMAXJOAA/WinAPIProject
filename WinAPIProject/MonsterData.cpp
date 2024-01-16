@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "MonsterData.h"
 
+#include "CDataUtils.h"
+
 MonsterData::MonsterData(int _key)
 	: CData(_key)
 {

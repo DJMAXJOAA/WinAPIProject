@@ -34,6 +34,10 @@ void CScene_Start::Update()
 	{
 		ChangeScene(SCENE_TYPE::TOOL);
 	}
+	if (KEY_TAP(KEY::SPACE))
+	{
+		ChangeScene(SCENE_TYPE::ENDING);
+	}
 }
 
 

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "FieldData.h"
 
+#include "CDataUtils.h"
+
 FieldData::FieldData(int _key)
 	: CData(_key)
 {

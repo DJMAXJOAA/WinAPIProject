@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "ItemData.h"
 
+#include "CDataUtils.h"
+
 ItemData::ItemData(int _key)
 	: CData(_key)
 {

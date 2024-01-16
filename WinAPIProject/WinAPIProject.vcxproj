@@ -152,6 +152,7 @@
     <ClInclude Include="CBtnUI_Start.h" />
     <ClInclude Include="CData.h" />
     <ClInclude Include="CDataMgr.h" />
+    <ClInclude Include="CDataUtils.h" />
     <ClInclude Include="CEffect.h" />
     <ClInclude Include="CHPBar.h" />
     <ClInclude Include="CMapGenerator.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="CCollisionMgr.cpp" />
     <ClCompile Include="CData.cpp" />
     <ClCompile Include="CDataMgr.cpp" />
+    <ClCompile Include="CDataUtils.cpp" />
     <ClCompile Include="CEffect.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CHPBar.cpp" />

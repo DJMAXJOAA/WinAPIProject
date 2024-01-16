@@ -146,9 +146,6 @@
     <Filter Include="Engine\09. Data\200. Animator">
       <UniqueIdentifier>{2b4ed7e9-16c3-4339-82c9-5af14066e6ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\09. Data\300. Item">
-      <UniqueIdentifier>{6c4e7d43-4e4f-45a7-8033-b7bf641f1010}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\09. Data\400. Skill">
       <UniqueIdentifier>{c6408191-7bea-4ea9-a4a5-bd7df74f3dea}</UniqueIdentifier>
     </Filter>
@@ -244,6 +241,9 @@
     </Filter>
     <Filter Include="Engine\03. Manager\Sound">
       <UniqueIdentifier>{f41e0b88-b64e-488d-a398-fca7473cdf13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Data\300. Item">
+      <UniqueIdentifier>{6c4e7d43-4e4f-45a7-8033-b7bf641f1010}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -500,6 +500,9 @@
     <ClInclude Include="CSoundMgr.h">
       <Filter>Engine\03. Manager\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="CDataUtils.h">
+      <Filter>Engine\09. Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -727,6 +730,9 @@
     </ClCompile>
     <ClCompile Include="CSoundMgr.cpp">
       <Filter>Engine\03. Manager\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CDataUtils.cpp">
+      <Filter>Engine\09. Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

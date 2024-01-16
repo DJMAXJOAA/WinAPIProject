@@ -2,6 +2,7 @@
 #include "AnimationData.h"
 
 #include "CPathMgr.h"
+#include "CDataUtils.h"
 
 AnimationData::AnimationData(int _key)
     : CData(_key)

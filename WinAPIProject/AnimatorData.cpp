@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "AnimatorData.h"
 
+#include "CDataUtils.h"
+
 AnimatorData::AnimatorData(int _key)
 	: CData(_key)
 {

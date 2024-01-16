@@ -47,8 +47,8 @@ void GameData::Init()
     m_PlayerInfo = PlayerInfo
     {
         0,
-        100.f,
-        100.f,
+        200.f,
+        200.f,
         40.f,
         {},
         {},
