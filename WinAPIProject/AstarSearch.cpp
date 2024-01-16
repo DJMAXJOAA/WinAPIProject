@@ -4,7 +4,8 @@
 using std::priority_queue;
 #include <unordered_set>
 
-list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Vec2> posPair, int _move) {
+list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Vec2> posPair, int _move)
+{
     Vec2 _startPos = posPair.first;
     Vec2 _endPos = posPair.second;
 
@@ -23,23 +24,28 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
     list<Vec2> lstPath;
     bool reachedEnd = false;
 
-    while (!openSet.empty()) {
+    while (!openSet.empty())
+    {
         Node* current = openSet.top();
         openSet.pop();
 
-        if (current->x == _endPos.x && current->y == _endPos.y) {
+        if (current->x == _endPos.x && current->y == _endPos.y)
+        {
             reachedEnd = true;
             break;
         }
 
         vecTiles[current->y][current->x].bVisited = true;
 
-        for (int dx = -1; dx <= 1; ++dx) {
-            for (int dy = -1; dy <= 1; ++dy) {
+        for (int dx = -1; dx <= 1; ++dx)
+        {
+            for (int dy = -1; dy <= 1; ++dy)
+            {
                 int x = current->x + dx;
                 int y = current->y + dy;
 
-                if (y >= 0 && y < vecTiles.size() && x >= 0 && x < vecTiles[0].size()) {
+                if (y >= 0 && y < vecTiles.size() && x >= 0 && x < vecTiles[0].size())
+                {
                     if (vecTiles[y][x].bVisited) continue;
                     if (vecTiles[y][x].pObj != nullptr && !(x == _endPos.x && y == _endPos.y)) continue;
 
@@ -54,31 +60,34 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
         }
     }
 
-    if (reachedEnd) {
+    if (reachedEnd)
+    {
         Node* node = openSet.top();
         lstPath.emplace_back(node->x, node->y);
         node = node->pParent;
-        while (node != nullptr && node->pParent != nullptr) {
+        while (node != nullptr && node->pParent != nullptr)
+        {
             lstPath.emplace_back(node->x, node->y);
             node = node->pParent;
         }
         lstPath.reverse();
     }
 
-    if (lstPath.size() > _move) 
+    if (lstPath.size() > _move)
     {
         auto it = lstPath.begin();
         std::advance(it, _move);
         lstPath.erase(it, lstPath.end());
     }
 
-    if (!lstPath.empty()) 
-    {  
-        Vec2 lastPos = lstPath.back();  // ¸¶Áö¸· ¿ä¼Ò¸¦ °¡Á®¿È
+    if (!lstPath.empty())
+    {
+        Vec2 lastPos = lstPath.back(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         vecTiles[(int)lastPos.y][(int)lastPos.x].pObj = prevObj;
     }
 
-    for (Node* node : allNodes) {
+    for (Node* node : allNodes)
+    {
         delete node;
     }
 

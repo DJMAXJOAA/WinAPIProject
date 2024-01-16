@@ -90,7 +90,7 @@ void CAnimatorGdiPlus::CreateAnimation(int _key)
     // 존재 안하면 애니메이션 새로 하나 만듬
     pAnim = new CAnimationGdiPlus;
     pAnim->m_iID = data->GetKey();
-    pAnim->m_iEventFrame = data->m_AniInfo.iEventFram;
+    pAnim->m_iEventFrame = data->m_AniInfo.iEventFrame;
 
     pAnim->SetName(data->m_strAnimationName);
     pAnim->m_pAnimator = this;
