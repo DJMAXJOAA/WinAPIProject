@@ -17,14 +17,6 @@ const int ELITE_ROOM_CHANCE = 15;
 const int SHOP_ROOM_CHANCE = 25;
 const int REST_ROOM_CHANCE = 40;
 
-CMapGenerator::CMapGenerator()
-{
-}
-
-CMapGenerator::~CMapGenerator()
-{
-}
-
 vector<MapNode*> CMapGenerator::CreateStartPos(const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn)
 {
     vector<MapNode*> result{};

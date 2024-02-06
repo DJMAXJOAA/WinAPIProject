@@ -33,7 +33,7 @@ CObject::CObject(const CObject& _origin)
 	, m_vPos(_origin.m_vPos)
 	, m_vGridPos(_origin.m_vGridPos)
 	, m_vScale(_origin.m_vScale)
-	, m_pCollider(nullptr) // 새로 콜라이더 생성
+	, m_pCollider(nullptr)
 	, m_pAnimator(nullptr)
 	, m_pAnimatorGdiPlus(nullptr)
 	, m_pHealthBar(nullptr)
@@ -85,6 +85,7 @@ void CObject::CreateCollider()
 
 void CObject::SetAnimator(int _key, bool _repeat)
 {
+	// 파싱된 애니메이터 데이터를 불러옵니다.
 	AnimatorData* data = (AnimatorData*)CDataMgr::GetInstance()->FindData(_key);
 	assert(data);
 
@@ -93,8 +94,10 @@ void CObject::SetAnimator(int _key, bool _repeat)
 		delete m_pAnimator;
 	}
 
+	// 애니메이터를 생성합니다.
 	CreateAnimator(_key);
 
+	// 애니메이터 정보에 저장된 애니메이션 인덱스로 클립들을 생성합니다.
 	for (auto& animation : data->m_vecAnimation)
 	{
 		AnimationData* aniData = (AnimationData*)CDataMgr::GetInstance()->FindData(animation);

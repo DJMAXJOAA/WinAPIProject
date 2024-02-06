@@ -36,10 +36,8 @@ GameData::~GameData()
 
 void GameData::Init()
 {
-    CMapGenerator mapGenrator;
-
     // 맵 생성
-    m_vecMap = mapGenrator.CreateRandomMap();
+    m_vecMap = CMapGenerator::CreateRandomMap();
 
     // 길찾기 루트는 삭제
     m_vecRoute.clear();

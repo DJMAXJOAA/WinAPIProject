@@ -14,18 +14,16 @@ class CObject
 {
 private:
 	wstring		m_strName;		// 오브젝트 식별 이름
-
-	Vec2		m_vPos;
-	Vec2		m_vScale;
+	Vec2		m_vPos;			// 오브젝트 좌표
+	Vec2		m_vScale;		// 오브젝트 크기
 	Vec2		m_vGridPos;		// 격자 좌표 (필요시만 사용)
+	bool		m_bAlive;		// 활성화, 비활성화 -> 비활성화되면 다음 프레임에 삭제
 
 	// Componet
-	CCollider*			m_pCollider;	// nullptr이라면 콜라이더가 필요 없는 오브젝트들(배경이나 ui 등)
+	CCollider*			m_pCollider;
 	CAnimator*			m_pAnimator;
 	CAnimatorGdiPlus*	m_pAnimatorGdiPlus;
 	CHPBar*				m_pHealthBar;
-
-	bool		m_bAlive;		// 활성화, 비활성화 -> 비활성화되면 다음 프레임에 삭제
 
 public:
 	CObject();
@@ -67,12 +65,12 @@ public:
 	virtual void OnCollisionExit(CCollider* _pOther) {};
 
 public:
-	void SetAnimator(int _key, bool _repeat = true);
 	void CreateAnimator(int _key);
+	void SetAnimator(int _key, bool _repeat = true);
 
 public:
-	void SetAnimatorGdiPlus(int _key, bool _repeat = true);
 	void CreateAnimatorGdiPlus(int _key);
+	void SetAnimatorGdiPlus(int _key, bool _repeat = true);
 
 public:
 	void CreateHealthBar(bool IsItMonster, int _width = 100, int _height = 10, Vec2 _offset = Vec2(0, -80));

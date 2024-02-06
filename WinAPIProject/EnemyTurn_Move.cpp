@@ -34,11 +34,37 @@ EnemyTurn_Move::~EnemyTurn_Move()
 	SafeDeleteVec(m_vecStrategies);
 }
 
+void EnemyTurn_Move::Init(CScene_Battle* _pScene)
+{
+	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
+	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CMonsterSpawner* m_MonsterSpawner = _pScene->GetSpawner();
+	CPlayer* m_pPlayer = _pScene->GetPlayer();
+
+	// 플레이어 타겟 삭제
+	m_pPlayer->SetTarget(nullptr);
+
+	// 몬스터가 다 죽었으면, 턴 넘어가기
+	if (m_MonsterSpawner->GetMonsterList().empty())
+	{
+		m_TurnCenter->ChangeTurn(TURN_TYPE::WIN);
+		return;
+	}
+
+	// 상태 변경
+	_pScene->SetBattleState(TURN_TYPE::ENEMY_MOVE);
+
+	// 플레이어 초기화
+	m_pPlayer->SetState(PLAYER_STATE::IDLE);
+	m_pPlayer->AnimationDirection(PLAYER_STATE::IDLE, true);
+
+	printf("CScene_Battle::TurnInit :: 적 이동 상태 초기화\n");
+}
+
 void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 {
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
 	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
-	BFSSearch* m_BFS = _pScene->GetBFS();
 	list<CMonster*>& monsterList = _pScene->GetSpawner()->GetMonsterList();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
@@ -95,7 +121,7 @@ void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 					list<CObject*>& lstObj = m_TurnCenter->GetTargetList();
 
 					// BFS로 사거리만큼 체크
-					m_BFS->BFS(GRID(vDestination), vecTile, lstObj, DIRECTION::FOUR_WAY, monster->GetRange());
+					BFSSearch::BFS(GRID(vDestination), vecTile, lstObj, DIRECTION::FOUR_WAY, monster->GetRange());
 					printf("EnemyTurn_Move::Handle :: BFS 탐색 결과 -> ");
 					for (list<CObject*>::iterator iter = lstObj.begin(); iter != lstObj.end(); iter++)
 					{

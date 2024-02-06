@@ -2,17 +2,13 @@
 #include "BFSSearch.h"
 #include <queue>
 
-BFSSearch::BFSSearch()
-	: m_vecDirection(3)
+const vector<vector<Vec2>> BFS_DIRECTION = 
 {
-	m_vecDirection[(int)DIRECTION::FOUR_WAY] = { Vec2(-1, 0), Vec2(1, 0), Vec2(0, -1), Vec2(0, 1) };
-	m_vecDirection[(int)DIRECTION::DIAGONAL] = { Vec2(-1, -1), Vec2(1, -1), Vec2(-1, 1), Vec2(1, 1) };
-	m_vecDirection[(int)DIRECTION::EIGHT_WAY] = { Vec2(-1, 0), Vec2(1, 0), Vec2(0, -1), Vec2(0, 1), Vec2(-1, -1), Vec2(1, -1), Vec2(-1, 1), Vec2(1, 1) };
-}
-
-BFSSearch::~BFSSearch()
-{
-}
+	{ Vec2(-1,  0), Vec2(1,  0), Vec2( 0, -1), Vec2(0, 1) },      // DIRECTION::FOUR_WAY
+	{ Vec2(-1, -1), Vec2(1, -1), Vec2(-1,  1), Vec2(1, 1) },    // DIRECTION::DIAGONAL
+	{ Vec2(-1,  0), Vec2(1,  0), Vec2( 0, -1), Vec2(0, 1),
+	  Vec2(-1, -1), Vec2(1, -1), Vec2(-1,  1), Vec2(1, 1) }     // DIRECTION::EIGHT_WAY
+};
 
 bool BFSSearch::isValid(Vec2 _vPos, const vector<vector<TileState>>& _vecTiles)
 {
@@ -27,7 +23,7 @@ void BFSSearch::BFS(Vec2 _startPos, vector<vector<TileState>>& _vecTiles, list<C
 	vector<Vec2> direction{};		// 탐색 방향
 
 	// 방향 선택
-	direction = m_vecDirection[(int)_dir];
+	direction = BFS_DIRECTION[(int)_dir];
 
 	std::queue<Vec2> q;
 	std::queue<int> moveCount;	// 각각의 타일마다 탐색 횟수 (깊이 설정)

@@ -19,7 +19,7 @@ int CSoundMgr::Init(void)
 {
 	if (FAILED(DirectSoundCreate8(NULL, &m_pSound, NULL)))
 	{
-		MessageBox(NULL, L"사운드디바이스생성실패", L"SYSTEM ERROR", MB_OK);
+		MessageBox(NULL, L"사운드디바이스 생성실패", L"SYSTEM ERROR", MB_OK);
 		return false;
 	}
 

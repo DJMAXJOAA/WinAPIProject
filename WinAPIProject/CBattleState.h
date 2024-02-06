@@ -10,9 +10,8 @@ public:
 	virtual ~CBattleState() {};
 
 public:
+	virtual void Init(CScene_Battle* _pScene) {};
+	virtual void OnTileSelect(CScene_Battle* _pScene, CObject* _pObj) {};
 	virtual void Handle(CScene_Battle* _pScene) = 0;
-
-public:
-	GRID_DIRECTION GetGridDirection(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDeparture, Vec2 _vDestination);
 };
 

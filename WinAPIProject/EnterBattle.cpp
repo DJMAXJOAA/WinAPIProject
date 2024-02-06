@@ -26,6 +26,11 @@
 static std::random_device rd;
 static std::mt19937 gen(rd());
 
+void EnterBattle::Init(CScene_Battle* _pScene)
+{
+	printf("CScene_Battle::TurnInit :: 배틀 씬 시작 초기화\n");
+}
+
 void EnterBattle::Handle(CScene_Battle* _pScene)
 {
 	int level = _pScene->GetDifficulty();

@@ -9,13 +9,14 @@ class CAnimation
 private:
 	wstring				m_strName;
 	wstring				m_strType;
-	CAnimator*			m_pAnimator;
+
+	CAnimator*			m_pAnimator;	// 내 애니메이터
 	CTexture*			m_pTex;			// 애니메이션이 참조하는 텍스쳐
 	vector<tAnimFrame>	m_vecFrame;		// 모든 프레임 정보가 담긴 배열
+
 	int					m_iCurFrame;	// 현재 어떤 프레임?
 	int					m_iEventFrame;	// 이벤트가 어느 프레임에 호출되는지?
 	float				m_fAccTime;		// 시간 누적
-
 	bool				m_bFinish;		// 애니메이션 끝났는지 체크
 	bool				m_bFlip;		// 애니메이션 좌우 반전
 

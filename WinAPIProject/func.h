@@ -7,6 +7,10 @@ void CreateObj(CObject* _pObj, GROUP_TYPE _eGroup);
 void DeleteObj(CObject* _pObj);
 void ChangeScene(SCENE_TYPE _eNext);
 
+// Compare
+bool CompareGridPos(CObject* _pObj1, CObject* _pObj2);	// 렌더링 순서 정렬용 비교 함수
+GRID_DIRECTION GetGridDirection(Vec2 _vGridFront, Vec2 _vGridRear, Vec2 _vDeparture, Vec2 _vDestination);
+
 // Clear Vector Container
 template<typename T>
 void SafeDeleteVec(vector<T>& _vec)

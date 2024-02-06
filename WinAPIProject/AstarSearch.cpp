@@ -4,7 +4,7 @@
 using std::priority_queue;
 #include <unordered_set>
 
-list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Vec2> posPair, int _move)
+list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Vec2> posPair, int _move, float _weight)
 {
     Vec2 _startPos = posPair.first;
     Vec2 _endPos = posPair.second;
@@ -18,7 +18,7 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
     Node* startNode = new Node(_startPos.x, _startPos.y);
     allNodes.insert(startNode);
 
-    startNode->fHeuristic = m_fWeight * Node::Heuristic(_startPos, _endPos);
+    startNode->fHeuristic = _weight * Node::Heuristic(_startPos, _endPos);
     openSet.push(startNode);
 
     list<Vec2> lstPath;
@@ -53,7 +53,7 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
                     allNodes.insert(neighbor);
 
                     Vec2 neighborVec2(x, y);
-                    neighbor->fHeuristic = m_fWeight * Node::Heuristic(neighborVec2, _endPos);
+                    neighbor->fHeuristic = _weight * Node::Heuristic(neighborVec2, _endPos);
                     openSet.push(neighbor);
                 }
             }
@@ -82,7 +82,7 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
 
     if (!lstPath.empty())
     {
-        Vec2 lastPos = lstPath.back(); // ������ ��Ҹ� ������
+        Vec2 lastPos = lstPath.back();
         vecTiles[(int)lastPos.y][(int)lastPos.x].pObj = prevObj;
     }
 

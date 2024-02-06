@@ -234,3 +234,10 @@ enum class MONSTER_STRATEGY
 	NONE,
 };
 
+enum class SOUND_TYPE
+{
+	WIN,
+	LOSE,
+
+	END,
+};

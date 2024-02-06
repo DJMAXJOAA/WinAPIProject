@@ -9,7 +9,6 @@ private:
     CUI*                m_pParentUI;    // 부모 UI
 
     Vec2                m_vFinalPos;    // 최종 위치 
-
     bool                m_bCamAffected; // 카메라 영향을 받는 UI인지?
     bool                m_bMouseOn;     // UI위에 마우스가 있는지? (finalupdate)
     bool                m_bLbtnDown;    // UI가 왼쪽 버튼이 눌린적 있었는지?

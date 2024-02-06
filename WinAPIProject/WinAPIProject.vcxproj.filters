@@ -245,6 +245,12 @@
     <Filter Include="Engine\09. Data\300. Item">
       <UniqueIdentifier>{6c4e7d43-4e4f-45a7-8033-b7bf641f1010}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\10. BattleCenter\BattleState\PlayerStart">
+      <UniqueIdentifier>{76c52dde-5131-47e8-ba71-8ccf76b8990d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. BattleCenter\EventCenter">
+      <UniqueIdentifier>{ff989ec3-a95f-4458-95ae-65817d3e0330}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -503,6 +509,12 @@
     <ClInclude Include="CDataUtils.h">
       <Filter>Engine\09. Data</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerStart.h">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerStart</Filter>
+    </ClInclude>
+    <ClInclude Include="CEventCenter.h">
+      <Filter>Engine\10. BattleCenter\EventCenter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -733,6 +745,12 @@
     </ClCompile>
     <ClCompile Include="CDataUtils.cpp">
       <Filter>Engine\09. Data</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStart.cpp">
+      <Filter>Engine\10. BattleCenter\BattleState\PlayerStart</Filter>
+    </ClCompile>
+    <ClCompile Include="CEventCenter.cpp">
+      <Filter>Engine\10. BattleCenter\EventCenter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

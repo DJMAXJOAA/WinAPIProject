@@ -47,7 +47,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
-	// 1. 코어 객체 생성 후, 초기화
+	// 코어 객체 생성 후, 초기화
 	if (FAILED(CCore::GetInstance()->Init(hWnd, POINT{ 1280, 768 })))
 	{
 		MessageBox(nullptr, L"Core객체 초기화 실패", L"ERROR", MB_OK);
@@ -77,7 +77,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 	}
 	// 메모리 릭 체크
-	/*_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);*/
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	return (int)msg.wParam;
 }
 

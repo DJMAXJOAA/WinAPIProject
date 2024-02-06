@@ -87,7 +87,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// lParam :: Player Tile Select Trigger
 		// 마우스 오브젝트가 불렀을텐데, 그게 불렸다는건 애초에 전투 씬에서 불림
 		CObject* pObj = (CObject*)_eve.lParam;
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TileSelectTrigger(pObj);
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->OnTileSelect(pObj);
 		break;	
 	}
 	case EVENT_TYPE::TURN_CHANGE:
@@ -95,7 +95,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// lParam :: Turn Type
 		// 턴 종료되었을 때, 씬 배틀에서 알게 하기 위해 함수 호출(타입에 맞는 초기화 함수 호출)
 		TURN_TYPE turnType = (TURN_TYPE)_eve.lParam;
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->TurnInit(turnType);
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->OnChangeTurn(turnType);
 		break;
 	}
 	case EVENT_TYPE::FIELD_ENTER_STAGE:
@@ -104,7 +104,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// wParam :: float y
 		// 특정 격자 좌표의 버튼이 눌렸다고 이벤트 호출
 		Vec2 vGridPos = Vec2((float)_eve.lParam, (float)_eve.wParam);
-		((CScene_Robby*)CSceneMgr::GetInstance()->GetCurScene())->EnterStage(vGridPos);
+		((CScene_Robby*)CSceneMgr::GetInstance()->GetCurScene())->OnEnterStage(vGridPos);
 		break;
 	}
 	case EVENT_TYPE::ANIMATION_EVENT:

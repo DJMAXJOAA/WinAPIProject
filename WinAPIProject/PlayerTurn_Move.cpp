@@ -10,11 +10,27 @@
 #include "CTileManager.h"
 #include "CMonsterSpawner.h"
 
+void PlayerTurn_Move::Init(CScene_Battle* _pScene)
+{
+	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
+	CPlayer* m_pPlayer = _pScene->GetPlayer();
+
+	// 타일 타겟 다시 지정
+	m_TileCenter->SetTileObject(m_pPlayer->GetGridPos(), m_pPlayer);
+
+	// 상태 변경
+	_pScene->SetBattleState(TURN_TYPE::PLAYER_MOVE);
+
+	// 카메라 플레이어로 타겟 변경
+	CCamera::GetInstance()->SetTarget(m_pPlayer);
+
+	printf("CScene_Battle::TurnInit :: 플레이어 이동 시작 초기화\n");
+}
+
 void PlayerTurn_Move::Handle(CScene_Battle* _pScene)
 {
 	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
-	BFSSearch* m_BFS = _pScene->GetBFS();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 	
 
@@ -39,7 +55,7 @@ void PlayerTurn_Move::Handle(CScene_Battle* _pScene)
 		// Update에서 적 리스트 빈거 체크하고, 안비었으면 함수 종료 후 공격상태로 돌입
 		vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
 		list<CObject*>& lstMonsters = m_TurnCenter->GetTargetList();
-		m_BFS->BFS(GRID(vDestination), vecTile, lstMonsters, DIRECTION::FOUR_WAY, 1);
+		BFSSearch::BFS(GRID(vDestination), vecTile, lstMonsters, DIRECTION::FOUR_WAY, 1);
 
 		// 적군이 있으면, 공격 상태 돌입
 		if (!lstMonsters.empty())

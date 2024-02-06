@@ -57,7 +57,7 @@ void CScene_Robby::NodeInit()
 		{
 			// 선택 상태로 만들기
 			m_mapBtnUI[route]->SetSelect(true);
-			m_mapBtnUI[route]->SetClear(true);		// 이건 따로 이벤트로 수정
+			m_mapBtnUI[route]->SetClear(true);
 
 			Vec2 CameraPos = Vec2(m_mapBtnUI[route]->GetPos().x, m_CameraPos.y);
 			CCamera::GetInstance()->SetLookAt(CameraPos);
@@ -86,7 +86,7 @@ void CScene_Robby::NodeInit()
 	}
 }
 
-void CScene_Robby::EnterStage(Vec2 _vPos)
+void CScene_Robby::OnEnterStage(Vec2 _vPos)
 {
 	// 현재 좌표 설정 -> 전투 승리 시, 설정 위해서
 	GameData* data = (GameData*)CDataMgr::GetInstance()->FindData(0);
@@ -170,8 +170,7 @@ void CScene_Robby::Enter()
 		m_vecStage = data->m_vecMap;
 
 		// 맵 정보를 토대로 노드 생성
-		CMapGenerator mapGenerator;
-		m_vecNodes = mapGenerator.CreateStartPos(m_vecStage, m_mapGridNode);
+		m_vecNodes = CMapGenerator::CreateStartPos(m_vecStage, m_mapGridNode);
 
 		// UI 추가
 		Vec2 vResolution = CCore::GetInstance()->GetResolution(); // 화면 크기 가져오기

@@ -7,6 +7,13 @@
 
 #include "CTurnManager.h"
 
+void PlayerTurn_Attack::Init(CScene_Battle* _pScene)
+{
+	_pScene->SetBattleState(TURN_TYPE::PLAYER_ATTACK);
+
+	printf("CScene_Battle::TurnInit :: 플레이어 공격 상태 초기화\n");
+}
+
 void PlayerTurn_Attack::Handle(CScene_Battle* _pScene)
 {
 	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();

@@ -17,19 +17,17 @@ struct MapNode
 
 class CMapGenerator
 {
-public:
-	CMapGenerator();
-	~CMapGenerator();
+private:
+	CMapGenerator() {}
+	~CMapGenerator() {}
 
 public:
-	int GetValueRandomY();
-	int GetRandomStageSelect();
-
-public:
-	vector<vector<int>> CreateRandomMap();
-	vector<MapNode*> CreateStartPos(const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn);
+	static vector<vector<int>> CreateRandomMap();
+	static vector<MapNode*> CreateStartPos(const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn);
 
 private:
-	MapNode* CreatePath(int x, int y, const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn);
+	static int GetValueRandomY();
+	static int GetRandomStageSelect();
+	static MapNode* CreatePath(int x, int y, const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn);
 };
 
