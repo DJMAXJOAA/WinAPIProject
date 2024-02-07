@@ -18,9 +18,6 @@ void PlayerTurn_Move::Init(CScene_Battle* _pScene)
 	// 타일 타겟 다시 지정
 	m_TileCenter->SetTileObject(m_pPlayer->GetGridPos(), m_pPlayer);
 
-	// 상태 변경
-	_pScene->SetBattleState(TURN_TYPE::PLAYER_MOVE);
-
 	// 카메라 플레이어로 타겟 변경
 	CCamera::GetInstance()->SetTarget(m_pPlayer);
 
@@ -29,15 +26,16 @@ void PlayerTurn_Move::Init(CScene_Battle* _pScene)
 
 void PlayerTurn_Move::Handle(CScene_Battle* _pScene)
 {
-	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
-	
 
 	list<Vec2>& moveRoute = m_TurnCenter->GetMoveRoute();
+
+	// 이동할 타일이 사라지면, 스킬 단계로 넘어가게됨
 	if (moveRoute.empty())
 	{
-		// 턴 매니저에서 조건 체크 해서, 상태 변경됨
+		_pScene->ChangeTurn(TURN_TYPE::PLAYER_SKILL);
 		return;
 	}
 
@@ -60,7 +58,7 @@ void PlayerTurn_Move::Handle(CScene_Battle* _pScene)
 		// 적군이 있으면, 공격 상태 돌입
 		if (!lstMonsters.empty())
 		{
-			m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_ATTACK);
+			_pScene->ChangeTurn(TURN_TYPE::PLAYER_ATTACK);
 		}
 		m_TileCenter->TileVisitedInit();
 
@@ -70,7 +68,6 @@ void PlayerTurn_Move::Handle(CScene_Battle* _pScene)
 		tiles[(int)gridDestination.y][(int)gridDestination.x].pTile->SetTileState(TILE_STATE::BLACK);
 
 		// 3. 타일 상태 갱신(목적지, 현재위치 갱신), 타일 리스트 한칸 삭제		
-
 		m_pPlayer->SetGridPos(moveRoute.front());
 		moveRoute.pop_front();
 		if (moveRoute.empty()) return;		// 목적지 타일 도착하면, 함수 탈출

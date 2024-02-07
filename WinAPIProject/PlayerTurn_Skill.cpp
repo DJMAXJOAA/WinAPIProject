@@ -12,7 +12,7 @@
 
 void PlayerTurn_Skill::Init(CScene_Battle* _pScene)
 {
-	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
 
@@ -26,7 +26,7 @@ void PlayerTurn_Skill::Init(CScene_Battle* _pScene)
 	{
 		printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 콤보가 4 이하라서 스킬을 사용하지 않습니다.\n");
 
-		m_TurnCenter->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
+		_pScene->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
 		return;
 	}
 
@@ -61,19 +61,16 @@ void PlayerTurn_Skill::Init(CScene_Battle* _pScene)
 	{
 		printf("CScene_Battle::TurnInit :: 스킬 초기화 -> 적중 대상이 없어서 돌아갑니다.\n");
 
-		m_TurnCenter->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
+		_pScene->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
 		return;
 	}
-
-	// 상태 변경
-	_pScene->SetBattleState(TURN_TYPE::PLAYER_SKILL);
 
 	printf("CScene_Battle::TurnInit :: 플레이어 스킬 상태 초기화\n");
 }
 
 void PlayerTurn_Skill::Handle(CScene_Battle* _pScene)
 {
-	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
 	if (m_pPlayer->IsAttacking() == false)

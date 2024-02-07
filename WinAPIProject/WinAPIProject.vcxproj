@@ -147,6 +147,7 @@
     <ClInclude Include="CAnimatorGdiPlus.h" />
     <ClInclude Include="CBackground.h" />
     <ClInclude Include="CBattleState.h" />
+    <ClInclude Include="CBattleStateMachine.h" />
     <ClInclude Include="CBlock.h" />
     <ClInclude Include="CBtnUI_Stage.h" />
     <ClInclude Include="CBtnUI_Start.h" />
@@ -239,6 +240,7 @@
     <ClCompile Include="CAnimatorGdiPlus.cpp" />
     <ClCompile Include="CBackground.cpp" />
     <ClCompile Include="CBattleState.cpp" />
+    <ClCompile Include="CBattleStateMachine.cpp" />
     <ClCompile Include="CBlock.cpp" />
     <ClCompile Include="CBtnUI.cpp" />
     <ClCompile Include="CBtnUI_Stage.cpp" />

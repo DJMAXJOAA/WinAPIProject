@@ -251,6 +251,9 @@
     <Filter Include="Engine\10. BattleCenter\EventCenter">
       <UniqueIdentifier>{ff989ec3-a95f-4458-95ae-65817d3e0330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\10. BattleCenter\StateMachine">
+      <UniqueIdentifier>{d4d44832-ce7b-4f76-90f4-bdfc61e9b409}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinAPIProject.h">
@@ -515,6 +518,9 @@
     <ClInclude Include="CEventCenter.h">
       <Filter>Engine\10. BattleCenter\EventCenter</Filter>
     </ClInclude>
+    <ClInclude Include="CBattleStateMachine.h">
+      <Filter>Engine\10. BattleCenter\StateMachine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -751,6 +757,9 @@
     </ClCompile>
     <ClCompile Include="CEventCenter.cpp">
       <Filter>Engine\10. BattleCenter\EventCenter</Filter>
+    </ClCompile>
+    <ClCompile Include="CBattleStateMachine.cpp">
+      <Filter>Engine\10. BattleCenter\StateMachine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,12 +12,9 @@
 
 void PlayerStart::Init(CScene_Battle* _pScene)
 {
-	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
-
-	// 상태 변경
-	_pScene->SetBattleState(TURN_TYPE::PLAYER_TILESELECT);
 
 	// 카메라 캐릭터로 초기화
 	CCamera::GetInstance()->SetTarget(nullptr);
@@ -53,7 +50,7 @@ void PlayerStart::OnTileSelect(CScene_Battle* _pScene, CObject* _pObj)
 {
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
-	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
 
 	vector<vector<TileState>>& vecTiles = m_TileCenter->GetTiles();
 	Vec2 vPlayerPos = m_pPlayer->GetGridPos();
@@ -78,7 +75,7 @@ void PlayerStart::OnTileSelect(CScene_Battle* _pScene, CObject* _pObj)
 		CCamera::GetInstance()->SetLookAt(REAL(selectPos));
 
 		// 턴 변경
-		m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_TILESELECT);
+		_pScene->ChangeTurn(TURN_TYPE::PLAYER_TILESELECT);
 
 		// 타일 콤보 추가
 		m_TurnCenter->SetCombo(1);

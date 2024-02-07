@@ -15,9 +15,6 @@ void PlayerWin::Init(CScene_Battle* _pScene)
 {
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
-	// 상태 변경
-	_pScene->SetBattleState(TURN_TYPE::WIN);
-
 	// 패배 효과음 재생
 	_pScene->GetSoundEffect()[(int)SOUND_TYPE::WIN]->Play(false);
 

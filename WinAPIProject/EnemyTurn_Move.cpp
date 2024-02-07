@@ -37,7 +37,6 @@ EnemyTurn_Move::~EnemyTurn_Move()
 void EnemyTurn_Move::Init(CScene_Battle* _pScene)
 {
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
-	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
 	CMonsterSpawner* m_MonsterSpawner = _pScene->GetSpawner();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
@@ -47,12 +46,9 @@ void EnemyTurn_Move::Init(CScene_Battle* _pScene)
 	// 몬스터가 다 죽었으면, 턴 넘어가기
 	if (m_MonsterSpawner->GetMonsterList().empty())
 	{
-		m_TurnCenter->ChangeTurn(TURN_TYPE::WIN);
+		_pScene->ChangeTurn(TURN_TYPE::WIN);
 		return;
 	}
-
-	// 상태 변경
-	_pScene->SetBattleState(TURN_TYPE::ENEMY_MOVE);
 
 	// 플레이어 초기화
 	m_pPlayer->SetState(PLAYER_STATE::IDLE);
@@ -64,7 +60,7 @@ void EnemyTurn_Move::Init(CScene_Battle* _pScene)
 void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 {
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
-	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
 	list<CMonster*>& monsterList = _pScene->GetSpawner()->GetMonsterList();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
@@ -181,7 +177,7 @@ void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 
 		printf("EnemyTurn_Move::Handle :: 이동과 공격이 모두 끝나서, 공격턴으로 넘어갑니다.\n");
 		m_bRouteCalculate = false;
-		m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
+		_pScene->ChangeTurn(TURN_TYPE::PLAYER_START);
 	}
 }
 

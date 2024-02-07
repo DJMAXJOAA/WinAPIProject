@@ -5,10 +5,12 @@
 #include "CUIMgr.h"
 
 #include "CObject.h"
+#include "CPlayer.h"
+#include "CBattleStateMachine.h"
+
 #include "CScene.h"
 #include "CScene_Battle.h"
 #include "CScene_Robby.h"
-#include "CPlayer.h"
 
 CEventMgr::CEventMgr()
 {
@@ -95,7 +97,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// lParam :: Turn Type
 		// 턴 종료되었을 때, 씬 배틀에서 알게 하기 위해 함수 호출(타입에 맞는 초기화 함수 호출)
 		TURN_TYPE turnType = (TURN_TYPE)_eve.lParam;
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->OnChangeTurn(turnType);
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetStateMachine()->ChangeState(turnType);
 		break;
 	}
 	case EVENT_TYPE::FIELD_ENTER_STAGE:

@@ -19,7 +19,7 @@ private:
  
 public:
     CScene_Tool();
-    ~CScene_Tool();
+    virtual ~CScene_Tool();
 
 public:
     void SetCurrentAnimator(int _iValue) { m_iCurrentAnimator = _iValue; }

@@ -10,11 +10,13 @@
 
 #include "CScene_Battle.h"
 
+#include "CKeyMgr.h"
+
 void PlayerTurn_TileSelect::OnTileSelect(CScene_Battle* _pScene, CObject* _pObj)
 {
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
-	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
 
 	vector<vector<TileState>>& vecTiles = m_TileCenter->GetTiles();
 	Vec2 selectPos = _pObj->GetGridPos();
@@ -55,4 +57,14 @@ void PlayerTurn_TileSelect::OnTileSelect(CScene_Battle* _pScene, CObject* _pObj)
 
 void PlayerTurn_TileSelect::Handle(CScene_Battle* _pScene)
 {
+	// 타일 결정
+	if (KEY_TAP(KEY::CTRL))
+	{
+		_pScene->ChangeTurn(TURN_TYPE::PLAYER_MOVE);
+	}
+	// 선택 취소
+	if (KEY_TAP(KEY::ESC))
+	{
+		_pScene->ChangeTurn(TURN_TYPE::PLAYER_START);
+	}
 }

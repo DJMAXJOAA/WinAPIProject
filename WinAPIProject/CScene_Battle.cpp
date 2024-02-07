@@ -17,20 +17,13 @@
 #include "CAnimator.h"
 #include "CAnimation.h"
 
+#include "CBattleState.h"
 #include "CEventCenter.h"
 #include "CTurnManager.h"
 #include "CTileManager.h"
 #include "CMonsterSpawner.h"
-
-#include "EnterBattle.h"
-#include "PlayerStart.h"
-#include "PlayerTurn_TileSelect.h"
-#include "PlayerTurn_Move.h"
-#include "PlayerTurn_Attack.h"
-#include "PlayerTurn_Skill.h"
-#include "EnemyTurn_Move.h"
-#include "PlayerWin.h"
-#include "PlayerDefeat.h"
+#include "CBattleStateMachine.h"
+#include "CEventMgr.h"
 
 static std::random_device rd;
 static std::mt19937 gen(rd());
@@ -42,12 +35,11 @@ CScene_Battle::CScene_Battle()
 	, m_iFieldType(0)
 	, m_iDifficulty(1)
 	, m_FieldType(FIELD_TYPE::COMMON)
-	, m_vecStates((int)TURN_TYPE::END)
 	, m_pMonsterSpawner(nullptr)
 	, m_pEventCenter(nullptr)
 	, m_pTurnCenter(nullptr)
 	, m_pTileCenter(nullptr)
-	, m_pBattleState(nullptr)
+	, m_pStateMachine(nullptr)
 	, m_pMoneyUI(nullptr)
 	, m_pComboUI(nullptr)
 	, m_vecSoundEffect((int)SOUND_TYPE::END)
@@ -58,7 +50,6 @@ CScene_Battle::CScene_Battle()
 
 CScene_Battle::~CScene_Battle()
 {
-	SafeDeleteVec(m_vecStates);
 }
 
 void CScene_Battle::PlayerAttackMonster(float _damage, CMonster* _pMon)
@@ -121,7 +112,7 @@ void CScene_Battle::PlayerSkillCasted(float _value)
 void CScene_Battle::PlayerSkillDone()
 {
 	m_pPlayer->SetAttacking(false);
-	m_pTurnCenter->ChangeTurn(TURN_TYPE::ENEMY_MOVE);
+	ChangeTurn(TURN_TYPE::ENEMY_MOVE);
 
 	printf("CScene_Battle::PlayerSkillDone :: 스킬이 종료되었습니다.\n");
 }
@@ -162,30 +153,25 @@ void CScene_Battle::MonsterDied(CMonster* _pObj)
 
 void CScene_Battle::PlayerDied()
 {
-	m_pTurnCenter->ChangeTurn(TURN_TYPE::DEFEAT);
+	ChangeTurn(TURN_TYPE::DEFEAT);
 
 	printf("CScene_Battle::PlayerDied :: 플레이어 사망\n");
 }
 
-void CScene_Battle::CameraEvent()
+void CScene_Battle::ChangeTurn(TURN_TYPE _type)
 {
-	ChangeScene(SCENE_TYPE::ROBBY);
-}
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::TURN_CHANGE;
+	evn.lParam = (DWORD_PTR)_type;
 
-void CScene_Battle::OnChangeTurn(TURN_TYPE _type)
-{
-	m_vecStates[(int)_type]->Init(this);
+	CEventMgr::GetInstance()->AddEventLate(evn);
 }
 
 void CScene_Battle::OnTileSelect(CObject* _pObj)
 {
 	// 조건 :: 마우스를 꾹 누른 상태에서 타일의 콜라이더와 닿은 상태
 	// 마우스 꾹 눌린 상태에서, 콜라이더가 닿으면 -> 이벤트 매니저에서 이 함수를 호출시킴
-	TURN_TYPE CurrnetTurn = m_pTurnCenter->GetTurnState();
-	vector<vector<TileState>>& vecTiles = m_pTileCenter->GetTiles();
-
-	// PLAYER_START, PLAYER_TILESELECT
-	m_vecStates[(int)CurrnetTurn]->OnTileSelect(this, _pObj);
+	m_pStateMachine->GetState()->OnTileSelect(this, _pObj);
 
 	// BFS 방문 초기화
 	m_pTileCenter->TileVisitedInit();
@@ -196,10 +182,9 @@ void CScene_Battle::Update()
 	InputKey();								// 키 입력
 	SortGroupObj();							// 유닛 오브젝트의 렌더링 순서 조절(좌표가 낮을수록 더 낮은 순서로)
 	CScene::Update();						// 메인 씬 업데이트 (각자 오브젝트들의 업데이트)
-	m_pTurnCenter->Update(this);		// 턴 결정 업데이트
 
 	// 로직 처리 (상태 머신)
-	if (m_pBattleState != nullptr) m_pBattleState->Handle(this);
+	m_pStateMachine->Handle(this);
 	
 	// 몬스터 관리 배열 업데이트 (사망 예정인 오브젝트들을 삭제)
 	m_pMonsterSpawner->Update();
@@ -213,28 +198,11 @@ void CScene_Battle::Enter()
 {
 	// 매니저를 등록 -> 오브젝트로 등록하는게 아니라서 직접 해제 시켜주어야 한다. Enter, Exit 함수와 관련없음
 	// 메인 씬에 있는 그룹 오브젝트들을 참조해서 관리하는 형식이라, 임의로 값들을 해제시키지 않게 주의해야 한다
-	m_pTurnCenter = new CTurnCenter;
-	m_pEventCenter = new CEventCenter;
+	m_pTurnCenter = new CLogicCenter;
+	m_pEventCenter = new CEventCenter(this);
 	m_pMonsterSpawner = new CMonsterSpawner;
 	m_pTileCenter = new CTileCenter;
-
-	m_vecStates.resize((int)TURN_TYPE::END, nullptr);
-
-	// 씬의 State들을 추가
-	m_vecStates[(int)TURN_TYPE::ENTER] = new EnterBattle;
-	m_vecStates[(int)TURN_TYPE::PLAYER_START] = new PlayerStart;
-	m_vecStates[(int)TURN_TYPE::PLAYER_TILESELECT] = new PlayerTurn_TileSelect;
-	m_vecStates[(int)TURN_TYPE::PLAYER_MOVE] = new PlayerTurn_Move;
-	m_vecStates[(int)TURN_TYPE::PLAYER_ATTACK] = new PlayerTurn_Attack;
-	m_vecStates[(int)TURN_TYPE::PLAYER_SKILL] = new PlayerTurn_Skill;
-	m_vecStates[(int)TURN_TYPE::ENEMY_MOVE] = new EnemyTurn_Move;
-	m_vecStates[(int)TURN_TYPE::WIN] = new PlayerWin;
-	m_vecStates[(int)TURN_TYPE::DEFEAT] = new PlayerDefeat;
-
-	SetBattleState(TURN_TYPE::ENTER);
-	m_pBattleState->Handle(this);
-	SetBattleState(TURN_TYPE::PLAYER_START);
-	m_pTurnCenter->ChangeTurn(TURN_TYPE::PLAYER_START);
+	m_pStateMachine = new CBattleStateMachine(this);
 }
 
 void CScene_Battle::Exit()
@@ -246,12 +214,12 @@ void CScene_Battle::Exit()
 	m_pMonsterSpawner->Init();
 	DeleteAll();
 	CCollisionMgr::GetInstance()->Reset();
-	SafeDeleteVec(m_vecStates);
 
 	delete m_pMonsterSpawner;
 	delete m_pEventCenter;
 	delete m_pTurnCenter;
 	delete m_pTileCenter;
+	delete m_pStateMachine;
 }
 
 void CScene_Battle::InputKey()
@@ -281,7 +249,7 @@ void CScene_Battle::InputKey()
 	// 승리
 	if (KEY_TAP(KEY::O))
 	{
-		m_pTurnCenter->ChangeTurn(TURN_TYPE::WIN);
+		ChangeTurn(TURN_TYPE::WIN);
 	}
 
 	// 시점 조절

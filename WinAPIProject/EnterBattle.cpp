@@ -29,10 +29,7 @@ static std::mt19937 gen(rd());
 void EnterBattle::Init(CScene_Battle* _pScene)
 {
 	printf("CScene_Battle::TurnInit :: 배틀 씬 시작 초기화\n");
-}
 
-void EnterBattle::Handle(CScene_Battle* _pScene)
-{
 	int level = _pScene->GetDifficulty();
 	FIELD_TYPE fieldType = _pScene->GetFieldType();
 
@@ -177,6 +174,9 @@ void EnterBattle::Handle(CScene_Battle* _pScene)
 
 	// 타일과 마우스의 충돌처리
 	CCollisionMgr::GetInstance()->CheckGroup(GROUP_TYPE::MOUSE, GROUP_TYPE::TILE);
+
+	// 턴 넘기기
+	_pScene->ChangeTurn(TURN_TYPE::PLAYER_START);
 }
 
 Vec2 EnterBattle::GetRandomGridPos()

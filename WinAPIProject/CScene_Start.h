@@ -11,7 +11,7 @@ private:
 
 public:
     CScene_Start();
-    ~CScene_Start();
+    virtual ~CScene_Start();
 
 public:
     virtual void Update();

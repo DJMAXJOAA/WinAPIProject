@@ -9,14 +9,12 @@
 
 void PlayerTurn_Attack::Init(CScene_Battle* _pScene)
 {
-	_pScene->SetBattleState(TURN_TYPE::PLAYER_ATTACK);
-
 	printf("CScene_Battle::TurnInit :: 플레이어 공격 상태 초기화\n");
 }
 
 void PlayerTurn_Attack::Handle(CScene_Battle* _pScene)
 {
-	CTurnCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
 	list<CObject*>& targetList = m_TurnCenter->GetTargetList();
@@ -25,7 +23,7 @@ void PlayerTurn_Attack::Handle(CScene_Battle* _pScene)
 	if (targetList.empty())
 	{
 		printf("PlayerTurn_Attack::Handle :: 리스트가 비어서, MOVE 이벤트로 전환합니다.\n");
-		m_TurnCenter->ChangeTurn(TURN_TYPE::PLAYER_MOVE);
+		_pScene->ChangeTurn(TURN_TYPE::PLAYER_MOVE);
 		return;
 	}
 

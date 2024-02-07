@@ -10,9 +10,6 @@
 
 void PlayerDefeat::Init(CScene_Battle* _pScene)
 {
-	// 상태 변경
-	_pScene->SetBattleState(TURN_TYPE::DEFEAT);
-
 	// 패배 효과음 재생
 	_pScene->GetSoundEffect()[(int)SOUND_TYPE::LOSE]->Play(false);
 

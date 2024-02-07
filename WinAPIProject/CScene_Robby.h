@@ -22,7 +22,7 @@ private:
 
 public:
     CScene_Robby();
-    ~CScene_Robby();
+    virtual ~CScene_Robby();
 
 public:
     void NodeInit();

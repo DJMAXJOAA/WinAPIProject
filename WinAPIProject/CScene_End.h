@@ -6,7 +6,7 @@ class CScene_End :
 {
 public:
     CScene_End();
-    ~CScene_End();
+    virtual ~CScene_End();
 
 public:
     virtual void Update();
