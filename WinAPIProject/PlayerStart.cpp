@@ -12,7 +12,7 @@
 
 void PlayerStart::Init(CScene_Battle* _pScene)
 {
-	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
 
@@ -50,7 +50,7 @@ void PlayerStart::OnTileSelect(CScene_Battle* _pScene, CObject* _pObj)
 {
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
-	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
 
 	vector<vector<TileState>>& vecTiles = m_TileCenter->GetTiles();
 	Vec2 vPlayerPos = m_pPlayer->GetGridPos();

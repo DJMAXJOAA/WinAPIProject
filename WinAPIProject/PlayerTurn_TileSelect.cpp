@@ -16,7 +16,7 @@ void PlayerTurn_TileSelect::OnTileSelect(CScene_Battle* _pScene, CObject* _pObj)
 {
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
-	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
 
 	vector<vector<TileState>>& vecTiles = m_TileCenter->GetTiles();
 	Vec2 selectPos = _pObj->GetGridPos();

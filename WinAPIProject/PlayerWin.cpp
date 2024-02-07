@@ -15,6 +15,8 @@ void PlayerWin::Init(CScene_Battle* _pScene)
 {
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
+	m_pPlayer->GetAnimator()->PlayType(L"front_bow", true);
+
 	// 패배 효과음 재생
 	_pScene->GetSoundEffect()[(int)SOUND_TYPE::WIN]->Play(false);
 

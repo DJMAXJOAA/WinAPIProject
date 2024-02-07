@@ -14,7 +14,7 @@ void PlayerTurn_Skill::Init(CScene_Battle* _pScene)
 {
 	m_bUseSkill = true;
 
-	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
 
@@ -76,7 +76,7 @@ void PlayerTurn_Skill::Handle(CScene_Battle* _pScene)
 {
 	if (!m_bUseSkill) return;
 
-	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
 	if (m_pPlayer->IsAttacking() == false)

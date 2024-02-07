@@ -7,6 +7,7 @@
 #include "CObject.h"
 #include "CPlayer.h"
 #include "CBattleStateMachine.h"
+#include "CEventCenter.h"
 
 #include "CScene.h"
 #include "CScene_Battle.h"
@@ -89,7 +90,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// lParam :: Player Tile Select Trigger
 		// 마우스 오브젝트가 불렀을텐데, 그게 불렸다는건 애초에 전투 씬에서 불림
 		CObject* pObj = (CObject*)_eve.lParam;
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->OnTileSelect(pObj);
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->OnTileSelect(pObj);
 		break;	
 	}
 	case EVENT_TYPE::TURN_CHANGE:
@@ -132,26 +133,26 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// 애니메이션의 특정 프레임(공격 프레임)에서 호출되서, 게임센터에 캐릭터의 데미지를 전송
 		float fDamage = (float)_eve.lParam;
 		CMonster* pObj = (CMonster*)_eve.wParam;
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerAttackMonster(fDamage, pObj);
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->PlayerAttackMonster(fDamage, pObj);
 		break;
 	}
 	case EVENT_TYPE::PLAYER_ATTACK_DONE:
 	{
 		// 애니메이션이 끝나면, 리스트를 지워줌
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerAttackDone();
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->PlayerAttackDone();
 		break;
 	}
 	case EVENT_TYPE::PLAYER_SKILL_CAST:
 	{
 		// 애니메이션이 끝나면, 리스트를 지워줌
 		float fValue = (float)_eve.lParam;
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerSkillCasted(fValue);
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->PlayerSkillCasted(fValue);
 		break;
 	}
 	case EVENT_TYPE::PLAYER_SKILL_DONE:
 	{
 		// 애니메이션이 끝나면, 리스트를 지워줌
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerSkillDone();
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->PlayerSkillDone();
 		break;
 	}
 	case EVENT_TYPE::MONSTER_ATTACK:
@@ -159,7 +160,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// lParam :: Monster Attack Damage
 		// 애니메이션의 특정 프레임(공격 프레임)에서 호출되서, 게임센터에 캐릭터의 데미지를 전송
 		float fValue = (float)_eve.lParam;
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->MonsterAttackPlayer(fValue);
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->MonsterAttackPlayer(fValue);
 		break;
 	}
 	case EVENT_TYPE::MONSTER_ATTACK_DONE:
@@ -168,7 +169,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// 애니메이션이 끝나면, 리스트를 지워줌
 		CMonster* pObj = (CMonster*)_eve.lParam;
 
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->MonsterAttackDone(pObj);
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->MonsterAttackDone(pObj);
 		break;
 	}
 	case EVENT_TYPE::MONSTER_DIED:
@@ -176,13 +177,13 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// lParam :: Monster Object
 		// 애니메이션이 끝나면, 리스트를 지워줌
 		CMonster* pObj = (CMonster*)_eve.lParam;
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->MonsterDied(pObj);
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->MonsterDied(pObj);
 		break;
 	}
 	case EVENT_TYPE::PLAYER_DIED:
 	{
 		// 플레이어가 죽었다고 씬에게 알림을 줌
-		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->PlayerDied();
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->PlayerDied();
 		break;
 	}
 	case EVENT_TYPE::END:

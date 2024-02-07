@@ -14,7 +14,7 @@ void PlayerTurn_Attack::Init(CScene_Battle* _pScene)
 
 void PlayerTurn_Attack::Handle(CScene_Battle* _pScene)
 {
-	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
 	list<CObject*>& targetList = m_TurnCenter->GetTargetList();

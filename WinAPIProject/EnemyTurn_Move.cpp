@@ -60,7 +60,7 @@ void EnemyTurn_Move::Init(CScene_Battle* _pScene)
 void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 {
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
-	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
 	list<CMonster*>& monsterList = _pScene->GetSpawner()->GetMonsterList();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 

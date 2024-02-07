@@ -26,7 +26,7 @@ void PlayerTurn_Move::Init(CScene_Battle* _pScene)
 
 void PlayerTurn_Move::Handle(CScene_Battle* _pScene)
 {
-	CLogicCenter* m_TurnCenter = _pScene->GetTurnCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 

@@ -26,8 +26,8 @@ private:
     CPlayer*                m_pPlayer;          // 플레이어 객체를 따로 관리
     CEventCenter*           m_pEventCenter;     // 이벤트 함수 처리
     CMonsterSpawner*        m_pMonsterSpawner;  // 몬스터 관리
-    CLogicCenter*            m_pTurnCenter;      // 조건에 따라 턴 전환, 턴 관련 변수들
-    CTileCenter*            m_pTileCenter;      // 타일 관리
+    CLogicCenter*           m_pLogicCenter;     // 게임 로직 담당
+    CTileCenter*            m_pTileCenter;      // 맵 타일 관리
     CBattleStateMachine*    m_pStateMachine;    // 배틀씬 로직 상태 머신
 
     CPanelUI_Number*        m_pMoneyUI;         // 돈 표시용 (임시 UI)
@@ -44,29 +44,15 @@ public:
 
     CPlayer* GetPlayer() { return m_pPlayer; }
     CMonsterSpawner* GetSpawner() { return m_pMonsterSpawner; }
-    CLogicCenter* GetTurnCenter() {return m_pTurnCenter; }
+    CLogicCenter* GetLogicCenter() {return m_pLogicCenter; }
     CTileCenter* GetTileCenter() { return m_pTileCenter; }
+    CEventCenter* GetEventCenter() { return m_pEventCenter; }
     CBattleStateMachine* GetStateMachine() { return m_pStateMachine; }
 
     void SetPlayer(CPlayer* _pPlayer) { m_pPlayer = _pPlayer; }
     void SetMoneyUI(CPanelUI_Number* _pUI) { m_pMoneyUI = _pUI; }
     void SetComboUI(CPanelUI_Number* _pUI) { m_pComboUI = _pUI; }
     void SetFieldType(int _iID) { m_iFieldType = _iID; }
-
-public:
-    // 이벤트 호출 관련 처리 함수
-    void OnTileSelect(CObject* _pObj);
-
-    void PlayerAttackMonster(float _damage, CMonster* _pMon);
-    void PlayerAttackDone();
-    void PlayerSkillCasted(float _value);
-    void PlayerSkillDone();
-
-    void MonsterAttackPlayer(float _damage);
-    void MonsterAttackDone(CMonster* _pMon);
-
-    void MonsterDied(CMonster* _pObj);
-    void PlayerDied();
 
 public:
     void ChangeTurn(TURN_TYPE _type);
