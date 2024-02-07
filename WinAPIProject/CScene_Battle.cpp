@@ -1,28 +1,20 @@
 #include "pch.h"
 #include "CScene_Battle.h"
 
-#include "CCollisionMgr.h"
-#include "CKeyMgr.h"
-#include "CDataMgr.h"
-#include "CResMgr.h"
-
 #include "CPlayer.h"
 #include "CTile.h"
-#include "CMouse.h"
-#include "CMonster.h"
-#include "CEffect.h"
 #include "CPanelUI_Number.h"
-
 #include "CSound.h"
-#include "CAnimator.h"
-#include "CAnimation.h"
 
-#include "CBattleState.h"
 #include "CEventCenter.h"
 #include "CTurnManager.h"
 #include "CTileManager.h"
 #include "CMonsterSpawner.h"
 #include "CBattleStateMachine.h"
+
+#include "CCollisionMgr.h"
+#include "CKeyMgr.h"
+#include "CResMgr.h"
 #include "CEventMgr.h"
 
 static std::random_device rd;

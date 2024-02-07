@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "CBlock.h"
 
-#include "CDataMgr.h"
-
-#include "CCollider.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
 
@@ -53,7 +50,6 @@ int CBlock::RandomBlock()
 
 void CBlock::Update()
 {
-	/*GetAnimator()->Update();*/
 }
 
 void CBlock::Render(HDC hdc)

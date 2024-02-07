@@ -1,10 +1,7 @@
 #include "pch.h"
 #include "CObject.h"
 
-#include "CKeyMgr.h"
-#include "CTimeMgr.h"
 #include "CDataMgr.h"
-#include "CResMgr.h"
 
 #include "CCollider.h"
 #include "CAnimator.h"

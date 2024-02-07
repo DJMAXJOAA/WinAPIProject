@@ -5,7 +5,6 @@
 #include "CUIMgr.h"
 
 #include "CObject.h"
-#include "CPlayer.h"
 #include "CBattleStateMachine.h"
 #include "CEventCenter.h"
 

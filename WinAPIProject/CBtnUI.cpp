@@ -6,7 +6,6 @@
 #include "CSound.h"
 
 #include "CScene.h"
-#include "CObject.h"
 
 CBtnUI::CBtnUI(bool _bCamAff)
 	: CUI(_bCamAff)

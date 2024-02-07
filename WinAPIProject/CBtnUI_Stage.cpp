@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "CBtnUI_Stage.h"
 
-#include "CCore.h"
 #include "CKeyMgr.h"
 #include "CEventMgr.h"
 #include "CResMgr.h"

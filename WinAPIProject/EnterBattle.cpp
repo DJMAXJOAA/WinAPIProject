@@ -12,12 +12,9 @@
 #include "CBlock.h"
 #include "CPlayer.h"
 #include "CMonster.h"
-#include "CEffect.h"
 #include "CBackground.h"
 #include "CPanelUI_Number.h"
 
-#include "BFSSearch.h"
-#include "CTurnManager.h"
 #include "CTileManager.h"
 #include "CMonsterSpawner.h"
 

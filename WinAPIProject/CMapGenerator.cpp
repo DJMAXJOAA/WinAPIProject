@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "CMapGenerator.h"
 
-#include "CCore.h"
-
-#include<ctime>
 static std::random_device rd;
 static std::mt19937 rng(rd());
 #include<fstream>

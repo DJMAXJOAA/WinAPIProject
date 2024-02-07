@@ -1,12 +1,7 @@
 #include "pch.h"
 #include "CBackground.h"
 
-#include "CCore.h"
-
-#include "CResMgr.h"
 #include "CPathMgr.h"
-
-#include "CTexture.h"
 
 CBackground::CBackground(wstring _filename)
 	: m_image(nullptr)

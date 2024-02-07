@@ -1,6 +1,5 @@
 #pragma once
 #include "CScene.h"
-#include "tile.h"
 
 class CPlayer;
 class CMonster;

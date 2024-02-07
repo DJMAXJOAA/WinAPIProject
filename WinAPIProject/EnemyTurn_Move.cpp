@@ -5,9 +5,6 @@
 #include "CMonster.h"
 #include "CPlayer.h"
 
-#include "CAnimator.h"
-#include "CAnimation.h"
-
 #include "CMonsterSpawner.h"
 #include "CTileManager.h"
 #include "CTurnManager.h"

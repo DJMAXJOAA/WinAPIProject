@@ -16,7 +16,6 @@
 
 CBattleStateMachine::CBattleStateMachine(CScene_Battle* _pScene)
 	: m_pScene(_pScene)
-	, m_vecStates{}
 	, m_pBattleState(nullptr)
 {
 	m_vecStates.resize((int)TURN_TYPE::END, nullptr);

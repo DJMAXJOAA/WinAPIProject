@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "CHPBar.h"
 
-#include "CCore.h"
-
 #include "CPlayer.h"
 #include "CMonster.h"
 
@@ -11,7 +9,6 @@ CHPBar::CHPBar(int _width, int _height, Vec2 _offset)
 	, m_vOffsetPos(_offset)
 	, m_iWidth(_width)
 	, m_iHeight(_height)
-	, m_vFinalPos{}
 {
 }
 

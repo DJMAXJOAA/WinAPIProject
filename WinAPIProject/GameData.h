@@ -1,6 +1,5 @@
 #pragma once
 #include "CData.h"
-#include "CMapGenerator.h"
 
 struct PlayerInfo
 {
