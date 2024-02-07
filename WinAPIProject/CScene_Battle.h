@@ -72,6 +72,8 @@ public:
     void ChangeTurn(TURN_TYPE _type);
 
 public:
+    virtual void CameraEvent();
+
     virtual void Update() override;
     virtual void Enter() override;
     virtual void Exit() override;

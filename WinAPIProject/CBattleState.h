@@ -16,6 +16,5 @@ public:
 	virtual void Init(CScene_Battle* _pScene) {};
 	virtual void Handle(CScene_Battle* _pScene) {};
 	virtual void Exit(CScene_Battle* _pScene) {};
-
 };
 

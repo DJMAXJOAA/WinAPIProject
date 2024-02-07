@@ -131,8 +131,8 @@ void CScene_Battle::MonsterAttackPlayer(float _damage)
 
 void CScene_Battle::MonsterAttackDone(CMonster* _pMon)
 {
+	_pMon->AnimationDirection(L"idle", true);
 	_pMon->SetActing(true);
-	_pMon->GetAnimator()->PlayType(L"front_idle", true);
 
 	printf("CScene_Battle::MonsterAttackDone :: 공격이 종료되었습니다.\n");
 }
@@ -175,6 +175,11 @@ void CScene_Battle::OnTileSelect(CObject* _pObj)
 
 	// BFS 방문 초기화
 	m_pTileCenter->TileVisitedInit();
+}
+
+void CScene_Battle::CameraEvent()
+{
+	ChangeScene(SCENE_TYPE::ROBBY);
 }
 
 void CScene_Battle::Update()

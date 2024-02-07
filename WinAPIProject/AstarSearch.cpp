@@ -3,6 +3,7 @@
 #include <queue>
 using std::priority_queue;
 #include <unordered_set>
+using std::unordered_set;
 
 list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Vec2> posPair, int _move, float _weight)
 {
@@ -13,7 +14,7 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
     vecTiles[(int)_startPos.y][(int)_startPos.x].pObj = nullptr;
 
     priority_queue<Node*, vector<Node*>, CompareNode> openSet;
-    std::unordered_set<Node*> allNodes;
+    unordered_set<Node*> allNodes;
 
     Node* startNode = new Node(_startPos.x, _startPos.y);
     allNodes.insert(startNode);
@@ -31,8 +32,24 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
 
         if (current->x == _endPos.x && current->y == _endPos.y)
         {
-            reachedEnd = true;
-            break;
+            bool isDiagonalMove = false;
+            if (current->pParent != nullptr) // 부모 노드가 있는지 확인
+            {
+                isDiagonalMove = abs(current->x - current->pParent->x) == 1 && abs(current->y - current->pParent->y) == 1;
+            }
+
+            // 대각선 이동이 아니면 목적지 도달로 처리
+            if (!isDiagonalMove)
+            {
+                openSet.push(current->pParent);
+
+                reachedEnd = true;
+                break;
+            }
+            else
+            {
+                continue;
+            }
         }
 
         vecTiles[current->y][current->x].bVisited = true;
@@ -49,7 +66,9 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
                     if (vecTiles[y][x].bVisited) continue;
                     if (vecTiles[y][x].pObj != nullptr && !(x == _endPos.x && y == _endPos.y)) continue;
 
-                    Node* neighbor = new Node(x, y, current->fCost + 1.0f, current);
+                    bool isDiagonal = dx != 0 && dy != 0;
+                    float moveCost = isDiagonal ? 1.414f : 1.0f;  // 대각선 비용 증가
+                    Node* neighbor = new Node(x, y, current->fCost + moveCost, current);
                     allNodes.insert(neighbor);
 
                     Vec2 neighborVec2(x, y);
@@ -63,11 +82,13 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
     if (reachedEnd)
     {
         Node* node = openSet.top();
-        lstPath.emplace_back(node->x, node->y);
+        if (node->x != _endPos.x || node->y != _endPos.y)
+            lstPath.emplace_back(node->x, node->y);
         node = node->pParent;
         while (node != nullptr && node->pParent != nullptr)
         {
-            lstPath.emplace_back(node->x, node->y);
+            if (node->x != _endPos.x || node->y != _endPos.y)
+                lstPath.emplace_back(node->x, node->y);
             node = node->pParent;
         }
         lstPath.reverse();
