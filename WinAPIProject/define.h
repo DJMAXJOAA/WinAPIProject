@@ -28,18 +28,43 @@ return &mgr;\
 
 namespace battle
 {
-// 지도 크기
-#define WIDTH 15
-#define HEIGHT 7
-#define TILE_WIDTH 140
-#define TILE_HEIGHT 70
-#define GRID_X 9
-#define GRID_Y 9
-
 // 매크로 (좌표 변경)
 #define REAL(key) m_TileCenter->GridToReal(key)
-#define GRID(key) m_TileCenter->RealToGrid(key) 
+#define GRID(key) m_TileCenter->RealToGrid(key)
 }
+
+struct ROBBY_SETTINGS
+{
+	// 던전 GRID 크기
+	static const int WIDTH	= 15;
+	static const int HEIGHT = 7;
+
+	// 생성 위치, 크기
+	static const int WIDTH_MARGIN	= 50;
+	static const int HEIGHT_MARGIN	= 50;
+	static const int EXTEND_WIDTH	= (WIDTH * 2) - 1;
+	static const int EXTEND_HEIGHT	= (HEIGHT * 2) - 1;
+	static const int PANEL_WIDTH	= 2400;
+	static const int PANEL_HEIGHT	= 640;
+
+	// 던전 설정
+	static const int NUMBER_OF_ROUTE	= 6;	// 루트 개수
+
+	static const int ELITE_ROOM_CHANCE	= 15;	// 엘리트방 확률
+	static const int SHOP_ROOM_CHANCE	= 25;	// 상점 확률
+	static const int REST_ROOM_CHANCE	= 40;	// 휴식 확률
+};
+
+struct BATTLE_SETTINGS
+{
+	// 전투맵 GRID 크기
+	static const int GRID_X	= 9;
+	static const int GRID_Y	= 9;
+
+	// 타일 크기
+	static const int TILE_WIDTH		= 140;
+	static const int TILE_HEIGHT	= 70;
+};
 
 enum class ROOM_TYPE
 {

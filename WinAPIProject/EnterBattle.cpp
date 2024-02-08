@@ -80,8 +80,8 @@ void EnterBattle::Init(CScene_Battle* _pScene)
 
 	for (int y = 0; y < 9; ++y) {
 		for (int x = 0; x < 9; ++x) {
-			int drawX = startX + (x - y) * (TILE_WIDTH / 2);
-			int drawY = startY + (x + y) * (TILE_HEIGHT / 2) - (TILE_HEIGHT / 2);
+			int drawX = startX + (x - y) * (BATTLE_SETTINGS::TILE_WIDTH / 2);
+			int drawY = startY + (x + y) * (BATTLE_SETTINGS::TILE_HEIGHT / 2) - (BATTLE_SETTINGS::TILE_HEIGHT / 2);
 
 			// ÁÂÇ¥ ÀúÀå
 			Vec2 gridPos = Vec2(x, y);

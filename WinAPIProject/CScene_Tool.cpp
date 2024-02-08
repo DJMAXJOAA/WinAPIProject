@@ -177,8 +177,8 @@ void CScene_Tool::Enter()
 	// Player Ãß°¡
 	for (int y = 0; y < 1; ++y) {
 		for (int x = 0; x < 1; ++x) {
-			int drawX = startX + (x - y) * (TILE_WIDTH / 2);
-			int drawY = startY + (x + y) * (TILE_HEIGHT / 2) - (TILE_HEIGHT / 2);
+			int drawX = startX + (x - y) * (BATTLE_SETTINGS::TILE_WIDTH / 2);
+			int drawY = startY + (x + y) * (BATTLE_SETTINGS::TILE_HEIGHT / 2) - (BATTLE_SETTINGS::TILE_HEIGHT / 2);
 
 			CToolTest2* pObj = new CToolTest2(m_iCurrentAnimator, m_iCurrentAnimation);
 			pObj->SetPos(Vec2(drawX, drawY));

@@ -15,7 +15,7 @@
 
 #include "GameData.h"
 
-// 최초 1회 필드 구성 static 변수
+// 최초 1회 필드 구성
 static bool enter;
 
 CScene_Robby::CScene_Robby()
@@ -26,7 +26,6 @@ CScene_Robby::CScene_Robby()
 	, m_mapBtnUI{}
 	, m_pCurrentNode(nullptr)
 {
-
 }
 
 CScene_Robby::~CScene_Robby()
@@ -175,39 +174,32 @@ void CScene_Robby::Enter()
 		// UI 추가
 		Vec2 vResolution = CCore::GetInstance()->GetResolution(); // 화면 크기 가져오기
 
-		const int WidthMargin = 50;
-		const int HeightMargin = 50;
-		const int extendedWidth = (WIDTH * 2) - 1;
-		const int extendedHeight = (HEIGHT * 2) - 1;
-		const int PanelWidth = 2400;
-		const int PanelHeight = 640;
-
 		CPanelUI_Back* pPanelUI = new CPanelUI_Back;
 		pPanelUI->SetName(L"ParentUI");
-		pPanelUI->SetScale(Vec2(PanelWidth, PanelHeight));
+		pPanelUI->SetScale(Vec2(ROBBY_SETTINGS::PANEL_WIDTH, ROBBY_SETTINGS::PANEL_HEIGHT));
 		pPanelUI->SetPos(Vec2(0, 0));
 		m_mainUI = pPanelUI;
 
 		// 패널 내에서 사용 가능한 너비와 높이
-		int available_width = PanelWidth - WidthMargin * 2;
-		int available_height = PanelHeight - HeightMargin * 2;
+		int available_width = ROBBY_SETTINGS::PANEL_WIDTH - ROBBY_SETTINGS::WIDTH_MARGIN * 2;
+		int available_height = ROBBY_SETTINGS::PANEL_HEIGHT - ROBBY_SETTINGS::HEIGHT_MARGIN * 2;
 
 		// 일정한 간격으로 오브젝트를 배치하기 위한 간격을 계산
-		int horizontal_gap = available_width / extendedWidth;
-		int vertical_gap = available_height / extendedHeight;
+		int horizontal_gap = available_width / ROBBY_SETTINGS::EXTEND_WIDTH;
+		int vertical_gap = available_height / ROBBY_SETTINGS::EXTEND_HEIGHT;
 
 		// 2차원 배열을 순회하면서 오브젝트를 생성
-		for (int i = 0; i < extendedWidth; ++i)
+		for (int i = 0; i < ROBBY_SETTINGS::EXTEND_WIDTH; ++i)
 		{
-			for (int j = 0; j < extendedHeight; ++j)
+			for (int j = 0; j < ROBBY_SETTINGS::EXTEND_HEIGHT; ++j)
 			{
 				int value = m_vecStage[j][i];  // 적절한 값으로 설정
 
 				// 노드나 화살표를 생성해야 하는 경우
 				if (value >= 1) {
 					// 오브젝트의 x, y 좌표를 계산
-					int x = WidthMargin + (i * horizontal_gap);
-					int y = HeightMargin + (j * vertical_gap);
+					int x = ROBBY_SETTINGS::WIDTH_MARGIN + (i * horizontal_gap);
+					int y = ROBBY_SETTINGS::HEIGHT_MARGIN + (j * vertical_gap);
 
 					// 오브젝트를 생성 및 설정
 					CBtnUI_Stage* pBtnUI = new CBtnUI_Stage(value);
@@ -240,7 +232,7 @@ void CScene_Robby::Enter()
 		}
 
 		// 카메라 설정
-		m_CameraPos = Vec2(float(vResolution.x / 4), float(PanelHeight / 2));
+		m_CameraPos = Vec2(float(vResolution.x / 4), float(ROBBY_SETTINGS::PANEL_HEIGHT / 2));
 		
 		enter = true;
 	}

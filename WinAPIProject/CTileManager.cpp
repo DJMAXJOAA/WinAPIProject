@@ -4,7 +4,7 @@
 #include "CTile.h"
 
 CTileCenter::CTileCenter()
-	: m_vecTileState(GRID_X, vector<TileState>(GRID_Y))
+	: m_vecTileState(BATTLE_SETTINGS::GRID_X, vector<TileState>(BATTLE_SETTINGS::GRID_Y))
 	, m_mapRealPoint{}
 	, m_mapGridPoint{}
 {

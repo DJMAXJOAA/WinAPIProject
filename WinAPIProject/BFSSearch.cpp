@@ -13,8 +13,8 @@ const vector<vector<Vec2>> BFS_DIRECTION =
 bool BFSSearch::isValid(Vec2 _vPos, const vector<vector<TileState>>& _vecTiles)
 {
 	// 격자 밖으로 나가거나, 방문 했었으면 false
-	return (_vPos.x >= 0 && _vPos.x < GRID_X &&
-		_vPos.y >= 0 && _vPos.y < GRID_Y &&
+	return (_vPos.x >= 0 && _vPos.x < BATTLE_SETTINGS::GRID_X &&
+		_vPos.y >= 0 && _vPos.y < BATTLE_SETTINGS::GRID_Y &&
 		!_vecTiles[(int)_vPos.y][(int)_vPos.x].bVisited);
 }
 

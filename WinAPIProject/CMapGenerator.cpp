@@ -9,15 +9,10 @@ using std::locale;
 using std::ifstream;
 using std::ofstream;
 
-const int NUMBER_OF_STARTING = 6;
-const int ELITE_ROOM_CHANCE = 15;
-const int SHOP_ROOM_CHANCE = 25;
-const int REST_ROOM_CHANCE = 40;
-
 vector<MapNode*> CMapGenerator::CreateStartPos(const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn)
 {
     vector<MapNode*> result{};
-    for (int y = 0; y < HEIGHT * 2 - 1; y++)
+    for (int y = 0; y < ROBBY_SETTINGS::HEIGHT * 2 - 1; y++)
     {
         if (_vecMap[y][0] >= (int)ROOM_TYPE::NORMAL_ROOM)
         {
@@ -30,12 +25,12 @@ vector<MapNode*> CMapGenerator::CreateStartPos(const vector<vector<int>>& _vecMa
 vector<vector<int>> CMapGenerator::CreateRandomMap()
 {
     // 바로 시작 버튼을 눌러서 시작하면 (세이브 데이터가 없으면), 랜덤맵 생성
-    vector<vector<int>> grid(HEIGHT * 2 - 1, vector<int>(WIDTH * 2 - 1, 0));
+    vector<vector<int>> grid(ROBBY_SETTINGS::HEIGHT * 2 - 1, vector<int>(ROBBY_SETTINGS::WIDTH * 2 - 1, 0));
 
-    std::uniform_int_distribution<int> dist(0, HEIGHT - 1);
+    std::uniform_int_distribution<int> dist(0, ROBBY_SETTINGS::HEIGHT - 1);
 
     // 시작점 6개 생성 (시작 좌표 중복 가능)
-    for (int line = 0; line < NUMBER_OF_STARTING; line++)
+    for (int line = 0; line < ROBBY_SETTINGS::NUMBER_OF_ROUTE; line++)
     {
         POINT currentPoint{};
         currentPoint.x = 0;
@@ -45,11 +40,11 @@ vector<vector<int>> CMapGenerator::CreateRandomMap()
         // 첫 방은 무조건 일반 방(int 4)
         grid[currentPoint.y][currentPoint.x] = (int)ROOM_TYPE::NORMAL_ROOM;
 
-        while (currentPoint.x < (WIDTH - 1) * 2)
+        while (currentPoint.x < (ROBBY_SETTINGS::WIDTH - 1) * 2)
         {
             int deltaY = GetValueRandomY();
 
-            if (currentPoint.y + (deltaY * 2) >= 0 && currentPoint.y + (deltaY * 2) < HEIGHT * 2) {
+            if (currentPoint.y + (deltaY * 2) >= 0 && currentPoint.y + (deltaY * 2) < ROBBY_SETTINGS::HEIGHT * 2) {
                 switch (deltaY) 
                 {
                 case -1:
@@ -113,7 +108,7 @@ vector<vector<int>> CMapGenerator::CreateRandomMap()
 
 MapNode* CMapGenerator::CreatePath(int x, int y, const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn)
 {
-    if (x < 0 || x >= WIDTH * 2 - 1 || y < 0 || y >= HEIGHT * 2 - 1) return nullptr;
+    if (x < 0 || x >= ROBBY_SETTINGS::WIDTH * 2 - 1 || y < 0 || y >= ROBBY_SETTINGS::HEIGHT * 2 - 1) return nullptr;
 
     MapNode* node = new MapNode;
     node->x = x;
@@ -121,7 +116,7 @@ MapNode* CMapGenerator::CreatePath(int x, int y, const vector<vector<int>>& _vec
     node->value = _vecMap[y][x];
     _mapGridBtn[Vec2(x, y)] = node;
 
-    if (x + 1 < WIDTH * 2 - 1) 
+    if (x + 1 < ROBBY_SETTINGS::WIDTH * 2 - 1)
     {
         if (y - 1 >= 0 && _vecMap[y - 1][x + 1] == (int)ROOM_TYPE::UP_DIRECTION) // ↗
             node->children.push_back(CreatePath(x + 2, y - 2, _vecMap, _mapGridBtn));
@@ -129,7 +124,7 @@ MapNode* CMapGenerator::CreatePath(int x, int y, const vector<vector<int>>& _vec
         if (_vecMap[y][x + 1] == (int)ROOM_TYPE::RIGHT_DIRECTION) // →
             node->children.push_back(CreatePath(x + 2, y, _vecMap, _mapGridBtn));
 
-        if (y + 1 < HEIGHT * 2 - 1 && _vecMap[y + 1][x + 1] == (int)ROOM_TYPE::DOWN_DIRECTION) // ↘
+        if (y + 1 < ROBBY_SETTINGS::HEIGHT * 2 - 1 && _vecMap[y + 1][x + 1] == (int)ROOM_TYPE::DOWN_DIRECTION) // ↘
             node->children.push_back(CreatePath(x + 2, y + 2, _vecMap, _mapGridBtn));
     }
 
@@ -146,13 +141,12 @@ int CMapGenerator::GetValueRandomY()
 
 int CMapGenerator::GetRandomStageSelect()
 {
-    // 방 종류 정하기
-    // 15% 엘리트방, 10% 상점, 15% 쉼터, 나머지 60% 일반방
+    // 방 종류 정하기 랜덤
     std::uniform_int_distribution<int> dist(0, 99);
     int randomValue = dist(rng);
 
-    if (randomValue < ELITE_ROOM_CHANCE) return (int)ROOM_TYPE::ELITE_ROOM;
-    if (randomValue < SHOP_ROOM_CHANCE) return (int)ROOM_TYPE::SHOP_ROOM;
-    if (randomValue < REST_ROOM_CHANCE) return (int)ROOM_TYPE::REST_ROOM;
+    if (randomValue < ROBBY_SETTINGS::ELITE_ROOM_CHANCE) return (int)ROOM_TYPE::ELITE_ROOM;
+    if (randomValue < ROBBY_SETTINGS::SHOP_ROOM_CHANCE) return (int)ROOM_TYPE::SHOP_ROOM;
+    if (randomValue < ROBBY_SETTINGS::REST_ROOM_CHANCE) return (int)ROOM_TYPE::REST_ROOM;
     return (int)ROOM_TYPE::NORMAL_ROOM;
 }
