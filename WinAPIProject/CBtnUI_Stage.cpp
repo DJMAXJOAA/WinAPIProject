@@ -52,7 +52,6 @@ void CBtnUI_Stage::MouseLbtnUp()
 
 void CBtnUI_Stage::MouseLbtnClicked()
 {
-	// 마우스 효과음
 	CBtnUI::MouseLbtnClicked();
 
 	if (m_bSelect && !m_bCleared)

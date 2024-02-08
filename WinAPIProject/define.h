@@ -39,6 +39,13 @@ struct ROBBY_SETTINGS
 	static const int WIDTH	= 15;
 	static const int HEIGHT = 7;
 
+	// 던전 설정
+	static const int NUMBER_OF_ROUTE	= 6;	// 루트 개수
+
+	static const int ELITE_ROOM_CHANCE	= 15;	// 엘리트방 확률
+	static const int SHOP_ROOM_CHANCE	= 25;	// 상점 확률
+	static const int REST_ROOM_CHANCE	= 40;	// 휴식 확률
+
 	// 생성 위치, 크기
 	static const int WIDTH_MARGIN	= 50;
 	static const int HEIGHT_MARGIN	= 50;
@@ -46,13 +53,6 @@ struct ROBBY_SETTINGS
 	static const int EXTEND_HEIGHT	= (HEIGHT * 2) - 1;
 	static const int PANEL_WIDTH	= 2400;
 	static const int PANEL_HEIGHT	= 640;
-
-	// 던전 설정
-	static const int NUMBER_OF_ROUTE	= 6;	// 루트 개수
-
-	static const int ELITE_ROOM_CHANCE	= 15;	// 엘리트방 확률
-	static const int SHOP_ROOM_CHANCE	= 25;	// 상점 확률
-	static const int REST_ROOM_CHANCE	= 40;	// 휴식 확률
 };
 
 struct BATTLE_SETTINGS
@@ -70,13 +70,14 @@ enum class ROOM_TYPE
 {
 	NONE,
 
-	UP_DIRECTION,
-	RIGHT_DIRECTION,
-	DOWN_DIRECTION,
-	NORMAL_ROOM,
-	ELITE_ROOM,
-	SHOP_ROOM,
-	REST_ROOM,
+	UP_DIRECTION,		// ↗
+	RIGHT_DIRECTION,	// →
+	DOWN_DIRECTION,		// ↘
+
+	NORMAL_ROOM,	// 일반 방
+	ELITE_ROOM,		// 엘리트 방
+	SHOP_ROOM,		// 상점
+	REST_ROOM,		// 쉼터
 };
 
 enum class GROUP_TYPE

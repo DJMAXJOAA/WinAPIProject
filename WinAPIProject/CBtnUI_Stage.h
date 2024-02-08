@@ -8,7 +8,7 @@ class CBtnUI_Stage :
     public CBtnUI
 {
 private:
-    CTexture*               m_pCircle;      // 클리어 동그라미
+    CTexture*               m_pCircle;      // 클리어 여부
 
     FIELD_TYPE              m_FieldType;    // 스테이지 타입
     bool                    m_bSelect;      // 버튼 선택 가능 여부

@@ -169,7 +169,7 @@ void CScene_Robby::Enter()
 		m_vecStage = data->m_vecMap;
 
 		// 맵 정보를 토대로 노드 생성
-		m_vecNodes = CMapGenerator::CreateStartPos(m_vecStage, m_mapGridNode);
+		m_vecNodes = CMapGenerator::CreateStartPath(m_vecStage, m_mapGridNode);
 
 		// UI 추가
 		Vec2 vResolution = CCore::GetInstance()->GetResolution(); // 화면 크기 가져오기

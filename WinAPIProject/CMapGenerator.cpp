@@ -9,11 +9,11 @@ using std::locale;
 using std::ifstream;
 using std::ofstream;
 
-vector<MapNode*> CMapGenerator::CreateStartPos(const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn)
+vector<MapNode*> CMapGenerator::CreateStartPath(const vector<vector<int>>& _vecMap, map<Vec2, MapNode*>& _mapGridBtn)
 {
     vector<MapNode*> result{};
     for (int y = 0; y < ROBBY_SETTINGS::HEIGHT * 2 - 1; y++)
-    {
+    {   // 맨 처음 일반 방에서부터 DFS로 자식 노드들을 연결하여 루트를 완성시킵니다.
         if (_vecMap[y][0] >= (int)ROOM_TYPE::NORMAL_ROOM)
         {
             result.push_back(CreatePath(0, y, _vecMap, _mapGridBtn));
@@ -118,14 +118,15 @@ MapNode* CMapGenerator::CreatePath(int x, int y, const vector<vector<int>>& _vec
 
     if (x + 1 < ROBBY_SETTINGS::WIDTH * 2 - 1)
     {
-        if (y - 1 >= 0 && _vecMap[y - 1][x + 1] == (int)ROOM_TYPE::UP_DIRECTION) // ↗
-            node->children.push_back(CreatePath(x + 2, y - 2, _vecMap, _mapGridBtn));
+        if (y - 1 >= 0 && _vecMap[y - 1][x + 1] == (int)ROOM_TYPE::UP_DIRECTION) 
+            node->children.push_back(CreatePath(x + 2, y - 2, _vecMap, _mapGridBtn));   // ↗
 
-        if (_vecMap[y][x + 1] == (int)ROOM_TYPE::RIGHT_DIRECTION) // →
-            node->children.push_back(CreatePath(x + 2, y, _vecMap, _mapGridBtn));
+        if (_vecMap[y][x + 1] == (int)ROOM_TYPE::RIGHT_DIRECTION) 
+            node->children.push_back(CreatePath(x + 2, y, _vecMap, _mapGridBtn));       // →
 
-        if (y + 1 < ROBBY_SETTINGS::HEIGHT * 2 - 1 && _vecMap[y + 1][x + 1] == (int)ROOM_TYPE::DOWN_DIRECTION) // ↘
-            node->children.push_back(CreatePath(x + 2, y + 2, _vecMap, _mapGridBtn));
+        if (y + 1 < ROBBY_SETTINGS::HEIGHT * 2 - 1 
+            && _vecMap[y + 1][x + 1] == (int)ROOM_TYPE::DOWN_DIRECTION) 
+            node->children.push_back(CreatePath(x + 2, y + 2, _vecMap, _mapGridBtn));   // ↘
     }
 
     return node;
