@@ -10,6 +10,7 @@
 #include "CSound.h"
 #include "GameData.h"
 #include "CDataMgr.h"
+#include "CResMgr.h"
 
 void PlayerWin::Init(CScene_Battle* _pScene)
 {
@@ -17,8 +18,8 @@ void PlayerWin::Init(CScene_Battle* _pScene)
 
 	m_pPlayer->GetAnimator()->PlayType(L"front_bow", true);
 
-	// 패배 효과음 재생
-	_pScene->GetSoundEffect()[(int)SOUND_TYPE::WIN]->Play(false);
+	// 승리 효과음 재생
+	CResMgr::GetInstance()->LoadSound(L"winSound", L"sound\\win.wav")->Play(false);
 
 	// 카메라 효과 :: 2초 후, 페이드아웃 -> 턴넘김 -> 페이드인
 	CCamera::GetInstance()->WhiteScreen(0.5f);

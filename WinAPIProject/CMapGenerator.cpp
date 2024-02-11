@@ -26,7 +26,6 @@ vector<vector<int>> CMapGenerator::CreateRandomMap()
 {
     // 바로 시작 버튼을 눌러서 시작하면 (세이브 데이터가 없으면), 랜덤맵 생성
     vector<vector<int>> grid(ROBBY_SETTINGS::HEIGHT * 2 - 1, vector<int>(ROBBY_SETTINGS::WIDTH * 2 - 1, 0));
-
     std::uniform_int_distribution<int> dist(0, ROBBY_SETTINGS::HEIGHT - 1);
 
     // 시작점 6개 생성 (시작 좌표 중복 가능)
@@ -34,8 +33,7 @@ vector<vector<int>> CMapGenerator::CreateRandomMap()
     {
         POINT currentPoint{};
         currentPoint.x = 0;
-        int iRandom = dist(rng);
-        currentPoint.y = iRandom * 2;
+        currentPoint.y = dist(rng) * 2; // 랜덤 위치
 
         // 첫 방은 무조건 일반 방(int 4)
         grid[currentPoint.y][currentPoint.x] = (int)ROOM_TYPE::NORMAL_ROOM;

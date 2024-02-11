@@ -8,10 +8,12 @@
 #include "CAnimator.h"
 #include "CAnimation.h"
 
+#include "CResMgr.h"
+
 void PlayerDefeat::Init(CScene_Battle* _pScene)
 {
 	// 패배 효과음 재생
-	_pScene->GetSoundEffect()[(int)SOUND_TYPE::LOSE]->Play(false);
+	CResMgr::GetInstance()->LoadSound(L"loseSound", L"sound\\lose.wav")->Play(false);
 
 	// 카메라 효과 :: 2초 후, 페이드아웃 -> 턴넘김 -> 페이드인
 	CCamera::GetInstance()->WhiteScreen(1.0f);

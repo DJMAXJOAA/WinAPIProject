@@ -7,7 +7,7 @@
 
 CLogicCenter::CLogicCenter()
 	: m_lstMoveRoute{}
-	, m_TileColor(TILE_STATE::BLACK)
+	, m_CurrentTileColor(TILE_STATE::BLACK)
 	, m_lstTarget{}
 	, m_iCombo(0)
 {

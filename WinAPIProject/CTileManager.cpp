@@ -26,7 +26,7 @@ void CTileCenter::Init()
 	}
 }
 
-void CTileCenter::TileRouteInit(list<Vec2>& _tileList)
+void CTileCenter::InitTileRoute(list<Vec2>& _tileList)
 {
 	for (auto& tile : _tileList)
 	{
@@ -35,7 +35,7 @@ void CTileCenter::TileRouteInit(list<Vec2>& _tileList)
 	}
 }
 
-void CTileCenter::TileVisitedInit()
+void CTileCenter::InitTileVisited()
 {
 	for (int y = 0; y < m_vecTileState.size(); y++)
 	{
@@ -46,7 +46,7 @@ void CTileCenter::TileVisitedInit()
 	}
 }
 
-void CTileCenter::TileRandomInit()
+void CTileCenter::InitTileRandom()
 {
 	for (int y = 0; y < m_vecTileState.size(); y++)
 	{

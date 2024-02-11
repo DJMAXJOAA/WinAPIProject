@@ -181,29 +181,28 @@ void CScene_Robby::Enter()
 		m_mainUI = pPanelUI;
 
 		// 패널 내에서 사용 가능한 너비와 높이
-		int available_width = ROBBY_SETTINGS::PANEL_WIDTH - ROBBY_SETTINGS::WIDTH_MARGIN * 2;
-		int available_height = ROBBY_SETTINGS::PANEL_HEIGHT - ROBBY_SETTINGS::HEIGHT_MARGIN * 2;
+		int width = ROBBY_SETTINGS::PANEL_WIDTH - ROBBY_SETTINGS::WIDTH_MARGIN * 2;
+		int height = ROBBY_SETTINGS::PANEL_HEIGHT - ROBBY_SETTINGS::HEIGHT_MARGIN * 2;
 
 		// 일정한 간격으로 오브젝트를 배치하기 위한 간격을 계산
-		int horizontal_gap = available_width / ROBBY_SETTINGS::EXTEND_WIDTH;
-		int vertical_gap = available_height / ROBBY_SETTINGS::EXTEND_HEIGHT;
+		int horizGap = width / ROBBY_SETTINGS::EXTEND_WIDTH;
+		int verGap = height / ROBBY_SETTINGS::EXTEND_HEIGHT;
 
-		// 2차원 배열을 순회하면서 오브젝트를 생성
+		// 2차원 grid 배열을 순회하면서 화면에 표시될 오브젝트들을 생성
 		for (int i = 0; i < ROBBY_SETTINGS::EXTEND_WIDTH; ++i)
 		{
 			for (int j = 0; j < ROBBY_SETTINGS::EXTEND_HEIGHT; ++j)
 			{
-				int value = m_vecStage[j][i];  // 적절한 값으로 설정
+				int stageIndex = m_vecStage[j][i];  // 적절한 값으로 설정
 
 				// 노드나 화살표를 생성해야 하는 경우
-				if (value >= 1) {
+				if (stageIndex >= 1) {
 					// 오브젝트의 x, y 좌표를 계산
-					int x = ROBBY_SETTINGS::WIDTH_MARGIN + (i * horizontal_gap);
-					int y = ROBBY_SETTINGS::HEIGHT_MARGIN + (j * vertical_gap);
+					int x = ROBBY_SETTINGS::WIDTH_MARGIN + (i * horizGap);
+					int y = ROBBY_SETTINGS::HEIGHT_MARGIN + (j * verGap);
 
 					// 오브젝트를 생성 및 설정
-					CBtnUI_Stage* pBtnUI = new CBtnUI_Stage(value);
-					pBtnUI->SetName((value >= 4) ? L"ChildUI_Node" : L"ChildUI_Arrow");
+					CBtnUI_Stage* pBtnUI = new CBtnUI_Stage(stageIndex);
 					pBtnUI->SetGridPos(Vec2(i, j));
 					pBtnUI->SetPos(Vec2(x, y));
 					m_mapBtnUI[Vec2(i, j)] = pBtnUI;

@@ -78,8 +78,8 @@ void EnterBattle::Init(CScene_Battle* _pScene)
 	map<Vec2, Vec2>& mapGridPoint = m_TileCenter->GetMapGridPoint();
 	vector<vector<TileState>>& vecTileState = m_TileCenter->GetTiles();
 
-	for (int y = 0; y < 9; ++y) {
-		for (int x = 0; x < 9; ++x) {
+	for (int y = 0; y < BATTLE_SETTINGS::GRID_Y; ++y) {
+		for (int x = 0; x < BATTLE_SETTINGS::GRID_X; ++x) {
 			int drawX = startX + (x - y) * (BATTLE_SETTINGS::TILE_WIDTH / 2);
 			int drawY = startY + (x + y) * (BATTLE_SETTINGS::TILE_HEIGHT / 2) - (BATTLE_SETTINGS::TILE_HEIGHT / 2);
 
@@ -108,7 +108,7 @@ void EnterBattle::Init(CScene_Battle* _pScene)
 
 	// Player Ãß°¡
 	CPlayer* pPlayer = new CPlayer;
-	Vec2 PlayerStartPos(4, 2);
+	Vec2 PlayerStartPos(4, 4);
 	pPlayer->SetPos(REAL(PlayerStartPos));
 	pPlayer->SetGridPos(PlayerStartPos);
 	_pScene->SetPlayer(pPlayer);

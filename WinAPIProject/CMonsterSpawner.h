@@ -24,6 +24,5 @@ public:
 public:
 	void Init();		// 몬스터 데이터 객체화시켜서 저장
 	void Update();		// 사망 정보가 있는 몬스터들을 배열에서 삭제
-
 };
 

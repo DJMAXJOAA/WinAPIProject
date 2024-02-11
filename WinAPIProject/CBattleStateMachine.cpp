@@ -27,7 +27,7 @@ CBattleStateMachine::CBattleStateMachine(CScene_Battle* _pScene)
 	m_vecStates[(int)TURN_TYPE::PLAYER_MOVE] = new PlayerTurn_Move;
 	m_vecStates[(int)TURN_TYPE::PLAYER_ATTACK] = new PlayerTurn_Attack;
 	m_vecStates[(int)TURN_TYPE::PLAYER_SKILL] = new PlayerTurn_Skill;
-	m_vecStates[(int)TURN_TYPE::ENEMY_MOVE] = new EnemyTurn_Move;
+	m_vecStates[(int)TURN_TYPE::ENEMY_MOVE] = new EnemyTurn;
 	m_vecStates[(int)TURN_TYPE::WIN] = new PlayerWin;
 	m_vecStates[(int)TURN_TYPE::DEFEAT] = new PlayerDefeat;
 

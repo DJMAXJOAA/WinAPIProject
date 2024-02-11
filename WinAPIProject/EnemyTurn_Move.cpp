@@ -15,10 +15,10 @@
 #include "Monster_SelfHeal.h"
 #include "Monster_Teleport.h"
 
-EnemyTurn_Move::EnemyTurn_Move()
-	: m_vecStrategies(6)
-	, m_MonsterStrategy(nullptr)
-	, m_bRouteCalculate(false)
+#include "CDataUtils.h"
+
+EnemyTurn::EnemyTurn()
+	: m_vecStrategies((int)MONSTER_STRATEGY::NONE)
 {
 	m_vecStrategies[(int)MONSTER_STRATEGY::TRACE] = new Monster_Trace;
 	m_vecStrategies[(int)MONSTER_STRATEGY::RANDOM_MOVE] = new Monster_RandomMove;
@@ -26,16 +26,17 @@ EnemyTurn_Move::EnemyTurn_Move()
 	m_vecStrategies[(int)MONSTER_STRATEGY::RANDOM_TELEPORT] = new Monster_Teleport;
 }
 
-EnemyTurn_Move::~EnemyTurn_Move()
+EnemyTurn::~EnemyTurn()
 {
 	SafeDeleteVec(m_vecStrategies);
 }
 
-void EnemyTurn_Move::Init(CScene_Battle* _pScene)
+void EnemyTurn::Init(CScene_Battle* _pScene)
 {
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
 	CMonsterSpawner* m_MonsterSpawner = _pScene->GetSpawner();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
+	list<CMonster*>& monsterList = _pScene->GetSpawner()->GetMonsterList();
 
 	// 플레이어 타겟 삭제
 	m_pPlayer->SetTarget(nullptr);
@@ -47,43 +48,35 @@ void EnemyTurn_Move::Init(CScene_Battle* _pScene)
 		return;
 	}
 
+	// 몬스터 패턴 결정 (계산을 미리 다 해놓고, 한번에 이동)
+	for (auto& monster : monsterList)
+	{
+		printf("EnemyTurn::Handle :: 몬스터 패턴 계산중 -> ");
+		cout << wstring_to_string(monster->GetName()) << "의 패턴 실행\n";
+		// 몬스터가 가지고 있는 패턴들을 랜덤으로 패턴을 뽑아서, 로직을 실행시킴
+		auto monsterStrategy = m_vecStrategies[(int)monster->RandomPattern()];
+		if (monsterStrategy != nullptr)
+		{
+			monsterStrategy->Handle(_pScene, monster);
+		}
+	}
+
 	// 플레이어 초기화
 	m_pPlayer->SetState(PLAYER_STATE::IDLE);
 	m_pPlayer->AnimationDirection(PLAYER_STATE::IDLE, true);
 
-	printf("CScene_Battle::TurnInit :: 적 이동 상태 초기화\n");
+	printf("EnemyTurn::TurnInit :: 적 상태 초기화\n");
 }
 
-void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
+void EnemyTurn::Handle(CScene_Battle* _pScene)
 {
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
 	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
 	list<CMonster*>& monsterList = _pScene->GetSpawner()->GetMonsterList();
 	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
-	// 단 1회 계산
-	if (m_bRouteCalculate == false)
-	{
-		m_bRouteCalculate = true;
-
-		// 몬스터 패턴 결정 (계산을 미리 다 해놓고, 한번에 이동)
-
-		for (auto& monster : monsterList)
-		{
-			printf("EnemyTurn_Move::Handle :: 몬스터 이동 계산중 -> ");
-			cout << monster << "의 이동 패턴 실행\n";
-
-			// 몬스터가 가지고 있는 패턴들을 랜덤으로 패턴을 뽑아서, 로직을 실행시킴
-			m_MonsterStrategy = m_vecStrategies[(int)monster->RandomPattern()];
-			if (m_MonsterStrategy != nullptr)
-			{
-				m_MonsterStrategy->Handle(_pScene, monster);
-			}
-		}
-	}
-
 	// 검색 전 타일 초기화
-	m_TileCenter->TileVisitedInit();
+	m_TileCenter->InitTileVisited();
 
 	// 루트 확정 후 적군 이동
 	for (auto& monster : monsterList)
@@ -107,44 +100,51 @@ void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 				moveRoute.pop_front();
 
 				// 리스트가 비어있으면
+
+					// 도착 지점에 플레이어가 있으면, 몬스터 공격 설정 여부 체크
+				vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
+				list<CObject*>& lstObj = m_TurnCenter->GetTargetList();
+
+				// BFS로 사거리만큼 체크
+				BFSSearch::BFS(GRID(vDestination), vecTile, lstObj, DIRECTION::FOUR_WAY, monster->GetRange());
+				printf("EnemyTurn_Move::Handle :: BFS 탐색 결과 -> ");
+				for (list<CObject*>::iterator iter = lstObj.begin(); iter != lstObj.end(); iter++)
+				{
+					cout << *iter << ", ";
+				}
+				printf("\n");
+
+				// 적군이 있으면, 상태 변경 후 모두 이동이 끝나면 공격하게 상태설정
+				for (auto& obj : lstObj)
+				{
+					// 검색 대상이 플레이어면
+					if (obj == (CObject*)m_pPlayer)
+					{
+						// 어택 이벤트
+						GRID_DIRECTION gridDirection = GetGridDirection(monster->GetGridPos(), m_pPlayer->GetGridPos(), monster->GetPos(), m_pPlayer->GetPos());
+						monster->Attack(gridDirection, m_pPlayer);
+
+						// 타겟 리스트 초기화
+						lstObj.clear();
+						m_TileCenter->InitTileVisited();
+
+						// 검색시 플레이어가 없었으면 바로 Acting = true
+						moveRoute.clear();
+
+						// 몬스터 초기화
+						printf("도착 -> %1.f, %1.f\n", monster->GetGridPos().x, monster->GetGridPos().y);
+						return;
+					}
+				}
+
 				if (moveRoute.empty())
 				{
-					// 도착 지점에 플레이어가 있으면, 몬스터 공격 설정 여부 체크
-					vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
-					list<CObject*>& lstObj = m_TurnCenter->GetTargetList();
-
-					// BFS로 사거리만큼 체크
-					BFSSearch::BFS(GRID(vDestination), vecTile, lstObj, DIRECTION::FOUR_WAY, monster->GetRange());
-					printf("EnemyTurn_Move::Handle :: BFS 탐색 결과 -> ");
-					for (list<CObject*>::iterator iter = lstObj.begin(); iter != lstObj.end(); iter++)
-					{
-						cout << *iter << ", ";
-					}
-					printf("\n");
-
-					// 적군이 있으면, 상태 변경 후 모두 이동이 끝나면 공격하게 상태설정
-					for (auto& obj : lstObj)
-					{
-						// 검색 대상이 플레이어면
-						if (obj == (CObject*)m_pPlayer)
-						{
-							// 어택 이벤트
-							GRID_DIRECTION gridDirection = GetGridDirection(monster->GetGridPos(), m_pPlayer->GetGridPos(), monster->GetPos(), m_pPlayer->GetPos());
-							monster->Attack(gridDirection, m_pPlayer);
-
-							// 타겟 리스트 초기화
-							lstObj.clear();
-							m_TileCenter->TileVisitedInit();
-							return;
-						}
-					}
-
 					// 검색시 플레이어가 없었으면 바로 Acting = true
 					monster->SetActing(true);
 
 					// BFS 초기화
 					lstObj.clear();
-					m_TileCenter->TileVisitedInit();
+					m_TileCenter->InitTileVisited();
 
 					// 몬스터 초기화
 					monster->AnimationDirection(L"idle", true);
@@ -152,10 +152,7 @@ void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 					continue;
 				}
 
-				if(!moveRoute.empty())
-				{
-					vDestination = REAL(moveRoute.front());
-				}
+				vDestination = REAL(moveRoute.front());
 			}
 
 			GRID_DIRECTION gridDirection = GetGridDirection(monster->GetGridPos(), GRID(vDestination), vCurrentPos, vDestination);
@@ -173,12 +170,11 @@ void EnemyTurn_Move::Handle(CScene_Battle* _pScene)
 		}
 
 		printf("EnemyTurn_Move::Handle :: 이동과 공격이 모두 끝나서, 공격턴으로 넘어갑니다.\n");
-		m_bRouteCalculate = false;
 		_pScene->ChangeTurn(TURN_TYPE::PLAYER_START);
 	}
 }
 
-bool EnemyTurn_Move::IsMonstersMovingDone(const list<CMonster*>& monsterList)
+bool EnemyTurn::IsMonstersMovingDone(const list<CMonster*>& monsterList)
 {
 	for (const auto& monster : monsterList)
 	{

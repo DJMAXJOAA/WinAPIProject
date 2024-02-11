@@ -92,6 +92,14 @@ void CEventMgr::Excute(const tEvent& _eve)
 		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->OnTileSelect(pObj);
 		break;	
 	}
+	case EVENT_TYPE::TILECHANGE_TRIGGER:
+	{
+		// lParam :: Player Tile Change Trigger
+		// 마우스 오브젝트가 불렀을텐데, 그게 불렸다는건 애초에 전투 씬에서 불림
+		CObject* pObj = (CObject*)_eve.lParam;
+		((CScene_Battle*)CSceneMgr::GetInstance()->GetCurScene())->GetEventCenter()->OnChangeTile(pObj);
+		break;
+	}
 	case EVENT_TYPE::TURN_CHANGE:
 	{
 		// lParam :: Turn Type

@@ -14,7 +14,7 @@ private:
 	bool		m_bMonster;		// 몬스터인지 아닌지
 	
 public:
-	CHPBar(int _width, int _height, Vec2 _offset);
+	CHPBar(int _width, int _height, Vec2 _offset, bool _monster);
 	CHPBar(const CHPBar& _origin);
 	~CHPBar();
 

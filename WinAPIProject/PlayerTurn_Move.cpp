@@ -60,7 +60,7 @@ void PlayerTurn_Move::Handle(CScene_Battle* _pScene)
 		{
 			_pScene->ChangeTurn(TURN_TYPE::PLAYER_ATTACK);
 		}
-		m_TileCenter->TileVisitedInit();
+		m_TileCenter->InitTileVisited();
 
 		// 2. 타일 상태 갱신 -> 이동한 발판은 검은색 처리
 		Vec2 gridDestination = moveRoute.front();

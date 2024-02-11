@@ -42,21 +42,21 @@ void CCollider::FinalUpdate()
 
 void CCollider::Render(HDC hdc)
 {
-	PEN_TYPE ePen = PEN_TYPE::GREEN;
-	if (m_iCol)
-		ePen = PEN_TYPE::RED;
+	//PEN_TYPE ePen = PEN_TYPE::GREEN;
+	//if (m_iCol)
+	//	ePen = PEN_TYPE::RED;
 
-	SelectGDI pen(hdc, ePen);
-	SelectGDI brush(hdc, BRUSH_TYPE::HOLLOW);
+	//SelectGDI pen(hdc, ePen);
+	//SelectGDI brush(hdc, BRUSH_TYPE::HOLLOW);
 
-	// FinalPos는 바뀌면 안된다, 실제 충돌 계산할때 쓰는 좌표라서
-	Vec2 vRenderPos = CCamera::GetInstance()->GetRenderPos(m_vFinalPos);
+	//// FinalPos는 바뀌면 안된다, 실제 충돌 계산할때 쓰는 좌표라서
+	//Vec2 vRenderPos = CCamera::GetInstance()->GetRenderPos(m_vFinalPos);
 
-	Rectangle(hdc
-		, (int)(vRenderPos.x - m_vScale.x / 2.f)
-		, (int)(vRenderPos.y - m_vScale.y / 2.f)
-		, (int)(vRenderPos.x + m_vScale.x / 2.f)
-		, (int)(vRenderPos.y + m_vScale.y / 2.f));
+	//Rectangle(hdc
+	//	, (int)(vRenderPos.x - m_vScale.x / 2.f)
+	//	, (int)(vRenderPos.y - m_vScale.y / 2.f)
+	//	, (int)(vRenderPos.x + m_vScale.x / 2.f)
+	//	, (int)(vRenderPos.y + m_vScale.y / 2.f));
 }
 
 void CCollider::OnCollision(CCollider* _pOther)

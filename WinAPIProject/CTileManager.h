@@ -14,9 +14,9 @@ public:
 
 public:
 	void Init();
-	void TileRouteInit(list<Vec2>& _tileList);
-	void TileVisitedInit();
-	void TileRandomInit();
+	void InitTileRoute(list<Vec2>& _tileList);
+	void InitTileVisited();
+	void InitTileRandom();
 
 public:
 	Vec2 GridToReal(Vec2 _vPos) { return m_mapRealPoint[Vec2((int)_vPos.x, (int)_vPos.y)]; }

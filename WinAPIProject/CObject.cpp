@@ -151,9 +151,8 @@ void CObject::CreateAnimatorGdiPlus(int _key)
 
 void CObject::CreateHealthBar(bool _bTF, int _width, int _height, Vec2 _offset)
 {
-	m_pHealthBar = new CHPBar(_width, _height, _offset);
+	m_pHealthBar = new CHPBar(_width, _height, _offset, _bTF);
 	m_pHealthBar->m_pOwner = this;
-	m_pHealthBar->m_bMonster = _bTF;
 }
 
 void CObject::FinalUpdate()

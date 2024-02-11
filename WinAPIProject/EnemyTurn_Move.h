@@ -1,21 +1,19 @@
 #pragma once
 #include "CBattleState.h"
 
-class CMonsterStrategy;
+class IMonsterStrategy;
 class CMonster;
 class CPlayer;
 
-class EnemyTurn_Move :
+class EnemyTurn :
     public CBattleState
 {
 private:
-    vector<CMonsterStrategy*>   m_vecStrategies;    // 몬스터 패턴을 모아둔 배열
-    CMonsterStrategy*           m_MonsterStrategy;  // 현재 몬스터의 패턴
-    bool                        m_bRouteCalculate;  // 길찾기 루트 확정했는지
+    vector<IMonsterStrategy*>   m_vecStrategies;    // 몬스터 패턴을 모아둔 배열
 
 public:
-    EnemyTurn_Move();
-    virtual ~EnemyTurn_Move();
+    EnemyTurn();
+    virtual ~EnemyTurn();
 
 public:
     virtual void Init(CScene_Battle* _pScene) override;

@@ -3,6 +3,7 @@
 
 #include "CMonster.h"
 #include "CPlayer.h"
+#include "CTile.h"
 
 #include "CBattleState.h"
 #include "CTileManager.h"
@@ -11,6 +12,8 @@
 
 #include "CScene_Battle.h"
 #include "CEffect.h"
+
+#include "CDataUtils.h"
 
 CEventCenter::CEventCenter(CScene_Battle* _pScene)
 	: m_pScene(_pScene)
@@ -30,7 +33,18 @@ void CEventCenter::OnTileSelect(CObject* _pObj)
 	m_pScene->GetStateMachine()->GetState()->OnTileSelect(m_pScene, _pObj);
 
 	// BFS 방문 초기화
-	m_pTileCenter->TileVisitedInit();
+	m_pTileCenter->InitTileVisited();
+}
+
+void CEventCenter::OnChangeTile(CObject* _pObj)
+{
+	// 조건 :: 마우스를 꾹 누른 상태에서 타일의 콜라이더와 닿은 상태
+	// 마우스 꾹 눌린 상태에서, 콜라이더가 닿으면 -> 이벤트 매니저에서 이 함수를 호출시킴
+
+	CTile* pTile = (CTile*)_pObj;
+	TILE_STATE color = (TILE_STATE)(((int)(pTile->GetTileState()) + 1) % 5);
+	if (color == TILE_STATE::BLACK) color = TILE_STATE::RED;
+	pTile->SetTileState(color);
 }
 
 void CEventCenter::PlayerAttackMonster(float _damage, CMonster* _pMon)
@@ -41,7 +55,8 @@ void CEventCenter::PlayerAttackMonster(float _damage, CMonster* _pMon)
 
 	_pMon->GetDamaged(_damage);
 
-	printf("CScene_Battle::PlayerAttackMonster :: 적에게 %1.f 데미지로 공격 ->", _damage);
+	cout << "CEventCenter::PlayerAttackMonster :: " << wstring_to_string(_pMon->GetName());
+	printf("에게 %1.f 데미지로 공격 ->", _damage);
 	cout << _pMon << "\n";
 }
 
@@ -117,7 +132,8 @@ void CEventCenter::MonsterAttackDone(CMonster* _pMon)
 	_pMon->SetActing(true);
 	_pMon->AnimationDirection(L"idle", true);
 
-	printf("CScene_Battle::MonsterAttackDone :: 공격이 종료되었습니다.\n");
+	cout << "CEventCenter::PlayerAttackMonster :: " << wstring_to_string(_pMon->GetName());
+	printf("의 공격이 종료되었습니다.\n");
 }
 
 void CEventCenter::MonsterDied(CMonster* _pObj)

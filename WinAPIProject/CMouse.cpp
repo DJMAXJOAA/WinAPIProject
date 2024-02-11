@@ -24,16 +24,34 @@ void CMouse::OnCollisionEnter(CCollider* _pOther)
 	// 바로 전에 체크한 적 있으면, 이벤트 다시 보내지 않음
 	if (KEY_HOLD(KEY::LBTN) && (m_pOtherCollider != _pOther))
 	{
-		PlayerTileSelectTrigger(_pOther->GetObj());
+		SelectTile(_pOther->GetObj());
 		printf("마우스 이벤트 호출\n");
 	}
 	m_pOtherCollider = _pOther;
 }
 
-void CMouse::PlayerTileSelectTrigger(CObject* _pObj)
+void CMouse::OnCollision(CCollider* _pOther)
+{
+	if (KEY_TAP(KEY::RBTN))
+	{
+		ChangeTile(_pOther->GetObj());
+		printf("블럭 교체 호출\n");
+	}
+}
+
+void CMouse::SelectTile(CObject* _pObj)
 {
 	tEvent evn = {  };
 	evn.eEvent = EVENT_TYPE::TILESELECT_TRIGGER;
+	evn.lParam = (DWORD_PTR)_pObj;
+
+	CEventMgr::GetInstance()->AddEvent(evn);
+}
+
+void CMouse::ChangeTile(CObject* _pObj)
+{
+	tEvent evn = {  };
+	evn.eEvent = EVENT_TYPE::TILECHANGE_TRIGGER;
 	evn.lParam = (DWORD_PTR)_pObj;
 
 	CEventMgr::GetInstance()->AddEvent(evn);

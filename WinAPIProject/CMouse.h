@@ -17,7 +17,9 @@ private:
 
 public:
     virtual void OnCollisionEnter(CCollider* _pOther);
-    void PlayerTileSelectTrigger(CObject* _pObj);
+    virtual void OnCollision(CCollider* _pOther);
+    void SelectTile(CObject* _pObj);
+    void ChangeTile(CObject* _pObj);
 
 public:
     virtual void Render(HDC hdc);

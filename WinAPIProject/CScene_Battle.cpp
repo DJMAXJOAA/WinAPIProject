@@ -34,10 +34,7 @@ CScene_Battle::CScene_Battle()
 	, m_pStateMachine(nullptr)
 	, m_pMoneyUI(nullptr)
 	, m_pComboUI(nullptr)
-	, m_vecSoundEffect((int)SOUND_TYPE::END)
 {
-	m_vecSoundEffect[(int)SOUND_TYPE::WIN] = CResMgr::GetInstance()->LoadSound(L"winSound", L"sound\\win.wav");
-	m_vecSoundEffect[(int)SOUND_TYPE::LOSE] = CResMgr::GetInstance()->LoadSound(L"losdSound", L"sound\\lose.wav");
 }
 
 CScene_Battle::~CScene_Battle()
@@ -60,14 +57,14 @@ void CScene_Battle::CameraEvent()
 
 void CScene_Battle::Update()
 {
-	InputKey();								// 키 입력
+	CheatKey();								// 키 입력
 	SortGroupObj();							// 유닛 오브젝트의 렌더링 순서 조절(좌표가 낮을수록 더 낮은 순서로)
 	CScene::Update();						// 메인 씬 업데이트 (각자 오브젝트들의 업데이트)
 
 	// 로직 처리 (상태 머신)
 	m_pStateMachine->Handle(this);
 	
-	// 몬스터 관리 배열 업데이트 (사망 예정인 오브젝트들을 삭제)
+	// 몬스터 관리 배열 업데이트 (사망 예정인 오브젝트들을 배열에서 삭제)
 	m_pMonsterSpawner->Update();
 
 	// UI 업데이트 (임시)
@@ -103,7 +100,7 @@ void CScene_Battle::Exit()
 	delete m_pStateMachine;
 }
 
-void CScene_Battle::InputKey()
+void CScene_Battle::CheatKey()
 {
 	// 화면 전환
 	if (KEY_TAP(KEY::ENTER))
@@ -134,7 +131,7 @@ void CScene_Battle::InputKey()
 	}
 
 	// 시점 조절
-	if (KEY_TAP(KEY::RBTN))
+	if (KEY_TAP(KEY::F))
 	{
 		Vec2 vLookAt = CCamera::GetInstance()->GetRealPos(MOUSE_POS);
 		CCamera::GetInstance()->SetLookAt(vLookAt);

@@ -63,7 +63,7 @@ public:
 public:
     void Move(GRID_DIRECTION _aniDirection, Vec2 _vDestination);
     void Attack(GRID_DIRECTION _aniDirection, CPlayer* _pPlayer);
-    void Skill() {};
+    void Skill();
 
 private:
     virtual void AnimationEvent() override;

@@ -4,7 +4,8 @@
         "Name": "Rabbit",
         "AnimatorID": 204,
         "Strategies": [
-            "trace"
+            "trace",
+            "heal"
         ],
         "HP": 100.0,
         "ATT": 20.0,
@@ -17,7 +18,8 @@
         "Name": "Mushroom",
         "AnimatorID": 205,
         "Strategies": [
-            "trace"
+            "trace",
+            "random"
         ],
         "HP": 150.0,
         "ATT": 30.0,

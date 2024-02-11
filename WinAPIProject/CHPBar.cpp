@@ -4,11 +4,12 @@
 #include "CPlayer.h"
 #include "CMonster.h"
 
-CHPBar::CHPBar(int _width, int _height, Vec2 _offset)
+CHPBar::CHPBar(int _width, int _height, Vec2 _offset, bool _monster)
 	: m_pOwner(nullptr)
 	, m_vOffsetPos(_offset)
 	, m_iWidth(_width)
 	, m_iHeight(_height)
+    , m_bMonster(_monster)
 {
 }
 
@@ -18,6 +19,7 @@ CHPBar::CHPBar(const CHPBar& _origin)
 	, m_iWidth(_origin.m_iWidth)
 	, m_iHeight(_origin.m_iHeight)
 	, m_vFinalPos(_origin.m_vFinalPos)
+    , m_bMonster(_origin.m_bMonster)
 {
 }
 

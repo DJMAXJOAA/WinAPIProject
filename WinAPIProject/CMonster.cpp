@@ -203,7 +203,15 @@ void CMonster::Attack(GRID_DIRECTION _aniDirection, CPlayer* _pPlayer)
 	m_monsterState = MONSTER_STATE::ATTACK;
 	AnimationDirection(L"attack", false, _aniDirection);
 
-	printf("CMonster::AttackPlayer :: 공격 시작\n");
+	printf("CMonster::Attack :: 공격 시작\n");
+}
+
+void CMonster::Skill()
+{
+	m_monsterState = MONSTER_STATE::SKILL;
+	AnimationDirection(L"magic", false);
+
+	printf("CMonster::Skill :: 스킬 시작\n");
 }
 
 void CMonster::AnimationEvent()
@@ -221,7 +229,8 @@ void CMonster::AnimationEvent()
 	case MONSTER_STATE::SKILL:
 	{
 		printf("CMonster::AnimationEvent :: 몬스터 스킬 애니메이션 이벤트 시작\n");
-
+		m_fHP += m_fAtt;
+		if (m_fHP > m_fMaxHP) m_fHP = m_fMaxHP;
 		break;
 	}
 	}
@@ -241,7 +250,8 @@ void CMonster::AnimationEnd()
 	case MONSTER_STATE::SKILL:
 	{
 		printf("CMonster::AnimationEvent :: 몬스터 스킬 애니메이션 종료 시작\n");
-
+		SetActing(true);
+		AnimationDirection(L"idle", true);
 		break;
 	}
 	case MONSTER_STATE::DAMAGED:
@@ -271,7 +281,6 @@ void CMonster::AttackDoneEvent()
 
 	CEventMgr::GetInstance()->AddEventEarly(evn);
 }
-
 
 void CMonster::GetDamaged(float _damaged)
 {

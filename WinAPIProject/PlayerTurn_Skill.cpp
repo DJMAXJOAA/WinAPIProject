@@ -22,7 +22,7 @@ void PlayerTurn_Skill::Init(CScene_Battle* _pScene)
 	CCamera::GetInstance()->SetTarget(nullptr);
 
 	// 검은 타일들(밟고 지나왔던 타일들) 랜덤 타일들로 리셋시키기
-	m_TileCenter->TileRandomInit();
+	m_TileCenter->InitTileRandom();
 
 	if (m_TurnCenter->GetCombo() < 4)
 	{

@@ -19,22 +19,21 @@ void PlayerTurn_Attack::Handle(CScene_Battle* _pScene)
 
 	list<CObject*>& targetList = m_TurnCenter->GetTargetList();
 
-	// 타겟이 없으면, 다시 Move이벤트 진행
+	// 리스트가 비어있으면 다시 Move상태로 전환
 	if (targetList.empty())
 	{
-		printf("PlayerTurn_Attack::Handle :: 리스트가 비어서, MOVE 이벤트로 전환합니다.\n");
 		_pScene->ChangeTurn(TURN_TYPE::PLAYER_MOVE);
 		return;
 	}
 
-	// 리스트의 가장 위의 적군
+	// BFS 탐색 결과 리스트 결과 몬스터들에게 공격 처리
 	CMonster* pMonster = (CMonster*)targetList.front();
 	GRID_DIRECTION gridDirection = GetGridDirection(m_pPlayer->GetGridPos(), pMonster->GetGridPos(), m_pPlayer->GetPos(), pMonster->GetPos());
 	
 	if(m_pPlayer->IsAttacking() == false)
 	{
-		printf("PlayerTurn_Attack::Handle :: 공격을 시작합니다. Target Monster -> ");
-		cout << pMonster << "\n";
+		// 공격 애니메이션 종료 시 애니메이션 이벤트가 호출되어
+		// 공격 받은 적군이 탐색 결과 리스트에서 제거된다.
 		m_pPlayer->SetAttacking(true);
 		m_pPlayer->Attack(gridDirection, pMonster);
 	}

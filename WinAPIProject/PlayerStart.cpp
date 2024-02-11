@@ -22,7 +22,7 @@ void PlayerStart::Init(CScene_Battle* _pScene)
 
 	// 리스트 내에 있는 모든 타일들의 색깔을 원래 색상으로 돌리기
 	list<Vec2>& moveRoute = m_TurnCenter->GetMoveRoute();
-	m_TileCenter->TileRouteInit(moveRoute);
+	m_TileCenter->InitTileRoute(moveRoute);
 
 	// 캐릭터 상태 초기화
 	m_pPlayer->SetState(PLAYER_STATE::IDLE);
@@ -35,7 +35,7 @@ void PlayerStart::Init(CScene_Battle* _pScene)
 	// 리스트 초기화
 	m_TurnCenter->RouteInit();
 	m_TurnCenter->GetTargetList().clear();
-	m_TileCenter->TileVisitedInit();
+	m_TileCenter->InitTileVisited();
 
 	// 콤보 초기화
 	m_TurnCenter->SetCombo(0);

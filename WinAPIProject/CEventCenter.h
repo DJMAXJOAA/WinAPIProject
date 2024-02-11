@@ -13,8 +13,8 @@ public:
     ~CEventCenter();
 
 public:
-    // 이벤트 호출 관련 처리 함수
     void OnTileSelect(CObject* _pObj);
+    void OnChangeTile(CObject* _pObj);
 
     void PlayerAttackMonster(float _damage, CMonster* _pMon);
     void PlayerAttackDone();

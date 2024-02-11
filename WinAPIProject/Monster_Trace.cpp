@@ -16,7 +16,7 @@ void Monster_Trace::Handle(CScene_Battle* _pScene, CMonster* _pMon)
 	vector<vector<TileState>>& vecTiles = m_TileCenter->GetTiles();
 	pair<Vec2, Vec2> StartToEnd = make_pair(_pMon->GetGridPos(), m_pPlayer->GetGridPos());
 	int moveAmount = _pMon->GetMove();
-	m_TileCenter->TileVisitedInit();
+	m_TileCenter->InitTileVisited();
 
 	// 길찾기 결과
 	list<Vec2> nodeList = AstarSearch::Astar(vecTiles, StartToEnd, moveAmount);
@@ -28,6 +28,4 @@ void Monster_Trace::Handle(CScene_Battle* _pScene, CMonster* _pMon)
 		printf("경로 :: x = %1.f, y = %1.f\n", route.x, route.y);
 	}
 	printf("\n");
-
-
 }

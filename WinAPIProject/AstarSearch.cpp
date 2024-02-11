@@ -101,11 +101,14 @@ list<Vec2> AstarSearch::Astar(vector<vector<TileState>>& vecTiles, pair<Vec2, Ve
         lstPath.erase(it, lstPath.end());
     }
 
-    if (!lstPath.empty())
+	Vec2 lastPos = lstPath.back();
+	while (lastPos == _endPos) 
     {
-        Vec2 lastPos = lstPath.back();
-        vecTiles[(int)lastPos.y][(int)lastPos.x].pObj = prevObj;
-    }
+		lstPath.pop_back();
+		lastPos = lstPath.back();
+	}
+	vecTiles[(int)lastPos.y][(int)lastPos.x].pObj = prevObj;
+    lstPath.push_front(_startPos);
 
     for (Node* node : allNodes)
     {

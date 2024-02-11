@@ -55,6 +55,8 @@ void CMonsterSpawner::SpawnMonster(FieldData* _data)
 		for (int j = 0; j < vecSpawn[i].second; j++)
 		{
 			CMonster* pMonster = m_mapMonsterData.find(vecSpawn[i].first)->second->Clone();
+			wstring name = L" monster_index :: " + to_wstring(i);
+			pMonster->SetName(name);
 			assert(pMonster);
 			m_lstMonsters.push_back(pMonster);
 			CreateObj(pMonster, GROUP_TYPE::UNIT);
