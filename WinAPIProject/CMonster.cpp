@@ -250,8 +250,8 @@ void CMonster::AnimationEnd()
 	case MONSTER_STATE::SKILL:
 	{
 		printf("CMonster::AnimationEvent :: 몬스터 스킬 애니메이션 종료 시작\n");
-		SetActing(true);
 		AnimationDirection(L"idle", true);
+		SetActing(true);
 		break;
 	}
 	case MONSTER_STATE::DAMAGED:

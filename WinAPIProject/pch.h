@@ -19,6 +19,8 @@ using std::to_wstring;
 using std::map;
 #include <unordered_map>
 using std::unordered_map;
+#include <unordered_set>
+using std::unordered_set;
 using std::pair;
 using std::make_pair;
 #include <set>
@@ -28,6 +30,8 @@ using std::list;
 #include <random>
 #include <functional>
 using std::function;
+#include <queue>
+using std::priority_queue;
 
 #include <gdiplus.h>
 using namespace Gdiplus;

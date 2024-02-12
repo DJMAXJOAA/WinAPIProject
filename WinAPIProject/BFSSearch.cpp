@@ -4,7 +4,7 @@
 
 const vector<vector<Vec2>> BFS_DIRECTION = 
 {
-	{ Vec2(-1,  0), Vec2(1,  0), Vec2( 0, -1), Vec2(0, 1) },      // DIRECTION::FOUR_WAY
+	{ Vec2(-1,  0), Vec2(1,  0), Vec2( 0, -1), Vec2(0, 1) },    // DIRECTION::FOUR_WAY
 	{ Vec2(-1, -1), Vec2(1, -1), Vec2(-1,  1), Vec2(1, 1) },    // DIRECTION::DIAGONAL
 	{ Vec2(-1,  0), Vec2(1,  0), Vec2( 0, -1), Vec2(0, 1),
 	  Vec2(-1, -1), Vec2(1, -1), Vec2(-1,  1), Vec2(1, 1) }     // DIRECTION::EIGHT_WAY
@@ -20,10 +20,8 @@ bool BFSSearch::isValid(Vec2 _vPos, const vector<vector<TileState>>& _vecTiles)
 
 void BFSSearch::BFS(Vec2 _startPos, vector<vector<TileState>>& _vecTiles, list<CObject*>& _lstTarget, DIRECTION _dir, int _depth)
 {
-	vector<Vec2> direction{};		// 탐색 방향
-
-	// 방향 선택
-	direction = BFS_DIRECTION[(int)_dir];
+	vector<Vec2> direction{};
+	direction = BFS_DIRECTION[(int)_dir];	// 방향 선택 ( 0 : 상하좌우, 1 : 대각선, 2 : 8방향)
 
 	std::queue<Vec2> q;
 	std::queue<int> moveCount;	// 각각의 타일마다 탐색 횟수 (깊이 설정)
@@ -37,7 +35,7 @@ void BFSSearch::BFS(Vec2 _startPos, vector<vector<TileState>>& _vecTiles, list<C
 		q.pop();
 		moveCount.pop();
 
-		if (count >= _depth) continue;	// 깊이가 최대깊이 도달하면 스킵
+		if (count >= _depth) continue;	// depth == 사거리
 
 		for (int i = 0; i < direction.size(); i++)
 		{
@@ -60,7 +58,6 @@ void BFSSearch::BFS(Vec2 _startPos, vector<vector<TileState>>& _vecTiles, list<C
 void BFSSearch::BFS(Vec2 _startPos, vector<vector<TileState>>& _vecTiles, DIRECTION _dir, int _depth)
 {
 	// 리스트 없는 버전 BFS
-
 	vector<Vec2> direction{};		// 탐색 방향
 
 	// 방향 선택

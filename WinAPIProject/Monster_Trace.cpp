@@ -15,12 +15,13 @@ void Monster_Trace::Handle(CScene_Battle* _pScene, CMonster* _pMon)
 
 	vector<vector<TileState>>& vecTiles = m_TileCenter->GetTiles();
 	pair<Vec2, Vec2> StartToEnd = make_pair(_pMon->GetGridPos(), m_pPlayer->GetGridPos());
-	int moveAmount = _pMon->GetMove();
 	m_TileCenter->InitTileVisited();
 
-	// 길찾기 결과
+	int moveAmount = _pMon->GetMove();	// 한 턴에 이동할 수 있는 이동량
+
+	// Start Position -> End Position (이동량 만큼의 이동 경로 list 반환)
 	list<Vec2> nodeList = AstarSearch::Astar(vecTiles, StartToEnd, moveAmount);
-	_pMon->SetRoute(nodeList);	// 루트 저장
+	_pMon->SetRoute(nodeList);
 
 	for (auto& route : nodeList)
 	{

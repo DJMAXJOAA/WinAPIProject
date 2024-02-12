@@ -3,7 +3,7 @@
 
 class IMonsterStrategy;
 class CMonster;
-class CPlayer;
+class CScene_Battle;
 
 class EnemyTurn :
     public CBattleState
@@ -18,6 +18,18 @@ public:
 public:
     virtual void Init(CScene_Battle* _pScene) override;
     virtual void Handle(CScene_Battle* _pScene) override;
-    bool IsMonstersMovingDone(const list<CMonster*>& monsterList);
+
+private:
+    void InitMonster(CScene_Battle* _pScene, CMonster* _pMonster);
+
+private:
+    void AttackPlayer(CScene_Battle* _pScene, CMonster* _pMonster);
+    void SetMonsterActingDone(CScene_Battle* _pScene, CMonster* _pMonster);
+    void ChangeTurnToPlayer(CScene_Battle* _pScene);
+
+private:
+    bool IsFoundObjects(CScene_Battle* _pScene, CMonster* _pMonster);
+    bool IsFoundResultPlayer(CScene_Battle* _pScene, CMonster* _pMonster);
+    bool IsAllMonstersActingDone(const list<CMonster*>& monsterList);
 };
 

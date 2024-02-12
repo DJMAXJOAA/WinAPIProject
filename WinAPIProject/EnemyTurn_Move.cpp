@@ -35,13 +35,13 @@ void EnemyTurn::Init(CScene_Battle* _pScene)
 {
 	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
 	CMonsterSpawner* m_MonsterSpawner = _pScene->GetSpawner();
-	CPlayer* m_pPlayer = _pScene->GetPlayer();
 	list<CMonster*>& monsterList = _pScene->GetSpawner()->GetMonsterList();
+	CPlayer* m_pPlayer = _pScene->GetPlayer();
 
 	// 플레이어 타겟 삭제
 	m_pPlayer->SetTarget(nullptr);
 
-	// 몬스터가 다 죽었으면, 턴 넘어가기
+	// 몬스터가 다 죽었으면 승리
 	if (m_MonsterSpawner->GetMonsterList().empty())
 	{
 		_pScene->ChangeTurn(TURN_TYPE::WIN);
@@ -78,103 +78,139 @@ void EnemyTurn::Handle(CScene_Battle* _pScene)
 	// 검색 전 타일 초기화
 	m_TileCenter->InitTileVisited();
 
-	// 루트 확정 후 적군 이동
-	for (auto& monster : monsterList)
+	// 루트 확정 후 리스트의 각 적군들 이동 수행
+	for (auto& monster : monsterList)					
 	{
 		list<Vec2>& moveRoute = monster->GetRoute();
-
+		// 이동 루트가 없음 (Acting Done)
 		if (moveRoute.empty())
 		{
 			continue;
 		}
+		Vec2 vDestination = REAL(moveRoute.front());	// 목표 타일 실제좌표
+		Vec2 vCurrentPos = monster->GetPos();			// 현재 몬스터 실제좌표
 
-		else
+		// 도착했음(위치가 일치) = 주변 적군 체크 -> 갱신
+		if (vCurrentPos == vDestination)
 		{
-			Vec2 vDestination = REAL(moveRoute.front());
-			Vec2 vCurrentPos = monster->GetPos();
-
-			// 도착했음(위치가 일치) = 주변 적군 체크 -> 갱신
-			if (vCurrentPos == vDestination)
+			// BFS 탐색 결과 존재 && 탐색 결과 중 플레이어 존재
+			if (IsFoundObjects(_pScene, monster) && IsFoundResultPlayer(_pScene, monster))
 			{
-				monster->SetGridPos(moveRoute.front());
-				moveRoute.pop_front();
-
-				// 리스트가 비어있으면
-
-					// 도착 지점에 플레이어가 있으면, 몬스터 공격 설정 여부 체크
-				vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
-				list<CObject*>& lstObj = m_TurnCenter->GetTargetList();
-
-				// BFS로 사거리만큼 체크
-				BFSSearch::BFS(GRID(vDestination), vecTile, lstObj, DIRECTION::FOUR_WAY, monster->GetRange());
-				printf("EnemyTurn_Move::Handle :: BFS 탐색 결과 -> ");
-				for (list<CObject*>::iterator iter = lstObj.begin(); iter != lstObj.end(); iter++)
-				{
-					cout << *iter << ", ";
-				}
-				printf("\n");
-
-				// 적군이 있으면, 상태 변경 후 모두 이동이 끝나면 공격하게 상태설정
-				for (auto& obj : lstObj)
-				{
-					// 검색 대상이 플레이어면
-					if (obj == (CObject*)m_pPlayer)
-					{
-						// 어택 이벤트
-						GRID_DIRECTION gridDirection = GetGridDirection(monster->GetGridPos(), m_pPlayer->GetGridPos(), monster->GetPos(), m_pPlayer->GetPos());
-						monster->Attack(gridDirection, m_pPlayer);
-
-						// 타겟 리스트 초기화
-						lstObj.clear();
-						m_TileCenter->InitTileVisited();
-
-						// 검색시 플레이어가 없었으면 바로 Acting = true
-						moveRoute.clear();
-
-						// 몬스터 초기화
-						printf("도착 -> %1.f, %1.f\n", monster->GetGridPos().x, monster->GetGridPos().y);
-						return;
-					}
-				}
-
-				if (moveRoute.empty())
-				{
-					// 검색시 플레이어가 없었으면 바로 Acting = true
-					monster->SetActing(true);
-
-					// BFS 초기화
-					lstObj.clear();
-					m_TileCenter->InitTileVisited();
-
-					// 몬스터 초기화
-					monster->AnimationDirection(L"idle", true);
-					printf("도착 -> %1.f, %1.f\n", monster->GetGridPos().x, monster->GetGridPos().y);
-					continue;
-				}
-
-				vDestination = REAL(moveRoute.front());
+				AttackPlayer(_pScene, monster);
+				return;
 			}
-
-			GRID_DIRECTION gridDirection = GetGridDirection(monster->GetGridPos(), GRID(vDestination), vCurrentPos, vDestination);
-			monster->Move(gridDirection, vDestination);
+			// 이동 루트 모두 이동
+			if (moveRoute.empty())
+			{
+				SetMonsterActingDone(_pScene, monster);	// 몬스터 Acting Done
+				continue;
+			}
+			vDestination = REAL(moveRoute.front());		// 다음 목표 타일 설정
 		}
+		// 목표 타일을 향해 이동 명령
+		GRID_DIRECTION gridDirection = GetGridDirection(monster->GetGridPos(), GRID(vDestination), vCurrentPos, vDestination);
+		monster->Move(gridDirection, vDestination);
 	}
-
 	// 모든 적군의 이동이 끝났으면, 턴을 바꿈
-	if (IsMonstersMovingDone(monsterList))
+	if (IsAllMonstersActingDone(monsterList)) 
 	{
-		// 턴 바꾸기 전에 몬스터들의 모든 상태 초기화 
-		for (auto& monster : monsterList)
-		{
-			monster->SetActing(false);
-		}
-
-		printf("EnemyTurn_Move::Handle :: 이동과 공격이 모두 끝나서, 공격턴으로 넘어갑니다.\n");
-		_pScene->ChangeTurn(TURN_TYPE::PLAYER_START);
+		ChangeTurnToPlayer(_pScene);
 	}
 }
 
-bool EnemyTurn::IsMonstersMovingDone(const list<CMonster*>& monsterList)
+void EnemyTurn::InitMonster(CScene_Battle* _pScene, CMonster* _pMonster)
+{
+	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
+
+	list<CObject*>& lstObj = m_TurnCenter->GetTargetList();
+	vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
+
+	// 타겟 리스트 초기화
+	lstObj.clear();
+	m_TileCenter->InitTileVisited();
+
+	// 몬스터 최종 위치 갱신
+	auto lstPath = _pMonster->GetRoute();
+	if (!lstPath.empty())
+	{
+		Vec2 lastPos = lstPath.back(); Vec2 curPos = _pMonster->GetGridPos();
+		vecTile[(int)lastPos.y][(int)lastPos.x].pObj = nullptr;
+		vecTile[(int)curPos.y][(int)curPos.x].pObj = _pMonster;
+	}
+	_pMonster->GetRoute().clear();
+}
+
+void EnemyTurn::AttackPlayer(CScene_Battle* _pScene, CMonster* _pMonster)
+{
+	CPlayer* m_pPlayer = _pScene->GetPlayer();
+
+	GRID_DIRECTION gridDirection = GetGridDirection(_pMonster->GetGridPos(), m_pPlayer->GetGridPos(), _pMonster->GetPos(), m_pPlayer->GetPos());
+	_pMonster->Attack(gridDirection, m_pPlayer);
+	InitMonster(_pScene, _pMonster);
+
+	printf("도착 -> %1.f, %1.f\n", _pMonster->GetGridPos().x, _pMonster->GetGridPos().y);
+}
+
+void EnemyTurn::SetMonsterActingDone(CScene_Battle* _pScene, CMonster* _pMonster)
+{
+	// 검색시 플레이어가 없었으면 바로 Acting = true
+	_pMonster->SetActing(true);
+	_pMonster->AnimationDirection(L"idle", true);
+	InitMonster(_pScene, _pMonster);
+
+	printf("도착 -> %1.f, %1.f\n", _pMonster->GetGridPos().x, _pMonster->GetGridPos().y);
+}
+
+void EnemyTurn::ChangeTurnToPlayer(CScene_Battle* _pScene)
+{
+	list<CMonster*>& monsterList = _pScene->GetSpawner()->GetMonsterList();
+
+	for (auto& monster : monsterList)
+	{
+		monster->SetActing(false);
+	}
+	printf("EnemyTurn_Move::Handle :: 이동과 공격이 모두 끝나서, 공격턴으로 넘어갑니다.\n");
+	_pScene->ChangeTurn(TURN_TYPE::PLAYER_START);
+}
+
+bool EnemyTurn::IsFoundObjects(CScene_Battle* _pScene, CMonster* _pMonster)
+{
+	CTileCenter* m_TileCenter = _pScene->GetTileCenter();
+	CLogicCenter* m_TurnCenter = _pScene->GetLogicCenter();
+
+	// 도착 지점에 플레이어가 있으면, 몬스터 공격 설정 여부 체크
+	vector<vector<TileState>>& vecTile = m_TileCenter->GetTiles();
+	list<CObject*>& lstObj = m_TurnCenter->GetTargetList();
+	list<Vec2>& moveRoute = _pMonster->GetRoute();
+
+	Vec2 vDestination = REAL(moveRoute.front());
+
+	_pMonster->SetGridPos(moveRoute.front());
+	moveRoute.pop_front();
+
+	// BFS로 사거리만큼 체크
+	BFSSearch::BFS(GRID(vDestination), vecTile, lstObj, DIRECTION::FOUR_WAY, _pMonster->GetRange());
+
+	return !lstObj.empty();
+}
+
+bool EnemyTurn::IsFoundResultPlayer(CScene_Battle* _pScene, CMonster* _pMonster)
+{
+	list<CObject*>& lstObj = _pScene->GetLogicCenter()->GetTargetList();
+	CPlayer* m_pPlayer = _pScene->GetPlayer();
+
+	for (auto& obj : lstObj)
+	{
+		if (obj == (CObject*)m_pPlayer)
+		{
+			return true;	// 검색 대상이 플레이어면 true
+		}
+	}
+	return false;
+}
+
+bool EnemyTurn::IsAllMonstersActingDone(const list<CMonster*>& monsterList)
 {
 	for (const auto& monster : monsterList)
 	{
